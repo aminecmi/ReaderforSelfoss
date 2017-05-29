@@ -1,0 +1,43 @@
+machine:
+  timezone: Europe/Paris
+  java:
+    version: 'oraclejdk8'
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    PATH: ANDROID_HOME:$ANDROID_HOME/platform-tools:$ANDROID_BUUILD:$ANDROID_HOME/tools:$PATH
+    _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+
+dependencies:
+  pre:
+    - touch app/google-services.json
+    - echo $GOOGLE_SERVICES_JSON > app/google-services.json
+    - touch app/src/main/res/values/secrets.xml
+    - echo $SECRETS_XML > app/src/main/res/values/secrets.xml
+    - mkdir app/src/main/res/mipmap-hdpi
+    - convert -size 72x72 xc:white app/src/main/res/mipmap-hdpi/ic_launcher.png
+    - mkdir app/src/main/res/mipmap-mdpi
+    - convert -size 48x48 xc:white app/src/main/res/mipmap-mdpi/ic_launcher.png
+    - mkdir app/src/main/res/mipmap-xhdpi
+    - convert -size 96x96 xc:white app/src/main/res/mipmap-xhdpi/ic_launcher.png
+    - mkdir app/src/main/res/mipmap-xxhdpi
+    - convert -size 192x192 xc:white app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+    - mkdir app/src/main/res/mipmap-xxxhdpi
+    - convert -size 512x512 xc:white app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+
+  cache_directories:
+    - ~/.gradle
+    - ~/.android
+
+  override:
+    - echo y | android update sdk --no-ui --filter "android-25,build-tools-25.0.3"
+    - echo y | android update sdk --no-ui --all --filter "platform-tools, tools"
+    - echo y | android update sdk --no-ui --all --filter "android-25, build-tools-25.0.3"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-support"
+    - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
+
+test:
+  override:
+    - gradlew assemble -P crashlyticsdemoApikey=$FABRIC_API_KEY -P crashlyticsdemoApisecret=$FABRIC_API_SECRET
