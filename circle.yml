@@ -40,4 +40,17 @@ dependencies:
 
 test:
   override:
-    - gradlew assemble -P crashlyticsdemoApikey=$FABRIC_API_KEY -P crashlyticsdemoApisecret=$FABRIC_API_SECRET
+    - (TERM="dumb" ./gradlew assemble --configure-on-demand --no-daemon -P crashlyticsdemoApikey=$FABRIC_API_KEY -P crashlyticsdemoApisecret=$FABRIC_API_SECRET -P appLoginUrl=$LOGIN_URL -P appLoginUsername=$LOGIN_USER_NAME -P appLoginPassword=$LOGIN_PASSWORD -PdisablePreDex -Pandroid.threadPoolSize=1 -Porg.gradle.parallel=false):
+        timeout: 720
+    - emulator -avd circleci-android22 -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    - sleep 30
+    - adb shell input keyevent 82
+    - adb shell input tap 650 300
+    - (TERM="dumb" ./gradlew connectedAndroidTest --configure-on-demand --no-daemon --stacktrace -P crashlyticsdemoApikey=$FABRIC_API_KEY -P crashlyticsdemoApisecret=$FABRIC_API_SECRET -P appLoginUrl=$LOGIN_URL -P appLoginUsername=$LOGIN_USER_NAME -P appLoginPassword=$LOGIN_PASSWORD -PdisablePreDex -Pandroid.threadPoolSize=1 -Porg.gradle.parallel=false):
+        timeout: 720
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r app/build/reports/androidTests $CIRCLE_ARTIFACTS
+    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
