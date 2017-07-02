@@ -136,6 +136,9 @@ dependencies {
     }
     compile 'com.anupcowkur:reservoir:3.1.0'
 
+    // Themes
+    compile 'com.52inc:scoops:1.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

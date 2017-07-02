@@ -6,6 +6,11 @@
         android:title="@string/pref_header_general"/>
 
     <header
+        android:id="@+id/theme_change"
+        android:icon="@drawable/ic_color_lens_black_24dp"
+        android:title="@string/pref_header_theme"/>
+
+    <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$LinksPreferenceFragment"
         android:icon="@drawable/ic_info_black_24"
         android:title="@string/pref_header_links"/>

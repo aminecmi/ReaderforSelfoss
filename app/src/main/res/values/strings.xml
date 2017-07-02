@@ -118,4 +118,5 @@
     <string name="menu_home_search">Search</string>
     <string name="can_delete_source">Can\'t delete the source...</string>
     <string name="base_url_error">There was an issue when trying to communicate with your Selfoss Instance. If the issue persists, please get in touch with me.</string>
+    <string name="pref_header_theme">Themes</string>
 </resources>

@@ -3,11 +3,13 @@ package apps.amine.bou.readerforselfoss
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.support.multidex.MultiDexApplication
 import android.widget.ImageView
 import com.anupcowkur.reservoir.Reservoir
 import com.bumptech.glide.Glide
 import com.crashlytics.android.Crashlytics
+import com.ftinc.scoop.Scoop
 import com.github.stkent.amplify.tracking.Amplify
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
@@ -45,5 +47,11 @@ class MyApp : MultiDexApplication() {
                 return applicationContext.resources.getDrawable(R.mipmap.ic_launcher)
             }
         })
+
+        Scoop.waffleCone()
+            .addFlavor("Default", R.style.NoBar, true)
+            .addFlavor("Light", R.style.Theme_Scoop_Light)
+            .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
+            .initialize()
     }
 }
