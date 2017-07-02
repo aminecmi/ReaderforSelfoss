@@ -31,7 +31,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.checkAndDisplayStoreApk
 import apps.amine.bou.readerforselfoss.utils.isUrlValid
-
+import com.ftinc.scoop.Scoop
 
 
 class LoginActivity : AppCompatActivity() {
@@ -54,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_login)
 
         if (intent.getBooleanExtra("baseUrlFail", false)) {

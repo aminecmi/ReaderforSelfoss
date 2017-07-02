@@ -50,7 +50,16 @@ class MyApp : MultiDexApplication() {
 
         Scoop.waffleCone()
             .addFlavor("Default", R.style.NoBar, true)
-            .addFlavor("Light", R.style.Theme_Scoop_Light)
+            .addFlavor("RedBlue", R.style.NoBarRedBlue)
+            .addFlavor("BlueAmber", R.style.NoBarBlueAmber)
+            .addFlavor("NoBarGreyOrange", R.style.NoBarPurpleGreen)
+            .addFlavor("NoBarPurpleGreen", R.style.NoBarPurpleGreen)
+            .addFlavor("NoBarIndigoPink", R.style.NoBarIndigoPink)
+            .addFlavor("NoBarRedTeal", R.style.NoBarRedTeal)
+            .addFlavor("NoBarDeepPurpleOrange", R.style.NoBarDeepPurpleOrange)
+            .addFlavor("NoBarIndigoDeepOrange", R.style.NoBarIndigoDeepOrange)
+            .addFlavor("NoBarCyanPink", R.style.NoBarCyanPink)
+            .addFlavor("NoBarTealOrange", R.style.NoBarTealOrange)
             .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
             .initialize()
     }

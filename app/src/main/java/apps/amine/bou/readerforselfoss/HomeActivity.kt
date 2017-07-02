@@ -59,7 +59,7 @@ import apps.amine.bou.readerforselfoss.utils.checkApkVersion
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.longHash
-
+import com.ftinc.scoop.Scoop
 
 
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -116,6 +116,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Scoop.getInstance().apply(this)
+
         setContentView(R.layout.activity_home)
 
         toolbar = findViewById(R.id.toolbar)

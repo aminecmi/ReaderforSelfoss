@@ -13,6 +13,9 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ftinc.scoop.Scoop;
+
+
 /**
  * A {@link PreferenceActivity} which implements and proxies the necessary calls
  * to be used with AppCompat.
@@ -25,6 +28,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
+        Scoop.getInstance().apply(this);
         super.onCreate(savedInstanceState);
     }
 
