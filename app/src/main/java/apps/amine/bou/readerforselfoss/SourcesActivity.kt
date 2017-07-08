@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.widget.Toast
 
 import com.melnykov.fab.FloatingActionButton
@@ -24,6 +25,10 @@ class SourcesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_sources)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onResume() {
