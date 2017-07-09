@@ -23,7 +23,13 @@ class AppColors(a: Activity) {
         method.isAccessible = true
 
         isDarkTheme = when(method.invoke(a.baseContext)) {
-            R.style.Dark1 -> true
+            R.style.NoBarTealOrangeDark,
+            R.style.NoBarDark,
+            R.style.NoBarBlueAmberDark,
+            R.style.NoBarGreyOrangeDark,
+            R.style.NoBarIndigoPinkDark,
+            R.style.NoBarRedTealDark,
+            R.style.NoBarCyanPinkDark -> true
             else -> false
         }
 
