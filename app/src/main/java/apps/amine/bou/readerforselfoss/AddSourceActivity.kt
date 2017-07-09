@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.*
 
@@ -27,6 +28,10 @@ class AddSourceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_add_source)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val mProgress: ProgressBar = findViewById(R.id.progress)
         val mForm: ConstraintLayout = findViewById(R.id.formContainer)

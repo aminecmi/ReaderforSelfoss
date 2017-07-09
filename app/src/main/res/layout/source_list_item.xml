@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="#EDEDED"
     android:layout_height="48dp">
 
 
@@ -37,6 +36,7 @@
         android:id="@+id/deleteBtn"
         android:background="@drawable/ic_remove_circle_outline_black_24dp"
         style="@style/Widget.AppCompat.Button.Borderless"
+        android:backgroundTint="?android:textColorSecondary"
         android:elevation="4dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent"

@@ -73,7 +73,7 @@ class ReaderActivity : DragDismissActivity() {
                     }
                     if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isEmpty())
                         Glide
-                            .with(applicationContext)
+                            .with(baseContext)
                             .load(response.body()!!.lead_image_url)
                             .asBitmap()
                             .fitCenter()

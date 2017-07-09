@@ -36,6 +36,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.*
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 
@@ -48,7 +49,7 @@ class ItemListAdapter(private val app: Activity,
                       private val internalBrowser: Boolean,
                       private val articleViewer: Boolean) : RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
-    private val c: Context = app.applicationContext
+    private val c: Context = app.baseContext
     private val bars: ArrayList<Boolean> = ArrayList(Collections.nCopies(items.size + 1, false))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

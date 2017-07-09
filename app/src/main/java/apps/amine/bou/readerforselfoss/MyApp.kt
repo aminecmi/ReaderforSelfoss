@@ -44,23 +44,20 @@ class MyApp : MultiDexApplication() {
             }
 
             override fun placeholder(ctx: Context?, tag: String?): Drawable {
-                return applicationContext.resources.getDrawable(R.mipmap.ic_launcher)
+                return baseContext.resources.getDrawable(R.mipmap.ic_launcher)
             }
         })
-
         Scoop.waffleCone()
             .addFlavor("Default", R.style.NoBar, true)
-            .addFlavor("RedBlue", R.style.NoBarRedBlue)
+            .addFlavor("NoBarTealOrange", R.style.NoBarTealOrange)
+            .addFlavor("NoBarCyanPink", R.style.NoBarCyanPink)
+            .addFlavor("NoBarGreyOrange", R.style.NoBarGreyOrange)
             .addFlavor("BlueAmber", R.style.NoBarBlueAmber)
-            .addFlavor("NoBarGreyOrange", R.style.NoBarPurpleGreen)
-            .addFlavor("NoBarPurpleGreen", R.style.NoBarPurpleGreen)
             .addFlavor("NoBarIndigoPink", R.style.NoBarIndigoPink)
             .addFlavor("NoBarRedTeal", R.style.NoBarRedTeal)
-            .addFlavor("NoBarDeepPurpleOrange", R.style.NoBarDeepPurpleOrange)
-            .addFlavor("NoBarIndigoDeepOrange", R.style.NoBarIndigoDeepOrange)
-            .addFlavor("NoBarCyanPink", R.style.NoBarCyanPink)
-            .addFlavor("NoBarTealOrange", R.style.NoBarTealOrange)
+            .addFlavor("Dark1", R.style.Dark1)
             .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
             .initialize()
+
     }
 }

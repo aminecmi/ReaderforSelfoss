@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -56,6 +57,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_login)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         if (intent.getBooleanExtra("baseUrlFail", false)) {
             val alertDialog = AlertDialog.Builder(this).create()
