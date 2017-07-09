@@ -118,4 +118,19 @@
     <string name="menu_home_search">Search</string>
     <string name="can_delete_source">Can\'t delete the source...</string>
     <string name="base_url_error">There was an issue when trying to communicate with your Selfoss Instance. If the issue persists, please get in touch with me.</string>
+    <string name="pref_header_theme">Themes</string>
+    <string name="default_theme">Default</string>
+    <string name="teal_orange_theme">Teal/Orange/Light</string>
+    <string name="cyan_pink_theme">Cyan/Pink/Light</string>
+    <string name="grey_orange_theme">Grey/Orange/Light</string>
+    <string name="blue_amber_theme">Blue/Amber/Light</string>
+    <string name="indigo_pink_theme">Indigo/Pink/Light</string>
+    <string name="red_teal_theme">Red/Teal/Light</string>
+    <string name="teal_orange_dark_theme">Teal/Orange/Dark</string>
+    <string name="cyan_pink_dark_theme">Cyan/Pink/Dark</string>
+    <string name="default_dark_theme">Default/Dark</string>
+    <string name="grey_orange_dark_theme">Grey/Orange/Dark</string>
+    <string name="blue_amber_dark_theme">Blue/Amber/Dark</string>
+    <string name="indigo_pink_dark_theme">Indigo/Pink/Dark</string>
+    <string name="red_teal_dark_theme">Red/Teal/Dark</string>
 </resources>

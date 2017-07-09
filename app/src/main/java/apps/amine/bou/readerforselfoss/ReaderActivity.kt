@@ -23,6 +23,7 @@ import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.shareLink
+import com.ftinc.scoop.Scoop
 
 
 class ReaderActivity : DragDismissActivity() {
@@ -39,6 +40,7 @@ class ReaderActivity : DragDismissActivity() {
     }
 
     override fun onCreateContent(inflater: LayoutInflater, parent: ViewGroup, savedInstanceState: Bundle?): View {
+        Scoop.getInstance().apply(this)
         val v = inflater.inflate(R.layout.activity_reader, parent, false)
         showProgressBar()
 
@@ -71,7 +73,7 @@ class ReaderActivity : DragDismissActivity() {
                     }
                     if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isEmpty())
                         Glide
-                            .with(applicationContext)
+                            .with(baseContext)
                             .load(response.body()!!.lead_image_url)
                             .asBitmap()
                             .fitCenter()

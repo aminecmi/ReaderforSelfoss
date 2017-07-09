@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.format.DateUtils
@@ -35,6 +36,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.*
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 
@@ -44,8 +46,9 @@ class ItemCardAdapter(private val app: Activity,
                       private val helper: CustomTabActivityHelper,
                       private val internalBrowser: Boolean,
                       private val articleViewer: Boolean,
-                      private val fullHeightCards: Boolean) : RecyclerView.Adapter<ItemCardAdapter.ViewHolder>() {
-    private val c: Context = app.applicationContext
+                      private val fullHeightCards: Boolean,
+                      private val appColors: AppColors) : RecyclerView.Adapter<ItemCardAdapter.ViewHolder>() {
+    private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -150,6 +153,7 @@ class ItemCardAdapter(private val app: Activity,
         lateinit var sourceTitleAndDate: TextView
 
         init {
+            (mView.findViewById<CardView>(R.id.card)).setCardBackgroundColor(appColors.cardBackground)
             handleClickListeners()
             handleCustomTabActions()
         }

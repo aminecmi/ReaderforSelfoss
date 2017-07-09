@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.widget.Toast
 
 import com.melnykov.fab.FloatingActionButton
@@ -15,14 +16,19 @@ import retrofit2.Response
 import apps.amine.bou.readerforselfoss.adapters.SourcesListAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Sources
-
+import com.ftinc.scoop.Scoop
 
 
 class SourcesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_sources)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onResume() {

@@ -116,4 +116,19 @@
     <string name="menu_home_search">Rechercher</string>
     <string name="can_delete_source">Petit soucis lors de la suppression de la source.</string>
     <string name="base_url_error">Il y a eu un souci lors de la communication avec votre instance Selfoss. Si le problèmes persiste, contactez-moi pour trouver une solution.</string>
+    <string name="pref_header_theme">Thèmes</string>
+    <string name="default_theme">Par défaut</string>
+    <string name="teal_orange_theme">Sarcelle/Orange/Clair</string>
+    <string name="cyan_pink_theme">Cyan/Rose/Clair</string>
+    <string name="grey_orange_theme">Gris/Orange/Clair</string>
+    <string name="blue_amber_theme">Bleu/Ambre/Clair</string>
+    <string name="indigo_pink_theme">Indigo/Rose/Clair</string>
+    <string name="red_teal_theme">Rouge/Sarcelle/Clair</string>
+    <string name="teal_orange_dark_theme">Sarcelle/Orange/Foncé</string>
+    <string name="cyan_pink_dark_theme">Cyan/Rose/Foncé</string>
+    <string name="default_dark_theme">Par défaut/Foncé</string>
+    <string name="grey_orange_dark_theme">Gris/Orange/Foncé</string>
+    <string name="blue_amber_dark_theme">Bleu/Ambre/Foncé</string>
+    <string name="indigo_pink_dark_theme">Indigo/Rose/Foncé</string>
+    <string name="red_teal_dark_theme">Rouge/Sarcelle/Foncé</string>
 </resources>

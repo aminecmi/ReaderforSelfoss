@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="apps.amine.bou.readerforselfoss.ReaderActivity">
+    tools:context="apps.amine.bou.readerforselfoss.ReaderActivity"
+    android:background="?android:attr/windowBackground">
 
     <ImageView
         android:id="@+id/imageView"
@@ -96,7 +97,7 @@
             android:padding="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_open_in_browser_black_24dp"
-            android:tint="#000000"
+            android:tint="?android:attr/textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/shareBtn"
             app:layout_constraintHorizontal_bias="0.5"
@@ -113,7 +114,7 @@
             android:padding="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_share_black_24dp"
-            android:tint="#000000"
+            android:tint="?android:attr/textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

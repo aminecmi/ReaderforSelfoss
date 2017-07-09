@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -31,7 +32,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.checkAndDisplayStoreApk
 import apps.amine.bou.readerforselfoss.utils.isUrlValid
-
+import com.ftinc.scoop.Scoop
 
 
 class LoginActivity : AppCompatActivity() {
@@ -54,7 +55,11 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_login)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         if (intent.getBooleanExtra("baseUrlFail", false)) {
             val alertDialog = AlertDialog.Builder(this).create()

@@ -27,6 +27,7 @@
         app:prompt_view_positive_button_border_color="@color/colorPrimary"
         app:prompt_view_negative_button_background_color="@color/colorAccent"
         app:prompt_view_negative_button_border_color="@color/white"
+        app:prompt_view_background_color="?attr/colorAccent"
         app:prompt_view_thanks_display_time_ms="2000"/>
 
     <android.support.design.widget.CoordinatorLayout
@@ -53,8 +54,7 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        app:theme="@style/ToolBarStyle"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                        app:theme="@style/ToolBarStyle" />
 
                 </android.support.design.widget.AppBarLayout>
 
@@ -74,7 +74,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:background="@color/background_grey">
+                            android:background="?android:attr/windowBackground">
 
                             <TextView
                                 android:id="@+id/emptyText"
@@ -85,7 +85,6 @@
                                 android:text="@string/nothing_here"
                                 android:textAlignment="center"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                                android:textColor="@color/about_libraries_card_dark"
                                 android:background="@color/transparent"
                                 android:visibility="gone" />
                             <android.support.v7.widget.RecyclerView
@@ -104,17 +103,10 @@
             </LinearLayout>
 
         </android.support.design.widget.CoordinatorLayout>
-        <com.roughike.bottombar.BottomBar
+        <com.ashokvarma.bottomnavigation.BottomNavigationBar
+            android:layout_gravity="bottom"
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="bottom"
-            app:bb_behavior="shy"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/bottombar"
-            app:bb_activeTabColor="@color/white"
-            app:bb_badgeBackgroundColor="@color/colorPrimary"
-            app:bb_inActiveTabColor="@color/black"
-            app:bb_badgesHideWhenActive="false" />
+            android:layout_height="60dp"/>
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

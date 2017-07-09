@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.*
 
@@ -16,7 +17,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Spout
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isUrlValid
-
+import com.ftinc.scoop.Scoop
 
 
 class AddSourceActivity : AppCompatActivity() {
@@ -25,7 +26,12 @@ class AddSourceActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Scoop.getInstance().apply(this)
         setContentView(R.layout.activity_add_source)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val mProgress: ProgressBar = findViewById(R.id.progress)
         val mForm: ConstraintLayout = findViewById(R.id.formContainer)

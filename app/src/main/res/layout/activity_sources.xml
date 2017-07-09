@@ -8,12 +8,22 @@
     android:layout_height="match_parent"
     tools:context="apps.amine.bou.readerforselfoss.SourcesActivity"
     xmlns:fab="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/ToolBarStyle" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_sources"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_grey"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v7.widget.RecyclerView>
@@ -24,8 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom|right"
         android:src="@drawable/ic_add_black_24dp"
-        fab:fab_colorNormal="@color/colorAccent"
-        fab:fab_colorPressed="@color/colorAccentDark"
+        android:tint="?android:textColorPrimary"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_colorPressed="?attr/colorAccentDark"
         fab:fab_colorRipple="@color/pink"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_vertical_margin"

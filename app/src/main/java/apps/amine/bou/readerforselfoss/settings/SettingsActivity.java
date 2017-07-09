@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import apps.amine.bou.readerforselfoss.R;
+import com.ftinc.scoop.ui.ScoopSettingsActivity;
 
 
 /**
@@ -198,6 +199,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return true;
             }
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onHeaderClick(Header header, int position) {
+        super.onHeaderClick(header, position);
+        if (header.id == R.id.theme_change) {
+            getBaseContext().startActivity(ScoopSettingsActivity.createIntent(getApplicationContext()));
+            finish();
         }
     }
 
