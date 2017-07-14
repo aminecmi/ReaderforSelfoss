@@ -90,9 +90,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // Firebase + crashlytics
-    compile 'com.google.firebase:firebase-core:11.0.1'
-    compile 'com.google.firebase:firebase-config:11.0.1'
-    compile 'com.google.firebase:firebase-invites:11.0.1'
+    compile 'com.google.firebase:firebase-core:11.0.2'
+    compile 'com.google.firebase:firebase-config:11.0.2'
+    compile 'com.google.firebase:firebase-invites:11.0.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
     }
@@ -128,7 +128,7 @@ dependencies {
     compile 'com.github.stkent:amplify:1.5.0'
 
     // For the article reader
-    compile 'com.klinkerapps:drag-dismiss-activity:1.4.1'
+    compile 'com.klinkerapps:drag-dismiss-activity:1.4.2'
 
     // Drawer
     compile('com.mikepenz:materialdrawer:5.9.3@aar') {
