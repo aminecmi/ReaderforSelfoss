@@ -1,5 +1,6 @@
 # ReaderForSelfoss
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d82a9e6c1c9f44f58620c160df11c55e)](https://www.codacy.com/app/aminecmi/ReaderforSelfoss?utm_source=github.com&utm_medium=referral&utm_content=aminecmi/ReaderforSelfoss&utm_campaign=badger)
 [![Gitter chat](https://badges.gitter.im/amine-bou/ReaderForSelfoss.png)](https://gitter.im/amine-bou/ReaderForSelfoss)
 
 [![CircleCI](https://circleci.com/gh/aminecmi/ReaderforSelfoss/tree/master.svg?style=svg)](https://circleci.com/gh/aminecmi/ReaderforSelfoss/tree/master)
