@@ -22,6 +22,7 @@ import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
+import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import com.ftinc.scoop.Scoop
 
@@ -84,10 +85,12 @@ class ReaderActivity : DragDismissActivity() {
                     }
 
                     browserBtn.setOnClickListener {
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        intent.data = Uri.parse(response.body()!!.url)
-                        startActivity(intent)
+                        this@ReaderActivity.openItemUrl(
+                            response.body()!!.url,
+                            customTabsIntent,
+                            false,
+                            false,
+                            this@ReaderActivity)
                     }
 
                     hideProgressBar()

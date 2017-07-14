@@ -223,7 +223,7 @@ class ItemListAdapter(private val app: Activity,
 
             if (!clickBehavior) {
                 mView.setOnClickListener {
-                    c.openItemUrl(items[adapterPosition],
+                    c.openItemUrl(items[adapterPosition].getLinkDecoded(),
                         customTabsIntent,
                         internalBrowser,
                         articleViewer,
@@ -236,7 +236,7 @@ class ItemListAdapter(private val app: Activity,
             } else {
                 mView.setOnClickListener { actionBarShowHide() }
                 mView.setOnLongClickListener {
-                    c.openItemUrl(items[adapterPosition],
+                    c.openItemUrl(items[adapterPosition].getLinkDecoded(),
                         customTabsIntent,
                         internalBrowser,
                         articleViewer,

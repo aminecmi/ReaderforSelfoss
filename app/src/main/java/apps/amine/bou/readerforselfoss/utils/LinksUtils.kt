@@ -50,15 +50,13 @@ fun Context.buildCustomTabsIntent(): CustomTabsIntent {
     return intentBuilder.build()
 }
 
-fun Context.openItemUrl(i: Item,
+fun Context.openItemUrl(linkDecoded: String,
                         customTabsIntent: CustomTabsIntent,
                         internalBrowser: Boolean,
                         articleViewer: Boolean,
                         app: Activity) {
     if (!internalBrowser) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(i.getLinkDecoded())
-        app.startActivity(intent)
+        openInBrowser(linkDecoded, app)
     } else {
         if (articleViewer) {
             val intent = Intent(this, ReaderActivity::class.java)
@@ -68,15 +66,25 @@ fun Context.openItemUrl(i: Item,
                     .setDragElasticity(DragDismissIntentBuilder.DragElasticity.NORMAL)  // Larger elasticities will make it easier to dismiss.
                     .build(intent)
 
-            intent.putExtra("url", i.getLinkDecoded())
+            intent.putExtra("url", linkDecoded)
             app.startActivity(intent)
         } else {
-            CustomTabActivityHelper.openCustomTab(app, customTabsIntent, Uri.parse(i.getLinkDecoded())
-            ) { _, uri ->
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
+            try {
+                CustomTabActivityHelper.openCustomTab(app, customTabsIntent, Uri.parse(linkDecoded)
+                ) { _, uri ->
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
+            } catch (e: Exception) {
+                openInBrowser(linkDecoded, app)
             }
         }
     }
+}
+
+private fun openInBrowser(linkDecoded: String, app: Activity) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = Uri.parse(linkDecoded)
+    app.startActivity(intent)
 }
