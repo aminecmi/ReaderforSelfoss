@@ -206,7 +206,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public void onHeaderClick(Header header, int position) {
         super.onHeaderClick(header, position);
         if (header.id == R.id.theme_change) {
-            getBaseContext().startActivity(ScoopSettingsActivity.createIntent(getApplicationContext()));
+            getApplicationContext().startActivity(ScoopSettingsActivity.createIntent(getApplicationContext()));
             finish();
         }
     }
