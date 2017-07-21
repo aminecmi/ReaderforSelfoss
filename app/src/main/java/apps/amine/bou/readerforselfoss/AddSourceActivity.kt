@@ -16,7 +16,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Spout
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
-import apps.amine.bou.readerforselfoss.utils.isUrlValid
+import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.ftinc.scoop.Scoop
 
 
@@ -73,7 +73,7 @@ class AddSourceActivity : AppCompatActivity() {
 
         val config = Config(this)
 
-        if (config.baseUrl.isEmpty() || !config.baseUrl.isUrlValid()) {
+        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid()) {
             mustLoginToAddSource()
         } else {
 

@@ -31,7 +31,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.checkAndDisplayStoreApk
-import apps.amine.bou.readerforselfoss.utils.isUrlValid
+import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.ftinc.scoop.Scoop
 
 
@@ -149,7 +149,7 @@ class LoginActivity : AppCompatActivity() {
         var cancel = false
         var focusView: View? = null
 
-        if (!url.isUrlValid()) {
+        if (!url.isBaseUrlValid()) {
             mUrlView.error = getString(R.string.login_url_problem)
             focusView = mUrlView
             cancel = true

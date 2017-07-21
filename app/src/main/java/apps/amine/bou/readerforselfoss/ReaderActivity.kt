@@ -100,12 +100,13 @@ class ReaderActivity : DragDismissActivity() {
             override fun onFailure(call: Call<ParsedContent>, t: Throwable) = openInBrowserAfterFailing()
 
             private fun openInBrowserAfterFailing() {
-                CustomTabActivityHelper.openCustomTab(this@ReaderActivity, customTabsIntent, Uri.parse(url)
-                ) { _, uri ->
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                }
+                this@ReaderActivity.openItemUrl(
+                    url,
+                    customTabsIntent,
+                    true,
+                    false,
+                    this@ReaderActivity
+                )
                 finish()
             }
         })

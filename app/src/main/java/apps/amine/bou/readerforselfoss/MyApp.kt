@@ -23,17 +23,31 @@ class MyApp : MultiDexApplication() {
         if (!BuildConfig.DEBUG)
             Fabric.with(this, Crashlytics())
 
-        Amplify.initSharedInstance(this)
-                .setFeedbackEmailAddress(getString(R.string.feedback_email))
-                .setAlwaysShow(BuildConfig.DEBUG)
-                .applyAllDefaultRules()
+        initAmplify()
 
+        initCache()
+
+        initDrawerImageLoader()
+
+        initTheme()
+
+    }
+
+    private fun initAmplify() {
+        Amplify.initSharedInstance(this)
+            .setFeedbackEmailAddress(getString(R.string.feedback_email))
+            .applyAllDefaultRules()
+    }
+
+    private fun initCache() {
         try {
             Reservoir.init(this, 8192) //in bytes
         } catch (e: IOException) {
             //failure
         }
+    }
 
+    private fun initDrawerImageLoader() {
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView?, uri: Uri?, placeholder: Drawable?, tag: String?) {
                 Glide.with(imageView?.context).load(uri).placeholder(placeholder).into(imageView)
@@ -47,6 +61,9 @@ class MyApp : MultiDexApplication() {
                 return baseContext.resources.getDrawable(R.mipmap.ic_launcher)
             }
         })
+    }
+
+    private fun initTheme() {
         Scoop.waffleCone()
             .addFlavor(getString(R.string.default_theme), R.style.NoBar, true)
             .addFlavor(getString(R.string.default_dark_theme), R.style.NoBarDark)
@@ -64,6 +81,5 @@ class MyApp : MultiDexApplication() {
             .addFlavor(getString(R.string.red_teal_dark_theme), R.style.NoBarRedTealDark)
             .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
             .initialize()
-
     }
 }

@@ -55,7 +55,7 @@ fun Context.openItemUrl(linkDecoded: String,
                         internalBrowser: Boolean,
                         articleViewer: Boolean,
                         app: Activity) {
-    if (!internalBrowser) {
+    if (!internalBrowser || !linkDecoded.isUrlValid()) {
         openInBrowser(linkDecoded, app)
     } else {
         if (articleViewer) {

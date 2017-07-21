@@ -36,7 +36,10 @@ fun Context.checkAndDisplayStoreApk() = {
     } else Unit
 }
 
-fun String.isUrlValid(): Boolean {
+fun String.isUrlValid(): Boolean =
+    HttpUrl.parse(this) != null && Patterns.WEB_URL.matcher(this).matches()
+
+fun String.isBaseUrlValid(): Boolean {
     val baseUrl = HttpUrl.parse(this)
     var existsAndEndsWithSlash = false
     if (baseUrl != null) {
