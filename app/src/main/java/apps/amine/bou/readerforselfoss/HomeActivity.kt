@@ -185,9 +185,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         } else {
                             (recyclerView.adapter as ItemListAdapter).removeItemAtIndex(position)
                         }
-                        tabNewBadge.setText("${items.size}").maybeShow()
-
-                        mayBeEmpty()
+                        if (items.size > 0)
+                            tabNewBadge.setText("${items.size}").maybeShow()
+                        else
+                            tabNewBadge.hide()
 
                     } catch (e: IndexOutOfBoundsException) {}
 
