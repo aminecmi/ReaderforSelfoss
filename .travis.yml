@@ -28,15 +28,6 @@ android:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
-#install:
-#  - echo y | android update sdk --no-ui --filter "android-26,build-tools-26.0.0"
-#  - echo y | android update sdk --no-ui --all --filter "platform-tools, tools"
-#  - echo y | android update sdk --no-ui --all --filter "android-26, build-tools-26.0.0"
-#  - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
-#  - echo y | android update sdk --no-ui --all --filter "extra-android-support"
-#  - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
-#  - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
-
 before_script:
   - mkdir app/src/main/res/mipmap-hdpi
   - convert -size 72x72 xc:white app/src/main/res/mipmap-hdpi/ic_launcher.png
