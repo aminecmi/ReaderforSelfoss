@@ -1,3 +1,7 @@
+**1.5.1.9**
+
+- Hiding the unread badge when marking all items as read.
+
 **1.5.1.8**
 
 - Fixes and libs updates.

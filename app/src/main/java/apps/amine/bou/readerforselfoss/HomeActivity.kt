@@ -761,8 +761,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                     api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
-                            if (response.body() != null && response.body()!!.isSuccess)
+                            if (response.body() != null && response.body()!!.isSuccess) {
                                 Toast.makeText(this@HomeActivity, R.string.all_posts_read, Toast.LENGTH_SHORT).show()
+                                tabNewBadge.removeBadge()
+                            }
                             else
                                 Toast.makeText(this@HomeActivity, R.string.all_posts_not_read, Toast.LENGTH_SHORT).show()
 
