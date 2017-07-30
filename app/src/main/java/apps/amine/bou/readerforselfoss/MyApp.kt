@@ -31,6 +31,8 @@ class MyApp : MultiDexApplication() {
 
         initTheme()
 
+        tryToHandleBug()
+
     }
 
     private fun initAmplify() {
@@ -81,5 +83,17 @@ class MyApp : MultiDexApplication() {
             .addFlavor(getString(R.string.red_teal_dark_theme), R.style.NoBarRedTealDark)
             .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
             .initialize()
+    }
+
+    private fun tryToHandleBug() {
+        val oldHandler = Thread.getDefaultUncaughtExceptionHandler()
+
+        Thread.setDefaultUncaughtExceptionHandler { thread, e ->
+            if (e is  java.lang.NoClassDefFoundError && e.stackTrace.asList().any { it.toString().contains("android.view.ViewDebug") })
+                Unit
+            else
+                oldHandler.uncaughtException(thread, e)
+        }
+
     }
 }
