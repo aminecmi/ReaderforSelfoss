@@ -1,4 +1,4 @@
-**1.5.1.9**
+**1.5.1.9/10/11**
 
 - Hiding the unread badge when marking all items as read.
 
