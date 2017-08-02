@@ -45,8 +45,6 @@ You can directly import this project into IntellIJ/Android Studio.
 
 You'll have to:
 
-- For now, [create your own launcher icon](https://developer.android.com/studio/write/image-asset-studio.html#creating-launcher). I'll add the icon back soon.
-
 - Configure Fabric, or [remove it](https://docs.fabric.io/android/fabric/settings/removing.html#).
 - Create a firebase project and add the `google-services.json` to the `app/` folder.
 - Define the following in `res/values/strings.xml` or create `res/values/secrets.xml`
