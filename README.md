@@ -22,3 +22,8 @@ Check the [Contribution guide](https://github.com/aminecmi/ReaderforSelfoss/blob
 - [Check what changed](https://github.com/aminecmi/ReaderforSelfoss/blob/master/CHANGELOG.md)
 - [See what I'm doing](https://github.com/aminecmi/ReaderforSelfoss/projects/1)
 - [Create an issue, or request a new feature](https://github.com/aminecmi/ReaderforSelfoss/issues)
+
+
+#Icon
+
+I used RSS Document by AlfredoCreates.com from the Noun Project. You can see it [here](https://thenounproject.com/search/?q=rss&i=596333).
