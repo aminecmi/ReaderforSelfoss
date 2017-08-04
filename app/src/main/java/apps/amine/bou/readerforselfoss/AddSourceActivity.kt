@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -43,7 +44,8 @@ class AddSourceActivity : AppCompatActivity() {
         var api: SelfossApi? = null
 
         try {
-            api = SelfossApi(this, this@AddSourceActivity)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+            api = SelfossApi(this, this@AddSourceActivity, prefs.getBoolean("isSelfSignedCert", false))
         } catch (e: IllegalArgumentException) {
             mustLoginToAddSource()
         }

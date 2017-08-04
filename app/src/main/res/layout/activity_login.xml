@@ -138,6 +138,20 @@
                         android:hint="@string/prompt_http_password" />
                 </android.support.design.widget.TextInputLayout>
 
+                <Switch
+                    android:id="@+id/withSelfhostedCert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/self_hosted_cert_switch" />
+
+                <TextView
+                    android:id="@+id/warningText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/self_signed_cert_warning"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:visibility="gone" />
+
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"

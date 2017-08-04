@@ -136,4 +136,6 @@
     <string name="login_debug_on">Toutes les erreurs de connexion vont être loguées</string>
     <string name="login_debug_off">Aucune erreur de connexion ne sera loguée</string>
     <string name="login_menu_debug">Debug</string>
+    <string name="self_hosted_cert_switch">Certificat auto-signé ?</string>
+    <string name="self_signed_cert_warning">Pour des raisons de sécurités, les certificats auto-signés sont désactivés par défaut. En les activant, je ne serais pas responsable de quelconques problèmes de sécurité rencontrés.</string>
 </resources>

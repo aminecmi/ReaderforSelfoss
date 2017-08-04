@@ -139,7 +139,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         customTabActivityHelper = CustomTabActivityHelper()
 
-        api = SelfossApi(this, this@HomeActivity)
+        val dirtyPref = PreferenceManager.getDefaultSharedPreferences(this)
+        api = SelfossApi(this, this@HomeActivity, dirtyPref.getBoolean("isSelfSignedCert", false))
         items = ArrayList()
 
         appColors =  AppColors(this@HomeActivity)

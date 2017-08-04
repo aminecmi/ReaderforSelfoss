@@ -37,6 +37,7 @@ import io.fabric.sdk.android.Fabric
 class LoginActivity : AppCompatActivity() {
 
     private var inValidCount: Int = 0
+    private var isWithSelfSignedCert = false
     private var isWithLogin = false
     private var isWithHTTPLogin = false
 
@@ -101,6 +102,15 @@ class LoginActivity : AppCompatActivity() {
         val mPasswordLayout: TextInputLayout = findViewById(R.id.passwordLayout)
         val mHTTPPasswordLayout: TextInputLayout = findViewById(R.id.httpPasswordInput)
         val mEmailSignInButton: Button = findViewById(R.id.email_sign_in_button)
+        val selfHostedSwitch: Switch = findViewById(R.id.withSelfhostedCert)
+        val warningTextview: TextView = findViewById(R.id.warningText)
+
+        selfHostedSwitch.setOnCheckedChangeListener {_, b ->
+            isWithSelfSignedCert = !isWithSelfSignedCert
+            val visi: Int = if (b) View.VISIBLE else View.GONE
+
+            warningTextview.visibility = visi
+        }
 
         mPasswordView.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -196,9 +206,10 @@ class LoginActivity : AppCompatActivity() {
             editor.putString("httpUserName", httpLogin)
             editor.putString("password", password)
             editor.putString("httpPassword", httpPassword)
+            editor.putBoolean("isSelfSignedCert", isWithSelfSignedCert)
             editor.apply()
 
-            val api = SelfossApi(this, this@LoginActivity)
+            val api = SelfossApi(this, this@LoginActivity, isWithSelfSignedCert)
             api.login().enqueue(object : Callback<SuccessResponse> {
                 private fun preferenceError(t: Throwable) {
                     editor.remove("url")

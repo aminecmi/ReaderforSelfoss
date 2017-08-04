@@ -138,4 +138,6 @@
     <string name="login_debug_on">Any error on the login page will be logged</string>
     <string name="login_debug_off">No log on the login page</string>
     <string name="login_menu_debug">Debug</string>
+    <string name="self_hosted_cert_switch">Using a self hosted certificate ?</string>
+    <string name="self_signed_cert_warning">Due to security reasons, self signed certificates are not supported by default. By activating this, I\'ll not be responsible of any security problem you encounter.</string>
 </resources>

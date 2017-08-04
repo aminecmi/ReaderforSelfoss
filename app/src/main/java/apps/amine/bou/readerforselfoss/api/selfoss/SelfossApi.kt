@@ -23,15 +23,54 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 import apps.amine.bou.readerforselfoss.utils.Config
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import javax.net.ssl.*
 
 
 // codebeat:disable[ARITY,TOO_MANY_FUNCTIONS]
-class SelfossApi(c: Context, callingActivity: Activity) {
+class SelfossApi(c: Context, callingActivity: Activity, isWithSelfSignedCert: Boolean) {
 
     private lateinit var service: SelfossService
     private val config: Config = Config(c)
     private val userName: String
     private val password: String
+
+    fun OkHttpClient.Builder.maybeWithSelfSigned(isWithSelfSignedCert: Boolean): OkHttpClient.Builder =
+        if (isWithSelfSignedCert) {
+            try {
+                // Create a trust manager that does not validate certificate chains
+                val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                    override fun getAcceptedIssuers(): Array<X509Certificate> =
+                        arrayOf()
+
+                    @Throws(CertificateException::class)
+                    override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+                    }
+
+                    @Throws(CertificateException::class)
+                    override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+                    }
+
+                })
+
+                // Install the all-trusting trust manager
+                val sslContext = SSLContext.getInstance("SSL")
+                sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+
+                val sslSocketFactory = sslContext.socketFactory
+
+                OkHttpClient.Builder()
+                    .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+                    .hostnameVerifier { _, _ -> true }
+
+            } catch (e: Exception) {
+                throw RuntimeException(e)
+            }
+
+        } else {
+            this
+        }
 
     fun Credentials.createAuthenticator(): DispatchingAuthenticator =
         DispatchingAuthenticator.Builder()
@@ -39,10 +78,11 @@ class SelfossApi(c: Context, callingActivity: Activity) {
             .with("basic", BasicAuthenticator(this))
             .build()
 
-    fun DispatchingAuthenticator.getHttpClien(): OkHttpClient {
+    fun DispatchingAuthenticator.getHttpClien(isWithSelfSignedCert: Boolean): OkHttpClient {
         val authCache = ConcurrentHashMap<String, CachingAuthenticator>()
         return OkHttpClient
             .Builder()
+            .maybeWithSelfSigned(isWithSelfSignedCert)
             .authenticator(CachingAuthenticatorDecorator(this, authCache))
             .addInterceptor(AuthenticationCacheInterceptor(authCache))
             .build()
@@ -71,7 +111,7 @@ class SelfossApi(c: Context, callingActivity: Activity) {
                 Retrofit
                     .Builder()
                     .baseUrl(config.baseUrl)
-                    .client(authenticator.getHttpClien())
+                    .client(authenticator.getHttpClien(isWithSelfSignedCert))
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
             service = retrofit.create(SelfossService::class.java)

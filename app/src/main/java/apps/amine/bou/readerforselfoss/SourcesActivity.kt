@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -36,7 +37,10 @@ class SourcesActivity : AppCompatActivity() {
         val mFab: FloatingActionButton = findViewById(R.id.fab)
         val mRecyclerView: RecyclerView = findViewById(R.id.activity_sources)
         val mLayoutManager = LinearLayoutManager(this)
-        val api = SelfossApi(this, this@SourcesActivity)
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val api = SelfossApi(this, this@SourcesActivity, prefs.getBoolean("isSelfSignedCert", false))
         var items: ArrayList<Sources> = ArrayList()
 
         mFab.attachToRecyclerView(mRecyclerView)
