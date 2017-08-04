@@ -131,4 +131,9 @@
     <string name="blue_amber_dark_theme">Bleu/Ambre/Foncé</string>
     <string name="indigo_pink_dark_theme">Indigo/Rose/Foncé</string>
     <string name="red_teal_dark_theme">Rouge/Sarcelle/Foncé</string>
+    <string name="pref_header_debug">Debug</string>
+    <string name="login_debug_title">Activez pour loguer toutes les erreurs de conexion</string>
+    <string name="login_debug_on">Toutes les erreurs de connexion vont être loguées</string>
+    <string name="login_debug_off">Aucune erreur de connexion ne sera loguée</string>
+    <string name="login_menu_debug">Debug</string>
 </resources>

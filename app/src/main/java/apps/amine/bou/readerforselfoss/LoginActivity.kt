@@ -15,10 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.aboutlibraries.Libs
@@ -32,7 +29,9 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.checkAndDisplayStoreApk
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
+import com.crashlytics.android.Crashlytics
 import com.ftinc.scoop.Scoop
+import io.fabric.sdk.android.Fabric
 
 
 class LoginActivity : AppCompatActivity() {
@@ -42,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
     private var isWithHTTPLogin = false
 
     private lateinit var settings: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private lateinit var mUrlView: EditText
     private lateinit var mLoginView: TextView
@@ -50,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mPasswordView: EditText
     private lateinit var mHTTPPasswordView: EditText
     private lateinit var mLoginFormView: View
+    private var logErrors: Boolean = false
 
 
 
@@ -74,6 +75,10 @@ class LoginActivity : AppCompatActivity() {
 
 
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+        logErrors = settings.getBoolean("loging_debug", false)
+
+        editor = settings.edit()
+
         if (settings.getString("url", "").isNotEmpty()) {
             goToMain()
         } else {
@@ -186,7 +191,6 @@ class LoginActivity : AppCompatActivity() {
         } else {
             showProgress(true)
 
-            val editor = settings.edit()
             editor.putString("url", url)
             editor.putString("login", login)
             editor.putString("httpUserName", httpLogin)
@@ -196,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
 
             val api = SelfossApi(this, this@LoginActivity)
             api.login().enqueue(object : Callback<SuccessResponse> {
-                private fun preferenceError() {
+                private fun preferenceError(t: Throwable) {
                     editor.remove("url")
                     editor.remove("login")
                     editor.remove("httpUserName")
@@ -208,6 +212,11 @@ class LoginActivity : AppCompatActivity() {
                     mPasswordView.error = getString(R.string.wrong_infos)
                     mHTTPLoginView.error = getString(R.string.wrong_infos)
                     mHTTPPasswordView.error = getString(R.string.wrong_infos)
+                    if (logErrors) {
+                        Crashlytics.log(100, "LOGIN_DEBUG_ERRROR", t.message)
+                        Crashlytics.logException(t)
+                        Toast.makeText(this@LoginActivity, t.message, Toast.LENGTH_LONG).show()
+                    }
                     showProgress(false)
                 }
 
@@ -216,12 +225,12 @@ class LoginActivity : AppCompatActivity() {
                         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, Bundle())
                         goToMain()
                     } else {
-                        preferenceError()
+                        preferenceError(Exception("No response body..."))
                     }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    preferenceError()
+                    preferenceError(t)
                 }
             })
         }
@@ -260,6 +269,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.login_menu, menu)
+        menu.findItem(R.id.loging_debug).isChecked = logErrors
         return true
     }
 
@@ -271,6 +281,14 @@ class LoginActivity : AppCompatActivity() {
                     .withAboutIconShown(true)
                     .withAboutVersionShown(true)
                     .start(this)
+                return true
+            }
+            R.id.loging_debug -> {
+                val newState = !item.isChecked
+                item.isChecked = newState
+                logErrors = newState
+                editor.putBoolean("loging_debug", newState)
+                editor.apply()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

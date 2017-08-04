@@ -1,3 +1,7 @@
+**1.5.2.02**
+
+- Added optional login option.
+
 **1.5.2.01**
 
 - New (Better) Icon !
