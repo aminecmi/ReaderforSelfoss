@@ -87,9 +87,9 @@
   <string name="menu_home_refresh">"Remote-Aktualisierung"</string>
   <string name="refresh_success_response">"Selfoss wird aktualisiert, du kannst jetzt die Artikel laden"</string>
   <string name="refresh_failer_message">"Das Update hat nicht funktioniert, versuche es erneut oder überprüfe die Protokolle von Selfoss."</string>
-  <string name="refresh_in_progress">"Refresh in progress"</string>
-  <string name="new_apk_available_title">"A new APK is available."</string>
-  <string name="new_apk_available_message">"A new APK is available to download on the official repository."</string>
+  <string name="refresh_in_progress">"Aktualisierung läuft"</string>
+  <string name="new_apk_available_title">"Eine neue Version ist verfügbar."</string>
+  <string name="new_apk_available_message">"Eine neue APK steht im offiziellen Repository zur Verfügung."</string>
   <string name="new_apk_available_get">"Jetzt herunterladen"</string>
   <string name="new_apk_available_no">"Version ignorieren"</string>
   <string name="intro_hello_title">"Hallo!"</string>
@@ -97,7 +97,7 @@
   <string name="intro_needs_selfoss_title">"Bevor du beginnst…"</string>
   <string name="intro_needs_selfoss_message">"Die App kann nicht ohne Selfoss-Instanz benutzt werden."</string>
   <string name="intro_needs_selfoss_link">"Was ist Selfoss?"</string>
-  <string name="intro_all_set_title">"All set !"</string>
+  <string name="intro_all_set_title">"Fertig!"</string>
   <string name="intro_all_set_message">"Sie können die App jetzt verwenden. Vergiss nicht deine App unter \"Einstellungen\" zu konfigurieren. Dort findest du auch einige nützliche Links."</string>
   <string name="card_height_title">Maximale Kartenhöhe</string>
   <string name="card_height_on">Kartenhöhe passt sich Inhalt an</string>
