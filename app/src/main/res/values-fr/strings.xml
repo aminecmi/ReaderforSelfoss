@@ -33,7 +33,7 @@
   <string name="cant_get_read">"Impossible de récupérer les éléments lus."</string>
   <string name="nothing_here">"Il n'y a rien ici !"</string>
   <string name="tab_new">"Non lus"</string>
-  <string name="tab_read">"All"</string>
+  <string name="tab_read">"Tous"</string>
   <string name="tab_favs">"Favoris"</string>
   <string name="action_about">"À propos"</string>
   <string name="marked_as_read">"Marqué comme lu"</string>
