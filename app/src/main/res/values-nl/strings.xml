@@ -25,7 +25,7 @@
   <string name="add_source_hint_name">"Naam"</string>
   <string name="add_source">"Bron toevoegen"</string>
   <string name="add_source_save">"Opslaan"</string>
-  <string name="wrong_infos">"Controleer de gegevens nogmaals"</string>
+  <string name="wrong_infos">"Controleer de gegevens nogmaals."</string>
   <string name="all_posts_not_read">"Fout bij markeren als gelezen"</string>
   <string name="all_posts_read">"Alle artikelen gemarkeerd als gelezen"</string>
   <string name="cant_get_favs">"Ophalen favorieten mislukt"</string>
