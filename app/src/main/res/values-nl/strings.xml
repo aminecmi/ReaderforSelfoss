@@ -33,7 +33,7 @@
   <string name="cant_get_read">"Ophalen reeds gelezen artikelen mislukt"</string>
   <string name="nothing_here">"Niets gevonden"</string>
   <string name="tab_new">"Nieuw"</string>
-  <string name="tab_read">"Gelezen"</string>
+  <string name="tab_read">"All"</string>
   <string name="tab_favs">"Favorieten"</string>
   <string name="action_about">"Over"</string>
   <string name="marked_as_read">"Artikel gelezen"</string>
