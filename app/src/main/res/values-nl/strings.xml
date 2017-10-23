@@ -154,4 +154,5 @@
   <string name="login_everything_off">No api call will be logged</string>
   <string name="pref_general_infinite_loading_title">(BETA) Load more articles on scroll</string>
   <string name="translation">Vertaling</string>
+  <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
 </resources>
