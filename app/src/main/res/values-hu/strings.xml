@@ -46,7 +46,7 @@
   <string name="pref_header_links">"Links"</string>
   <string name="issue_tracker_link">"Issue Tracker"</string>
   <string name="issue_tracker_summary">"Report a bug or ask for a new feature"</string>
-    <string name="warning_wrong_url">"WARNING"</string>
+  <string name="warning_wrong_url">"WARNING"</string>
   <string name="pref_switch_card_view_title">"Card View"</string>
   <string name="cant_mark_favortie">"Can't mark article as favorite"</string>
   <string name="cant_unmark_favortie">"Can't remove item from favorite"</string>
