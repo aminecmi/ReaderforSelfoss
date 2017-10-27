@@ -46,8 +46,8 @@
   <string name="pref_header_links">"Links"</string>
   <string name="issue_tracker_link">"Bug tracker"</string>
   <string name="issue_tracker_summary">"Rapporteer een probleem of dien een verzoek in"</string>
-    <string name="warning_wrong_url">"WAARSCHUWING"</string>
-    <string name="pref_switch_card_view_title">"Kaart weergave"</string>
+  <string name="warning_wrong_url">"WAARSCHUWING"</string>
+  <string name="pref_switch_card_view_title">"Kaart weergave"</string>
   <string name="cant_mark_favortie">"Kan het artikel niet markeren als favoriet"</string>
   <string name="cant_unmark_favortie">"Kan het item niet verwijderen uit favorieten"</string>
   <string name="share">"Delen"</string>
