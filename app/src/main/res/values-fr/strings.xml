@@ -114,7 +114,7 @@
   <string name="no_sources_loaded">Pas de sources chargés</string>
   <string name="drawer_loading">Chargement …</string>
   <string name="menu_home_search">Rechercher</string>
-  <string name="can_delete_source">Can\'t delete the source…</string>
+  <string name="can_delete_source">Impossible de supprimer la source…</string>
   <string name="base_url_error">Il y a eu un souci lors de la communication avec votre instance Selfoss. Si le problèmes persiste, contactez-moi pour trouver une solution.</string>
   <string name="pref_header_theme">Thèmes</string>
   <string name="default_theme">Par défaut</string>
