@@ -154,4 +154,5 @@
   <string name="translation">Übersetzung</string>
   <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
   <string name="drawer_report_bug">Report a bug</string>
+  <string name="items_number_should_be_number">The items number should be an integer.</string>
 </resources>
