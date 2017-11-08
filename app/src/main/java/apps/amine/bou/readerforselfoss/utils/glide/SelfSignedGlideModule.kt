@@ -6,8 +6,8 @@ import apps.amine.bou.readerforselfoss.utils.getUnsafeHttpClient
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
-import com.bumptech.glide.module.GlideModule
 import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.module.GlideModule
 import java.io.InputStream
 
 

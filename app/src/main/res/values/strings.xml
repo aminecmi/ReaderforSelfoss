@@ -157,4 +157,5 @@
     <string name="report_github_user" translatable="false">aminecmi</string>
     <string name="report_github_repo" translatable="false">ReaderforSelfoss</string>
     <string name="drawer_report_bug">Report a bug</string>
+    <string name="items_number_should_be_number">The items number should be an integer.</string>
 </resources>

@@ -1,4 +1,16 @@
-**1.5.4.05**
+**1.5.4.08**
+
+- Thanks @jrafaelsantana for translating the whole app in Brazilian Portuguese.
+
+**1.5.4.07**
+
+- Loading more items on swipe too.
+
+- Fixed popup menu style. User may need to reselect the theme.
+
+- Disabled reporting marking items as read if there isn't an issue.
+
+**1.5.4.05/06**
 
 - Translation fix.
 

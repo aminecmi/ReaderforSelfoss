@@ -14,7 +14,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:theme="@style/ToolBarStyle" />
+            app:theme="@style/ToolBarStyle"
+            app:popupTheme="?attr/toolbarPopupTheme" />
 
     </android.support.design.widget.AppBarLayout>
     <LinearLayout

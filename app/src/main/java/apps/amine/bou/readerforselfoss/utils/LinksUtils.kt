@@ -50,6 +50,35 @@ fun Context.buildCustomTabsIntent(): CustomTabsIntent {
     return intentBuilder.build()
 }
 
+fun Context.openItemUrlInternally(linkDecoded: String,
+                                  customTabsIntent: CustomTabsIntent,
+                                  articleViewer: Boolean,
+                                  app: Activity) {
+    if (articleViewer) {
+        val intent = Intent(this, ReaderActivity::class.java)
+
+        DragDismissIntentBuilder(this)
+            .setFullscreenOnTablets(true)      // defaults to false, tablets will have padding on each side
+            .setDragElasticity(DragDismissIntentBuilder.DragElasticity.NORMAL)  // Larger elasticities will make it easier to dismiss.
+            .setDrawUnderStatusBar(true)
+            .build(intent)
+
+        intent.putExtra("url", linkDecoded)
+        app.startActivity(intent)
+    } else {
+        try {
+            CustomTabActivityHelper.openCustomTab(app, customTabsIntent, Uri.parse(linkDecoded)
+            ) { _, uri ->
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
+        } catch (e: Exception) {
+            openInBrowser(linkDecoded, app)
+        }
+    }
+}
+
 fun Context.openItemUrl(linkDecoded: String,
                         customTabsIntent: CustomTabsIntent,
                         internalBrowser: Boolean,
@@ -62,29 +91,7 @@ fun Context.openItemUrl(linkDecoded: String,
         if (!internalBrowser) {
             openInBrowser(linkDecoded, app)
         } else {
-            if (articleViewer) {
-                val intent = Intent(this, ReaderActivity::class.java)
-
-                DragDismissIntentBuilder(this)
-                    .setFullscreenOnTablets(true)      // defaults to false, tablets will have padding on each side
-                    .setDragElasticity(DragDismissIntentBuilder.DragElasticity.NORMAL)  // Larger elasticities will make it easier to dismiss.
-                    .setDrawUnderStatusBar(true)
-                    .build(intent)
-
-                intent.putExtra("url", linkDecoded)
-                app.startActivity(intent)
-            } else {
-                try {
-                    CustomTabActivityHelper.openCustomTab(app, customTabsIntent, Uri.parse(linkDecoded)
-                    ) { _, uri ->
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                    }
-                } catch (e: Exception) {
-                    openInBrowser(linkDecoded, app)
-                }
-            }
+            this.openItemUrlInternally(linkDecoded, customTabsIntent, articleViewer, app)
         }
     }
 }

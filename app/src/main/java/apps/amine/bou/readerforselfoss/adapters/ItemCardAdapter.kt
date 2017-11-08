@@ -3,7 +3,6 @@ package apps.amine.bou.readerforselfoss.adapters
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.support.constraint.ConstraintLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -15,28 +14,30 @@ import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import android.widget.TextView
 import android.widget.Toast
-
-import com.amulyakhare.textdrawable.TextDrawable
-import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.bumptech.glide.Glide
-import com.like.LikeButton
-import com.like.OnLikeListener
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
-import apps.amine.bou.readerforselfoss.utils.*
+import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.bitmapCenterCrop
-import apps.amine.bou.readerforselfoss.utils.glide.bitmapFitCenter
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
+import apps.amine.bou.readerforselfoss.utils.openInBrowserAsNewTask
+import apps.amine.bou.readerforselfoss.utils.openItemUrl
+import apps.amine.bou.readerforselfoss.utils.shareLink
+import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
+import apps.amine.bou.readerforselfoss.utils.succeeded
+import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.bumptech.glide.Glide
 import com.crashlytics.android.Crashlytics
-import kotlin.collections.ArrayList
+import com.like.LikeButton
+import com.like.OnLikeListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ItemCardAdapter(private val app: Activity,
                       private val items: ArrayList<Item>,
@@ -125,7 +126,7 @@ class ItemCardAdapter(private val app: Activity,
 
         api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
             override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
-                if (debugReadingItems) {
+                if (!response.succeeded() && debugReadingItems) {
                     val message =
                         "message: ${response.message()} " +
                             "response isSuccess: ${response.isSuccessful} " +

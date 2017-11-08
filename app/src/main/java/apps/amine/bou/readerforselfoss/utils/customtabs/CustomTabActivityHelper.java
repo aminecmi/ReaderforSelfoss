@@ -1,5 +1,8 @@
 package apps.amine.bou.readerforselfoss.utils.customtabs;
 
+
+import java.util.List;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,8 +10,6 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
-
-import java.util.List;
 
 /**
  * This is a helper class to manage the connection to the Custom Tabs Service.

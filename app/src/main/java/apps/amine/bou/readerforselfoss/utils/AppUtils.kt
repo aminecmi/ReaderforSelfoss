@@ -5,11 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.support.v7.app.AlertDialog
-
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-
 import apps.amine.bou.readerforselfoss.R
-import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 
 
 fun String?.isEmptyOrNullOrNullString(): Boolean =

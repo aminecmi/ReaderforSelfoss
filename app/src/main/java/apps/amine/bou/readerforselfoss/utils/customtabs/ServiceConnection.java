@@ -1,10 +1,11 @@
 package apps.amine.bou.readerforselfoss.utils.customtabs;
 
+
+import java.lang.ref.WeakReference;
+
 import android.content.ComponentName;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Implementation for the CustomTabsServiceConnection that avoids leaking the

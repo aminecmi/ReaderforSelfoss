@@ -10,19 +10,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-
-import com.amulyakhare.textdrawable.TextDrawable
-import com.amulyakhare.textdrawable.util.ColorGenerator
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Sources
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class SourcesListAdapter(private val app: Activity,

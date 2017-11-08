@@ -1,6 +1,8 @@
 package apps.amine.bou.readerforselfoss.settings;
 
 
+import java.util.List;
+
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -16,16 +18,14 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.preference.SwitchPreference;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
+import android.support.v7.app.ActionBar;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import java.util.List;
 
 import apps.amine.bou.readerforselfoss.BuildConfig;
 import apps.amine.bou.readerforselfoss.R;
@@ -44,7 +44,7 @@ import com.ftinc.scoop.ui.ScoopSettingsActivity;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends AppCompatPreferenceActivity { //NOSONAR
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -126,6 +126,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This method stops fragment injection in malicious applications.
      * Make sure to deny any unknown fragments here.
      */
+    @Override
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
@@ -166,7 +167,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             int input = Integer.parseInt(dest.toString() + source.toString());
                             if (input <= 200 && input >0)
                                 return null;
-                        } catch (NumberFormatException nfe) { }
+                        } catch (NumberFormatException nfe) {
+                            Toast.makeText(getActivity(), R.string.items_number_should_be_number, Toast.LENGTH_LONG).show();
+                        }
                         return "";
                     }
                 }

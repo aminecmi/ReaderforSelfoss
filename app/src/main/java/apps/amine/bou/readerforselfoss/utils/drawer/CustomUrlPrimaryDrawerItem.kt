@@ -5,13 +5,10 @@ import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.view.View
 import android.widget.TextView
-
+import apps.amine.bou.readerforselfoss.R
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.interfaces.ColorfulBadgeable
-
-import apps.amine.bou.readerforselfoss.R
-
 
 
 class CustomUrlPrimaryDrawerItem : CustomUrlBasePrimaryDrawerItem<CustomUrlPrimaryDrawerItem, CustomUrlPrimaryDrawerItem.ViewHolder>(), ColorfulBadgeable<CustomUrlPrimaryDrawerItem> {

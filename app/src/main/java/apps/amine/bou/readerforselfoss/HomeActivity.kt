@@ -1,7 +1,5 @@
 package apps.amine.bou.readerforselfoss
 
-import java.lang.Exception
-
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,41 +13,25 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.*
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-
-import com.anupcowkur.reservoir.Reservoir
-import com.anupcowkur.reservoir.ReservoirGetCallback
-import com.anupcowkur.reservoir.ReservoirPutCallback
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.InviteEvent
-import com.github.stkent.amplify.prompt.DefaultLayoutPromptView
-import com.github.stkent.amplify.tracking.Amplify
-import com.google.android.gms.appinvite.AppInviteInvitation
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.reflect.TypeToken
-import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.DrawerBuilder
-import com.mikepenz.materialdrawer.holder.BadgeStyle
-import com.mikepenz.materialdrawer.model.DividerDrawerItem
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 import apps.amine.bou.readerforselfoss.adapters.ItemCardAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemListAdapter
-import apps.amine.bou.readerforselfoss.api.selfoss.*
+import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
+import apps.amine.bou.readerforselfoss.api.selfoss.Sources
+import apps.amine.bou.readerforselfoss.api.selfoss.Stats
+import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.api.selfoss.Tag
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
@@ -59,14 +41,39 @@ import apps.amine.bou.readerforselfoss.utils.checkApkVersion
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.longHash
+import com.anupcowkur.reservoir.Reservoir
+import com.anupcowkur.reservoir.ReservoirGetCallback
+import com.anupcowkur.reservoir.ReservoirPutCallback
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.InviteEvent
 import com.ftinc.scoop.Scoop
+import com.github.stkent.amplify.prompt.DefaultLayoutPromptView
+import com.github.stkent.amplify.tracking.Amplify
+import com.google.android.gms.appinvite.AppInviteInvitation
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.gson.reflect.TypeToken
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.holder.BadgeStyle
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -172,6 +179,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         reloadLayoutManager()
 
+        handleSwipeRefreshLayout()
+    }
+
+    private fun handleSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeResources(
             R.color.refresh_progress_1,
             R.color.refresh_progress_2,
@@ -189,7 +200,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                 override fun onMove(recyclerView: RecyclerView,
                                     viewHolder: RecyclerView.ViewHolder,
-                                    target: RecyclerView.ViewHolder): Boolean  = false
+                                    target: RecyclerView.ViewHolder): Boolean = false
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     try {
@@ -207,7 +218,23 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         else
                             tabNewBadge.hide()
 
-                    } catch (e: IndexOutOfBoundsException) {}
+
+                        val manager = recyclerView.layoutManager
+                        val lastVisibleItem: Int = when (manager) {
+                            is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(null).last()
+                            is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
+                            else -> 0
+                        }
+
+                        if (lastVisibleItem == (items.size - 1)) {
+                            getElementsAccordingToTab(appendResults = true)
+                        }
+
+                    } catch (e: IndexOutOfBoundsException) {
+                        Crashlytics.setUserIdentifier(userIdentifier)
+                        Crashlytics.log(100, "SWIPE_INDEX_OUT_OF_BOUND", "IndexOutOfBoundsException when swiping")
+                        Crashlytics.logException(e)
+                    }
 
                 }
             }
@@ -566,7 +593,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         drawer.addItem(PrimaryDrawerItem().withName(getString(R.string.drawer_loading)).withSelectable(false))
 
-        val resultType = object : TypeToken<DrawerData>() {}.type
+        val resultType = object : TypeToken<DrawerData>() {}.type //NOSONAR
         Reservoir.getAsync("drawerData", resultType, object: ReservoirGetCallback<DrawerData> {
             override fun onSuccess(maybeDrawerData: DrawerData?) {
                 handleDrawerData(maybeDrawerData, loadedFromCache = true)
@@ -593,31 +620,14 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         recyclerView.setHasFixedSize(true)
 
         if (infiniteScroll) {
-            if (recyclerViewScrollListener == null)
-                recyclerViewScrollListener = object: RecyclerView.OnScrollListener() {
-                    override fun onScrolled(localRecycler: RecyclerView?, dx: Int, dy: Int) {
-                        if (dy > 0) {
-                            if (localRecycler != null) {
-                                val manager = recyclerView.layoutManager
-                                val lastVisibleItem: Int = when (manager) {
-                                    is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(null).last()
-                                    is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
-                                    else -> 0
-                                }
-
-                                if (lastVisibleItem == (items.size - 1)) {
-                                    getElementsAccordingToTab(appendResults = true)
-                                }
-                            }
-                        }
-                    }
-                }
-
-            recyclerView.clearOnScrollListeners()
-            recyclerView.addOnScrollListener(recyclerViewScrollListener)
+            handleInfiniteScroll()
         }
 
-        bottomBar.setTabSelectedListener(object: BottomNavigationBar.OnTabSelectedListener {
+        handleBottomBarActions(mLayoutManager)
+    }
+
+    private fun handleBottomBarActions(mLayoutManager: RecyclerView.LayoutManager) {
+        bottomBar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabUnselected(position: Int) = Unit
 
             override fun onTabReselected(position: Int) =
@@ -638,7 +648,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
 
             override fun onTabSelected(position: Int) =
-                when(position) {
+                when (position) {
                     0 -> getUnRead()
                     1 -> getRead()
                     2 -> getStarred()
@@ -646,6 +656,29 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
 
         })
+    }
+
+    private fun handleInfiniteScroll() {
+        if (recyclerViewScrollListener == null)
+            recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(localRecycler: RecyclerView?, dx: Int, dy: Int) {
+                    if (localRecycler != null && dy > 0) {
+                        val manager = recyclerView.layoutManager
+                        val lastVisibleItem: Int = when (manager) {
+                            is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(null).last()
+                            is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
+                            else -> 0
+                        }
+
+                        if (lastVisibleItem == (items.size - 1)) {
+                            getElementsAccordingToTab(appendResults = true)
+                        }
+                    }
+                }
+            }
+
+        recyclerView.clearOnScrollListeners()
+        recyclerView.addOnScrollListener(recyclerViewScrollListener)
     }
 
     fun mayBeEmpty() =

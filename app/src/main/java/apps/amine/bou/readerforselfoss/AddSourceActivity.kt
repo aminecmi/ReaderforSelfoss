@@ -7,18 +7,23 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
-import android.widget.*
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Spout
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.ftinc.scoop.Scoop
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class AddSourceActivity : AppCompatActivity() {
@@ -50,17 +55,22 @@ class AddSourceActivity : AppCompatActivity() {
             mustLoginToAddSource()
         }
 
-        val intent = intent
-        if (Intent.ACTION_SEND == intent.action && "text/plain" == intent.type) {
-            mSourceUri.setText(intent.getStringExtra(Intent.EXTRA_TEXT))
-            mNameInput.setText(intent.getStringExtra(Intent.EXTRA_TITLE))
-        }
+        maybeGetDetailsFromIntentSharing(intent, mSourceUri, mNameInput)
 
         mSaveBtn.setOnClickListener {
             handleSaveSource(mTags, mNameInput.text.toString(), mSourceUri.text.toString(), api!!)
         }
 
+        val config = Config(this)
 
+        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid()) {
+            mustLoginToAddSource()
+        } else {
+            handleSpoutsSpinner(mSpoutsSpinner, api, mProgress, mForm)
+        }
+    }
+
+    private fun handleSpoutsSpinner(mSpoutsSpinner: Spinner, api: SelfossApi?, mProgress: ProgressBar, mForm: ConstraintLayout) {
         val spoutsKV = HashMap<String, String>()
         mSpoutsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
@@ -73,48 +83,48 @@ class AddSourceActivity : AppCompatActivity() {
             }
         }
 
-        val config = Config(this)
+        var items: Map<String, Spout>
+        api!!.spouts().enqueue(object : Callback<Map<String, Spout>> {
+            override fun onResponse(call: Call<Map<String, Spout>>, response: Response<Map<String, Spout>>) {
+                if (response.body() != null) {
+                    items = response.body()!!
 
-        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid()) {
-            mustLoginToAddSource()
-        } else {
-
-            var items: Map<String, Spout>
-            api!!.spouts().enqueue(object : Callback<Map<String, Spout>> {
-                override fun onResponse(call: Call<Map<String, Spout>>, response: Response<Map<String, Spout>>) {
-                    if (response.body() != null) {
-                        items = response.body()!!
-
-                        val itemsStrings = items.map { it.value.name }
-                        for ((key, value) in items) {
-                            spoutsKV.put(value.name, key)
-                        }
-
-                        mProgress.visibility = View.GONE
-                        mForm.visibility = View.VISIBLE
-
-                        val spinnerArrayAdapter =
-                            ArrayAdapter(
-                                this@AddSourceActivity,
-                                android.R.layout.simple_spinner_item,
-                                itemsStrings)
-                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        mSpoutsSpinner.adapter = spinnerArrayAdapter
-
-                    } else {
-                        handleProblemWithSpouts()
+                    val itemsStrings = items.map { it.value.name }
+                    for ((key, value) in items) {
+                        spoutsKV.put(value.name, key)
                     }
-                }
 
-                override fun onFailure(call: Call<Map<String, Spout>>, t: Throwable) {
+                    mProgress.visibility = View.GONE
+                    mForm.visibility = View.VISIBLE
+
+                    val spinnerArrayAdapter =
+                        ArrayAdapter(
+                            this@AddSourceActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsStrings)
+                    spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    mSpoutsSpinner.adapter = spinnerArrayAdapter
+
+                } else {
                     handleProblemWithSpouts()
                 }
+            }
 
-                private fun handleProblemWithSpouts() {
-                    Toast.makeText(this@AddSourceActivity, R.string.cant_get_spouts, Toast.LENGTH_SHORT).show()
-                    mProgress.visibility = View.GONE
-                }
-            })
+            override fun onFailure(call: Call<Map<String, Spout>>, t: Throwable) {
+                handleProblemWithSpouts()
+            }
+
+            private fun handleProblemWithSpouts() {
+                Toast.makeText(this@AddSourceActivity, R.string.cant_get_spouts, Toast.LENGTH_SHORT).show()
+                mProgress.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun maybeGetDetailsFromIntentSharing(intent: Intent, mSourceUri: EditText, mNameInput: EditText) {
+        if (Intent.ACTION_SEND == intent.action && "text/plain" == intent.type) {
+            mSourceUri.setText(intent.getStringExtra(Intent.EXTRA_TEXT))
+            mNameInput.setText(intent.getStringExtra(Intent.EXTRA_TITLE))
         }
     }
 
@@ -127,7 +137,9 @@ class AddSourceActivity : AppCompatActivity() {
 
     private fun handleSaveSource(mTags: EditText, title: String, url: String, api: SelfossApi) {
 
-        if (title.isEmpty() || url.isEmpty() || mSpoutsValue == null || mSpoutsValue!!.isEmpty()) {
+        val sourceDetailsAvailable = title.isEmpty() || url.isEmpty() || mSpoutsValue == null || mSpoutsValue!!.isEmpty()
+
+        if (sourceDetailsAvailable) {
             Toast.makeText(this, R.string.form_not_complete, Toast.LENGTH_SHORT).show()
         } else {
             api.createSource(

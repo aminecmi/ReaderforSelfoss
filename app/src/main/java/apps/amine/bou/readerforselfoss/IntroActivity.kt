@@ -1,15 +1,14 @@
 package apps.amine.bou.readerforselfoss
 
+import agency.tango.materialintroscreen.MaterialIntroActivity
+import agency.tango.materialintroscreen.MessageButtonBehaviour
+import agency.tango.materialintroscreen.SlideFragmentBuilder
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.View
-
-import agency.tango.materialintroscreen.MaterialIntroActivity
-import agency.tango.materialintroscreen.MessageButtonBehaviour
-import agency.tango.materialintroscreen.SlideFragmentBuilder
 import android.support.v7.app.AppCompatDelegate
+import android.view.View
 
 
 class IntroActivity : MaterialIntroActivity() {

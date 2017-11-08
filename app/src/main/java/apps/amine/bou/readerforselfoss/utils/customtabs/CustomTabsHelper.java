@@ -1,5 +1,9 @@
 package apps.amine.bou.readerforselfoss.utils.customtabs;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,10 +13,8 @@ import android.net.Uri;
 import android.support.customtabs.CustomTabsService;
 import android.text.TextUtils;
 import android.util.Log;
-import apps.amine.bou.readerforselfoss.utils.customtabs.helpers.KeepAliveService;
 
-import java.util.ArrayList;
-import java.util.List;
+import apps.amine.bou.readerforselfoss.utils.customtabs.helpers.KeepAliveService;
 
 @SuppressWarnings("ALL")
 class CustomTabsHelper {
@@ -101,7 +103,7 @@ class CustomTabsHelper {
             List<ResolveInfo> handlers = pm.queryIntentActivities(
                     intent,
                     PackageManager.GET_RESOLVED_FILTER);
-            if (handlers == null || handlers.size() == 0) {
+            if (handlers == null || handlers.isEmpty()) {
                 return false;
             }
             for (ResolveInfo resolveInfo : handlers) {

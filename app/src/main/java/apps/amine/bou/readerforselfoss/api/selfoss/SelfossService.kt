@@ -1,10 +1,16 @@
 package apps.amine.bou.readerforselfoss.api.selfoss
 
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 
-// codebeat:disable[ARITY]
 internal interface SelfossService {
 
     @GET("login")
@@ -98,4 +104,3 @@ internal interface SelfossService {
                      @Query("username") username: String,
                      @Query("password") password: String): Call<SuccessResponse>
 }
-// codebeat:disable[ARITY]

@@ -22,3 +22,5 @@ Check the [Contribution guide](https://github.com/aminecmi/ReaderforSelfoss/blob
 - [Check what changed](https://github.com/aminecmi/ReaderforSelfoss/blob/master/CHANGELOG.md)
 - [See what I'm doing](https://github.com/aminecmi/ReaderforSelfoss/projects/1)
 - [Create an issue, or request a new feature](https://github.com/aminecmi/ReaderforSelfoss/issues)
+- [Help translation the app](https://crowdin.com/project/readerforselfoss)
+- [Ask for help](https://gitter.im/amine-bou/ReaderForSelfoss)

@@ -12,26 +12,33 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
+import apps.amine.bou.readerforselfoss.R
+import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
+import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
+import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
+import apps.amine.bou.readerforselfoss.utils.glide.bitmapCenterCrop
+import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
+import apps.amine.bou.readerforselfoss.utils.openInBrowserAsNewTask
+import apps.amine.bou.readerforselfoss.utils.openItemUrl
+import apps.amine.bou.readerforselfoss.utils.shareLink
+import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
+import apps.amine.bou.readerforselfoss.utils.succeeded
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.crashlytics.android.Crashlytics
 import com.like.LikeButton
 import com.like.OnLikeListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-
-import apps.amine.bou.readerforselfoss.R
-import apps.amine.bou.readerforselfoss.api.selfoss.Item
-import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
-import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
-import apps.amine.bou.readerforselfoss.utils.*
-import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
-import apps.amine.bou.readerforselfoss.utils.glide.bitmapCenterCrop
-import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
-import com.crashlytics.android.Crashlytics
 import kotlin.collections.ArrayList
 
 
@@ -138,7 +145,7 @@ class ItemListAdapter(private val app: Activity,
 
         api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
             override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
-                if (debugReadingItems) {
+                if (!response.succeeded() && debugReadingItems) {
                     val message =
                         "message: ${response.message()} " +
                             "response isSuccess: ${response.isSuccessful} " +
