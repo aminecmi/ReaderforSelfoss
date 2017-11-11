@@ -155,4 +155,7 @@
   <string name="cant_open_invalid_url">L’url de l’élément n’est pas valide. En attendant la résolution du problème, le lien ne s\'ouvrira pas.</string>
   <string name="drawer_report_bug">Signaler un bug</string>
   <string name="items_number_should_be_number">Le nombre d\'articles doit être un entier.</string>
+  <string name="reader_action_more">Lire plus</string>
+  <string name="reader_action_open">Ouvrir</string>
+  <string name="reader_action_share">Partager</string>
 </resources>
