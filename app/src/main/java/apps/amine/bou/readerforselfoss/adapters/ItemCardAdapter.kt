@@ -77,10 +77,10 @@ class ItemCardAdapter(private val app: Activity,
             val color = generator.getColor(itm.sourcetitle)
 
             val drawable =
-                TextDrawable
-                    .builder()
-                    .round()
-                    .build(itm.sourcetitle.toTextDrawableString(), color)
+                    TextDrawable
+                            .builder()
+                            .round()
+                            .build(itm.sourcetitle.toTextDrawableString(), color)
             holder.sourceImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(itm.getIcon(c), holder.sourceImage)
@@ -128,13 +128,13 @@ class ItemCardAdapter(private val app: Activity,
             override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
                 if (!response.succeeded() && debugReadingItems) {
                     val message =
-                        "message: ${response.message()} " +
-                            "response isSuccess: ${response.isSuccessful} " +
-                            "response code: ${response.code()} " +
-                            "response message: ${response.message()} " +
-                            "response errorBody: ${response.errorBody()?.string()} " +
-                            "body success: ${response.body()?.success} " +
-                            "body isSuccess: ${response.body()?.isSuccess}"
+                            "message: ${response.message()} " +
+                                    "response isSuccess: ${response.isSuccessful} " +
+                                    "response code: ${response.code()} " +
+                                    "response message: ${response.message()} " +
+                                    "response errorBody: ${response.errorBody()?.string()} " +
+                                    "body success: ${response.body()?.success} " +
+                                    "body isSuccess: ${response.body()?.isSuccess}"
                     Crashlytics.setUserIdentifier(userIdentifier)
                     Crashlytics.log(100, "READ_DEBUG_SUCCESS", message)
                     Crashlytics.logException(Exception("Was success, but did it work ?"))
@@ -229,10 +229,14 @@ class ItemCardAdapter(private val app: Activity,
 
             mView.setOnClickListener {
                 c.openItemUrl(items[adapterPosition].getLinkDecoded(),
-                    customTabsIntent,
-                    internalBrowser,
-                    articleViewer,
-                    app)
+                        items[adapterPosition].content,
+                        items[adapterPosition].getIcon(c),
+                        items[adapterPosition].title,
+                        items[adapterPosition].sourceAndDateText(),
+                        customTabsIntent,
+                        internalBrowser,
+                        articleViewer,
+                        app)
             }
         }
     }

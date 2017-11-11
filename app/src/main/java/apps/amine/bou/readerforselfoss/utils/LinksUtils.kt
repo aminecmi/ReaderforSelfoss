@@ -51,19 +51,28 @@ fun Context.buildCustomTabsIntent(): CustomTabsIntent {
 }
 
 fun Context.openItemUrlInternally(linkDecoded: String,
+                                  content: String,
+                                  image: String,
+                                  title: String,
+                                  source: String,
                                   customTabsIntent: CustomTabsIntent,
                                   articleViewer: Boolean,
                                   app: Activity) {
     if (articleViewer) {
         val intent = Intent(this, ReaderActivity::class.java)
 
-        DragDismissIntentBuilder(this)
-            .setFullscreenOnTablets(true)      // defaults to false, tablets will have padding on each side
-            .setDragElasticity(DragDismissIntentBuilder.DragElasticity.NORMAL)  // Larger elasticities will make it easier to dismiss.
-            .setDrawUnderStatusBar(true)
-            .build(intent)
+        /*DragDismissIntentBuilder(this)
+                .setFullscreenOnTablets(true)      // defaults to false, tablets will have padding on each side
+                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.NORMAL)  // Larger elasticities will make it easier to dismiss.
+                .setDrawUnderStatusBar(true)
+                .build(intent)*/
+
 
         intent.putExtra("url", linkDecoded)
+        intent.putExtra("content", content)
+        intent.putExtra("title", title)
+        intent.putExtra("image", image)
+        intent.putExtra("source", source)
         app.startActivity(intent)
     } else {
         try {
@@ -80,6 +89,10 @@ fun Context.openItemUrlInternally(linkDecoded: String,
 }
 
 fun Context.openItemUrl(linkDecoded: String,
+                        content: String,
+                        image: String,
+                        title: String,
+                        source: String,
                         customTabsIntent: CustomTabsIntent,
                         internalBrowser: Boolean,
                         articleViewer: Boolean,
@@ -91,7 +104,7 @@ fun Context.openItemUrl(linkDecoded: String,
         if (!internalBrowser) {
             openInBrowser(linkDecoded, app)
         } else {
-            this.openItemUrlInternally(linkDecoded, customTabsIntent, articleViewer, app)
+            this.openItemUrlInternally(linkDecoded, content, image, title, source, customTabsIntent, articleViewer, app)
         }
     }
 }
@@ -103,7 +116,7 @@ private fun openInBrowser(linkDecoded: String, app: Activity) {
 }
 
 fun String.isUrlValid(): Boolean =
-    HttpUrl.parse(this) != null && Patterns.WEB_URL.matcher(this).matches()
+        HttpUrl.parse(this) != null && Patterns.WEB_URL.matcher(this).matches()
 
 fun String.isBaseUrlValid(): Boolean {
     val baseUrl = HttpUrl.parse(this)

@@ -65,8 +65,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReaderActivity"
-            android:theme="@style/DragDismissTheme">
+            android:name=".ReaderActivity">
         </activity>
 
         <meta-data

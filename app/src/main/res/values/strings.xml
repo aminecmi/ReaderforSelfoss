@@ -158,4 +158,7 @@
     <string name="report_github_repo" translatable="false">ReaderforSelfoss</string>
     <string name="drawer_report_bug">Report a bug</string>
     <string name="items_number_should_be_number">The items number should be an integer.</string>
+    <string name="reader_action_more">Read more</string>
+    <string name="reader_action_open">Open in browser</string>
+    <string name="reader_action_share">Share</string>
 </resources>

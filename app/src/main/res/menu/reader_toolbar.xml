@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/more_action"
+        android:icon="@drawable/ic_chrome_reader_mode"
+        android:title="@string/reader_action_more"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/open_action"
+        android:icon="@drawable/ic_open_in_browser"
+        android:iconTint="@color/white"
+        android:title="@string/reader_action_open"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/share_action"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:title="@string/reader_action_share"
+        app:showAsAction="ifRoom" />
+
+</menu>

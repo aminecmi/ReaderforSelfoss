@@ -41,6 +41,11 @@ import apps.amine.bou.readerforselfoss.utils.checkApkVersion
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.longHash
+import co.zsmb.materialdrawerkt.builders.accountHeader
+import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.builders.footer
+import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
+import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import com.anupcowkur.reservoir.Reservoir
 import com.anupcowkur.reservoir.ReservoirGetCallback
 import com.anupcowkur.reservoir.ReservoirPutCallback
@@ -61,20 +66,14 @@ import com.google.gson.reflect.TypeToken
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.materialdrawer.AccountHeader
-import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-
 
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -114,7 +113,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
     private lateinit var tabStarredBadge: TextBadgeItem
-    private lateinit var toolbar: Toolbar
+    private lateinit var toolBar: Toolbar
     private lateinit var drawer: Drawer
     private lateinit var api: SelfossApi
     private lateinit var customTabActivityHelper: CustomTabActivityHelper
@@ -146,8 +145,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         setContentView(R.layout.activity_home)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        toolBar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolBar)
 
         if (savedInstanceState == null) {
             val promptView: DefaultLayoutPromptView = findViewById(R.id.prompt_view)
@@ -331,86 +330,68 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun handleDrawer() {
         displayAccountHeader =
-            PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("account_header_displaying", false)
-        val headerResult: AccountHeader? = if (displayAccountHeader) {
-            AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.bg)
-                .addProfiles(
-                    ProfileDrawerItem()
-                        .withName(
-                            settings.getString("url", "")
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .getBoolean("account_header_displaying", false)
+
+        drawer = drawer {
+            rootViewRes = R.id.drawer_layout
+            toolbar = toolBar
+            actionBarDrawerToggleEnabled = true
+            actionBarDrawerToggleAnimated = true
+            showOnFirstLaunch = true
+            onSlide { _, p1 ->
+                bottomBar.alpha = (1 - p1)
+            }
+            onClosed {
+                bottomBar.show()
+            }
+            onOpened {
+                bottomBar.hide()
+            }
+
+            if (displayAccountHeader)
+                accountHeader {
+                    background = R.drawable.bg
+                    profile(settings.getString("url", "")) {
+                        iconDrawable = resources.getDrawable(R.mipmap.ic_launcher)
+                    }
+                    selectionListEnabledForSingleProfile = false
+                }
+
+            footer {
+                primaryItem(R.string.drawer_report_bug) {
+                    icon = R.drawable.ic_bug_report
+                    iconTintingEnabled = true
+                    onClick { _ ->
+                        IssueReporterLauncher.forTarget(getString(R.string.report_github_user), getString(R.string.report_github_repo))
+                                .theme(R.style.Theme_App_Light)
+                                .guestToken(BuildConfig.GITHUB_TOKEN)
+                                .guestEmailRequired(true)
+                                .minDescriptionLength(20)
+                                .putExtraInfo("Unique ID", settings.getString("unique_id", ""))
+                                .putExtraInfo("From github", BuildConfig.GITHUB_VERSION)
+                                .homeAsUpEnabled(true)
+                                .launch(this@HomeActivity)
+                        false
+                    }
+                }
+
+                primaryItem(R.string.title_activity_settings) {
+                    icon = R.drawable.ic_settings
+                    iconTintingEnabled = true
+                    onClick { _ ->
+                        startActivityForResult(
+                                Intent(
+                                        this@HomeActivity,
+                                        SettingsActivity::class.java
+                                ),
+                                MENU_PREFERENCES
                         )
-                        .withIcon(resources.getDrawable(R.mipmap.ic_launcher))
-                )
-                .withSelectionListEnabledForSingleProfile(false)
-                .build()
-        } else null
-
-        val drawerBuilder =
-            DrawerBuilder()
-                .withActivity(this)
-                .withRootView(R.id.drawer_layout)
-                .withToolbar(toolbar)
-                .withActionBarDrawerToggle(true)
-                .withActionBarDrawerToggleAnimated(true)
-                .withShowDrawerOnFirstLaunch(true)
-                .withOnDrawerListener(object: Drawer.OnDrawerListener {
-                    override fun onDrawerSlide(v: View?, p1: Float) {
-                        bottomBar.alpha = (1 - p1)
+                        false
                     }
-
-                    override fun onDrawerClosed(v: View?) {
-                        bottomBar.show()
-                    }
-
-                    override fun onDrawerOpened(v: View?) {
-                        bottomBar.hide()
-                    }
-
-                })
-
-        if (displayAccountHeader && headerResult != null)
-            drawerBuilder.withAccountHeader(headerResult)
-
-        drawer = drawerBuilder.build()
-
-        drawer.addStickyFooterItem(
-            PrimaryDrawerItem()
-                .withName(R.string.drawer_report_bug)
-                .withIcon(R.drawable.ic_bug_report)
-                .withIconTintingEnabled(true)
-                .withOnDrawerItemClickListener { _, _, _ ->
-                    IssueReporterLauncher.forTarget(getString(R.string.report_github_user), getString(R.string.report_github_repo))
-                        .theme(R.style.Theme_App_Light)
-                        .guestToken(BuildConfig.GITHUB_TOKEN)
-                        .guestEmailRequired(true)
-                        .minDescriptionLength(20)
-                        .putExtraInfo("Unique ID", settings.getString("unique_id", ""))
-                        .putExtraInfo("From github", BuildConfig.GITHUB_VERSION)
-                        .homeAsUpEnabled(true)
-                        .launch(this)
-                    false
                 }
-        )
-
-        drawer.addStickyFooterItem(
-            PrimaryDrawerItem()
-                .withName(R.string.title_activity_settings)
-                .withIcon(R.drawable.ic_settings)
-                .withIconTintingEnabled(true)
-                .withOnDrawerItemClickListener { _, _, _ ->
-                    startActivityForResult(
-                        Intent(
-                            this@HomeActivity,
-                            SettingsActivity::class.java
-                        ),
-                        MENU_PREFERENCES
-                    )
-                    false
-                }
-        )
+            }
+        }
 
     }
 
@@ -419,10 +400,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             fun handleTags(maybeTags: List<Tag>?) {
                 if (maybeTags == null) {
                     if (loadedFromCache)
+
                         drawer.addItem(
-                            SecondaryDrawerItem()
-                                .withName(getString(R.string.drawer_error_loading_tags))
-                                .withSelectable(false))
+                                SecondaryDrawerItem()
+                                        .withName(getString(R.string.drawer_error_loading_tags))
+                                        .withSelectable(false))
                 }
                 else {
                     for (tag in maybeTags) {
@@ -432,20 +414,20 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         gd.setSize(30, 30)
                         gd.cornerRadius = 30F
                         drawer.addItem(
-                            PrimaryDrawerItem()
-                                .withName(tag.tag)
-                                .withIdentifier(tag.tag.longHash())
-                                .withIcon(gd)
-                                .withBadge("${tag.unread}")
-                                .withBadgeStyle(
-                                    BadgeStyle().withTextColor(Color.WHITE)
-                                        .withColor(appColors.accent)
-                                )
-                                .withOnDrawerItemClickListener { _, _, _ ->
-                                    maybeTagFilter = tag
-                                    getElementsAccordingToTab()
-                                    false
-                                }
+                                PrimaryDrawerItem()
+                                        .withName(tag.tag)
+                                        .withIdentifier(tag.tag.longHash())
+                                        .withIcon(gd)
+                                        .withBadge("${tag.unread}")
+                                        .withBadgeStyle(
+                                                BadgeStyle().withTextColor(Color.WHITE)
+                                                        .withColor(appColors.accent)
+                                        )
+                                        .withOnDrawerItemClickListener { _, _, _ ->
+                                            maybeTagFilter = tag
+                                            getElementsAccordingToTab()
+                                            false
+                                        }
                         )
                     }
                 }
@@ -456,22 +438,22 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 if (maybeSources == null) {
                     if (loadedFromCache)
                         drawer.addItem(
-                            SecondaryDrawerItem()
-                                .withName(getString(R.string.drawer_error_loading_sources))
-                                .withSelectable(false))
+                                SecondaryDrawerItem()
+                                        .withName(getString(R.string.drawer_error_loading_sources))
+                                        .withSelectable(false))
                 }
                 else
                     for (tag in maybeSources)
                         drawer.addItem(
-                            CustomUrlPrimaryDrawerItem()
-                                .withName(tag.title)
-                                .withIdentifier(tag.id.toLong())
-                                .withIcon(tag.getIcon(this@HomeActivity))
-                                .withOnDrawerItemClickListener { _, _, _ ->
-                                    maybeSourceFilter = tag
-                                    getElementsAccordingToTab()
-                                    false
-                                }
+                                CustomUrlPrimaryDrawerItem()
+                                        .withName(tag.title)
+                                        .withIdentifier(tag.id.toLong())
+                                        .withIcon(tag.getIcon(this@HomeActivity))
+                                        .withOnDrawerItemClickListener { _, _, _ ->
+                                            maybeSourceFilter = tag
+                                            getElementsAccordingToTab()
+                                            false
+                                        }
                         )
 
             }
@@ -479,58 +461,58 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             drawer.removeAllItems()
             if (maybeDrawerData != null) {
                 drawer.addItem(
-                    SecondaryDrawerItem()
-                        .withName(getString(R.string.drawer_item_filters))
-                        .withSelectable(false)
-                        .withIdentifier(DRAWER_ID_FILTERS)
-                        .withBadge(getString(R.string.drawer_action_clear))
-                        .withOnDrawerItemClickListener { _, _, _ ->
-                            maybeSourceFilter = null
-                            maybeTagFilter = null
-                            getElementsAccordingToTab()
-                            false
-                        }
+                        SecondaryDrawerItem()
+                                .withName(getString(R.string.drawer_item_filters))
+                                .withSelectable(false)
+                                .withIdentifier(DRAWER_ID_FILTERS)
+                                .withBadge(getString(R.string.drawer_action_clear))
+                                .withOnDrawerItemClickListener { _, _, _ ->
+                                    maybeSourceFilter = null
+                                    maybeTagFilter = null
+                                    getElementsAccordingToTab()
+                                    false
+                                }
                 )
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
-                    SecondaryDrawerItem()
-                        .withName(getString(R.string.drawer_item_tags))
-                        .withIdentifier(DRAWER_ID_TAGS)
-                        .withSelectable(false))
+                        SecondaryDrawerItem()
+                                .withName(getString(R.string.drawer_item_tags))
+                                .withIdentifier(DRAWER_ID_TAGS)
+                                .withSelectable(false))
                 handleTags(maybeDrawerData.tags)
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
-                    SecondaryDrawerItem()
-                        .withName(getString(R.string.drawer_item_sources))
-                        .withIdentifier(DRAWER_ID_TAGS)
-                        .withBadge(getString(R.string.drawer_action_edit))
-                        .withSelectable(false)
-                        .withOnDrawerItemClickListener { _, _, _ ->
-                            startActivity(Intent(this, SourcesActivity::class.java))
-                            false
-                        }
+                        SecondaryDrawerItem()
+                                .withName(getString(R.string.drawer_item_sources))
+                                .withIdentifier(DRAWER_ID_TAGS)
+                                .withBadge(getString(R.string.drawer_action_edit))
+                                .withSelectable(false)
+                                .withOnDrawerItemClickListener { _, _, _ ->
+                                    startActivity(Intent(this, SourcesActivity::class.java))
+                                    false
+                                }
                 )
                 handleSources(maybeDrawerData.sources)
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
-                    PrimaryDrawerItem()
-                        .withName(R.string.action_about)
-                        .withSelectable(false)
-                        .withIcon(R.drawable.ic_info_outline)
-                        .withIconTintingEnabled(true)
-                        .withOnDrawerItemClickListener { _, _, _ ->
-                            LibsBuilder()
-                                .withActivityStyle(
-                                    if (appColors.isDarkTheme)
-                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
-                                    else
-                                        Libs.ActivityStyle.DARK
-                                )
-                                .withAboutIconShown(true)
-                                .withAboutVersionShown(true)
-                                .start(this@HomeActivity)
-                            false
-                        })
+                        PrimaryDrawerItem()
+                                .withName(R.string.action_about)
+                                .withSelectable(false)
+                                .withIcon(R.drawable.ic_info_outline)
+                                .withIconTintingEnabled(true)
+                                .withOnDrawerItemClickListener { _, _, _ ->
+                                    LibsBuilder()
+                                            .withActivityStyle(
+                                                    if (appColors.isDarkTheme)
+                                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
+                                                    else
+                                                        Libs.ActivityStyle.DARK
+                                            )
+                                            .withAboutIconShown(true)
+                                            .withAboutVersionShown(true)
+                                            .start(this@HomeActivity)
+                                    false
+                                })
 
 
                 if (!loadedFromCache)
@@ -544,15 +526,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             } else {
                 if (!loadedFromCache) {
                     drawer.addItem(
-                        PrimaryDrawerItem()
-                            .withName(getString(R.string.no_tags_loaded))
-                            .withIdentifier(DRAWER_ID_TAGS)
-                            .withSelectable(false))
+                            PrimaryDrawerItem()
+                                    .withName(getString(R.string.no_tags_loaded))
+                                    .withIdentifier(DRAWER_ID_TAGS)
+                                    .withSelectable(false))
                     drawer.addItem(
-                        PrimaryDrawerItem()
-                            .withName(getString(R.string.no_sources_loaded))
-                            .withIdentifier(DRAWER_ID_SOURCES)
-                            .withSelectable(false))
+                            PrimaryDrawerItem()
+                                    .withName(getString(R.string.no_sources_loaded))
+                                    .withIdentifier(DRAWER_ID_SOURCES)
+                                    .withSelectable(false))
                 }
             }
 

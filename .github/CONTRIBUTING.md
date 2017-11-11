@@ -10,7 +10,7 @@ Please read the guidelines before contributing, and follow them (or try to) when
 
 There are many ways to contribute to this project, you could report bugs, request missing features, suggest enhancements and changes to existing ones. You also can improve the README with useful tips that could help the other users.
 
-You can fork the repository, and [help me solve some issues](https://github.com/aminecmi/ReaderforSelfoss/labels/help%20wanted) or [develop new things](https://github.com/aminecmi/ReaderforSelfoss/issues)
+You can fork the repository, and [help me solve some issues](https://github.com/aminecmi/ReaderforSelfoss/issues?q=is%3Aissue+is%3Aopen+label%3A%22Up+For+Grabs%22) or [develop new things](https://github.com/aminecmi/ReaderforSelfoss/issues)
 
 ### What I can't help you with.
 
@@ -31,7 +31,7 @@ Always check if the web version of your instance is working.
 * Please ask before starting to work on an issue. I may be working on it, or someone else could be doing so.
 * Each pull request should implement **ONE** feature or bugfix. Keep in mind that you can submit as many PR as you want.
 * Your code must be simple and clear enough to avoid using comments to explain what it does.
-* Follow the used coding style [the official one](https://kotlinlang.org/docs/reference/coding-conventions.html) ([some idoms for reference](http://kotlinlang.org/docs/reference/idioms.html)) with more to come.
+* Follow the used coding style [the android koding style](https://android.github.io/kotlin-guides/style.html) ([some idoms for reference](http://kotlinlang.org/docs/reference/idioms.html)) with more to come.
 * Try as much as possible to write a test for your feature, and if you do so, run it, and make it work.
 * Always check your changes and discard the ones that are irrelevant to your feature or bugfix.
 * Have meaningful commit messages.

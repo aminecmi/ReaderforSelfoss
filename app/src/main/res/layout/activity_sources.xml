@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,16 +29,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v7.widget.RecyclerView>
 
-    <com.melnykov.fab.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom|right"
-        android:src="@drawable/ic_add_black_24dp"
+        android:src="@drawable/ic_add"
         android:tint="?android:textColorPrimary"
-        fab:fab_colorNormal="?attr/colorAccent"
-        fab:fab_colorPressed="?attr/colorAccentDark"
-        fab:fab_colorRipple="@color/pink"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_alignParentBottom="true"
@@ -46,5 +43,5 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"/>
-</RelativeLayout>
+        android:layout_marginRight="16dp" />
+</android.support.design.widget.CoordinatorLayout>

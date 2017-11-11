@@ -55,6 +55,7 @@ data class Sources(@SerializedName("id") val id: String,
 data class Item(@SerializedName("id") val id: String,
                 @SerializedName("datetime") val datetime: String,
                 @SerializedName("title") val title: String,
+                @SerializedName("content") val content: String,
                 @SerializedName("unread") val unread: Boolean,
                 @SerializedName("starred") val starred: Boolean,
                 @SerializedName("thumbnail") val thumbnail: String,
@@ -72,15 +73,16 @@ data class Item(@SerializedName("id") val id: String,
     }
 
     constructor(source: Parcel) : this(
-        id = source.readString(),
-        datetime = source.readString(),
-        title = source.readString(),
-        unread = 0.toByte() != source.readByte(),
-        starred = 0.toByte() != source.readByte(),
-        thumbnail = source.readString(),
-        icon = source.readString(),
-        link = source.readString(),
-        sourcetitle = source.readString()
+            id = source.readString(),
+            datetime = source.readString(),
+            title = source.readString(),
+            content = source.readString(),
+            unread = 0.toByte() != source.readByte(),
+            starred = 0.toByte() != source.readByte(),
+            thumbnail = source.readString(),
+            icon = source.readString(),
+            link = source.readString(),
+            sourcetitle = source.readString()
     )
 
     override fun describeContents() = 0
@@ -89,6 +91,7 @@ data class Item(@SerializedName("id") val id: String,
         dest.writeString(id)
         dest.writeString(datetime)
         dest.writeString(title)
+        dest.writeString(content)
         dest.writeByte((if (unread) 1 else 0))
         dest.writeByte((if (starred) 1 else 0))
         dest.writeString(thumbnail)

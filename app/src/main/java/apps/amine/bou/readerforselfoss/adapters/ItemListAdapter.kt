@@ -72,8 +72,8 @@ class ItemListAdapter(private val app: Activity,
         if (itm.getThumbnail(c).isEmpty()) {
             val sizeInInt = 46
             val sizeInDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
-                .displayMetrics).toInt()
+                    TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
+                    .displayMetrics).toInt()
 
             val marginInInt = 16
             val marginInDp = TypedValue.applyDimension(
@@ -147,13 +147,13 @@ class ItemListAdapter(private val app: Activity,
             override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
                 if (!response.succeeded() && debugReadingItems) {
                     val message =
-                        "message: ${response.message()} " +
-                            "response isSuccess: ${response.isSuccessful} " +
-                            "response code: ${response.code()} " +
-                            "response message: ${response.message()} " +
-                            "response errorBody: ${response.errorBody()?.string()} " +
-                            "body success: ${response.body()?.success} " +
-                            "body isSuccess: ${response.body()?.isSuccess}"
+                            "message: ${response.message()} " +
+                                    "response isSuccess: ${response.isSuccessful} " +
+                                    "response code: ${response.code()} " +
+                                    "response message: ${response.message()} " +
+                                    "response errorBody: ${response.errorBody()?.string()} " +
+                                    "body success: ${response.body()?.success} " +
+                                    "body isSuccess: ${response.body()?.isSuccess}"
                     Crashlytics.setUserIdentifier(userIdentifier)
                     Crashlytics.log(100, "READ_DEBUG_SUCCESS", message)
                     Crashlytics.logException(Exception("Was success, but did it work ?"))
@@ -247,10 +247,14 @@ class ItemListAdapter(private val app: Activity,
             if (!clickBehavior) {
                 mView.setOnClickListener {
                     c.openItemUrl(items[adapterPosition].getLinkDecoded(),
-                        customTabsIntent,
-                        internalBrowser,
-                        articleViewer,
-                        app)
+                            items[adapterPosition].content,
+                            items[adapterPosition].getIcon(c),
+                            items[adapterPosition].title,
+                            items[adapterPosition].sourceAndDateText(),
+                            customTabsIntent,
+                            internalBrowser,
+                            articleViewer,
+                            app)
                 }
                 mView.setOnLongClickListener {
                     actionBarShowHide()
@@ -260,10 +264,14 @@ class ItemListAdapter(private val app: Activity,
                 mView.setOnClickListener { actionBarShowHide() }
                 mView.setOnLongClickListener {
                     c.openItemUrl(items[adapterPosition].getLinkDecoded(),
-                        customTabsIntent,
-                        internalBrowser,
-                        articleViewer,
-                        app)
+                            items[adapterPosition].content,
+                            items[adapterPosition].getIcon(c),
+                            items[adapterPosition].title,
+                            items[adapterPosition].sourceAndDateText(),
+                            customTabsIntent,
+                            internalBrowser,
+                            articleViewer,
+                            app)
                     true
                 }
             }

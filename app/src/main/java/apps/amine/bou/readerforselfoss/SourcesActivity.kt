@@ -3,6 +3,7 @@ package apps.amine.bou.readerforselfoss
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,7 +13,6 @@ import apps.amine.bou.readerforselfoss.adapters.SourcesListAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Sources
 import com.ftinc.scoop.Scoop
-import com.melnykov.fab.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +41,6 @@ class SourcesActivity : AppCompatActivity() {
         val api = SelfossApi(this, this@SourcesActivity, prefs.getBoolean("isSelfSignedCert", false), prefs.getBoolean("should_log_everything", false))
         var items: ArrayList<Sources> = ArrayList()
 
-        mFab.attachToRecyclerView(mRecyclerView)
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = mLayoutManager
 
