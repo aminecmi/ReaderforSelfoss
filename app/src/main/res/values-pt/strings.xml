@@ -155,7 +155,7 @@
   <string name="cant_open_invalid_url">A url está inválida. Estou tentando resolver esse problema para que o aplicativo não encerre.</string>
   <string name="drawer_report_bug">Reportar erro</string>
   <string name="items_number_should_be_number">O número dos itens deve ser um número inteiro.</string>
-  <string name="reader_action_more">Read more</string>
-  <string name="reader_action_open">Open in browser</string>
-  <string name="reader_action_share">Share</string>
+  <string name="reader_action_more">Leia mais</string>
+  <string name="reader_action_open">Abrir no navegador</string>
+  <string name="reader_action_share">Compartilhar</string>
 </resources>
