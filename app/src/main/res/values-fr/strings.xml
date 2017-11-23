@@ -150,7 +150,7 @@
   <string name="login_everything_title">Log de tous les appels à l\'API</string>
   <string name="login_everything_on">Tous les appels à l\'API vont êtres logués</string>
   <string name="login_everything_off">Aucun appel à l\'API ne sera logué</string>
-  <string name="pref_general_infinite_loading_title">(BETA) Charger plus d\'articles au scroll</string>
+  <string name="pref_general_infinite_loading_title">Charger plus d\'articles au scroll</string>
   <string name="translation">Traduction</string>
   <string name="cant_open_invalid_url">L’url de l’élément n’est pas valide. En attendant la résolution du problème, le lien ne s\'ouvrira pas.</string>
   <string name="drawer_report_bug">Signaler un bug</string>
