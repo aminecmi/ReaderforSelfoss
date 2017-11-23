@@ -150,7 +150,7 @@
   <string name="login_everything_title">Registrando todas as chamadas a api</string>
   <string name="login_everything_on">Isso registrará todas as chamadas api para fins de depuração.</string>
   <string name="login_everything_off">Nenhuma chamada a api será registrada</string>
-  <string name="pref_general_infinite_loading_title">(BETA) Carregar mais artigos ao realizar o scroll</string>
+  <string name="pref_general_infinite_loading_title">Carregar mais artigos ao realizar o scroll</string>
   <string name="translation">Traduções</string>
   <string name="cant_open_invalid_url">A url está inválida. Estou tentando resolver esse problema para que o aplicativo não encerre.</string>
   <string name="drawer_report_bug">Reportar erro</string>
