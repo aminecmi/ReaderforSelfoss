@@ -8,8 +8,6 @@ import android.widget.TextView
 
 import apps.amine.bou.readerforselfoss.R
 
-
-
 open class CustomBaseViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
     var icon: ImageView = view.findViewById(R.id.material_drawer_icon)
     var name: TextView = view.findViewById(R.id.material_drawer_name)

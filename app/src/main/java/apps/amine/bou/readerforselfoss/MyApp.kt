@@ -21,9 +21,6 @@ import io.fabric.sdk.android.Fabric
 import java.io.IOException
 import java.util.UUID.randomUUID
 
-
-
-
 class MyApp : MultiDexApplication() {
 
     override fun onCreate() {
@@ -46,14 +43,13 @@ class MyApp : MultiDexApplication() {
         initTheme()
 
         tryToHandleBug()
-
     }
 
     private fun initAmplify() {
         Amplify.initSharedInstance(this)
-            .setPositiveFeedbackCollectors(GooglePlayStoreFeedbackCollector())
-            .setCriticalFeedbackCollectors(DefaultEmailFeedbackCollector(BuildConfig.FEEDBACK_EMAIL))
-            .applyAllDefaultRules()
+                .setPositiveFeedbackCollectors(GooglePlayStoreFeedbackCollector())
+                .setCriticalFeedbackCollectors(DefaultEmailFeedbackCollector(BuildConfig.FEEDBACK_EMAIL))
+                .applyAllDefaultRules()
     }
 
     private fun initCache() {
@@ -66,12 +62,16 @@ class MyApp : MultiDexApplication() {
 
     private fun initDrawerImageLoader() {
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
-            override fun set(imageView: ImageView?, uri: Uri?, placeholder: Drawable?, tag: String?) {
+            override fun set(
+                    imageView: ImageView?,
+                    uri: Uri?,
+                    placeholder: Drawable?,
+                    tag: String?
+            ) {
                 Glide.with(imageView?.context)
-                    .load(uri)
-                    .apply(RequestOptions.fitCenterTransform()
-                        .placeholder(placeholder))
-                    .into(imageView)
+                        .load(uri)
+                        .apply(RequestOptions.fitCenterTransform().placeholder(placeholder))
+                        .into(imageView)
             }
 
             override fun cancel(imageView: ImageView?) {
@@ -86,33 +86,35 @@ class MyApp : MultiDexApplication() {
 
     private fun initTheme() {
         Scoop.waffleCone()
-            .addFlavor(getString(R.string.default_theme), R.style.NoBar, true)
-            .addFlavor(getString(R.string.default_dark_theme), R.style.NoBarDark)
-            .addFlavor(getString(R.string.teal_orange_theme), R.style.NoBarTealOrange)
-            .addFlavor(getString(R.string.teal_orange_dark_theme), R.style.NoBarTealOrangeDark)
-            .addFlavor(getString(R.string.cyan_pink_theme), R.style.NoBarCyanPink)
-            .addFlavor(getString(R.string.cyan_pink_dark_theme), R.style.NoBarCyanPinkDark)
-            .addFlavor(getString(R.string.grey_orange_theme), R.style.NoBarGreyOrange)
-            .addFlavor(getString(R.string.grey_orange_dark_theme), R.style.NoBarGreyOrangeDark)
-            .addFlavor(getString(R.string.blue_amber_theme), R.style.NoBarBlueAmber)
-            .addFlavor(getString(R.string.blue_amber_dark_theme), R.style.NoBarBlueAmberDark)
-            .addFlavor(getString(R.string.indigo_pink_theme), R.style.NoBarIndigoPink)
-            .addFlavor(getString(R.string.indigo_pink_dark_theme), R.style.NoBarIndigoPinkDark)
-            .addFlavor(getString(R.string.red_teal_theme), R.style.NoBarRedTeal)
-            .addFlavor(getString(R.string.red_teal_dark_theme), R.style.NoBarRedTealDark)
-            .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
-            .initialize()
+                .addFlavor(getString(R.string.default_theme), R.style.NoBar, true)
+                .addFlavor(getString(R.string.default_dark_theme), R.style.NoBarDark)
+                .addFlavor(getString(R.string.teal_orange_theme), R.style.NoBarTealOrange)
+                .addFlavor(getString(R.string.teal_orange_dark_theme), R.style.NoBarTealOrangeDark)
+                .addFlavor(getString(R.string.cyan_pink_theme), R.style.NoBarCyanPink)
+                .addFlavor(getString(R.string.cyan_pink_dark_theme), R.style.NoBarCyanPinkDark)
+                .addFlavor(getString(R.string.grey_orange_theme), R.style.NoBarGreyOrange)
+                .addFlavor(getString(R.string.grey_orange_dark_theme), R.style.NoBarGreyOrangeDark)
+                .addFlavor(getString(R.string.blue_amber_theme), R.style.NoBarBlueAmber)
+                .addFlavor(getString(R.string.blue_amber_dark_theme), R.style.NoBarBlueAmberDark)
+                .addFlavor(getString(R.string.indigo_pink_theme), R.style.NoBarIndigoPink)
+                .addFlavor(getString(R.string.indigo_pink_dark_theme), R.style.NoBarIndigoPinkDark)
+                .addFlavor(getString(R.string.red_teal_theme), R.style.NoBarRedTeal)
+                .addFlavor(getString(R.string.red_teal_dark_theme), R.style.NoBarRedTealDark)
+                .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
+                .initialize()
     }
 
     private fun tryToHandleBug() {
         val oldHandler = Thread.getDefaultUncaughtExceptionHandler()
 
         Thread.setDefaultUncaughtExceptionHandler { thread, e ->
-            if (e is  java.lang.NoClassDefFoundError && e.stackTrace.asList().any { it.toString().contains("android.view.ViewDebug") })
+            if (e is java.lang.NoClassDefFoundError && e.stackTrace.asList().any {
+                it.toString().contains("android.view.ViewDebug")
+            }) {
                 Unit
-            else
+            } else {
                 oldHandler.uncaughtException(thread, e)
+            }
         }
-
     }
 }

@@ -6,7 +6,6 @@ import android.support.annotation.ColorInt
 import android.util.TypedValue
 import apps.amine.bou.readerforselfoss.R
 
-
 class AppColors(a: Activity) {
     @ColorInt val accent: Int
     @ColorInt val dark: Int
@@ -20,7 +19,7 @@ class AppColors(a: Activity) {
         val method = wrapper!!.getMethod("getThemeResId")
         method.isAccessible = true
 
-        isDarkTheme = when(method.invoke(a.baseContext)) {
+        isDarkTheme = when (method.invoke(a.baseContext)) {
             R.style.NoBarTealOrangeDark,
             R.style.NoBarDark,
             R.style.NoBarBlueAmberDark,

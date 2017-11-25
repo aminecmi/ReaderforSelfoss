@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -18,20 +16,25 @@ import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import kotlinx.android.synthetic.main.source_list_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlinx.android.synthetic.main.source_list_item.view.*
 
-
-class SourcesListAdapter(private val app: Activity,
-                         private val items: ArrayList<Sources>,
-                         private val api: SelfossApi) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
+class SourcesListAdapter(
+        private val app: Activity,
+        private val items: ArrayList<Sources>,
+        private val api: SelfossApi
+) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(c).inflate(R.layout.source_list_item, parent, false) as ConstraintLayout
+        val v = LayoutInflater.from(c).inflate(
+                R.layout.source_list_item,
+                parent,
+                false
+        ) as ConstraintLayout
         return ViewHolder(v)
     }
 
@@ -69,23 +72,32 @@ class SourcesListAdapter(private val app: Activity,
             deleteBtn.setOnClickListener {
                 val (id) = items[adapterPosition]
                 api.deleteSource(id).enqueue(object : Callback<SuccessResponse> {
-                    override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
+                    override fun onResponse(
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
+                    ) {
                         if (response.body() != null && response.body()!!.isSuccess) {
                             items.removeAt(adapterPosition)
                             notifyItemRemoved(adapterPosition)
                             notifyItemRangeChanged(adapterPosition, itemCount)
                         } else {
-                            Toast.makeText(app, R.string.can_delete_source, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                    app,
+                                    R.string.can_delete_source,
+                                    Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
                     override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                        Toast.makeText(app, R.string.can_delete_source, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                                app,
+                                R.string.can_delete_source,
+                                Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
             }
-
-
         }
     }
 }

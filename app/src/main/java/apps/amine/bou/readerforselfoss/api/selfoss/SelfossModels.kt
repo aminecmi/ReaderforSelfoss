@@ -9,59 +9,69 @@ import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import com.google.gson.annotations.SerializedName
 
-
 private fun constructUrl(config: Config?, path: String, file: String): String {
     val baseUriBuilder = Uri.parse(config!!.baseUrl).buildUpon()
     baseUriBuilder.appendPath(path).appendPath(file)
 
-    return if (file.isEmptyOrNullOrNullString()) ""
-    else baseUriBuilder.toString()
+    return if (file.isEmptyOrNullOrNullString()) {
+        ""
+    } else {
+        baseUriBuilder.toString()
+    }
 }
 
-
-data class Tag(@SerializedName("tag") val tag: String,
-               @SerializedName("color") val color: String,
-               @SerializedName("unread") val unread: Int)
+data class Tag(
+        @SerializedName("tag") val tag: String,
+        @SerializedName("color") val color: String,
+        @SerializedName("unread") val unread: Int
+)
 
 class SuccessResponse(@SerializedName("success") val success: Boolean) {
     val isSuccess: Boolean
         get() = success
 }
 
-class Stats(@SerializedName("total") val total: Int,
-            @SerializedName("unread") val unread: Int,
-            @SerializedName("starred") val starred: Int)
+class Stats(
+        @SerializedName("total") val total: Int,
+        @SerializedName("unread") val unread: Int,
+        @SerializedName("starred") val starred: Int
+)
 
-data class Spout(@SerializedName("name") val name: String,
-                 @SerializedName("description") val description: String)
+data class Spout(
+        @SerializedName("name") val name: String,
+        @SerializedName("description") val description: String
+)
 
-data class Sources(@SerializedName("id") val id: String,
-                   @SerializedName("title") val title: String,
-                   @SerializedName("tags") val tags: String,
-                   @SerializedName("spout") val spout: String,
-                   @SerializedName("error") val error: String,
-                   @SerializedName("icon") val icon: String) {
+data class Sources(
+        @SerializedName("id") val id: String,
+        @SerializedName("title") val title: String,
+        @SerializedName("tags") val tags: String,
+        @SerializedName("spout") val spout: String,
+        @SerializedName("error") val error: String,
+        @SerializedName("icon") val icon: String
+) {
     var config: Config? = null
 
     fun getIcon(app: Context): String {
         if (config == null) {
             config = Config(app)
         }
-        return constructUrl(config,"favicons", icon)
+        return constructUrl(config, "favicons", icon)
     }
-
 }
 
-data class Item(@SerializedName("id") val id: String,
-                @SerializedName("datetime") val datetime: String,
-                @SerializedName("title") val title: String,
-                @SerializedName("content") val content: String,
-                @SerializedName("unread") val unread: Boolean,
-                @SerializedName("starred") val starred: Boolean,
-                @SerializedName("thumbnail") val thumbnail: String,
-                @SerializedName("icon") val icon: String,
-                @SerializedName("link") val link: String,
-                @SerializedName("sourcetitle") val sourcetitle: String) : Parcelable {
+data class Item(
+        @SerializedName("id") val id: String,
+        @SerializedName("datetime") val datetime: String,
+        @SerializedName("title") val title: String,
+        @SerializedName("content") val content: String,
+        @SerializedName("unread") val unread: Boolean,
+        @SerializedName("starred") val starred: Boolean,
+        @SerializedName("thumbnail") val thumbnail: String,
+        @SerializedName("icon") val icon: String,
+        @SerializedName("link") val link: String,
+        @SerializedName("sourcetitle") val sourcetitle: String
+) : Parcelable {
 
     var config: Config? = null
 
@@ -139,5 +149,4 @@ data class Item(@SerializedName("id") val id: String,
 
         return stringUrl
     }
-
 }

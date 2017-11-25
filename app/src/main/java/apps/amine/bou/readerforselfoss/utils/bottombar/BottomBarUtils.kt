@@ -2,7 +2,6 @@ package apps.amine.bou.readerforselfoss.utils.bottombar
 
 import com.ashokvarma.bottomnavigation.TextBadgeItem
 
-
 fun TextBadgeItem.removeBadge(): TextBadgeItem {
     this.setText("")
     this.hide()
@@ -10,7 +9,4 @@ fun TextBadgeItem.removeBadge(): TextBadgeItem {
 }
 
 fun TextBadgeItem.maybeShow(): TextBadgeItem =
-    if (this.isHidden)
-        this.show()
-    else
-        this
+        if (this.isHidden) this.show() else this

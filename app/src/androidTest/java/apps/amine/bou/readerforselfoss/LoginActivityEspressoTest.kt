@@ -5,26 +5,29 @@ import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
-import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.closeSoftKeyboard
+import android.support.test.espresso.action.ViewActions.pressBack
+import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.intent.Intents
 import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.Intents.times
 import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.isRoot
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-
+import apps.amine.bou.readerforselfoss.utils.Config
 import com.mikepenz.aboutlibraries.ui.LibsActivity
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import apps.amine.bou.readerforselfoss.utils.Config
-import org.junit.After
-
 
 @RunWith(AndroidJUnit4::class)
 class LoginActivityEspressoTest {
@@ -69,9 +72,7 @@ class LoginActivityEspressoTest {
         onView(isRoot()).perform(pressBack())
 
         intended(hasComponent(LoginActivity::class.java.name))
-
     }
-
 
     @Test
     fun wrongLoginUrl() {
@@ -103,7 +104,10 @@ class LoginActivityEspressoTest {
         onView(withId(R.id.loginLayout)).check(matches(isHintOrErrorEnabled()))
         onView(withId(R.id.passwordLayout)).check(matches(isHintOrErrorEnabled()))
 
-        onView(withId(R.id.loginView)).perform(click()).perform(typeText(username), closeSoftKeyboard())
+        onView(withId(R.id.loginView)).perform(click()).perform(
+                typeText(username),
+                closeSoftKeyboard()
+        )
 
         onView(withId(R.id.passwordLayout)).check(matches(isHintOrErrorEnabled()))
 
@@ -111,9 +115,9 @@ class LoginActivityEspressoTest {
 
         onView(withId(R.id.passwordLayout)).check(
                 matches(
-                        isHintOrErrorEnabled())
+                        isHintOrErrorEnabled()
+                )
         )
-
     }
 
     @Test
@@ -125,16 +129,21 @@ class LoginActivityEspressoTest {
 
         onView(withId(R.id.withLogin)).perform(click())
 
-        onView(withId(R.id.loginView)).perform(click()).perform(typeText(username), closeSoftKeyboard())
+        onView(withId(R.id.loginView)).perform(click()).perform(
+                typeText(username),
+                closeSoftKeyboard()
+        )
 
-        onView(withId(R.id.passwordView)).perform(click()).perform(typeText("WRONGPASS"), closeSoftKeyboard())
+        onView(withId(R.id.passwordView)).perform(click()).perform(
+                typeText("WRONGPASS"),
+                closeSoftKeyboard()
+        )
 
         onView(withId(R.id.signInButton)).perform(click())
 
         onView(withId(R.id.urlLayout)).check(matches(isHintOrErrorEnabled()))
         onView(withId(R.id.loginLayout)).check(matches(isHintOrErrorEnabled()))
         onView(withId(R.id.passwordLayout)).check(matches(isHintOrErrorEnabled()))
-
     }
 
     @Test
@@ -146,19 +155,23 @@ class LoginActivityEspressoTest {
 
         onView(withId(R.id.withLogin)).perform(click())
 
-        onView(withId(R.id.loginView)).perform(click()).perform(typeText(username), closeSoftKeyboard())
+        onView(withId(R.id.loginView)).perform(click()).perform(
+                typeText(username),
+                closeSoftKeyboard()
+        )
 
-        onView(withId(R.id.passwordView)).perform(click()).perform(typeText(password), closeSoftKeyboard())
+        onView(withId(R.id.passwordView)).perform(click()).perform(
+                typeText(password),
+                closeSoftKeyboard()
+        )
 
         onView(withId(R.id.signInButton)).perform(click())
 
         intended(hasComponent(HomeActivity::class.java.name))
-
     }
 
     @After
     fun releaseIntents() {
         Intents.release()
     }
-
 }

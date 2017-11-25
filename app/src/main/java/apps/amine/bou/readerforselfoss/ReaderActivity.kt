@@ -23,12 +23,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.crashlytics.android.Crashlytics
 import com.ftinc.scoop.Scoop
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
+import kotlinx.android.synthetic.main.activity_reader.*
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlinx.android.synthetic.main.activity_reader.*
-
 
 class ReaderActivity : AppCompatActivity() {
     private lateinit var mCustomTabActivityHelper: CustomTabActivityHelper
@@ -39,7 +38,6 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var contentImage: String
     private lateinit var contentTitle: String
     private lateinit var fab: FloatingActionButton
-
 
     override fun onStop() {
         super.onStop()
@@ -81,7 +79,8 @@ class ReaderActivity : AppCompatActivity() {
                             customTabsIntent,
                             false,
                             false,
-                            this@ReaderActivity)
+                            this@ReaderActivity
+                    )
                     else -> Unit
                 }
             }
@@ -111,23 +110,34 @@ class ReaderActivity : AppCompatActivity() {
             }
         }
 
-        nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY) {
-                fab.hide()
-            } else {
-                if (mFloatingToolbar.isShowing) mFloatingToolbar.hide() else fab.show()
-            }
-        })
+        nestedScrollView.setOnScrollChangeListener(
+                NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+                    if (scrollY > oldScrollY) {
+                        fab.hide()
+                    } else {
+                        if (mFloatingToolbar.isShowing) mFloatingToolbar.hide() else fab.show()
+                    }
+                }
+        )
 
         content.movementMethod = LinkMovementMethod.getInstance()
     }
 
-    private fun getContentFromMercury(customTabsIntent: CustomTabsIntent, prefs: SharedPreferences) {
+    private fun getContentFromMercury(
+            customTabsIntent: CustomTabsIntent,
+            prefs: SharedPreferences
+    ) {
         progressBar.visibility = View.VISIBLE
-        val parser = MercuryApi(BuildConfig.MERCURY_KEY, prefs.getBoolean("should_log_everything", false))
+        val parser = MercuryApi(
+                BuildConfig.MERCURY_KEY,
+                prefs.getBoolean("should_log_everything", false)
+        )
 
         parser.parseUrl(url).enqueue(object : Callback<ParsedContent> {
-            override fun onResponse(call: Call<ParsedContent>, response: Response<ParsedContent>) {
+            override fun onResponse(
+                    call: Call<ParsedContent>,
+                    response: Response<ParsedContent>
+            ) {
                 if (response.body() != null && response.body()!!.content != null && response.body()!!.content.isNotEmpty()) {
                     source.text = response.body()!!.domain
                     titleView.text = response.body()!!.title
@@ -152,14 +162,23 @@ class ReaderActivity : AppCompatActivity() {
                     nestedScrollView.scrollTo(0, 0)
 
                     progressBar.visibility = View.GONE
-                } else openInBrowserAfterFailing(customTabsIntent)
+                } else {
+                    openInBrowserAfterFailing(customTabsIntent)
+                }
             }
 
-            override fun onFailure(call: Call<ParsedContent>, t: Throwable) = openInBrowserAfterFailing(customTabsIntent)
+            override fun onFailure(
+                    call: Call<ParsedContent>,
+                    t: Throwable
+            ) = openInBrowserAfterFailing(customTabsIntent)
         })
     }
 
-    private fun tryToHandleHtml(c: String, customTabsIntent: CustomTabsIntent, prefs: SharedPreferences) {
+    private fun tryToHandleHtml(
+            c: String,
+            customTabsIntent: CustomTabsIntent,
+            prefs: SharedPreferences
+    ) {
         try {
             content.text = Html.fromHtml(c, HtmlHttpImageGetter(content, null, true), null)
 

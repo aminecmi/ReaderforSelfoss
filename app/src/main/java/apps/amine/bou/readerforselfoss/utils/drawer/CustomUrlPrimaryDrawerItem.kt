@@ -10,7 +10,6 @@ import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.interfaces.ColorfulBadgeable
 
-
 class CustomUrlPrimaryDrawerItem : CustomUrlBasePrimaryDrawerItem<CustomUrlPrimaryDrawerItem, CustomUrlPrimaryDrawerItem.ViewHolder>(), ColorfulBadgeable<CustomUrlPrimaryDrawerItem> {
     protected var mBadge: StringHolder = StringHolder("")
     protected var mBadgeStyle = BadgeStyle()
@@ -64,7 +63,10 @@ class CustomUrlPrimaryDrawerItem : CustomUrlBasePrimaryDrawerItem<CustomUrlPrima
         val badgeVisible = StringHolder.applyToOrHide(mBadge, viewHolder.badge)
         //style the badge if it is visible
         if (badgeVisible) {
-            mBadgeStyle.style(viewHolder.badge, getTextColorStateList(getColor(ctx), getSelectedTextColor(ctx)))
+            mBadgeStyle.style(
+                    viewHolder.badge,
+                    getTextColorStateList(getColor(ctx), getSelectedTextColor(ctx))
+            )
             viewHolder.badgeContainer.visibility = View.VISIBLE
         } else {
             viewHolder.badgeContainer.visibility = View.GONE
@@ -86,6 +88,5 @@ class CustomUrlPrimaryDrawerItem : CustomUrlBasePrimaryDrawerItem<CustomUrlPrima
     class ViewHolder(view: View) : CustomBaseViewHolder(view) {
         val badgeContainer: View = view.findViewById(R.id.material_drawer_badge_container)
         val badge: TextView = view.findViewById(R.id.material_drawer_badge)
-
     }
 }

@@ -8,7 +8,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -25,12 +24,10 @@ import com.ftinc.scoop.Scoop
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlinx.android.synthetic.main.activity_login.*
-
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -44,8 +41,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var userIdentifier: String
     private var logErrors: Boolean = false
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,13 +76,15 @@ class LoginActivity : AppCompatActivity() {
             warningText.visibility = visi
         }
 
-        passwordView.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
-            if (id == R.id.loginView || id == EditorInfo.IME_NULL) {
-                attemptLogin()
-                return@OnEditorActionListener true
-            }
-            false
-        })
+        passwordView.setOnEditorActionListener(
+                TextView.OnEditorActionListener { _, id, _ ->
+                    if (id == R.id.loginView || id == EditorInfo.IME_NULL) {
+                        attemptLogin()
+                        return@OnEditorActionListener true
+                    }
+                    false
+                }
+        )
 
         signInButton.setOnClickListener { attemptLogin() }
 
@@ -116,7 +113,8 @@ class LoginActivity : AppCompatActivity() {
             alertDialog.setButton(
                     AlertDialog.BUTTON_NEUTRAL,
                     "OK",
-                    { dialog, _ -> dialog.dismiss() })
+                    { dialog, _ -> dialog.dismiss() }
+            )
             alertDialog.show()
         }
     }
@@ -158,7 +156,8 @@ class LoginActivity : AppCompatActivity() {
                 alertDialog.setButton(
                         AlertDialog.BUTTON_NEUTRAL,
                         "OK",
-                        { dialog, _ -> dialog.dismiss() })
+                        { dialog, _ -> dialog.dismiss() }
+                )
                 alertDialog.show()
                 inValidCount = 0
             }
@@ -191,7 +190,12 @@ class LoginActivity : AppCompatActivity() {
             editor.putBoolean("isSelfSignedCert", isWithSelfSignedCert)
             editor.apply()
 
-            val api = SelfossApi(this, this@LoginActivity, isWithSelfSignedCert, isWithSelfSignedCert)
+            val api = SelfossApi(
+                    this,
+                    this@LoginActivity,
+                    isWithSelfSignedCert,
+                    isWithSelfSignedCert
+            )
             api.login().enqueue(object : Callback<SuccessResponse> {
                 private fun preferenceError(t: Throwable) {
                     editor.remove("url")
@@ -209,12 +213,19 @@ class LoginActivity : AppCompatActivity() {
                         Crashlytics.setUserIdentifier(userIdentifier)
                         Crashlytics.log(100, "LOGIN_DEBUG_ERRROR", t.message)
                         Crashlytics.logException(t)
-                        Toast.makeText(this@LoginActivity, t.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                                this@LoginActivity,
+                                t.message,
+                                Toast.LENGTH_LONG
+                        ).show()
                     }
                     showProgress(false)
                 }
 
-                override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
+                override fun onResponse(
+                        call: Call<SuccessResponse>,
+                        response: Response<SuccessResponse>
+                ) {
                     if (response.body() != null && response.body()!!.isSuccess) {
                         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, Bundle())
                         goToMain()
@@ -230,7 +241,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showProgress(show: Boolean) {
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime)
 
@@ -241,10 +251,11 @@ class LoginActivity : AppCompatActivity() {
                 .alpha(
                         if (show) 0F else 1F
                 ).setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                loginForm.visibility = if (show) View.GONE else View.VISIBLE
-            }
-        })
+                    override fun onAnimationEnd(animation: Animator) {
+                        loginForm.visibility = if (show) View.GONE else View.VISIBLE
+                    }
+                }
+        )
 
         loginProgress.visibility = if (show) View.VISIBLE else View.GONE
         loginProgress
@@ -253,10 +264,11 @@ class LoginActivity : AppCompatActivity() {
                 .alpha(
                         if (show) 1F else 0F
                 ).setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                loginProgress.visibility = if (show) View.VISIBLE else View.GONE
-            }
-        })
+                    override fun onAnimationEnd(animation: Animator) {
+                        loginProgress.visibility = if (show) View.VISIBLE else View.GONE
+                    }
+                }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -1,7 +1,5 @@
 package apps.amine.bou.readerforselfoss
 
-import java.util.*
-
 import android.content.Context
 import android.content.Intent
 import android.support.test.InstrumentationRegistry.getInstrumentation
@@ -11,22 +9,19 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.intent.Intents
 import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.Intents.times
-import android.support.test.espresso.intent.matcher.IntentMatchers.*
-import android.support.test.espresso.intent.matcher.UriMatchers.hasHost
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.equalTo
+import apps.amine.bou.readerforselfoss.utils.Config
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import apps.amine.bou.readerforselfoss.utils.Config
-import org.junit.After
-
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class IntroActivityEspressoTest {
@@ -37,9 +32,9 @@ class IntroActivityEspressoTest {
     @Before
     fun clearData() {
         val editor =
-            getInstrumentation().targetContext
-                .getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-                .edit()
+                getInstrumentation().targetContext
+                        .getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+                        .edit()
         editor.clear()
         editor.commit()
 
@@ -60,7 +55,6 @@ class IntroActivityEspressoTest {
 
         intended(hasComponent(IntroActivity::class.java.name), times(1))
         intended(hasComponent(LoginActivity::class.java.name), times(1))
-
     }
 
     @Test
@@ -75,7 +69,7 @@ class IntroActivityEspressoTest {
         onView(withText(R.string.intro_hello_title)).check(matches(isDisplayed()))
         onView(withId(R.id.button_next)).perform(click())
 
-        repeat(random) {_ ->
+        repeat(random) { _ ->
             onView(withText(R.string.intro_needs_selfoss_message)).check(matches(isDisplayed()))
             onView(withId(R.id.button_next)).perform(click())
             onView(withText(R.string.intro_all_set_message)).check(matches(isDisplayed()))
@@ -88,7 +82,6 @@ class IntroActivityEspressoTest {
 
         intended(hasComponent(IntroActivity::class.java.name), times(1))
         intended(hasComponent(LoginActivity::class.java.name), times(1))
-
     }
 
     @After

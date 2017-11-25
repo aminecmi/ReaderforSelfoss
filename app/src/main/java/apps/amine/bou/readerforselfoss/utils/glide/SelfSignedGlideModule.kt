@@ -10,10 +10,10 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.GlideModule
 import java.io.InputStream
 
-
 class SelfSignedGlideModule : GlideModule {
 
-    override fun applyOptions(context: Context?, builder: GlideBuilder?) {}
+    override fun applyOptions(context: Context?, builder: GlideBuilder?) {
+    }
 
     override fun registerComponents(context: Context?, glide: Glide?, registry: Registry?) {
 
@@ -22,11 +22,12 @@ class SelfSignedGlideModule : GlideModule {
             if (pref.getBoolean("isSelfSignedCert", false)) {
                 val client = getUnsafeHttpClient().build()
 
-                registry?.append(GlideUrl::class.java, InputStream::class.java,
-                    com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader.Factory(client))
+                registry?.append(
+                        GlideUrl::class.java,
+                        InputStream::class.java,
+                        com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader.Factory(client)
+                )
             }
-
         }
     }
-
 }

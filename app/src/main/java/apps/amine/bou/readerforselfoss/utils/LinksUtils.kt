@@ -14,15 +14,17 @@ import apps.amine.bou.readerforselfoss.ReaderActivity
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import okhttp3.HttpUrl
-import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder
-
 
 fun Context.buildCustomTabsIntent(): CustomTabsIntent {
 
     val actionIntent = Intent(Intent.ACTION_SEND)
     actionIntent.type = "text/plain"
-    val createPendingShareIntent: PendingIntent = PendingIntent.getActivity(this, 0, actionIntent, 0)
-
+    val createPendingShareIntent: PendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            actionIntent,
+            0
+    )
 
     val intentBuilder = CustomTabsIntent.Builder()
 
@@ -32,32 +34,40 @@ fun Context.buildCustomTabsIntent(): CustomTabsIntent {
     intentBuilder.setShowTitle(true)
 
 
-    intentBuilder.setStartAnimations(this,
+    intentBuilder.setStartAnimations(
+            this,
             R.anim.slide_in_right,
-            R.anim.slide_out_left)
-    intentBuilder.setExitAnimations(this,
+            R.anim.slide_out_left
+    )
+    intentBuilder.setExitAnimations(
+            this,
             android.R.anim.slide_in_left,
-            android.R.anim.slide_out_right)
+            android.R.anim.slide_out_right
+    )
 
     val closeicon = BitmapFactory.decodeResource(resources, R.drawable.ic_close_white_24dp)
     intentBuilder.setCloseButtonIcon(closeicon)
 
     val shareLabel = this.getString(R.string.label_share)
-    val icon = BitmapFactory.decodeResource(resources,
-            R.drawable.ic_share_white_24dp)
+    val icon = BitmapFactory.decodeResource(
+            resources,
+            R.drawable.ic_share_white_24dp
+    )
     intentBuilder.setActionButton(icon, shareLabel, createPendingShareIntent)
 
     return intentBuilder.build()
 }
 
-fun Context.openItemUrlInternally(linkDecoded: String,
-                                  content: String,
-                                  image: String,
-                                  title: String,
-                                  source: String,
-                                  customTabsIntent: CustomTabsIntent,
-                                  articleViewer: Boolean,
-                                  app: Activity) {
+fun Context.openItemUrlInternally(
+        linkDecoded: String,
+        content: String,
+        image: String,
+        title: String,
+        source: String,
+        customTabsIntent: CustomTabsIntent,
+        articleViewer: Boolean,
+        app: Activity
+) {
     if (articleViewer) {
         val intent = Intent(this, ReaderActivity::class.java)
 
@@ -76,7 +86,10 @@ fun Context.openItemUrlInternally(linkDecoded: String,
         app.startActivity(intent)
     } else {
         try {
-            CustomTabActivityHelper.openCustomTab(app, customTabsIntent, Uri.parse(linkDecoded)
+            CustomTabActivityHelper.openCustomTab(
+                    app,
+                    customTabsIntent,
+                    Uri.parse(linkDecoded)
             ) { _, uri ->
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -88,23 +101,38 @@ fun Context.openItemUrlInternally(linkDecoded: String,
     }
 }
 
-fun Context.openItemUrl(linkDecoded: String,
-                        content: String,
-                        image: String,
-                        title: String,
-                        source: String,
-                        customTabsIntent: CustomTabsIntent,
-                        internalBrowser: Boolean,
-                        articleViewer: Boolean,
-                        app: Activity) {
+fun Context.openItemUrl(
+        linkDecoded: String,
+        content: String,
+        image: String,
+        title: String,
+        source: String,
+        customTabsIntent: CustomTabsIntent,
+        internalBrowser: Boolean,
+        articleViewer: Boolean,
+        app: Activity
+) {
 
     if (!linkDecoded.isUrlValid()) {
-        Toast.makeText(this, this.getString(R.string.cant_open_invalid_url), Toast.LENGTH_LONG).show()
+        Toast.makeText(
+                this,
+                this.getString(R.string.cant_open_invalid_url),
+                Toast.LENGTH_LONG
+        ).show()
     } else {
         if (!internalBrowser) {
             openInBrowser(linkDecoded, app)
         } else {
-            this.openItemUrlInternally(linkDecoded, content, image, title, source, customTabsIntent, articleViewer, app)
+            this.openItemUrlInternally(
+                    linkDecoded,
+                    content,
+                    image,
+                    title,
+                    source,
+                    customTabsIntent,
+                    articleViewer,
+                    app
+            )
         }
     }
 }

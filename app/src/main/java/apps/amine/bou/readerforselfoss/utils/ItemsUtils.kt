@@ -6,7 +6,6 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 fun String.toTextDrawableString(): String {
     val textDrawable = StringBuilder()
     for (s in this.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
@@ -18,10 +17,10 @@ fun String.toTextDrawableString(): String {
 fun Item.sourceAndDateText(): String {
     val formattedDate: String = try {
         " " + DateUtils.getRelativeTimeSpanString(
-            SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime).time,
-            Date().time,
-            DateUtils.MINUTE_IN_MILLIS,
-            DateUtils.FORMAT_ABBREV_RELATIVE
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime).time,
+                Date().time,
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_RELATIVE
         )
     } catch (e: ParseException) {
         e.printStackTrace()

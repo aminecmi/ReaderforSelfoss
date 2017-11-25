@@ -1,6 +1,5 @@
 package apps.amine.bou.readerforselfoss.adapters
 
-
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
@@ -32,28 +31,34 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.crashlytics.android.Crashlytics
 import com.like.LikeButton
 import com.like.OnLikeListener
+import kotlinx.android.synthetic.main.list_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlinx.android.synthetic.main.list_item.view.*
 
-class ItemListAdapter(private val app: Activity,
-                      private val items: ArrayList<Item>,
-                      private val api: SelfossApi,
-                      private val helper: CustomTabActivityHelper,
-                      private val clickBehavior: Boolean,
-                      private val internalBrowser: Boolean,
-                      private val articleViewer: Boolean,
-                      val debugReadingItems: Boolean,
-                      val userIdentifier: String) : RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
+class ItemListAdapter(
+        private val app: Activity,
+        private val items: ArrayList<Item>,
+        private val api: SelfossApi,
+        private val helper: CustomTabActivityHelper,
+        private val clickBehavior: Boolean,
+        private val internalBrowser: Boolean,
+        private val articleViewer: Boolean,
+        val debugReadingItems: Boolean,
+        val userIdentifier: String
+) : RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
     private val c: Context = app.baseContext
     private val bars: ArrayList<Boolean> = ArrayList(Collections.nCopies(items.size + 1, false))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(c).inflate(R.layout.list_item, parent, false) as ConstraintLayout
+        val v = LayoutInflater.from(c).inflate(
+                R.layout.list_item,
+                parent,
+                false
+        ) as ConstraintLayout
         return ViewHolder(v)
     }
 
@@ -70,12 +75,14 @@ class ItemListAdapter(private val app: Activity,
             val sizeInInt = 46
             val sizeInDp = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
-                    .displayMetrics).toInt()
+                    .displayMetrics
+            ).toInt()
 
             val marginInInt = 16
             val marginInDp = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, marginInInt.toFloat(), c.resources
-                    .displayMetrics).toInt()
+                    .displayMetrics
+            ).toInt()
 
             val params = holder.mView.itemImage.layoutParams as ViewGroup.MarginLayoutParams
             params.height = sizeInDp
@@ -101,23 +108,34 @@ class ItemListAdapter(private val app: Activity,
             c.bitmapCenterCrop(itm.getThumbnail(c), holder.mView.itemImage)
         }
 
-        if (bars[position]) holder.mView.actionBar.visibility = View.VISIBLE else holder.mView.actionBar.visibility = View.GONE
+        if (bars[position]) {
+            holder.mView.actionBar.visibility = View.VISIBLE
+        } else {
+            holder.mView.actionBar.visibility = View.GONE
+        }
 
         holder.mView.favButton.isLiked = itm.starred
     }
 
     override fun getItemCount(): Int = items.size
 
-
     private fun doUnmark(i: Item, position: Int) {
         val s = Snackbar
-                .make(app.findViewById(R.id.coordLayout), R.string.marked_as_read, Snackbar.LENGTH_LONG)
+                .make(
+                        app.findViewById(R.id.coordLayout),
+                        R.string.marked_as_read,
+                        Snackbar.LENGTH_LONG
+                )
                 .setAction(R.string.undo_string) {
                     items.add(position, i)
                     notifyItemInserted(position)
 
                     api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {}
+                        override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                        ) {
+                        }
 
                         override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                             items.remove(i)
@@ -141,7 +159,10 @@ class ItemListAdapter(private val app: Activity,
         notifyItemRemoved(position)
 
         api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
-            override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
+            override fun onResponse(
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
+            ) {
                 if (!response.succeeded() && debugReadingItems) {
                     val message =
                             "message: ${response.message()} " +
@@ -157,7 +178,6 @@ class ItemListAdapter(private val app: Activity,
                     Toast.makeText(c, message, Toast.LENGTH_LONG).show()
                 }
                 doUnmark(i, position)
-
             }
 
             override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
@@ -167,12 +187,15 @@ class ItemListAdapter(private val app: Activity,
                     Crashlytics.logException(t)
                     Toast.makeText(c, t.message, Toast.LENGTH_LONG).show()
                 }
-                Toast.makeText(app, app.getString(R.string.cant_mark_read), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                        app,
+                        app.getString(R.string.cant_mark_read),
+                        Toast.LENGTH_SHORT
+                ).show()
                 items.add(i)
                 notifyItemInserted(position)
             }
         })
-
     }
 
     inner class ViewHolder(val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
@@ -188,11 +211,22 @@ class ItemListAdapter(private val app: Activity,
                 override fun liked(likeButton: LikeButton) {
                     val (id) = items[adapterPosition]
                     api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {}
+                        override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                        ) {
+                        }
 
-                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                        override fun onFailure(
+                                call: Call<SuccessResponse>,
+                                t: Throwable
+                        ) {
                             mView.favButton.isLiked = false
-                            Toast.makeText(c, R.string.cant_mark_favortie, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                    c,
+                                    R.string.cant_mark_favortie,
+                                    Toast.LENGTH_SHORT
+                            ).show()
                         }
                     })
                 }
@@ -200,11 +234,22 @@ class ItemListAdapter(private val app: Activity,
                 override fun unLiked(likeButton: LikeButton) {
                     val (id) = items[adapterPosition]
                     api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {}
+                        override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                        ) {
+                        }
 
-                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                        override fun onFailure(
+                                call: Call<SuccessResponse>,
+                                t: Throwable
+                        ) {
                             mView.favButton.isLiked = true
-                            Toast.makeText(c, R.string.cant_unmark_favortie, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                    c,
+                                    R.string.cant_unmark_favortie,
+                                    Toast.LENGTH_SHORT
+                            ).show()
                         }
                     })
                 }
@@ -220,7 +265,6 @@ class ItemListAdapter(private val app: Activity,
             }
         }
 
-
         private fun handleCustomTabActions() {
             val customTabsIntent = c.buildCustomTabsIntent()
             helper.bindCustomTabsService(app)
@@ -228,7 +272,8 @@ class ItemListAdapter(private val app: Activity,
 
             if (!clickBehavior) {
                 mView.setOnClickListener {
-                    c.openItemUrl(items[adapterPosition].getLinkDecoded(),
+                    c.openItemUrl(
+                            items[adapterPosition].getLinkDecoded(),
                             items[adapterPosition].content,
                             items[adapterPosition].getThumbnail(c),
                             items[adapterPosition].title,
@@ -236,7 +281,8 @@ class ItemListAdapter(private val app: Activity,
                             customTabsIntent,
                             internalBrowser,
                             articleViewer,
-                            app)
+                            app
+                    )
                 }
                 mView.setOnLongClickListener {
                     actionBarShowHide()
@@ -245,7 +291,8 @@ class ItemListAdapter(private val app: Activity,
             } else {
                 mView.setOnClickListener { actionBarShowHide() }
                 mView.setOnLongClickListener {
-                    c.openItemUrl(items[adapterPosition].getLinkDecoded(),
+                    c.openItemUrl(
+                            items[adapterPosition].getLinkDecoded(),
                             items[adapterPosition].content,
                             items[adapterPosition].getThumbnail(c),
                             items[adapterPosition].title,
@@ -253,7 +300,8 @@ class ItemListAdapter(private val app: Activity,
                             customTabsIntent,
                             internalBrowser,
                             articleViewer,
-                            app)
+                            app
+                    )
                     true
                 }
             }

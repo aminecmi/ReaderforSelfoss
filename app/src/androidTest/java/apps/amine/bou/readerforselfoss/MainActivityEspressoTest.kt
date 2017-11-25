@@ -17,7 +17,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 class MainActivityEspressoTest {
 
@@ -48,7 +47,6 @@ class MainActivityEspressoTest {
         intended(hasComponent(MainActivity::class.java.name))
         intended(hasComponent(IntroActivity::class.java.name))
         intended(hasComponent(LoginActivity::class.java.name), times(0))
-
     }
 
     @Test
@@ -61,13 +59,10 @@ class MainActivityEspressoTest {
         intended(hasComponent(MainActivity::class.java.name))
         intended(hasComponent(LoginActivity::class.java.name))
         intended(hasComponent(IntroActivity::class.java.name), times(0))
-
     }
 
     @After
     fun releaseIntents() {
         Intents.release()
     }
-
-
 }

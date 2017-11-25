@@ -24,7 +24,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class AddSourceActivity : AppCompatActivity() {
 
     private var mSpoutsValue: String? = null
@@ -67,7 +66,12 @@ class AddSourceActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSpoutsSpinner(spoutsSpinner: Spinner, api: SelfossApi?, mProgress: ProgressBar, formContainer: ConstraintLayout) {
+    private fun handleSpoutsSpinner(
+            spoutsSpinner: Spinner,
+            api: SelfossApi?,
+            mProgress: ProgressBar,
+            formContainer: ConstraintLayout
+    ) {
         val spoutsKV = HashMap<String, String>()
         spoutsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
@@ -82,7 +86,10 @@ class AddSourceActivity : AppCompatActivity() {
 
         var items: Map<String, Spout>
         api!!.spouts().enqueue(object : Callback<Map<String, Spout>> {
-            override fun onResponse(call: Call<Map<String, Spout>>, response: Response<Map<String, Spout>>) {
+            override fun onResponse(
+                    call: Call<Map<String, Spout>>,
+                    response: Response<Map<String, Spout>>
+            ) {
                 if (response.body() != null) {
                     items = response.body()!!
 
@@ -98,10 +105,10 @@ class AddSourceActivity : AppCompatActivity() {
                             ArrayAdapter(
                                     this@AddSourceActivity,
                                     android.R.layout.simple_spinner_item,
-                                    itemsStrings)
+                                    itemsStrings
+                            )
                     spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spoutsSpinner.adapter = spinnerArrayAdapter
-
                 } else {
                     handleProblemWithSpouts()
                 }
@@ -112,13 +119,21 @@ class AddSourceActivity : AppCompatActivity() {
             }
 
             private fun handleProblemWithSpouts() {
-                Toast.makeText(this@AddSourceActivity, R.string.cant_get_spouts, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                        this@AddSourceActivity,
+                        R.string.cant_get_spouts,
+                        Toast.LENGTH_SHORT
+                ).show()
                 mProgress.visibility = View.GONE
             }
         })
     }
 
-    private fun maybeGetDetailsFromIntentSharing(intent: Intent, sourceUri: EditText, nameInput: EditText) {
+    private fun maybeGetDetailsFromIntentSharing(
+            intent: Intent,
+            sourceUri: EditText,
+            nameInput: EditText
+    ) {
         if (Intent.ACTION_SEND == intent.action && "text/plain" == intent.type) {
             sourceUri.setText(intent.getStringExtra(Intent.EXTRA_TEXT))
             nameInput.setText(intent.getStringExtra(Intent.EXTRA_TITLE))
@@ -146,16 +161,27 @@ class AddSourceActivity : AppCompatActivity() {
                     tags.text.toString(),
                     ""
             ).enqueue(object : Callback<SuccessResponse> {
-                override fun onResponse(call: Call<SuccessResponse>, response: Response<SuccessResponse>) {
+                override fun onResponse(
+                        call: Call<SuccessResponse>,
+                        response: Response<SuccessResponse>
+                ) {
                     if (response.body() != null && response.body()!!.isSuccess) {
                         finish()
                     } else {
-                        Toast.makeText(this@AddSourceActivity, R.string.cant_create_source, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                                this@AddSourceActivity,
+                                R.string.cant_create_source,
+                                Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    Toast.makeText(this@AddSourceActivity, R.string.cant_create_source, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                            this@AddSourceActivity,
+                            R.string.cant_create_source,
+                            Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         }
