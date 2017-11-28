@@ -75,7 +75,7 @@
   <string name="prefer_article_viewer_title">"Use o visualizador de artigos"</string>
   <string name="prefer_article_viewer_on">"Usará o visualizador de artigos em vez do navegador"</string>
   <string name="prefer_article_viewer_off">"Utilizará o navegador em vez do visualizador de artigos"</string>
-  <string name="pref_general_category_links">"Link handling"</string>
+  <string name="pref_general_category_links">"Manipulação de links"</string>
   <string name="pref_general_category_displaying">"Mostrando"</string>
   <string name="pref_general_category_actions">"Ações"</string>
   <string name="pref_switch_card_view_on">"Os artigos serão exibidos no formato de cards"</string>
