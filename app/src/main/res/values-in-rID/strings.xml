@@ -114,7 +114,7 @@
   <string name="no_sources_loaded">No sources loaded</string>
   <string name="drawer_loading">Memuat …</string>
   <string name="menu_home_search">Cari</string>
-  <string name="can_delete_source">Can\'t delete the source…</string>
+  <string name="can_delete_source">Tidak dapat menghapus sumber…</string>
   <string name="base_url_error">There was an issue when trying to communicate with your Selfoss Instance. If the issue persists, please get in touch with me.</string>
   <string name="pref_header_theme">Tema</string>
   <string name="default_theme">Bawaan</string>
