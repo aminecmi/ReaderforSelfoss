@@ -40,7 +40,7 @@
   <string name="undo_string">"Urung"</string>
   <string name="addStringNoUrl">"Masuk untuk menambah sumber."</string>
   <string name="cant_get_sources">"Can't get sources list."</string>
-  <string name="cant_create_source">"Can't create source."</string>
+  <string name="cant_create_source">"Tidak dapat membuat sumber."</string>
   <string name="cant_get_spouts">"Can't get spouts list."</string>
   <string name="form_not_complete">"The form is not complete"</string>
   <string name="pref_header_links">"Tautan"</string>
@@ -59,7 +59,7 @@
   <string name="rating_prompt_feedback_no">"Not now."</string>
   <string name="rating_prompt_rating_title">"Great ! Can you rate us on the Store ?"</string>
   <string name="rating_prompt_rating_yes">"Sure !"</string>
-  <string name="rating_prompt_rating_no">"Not right now."</string>
+  <string name="rating_prompt_rating_no">"Jangan sekarang."</string>
   <string name="rating_prompt_thanks">"Thanks, your feedback help enhance the app !"</string>
   <string name="switch_unread_count">"Display the unread count as a badge for the bottom bar."</string>
   <string name="switch_unread_count_title">"Display unread count"</string>
@@ -102,14 +102,14 @@
   <string name="card_height_off">Card height will be fixed</string>
   <string name="source_code">Kode sumber</string>
   <string name="cant_mark_read">Can\'t mark article as read</string>
-  <string name="drawer_error_loading_tags">Error loading tags…</string>
-  <string name="drawer_error_loading_sources">Error loading sources…</string>
+  <string name="drawer_error_loading_tags">Kesalahan saat memuat tag…</string>
+  <string name="drawer_error_loading_sources">Kesalahan saat memuat sumber…</string>
   <string name="drawer_item_filters">Filter</string>
-  <string name="drawer_action_clear">clear</string>
+  <string name="drawer_action_clear">kosongkan</string>
   <string name="drawer_item_tags">Tag</string>
   <string name="drawer_item_sources">Sumber</string>
   <string name="drawer_action_edit">suntung</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
+  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Data dalam tembolok tidak dapat diambil</string>
   <string name="no_tags_loaded">No tags loaded</string>
   <string name="no_sources_loaded">No sources loaded</string>
   <string name="drawer_loading">Memuat …</string>
@@ -140,10 +140,10 @@
   <string name="self_signed_cert_warning">Due to security reasons, self signed certificates are not supported by default. By activating this, I\'ll not be responsible of any security problem you encounter.</string>
   <string name="pref_selfoss_category">Selfoss Api</string>
   <string name="pref_api_items_number_title">Loaded items number</string>
-  <string name="read_debug_title">Read articles appearing as unread ?</string>
+  <string name="read_debug_title">Baca artikel yang ini sebagai belum dibaca ?</string>
   <string name="read_debug_off">No log when marking an item as read</string>
   <string name="read_debug_on">Api calls will be logged when marking an article as read</string>
-  <string name="summary_debug_identifier">Debug identifier</string>
+  <string name="summary_debug_identifier">Identifikasi debug</string>
   <string name="unique_id_to_clipboard">Identifier copied to your clipboard</string>
   <string name="display_header_drawer_summary">Display a header with the selfoss instance url on the lateral drawer.</string>
   <string name="display_header_drawer_title">Account header</string>
