@@ -111,7 +111,7 @@
   <string name="drawer_action_edit">suntung</string>
   <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Data dalam tembolok tidak dapat diambil</string>
   <string name="no_tags_loaded">No tags loaded</string>
-  <string name="no_sources_loaded">No sources loaded</string>
+  <string name="no_sources_loaded">Tak ada sumber yang dimuat</string>
   <string name="drawer_loading">Memuat …</string>
   <string name="menu_home_search">Cari</string>
   <string name="can_delete_source">Tidak dapat menghapus sumber…</string>
