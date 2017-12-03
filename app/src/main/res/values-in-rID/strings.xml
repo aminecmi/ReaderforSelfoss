@@ -91,7 +91,7 @@
   <string name="new_apk_available_get">"Unduh sekarang"</string>
   <string name="new_apk_available_no">"Ignore version"</string>
   <string name="intro_hello_title">"Hi there !"</string>
-  <string name="intro_hello_message">"Thanks for downloading the app !"</string>
+  <string name="intro_hello_message">"Terima kasih telah mengunduh aplikasi ini !"</string>
   <string name="intro_needs_selfoss_title">"Before you start…"</string>
   <string name="intro_needs_selfoss_message">"You can't use the app without a Selfoss instance."</string>
   <string name="intro_needs_selfoss_link">"What is Selfoss ?"</string>
@@ -100,24 +100,24 @@
   <string name="card_height_title">Full height cards</string>
   <string name="card_height_on">Cards height will adjust to its content</string>
   <string name="card_height_off">Card height will be fixed</string>
-  <string name="source_code">Source code</string>
+  <string name="source_code">Kode sumber</string>
   <string name="cant_mark_read">Can\'t mark article as read</string>
   <string name="drawer_error_loading_tags">Error loading tags…</string>
   <string name="drawer_error_loading_sources">Error loading sources…</string>
-  <string name="drawer_item_filters">Filters</string>
+  <string name="drawer_item_filters">Filter</string>
   <string name="drawer_action_clear">clear</string>
-  <string name="drawer_item_tags">Tags</string>
-  <string name="drawer_item_sources">Sources</string>
+  <string name="drawer_item_tags">Tag</string>
+  <string name="drawer_item_sources">Sumber</string>
   <string name="drawer_action_edit">edit</string>
   <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
   <string name="no_tags_loaded">No tags loaded</string>
   <string name="no_sources_loaded">No sources loaded</string>
-  <string name="drawer_loading">Loading …</string>
-  <string name="menu_home_search">Search</string>
+  <string name="drawer_loading">Memuat …</string>
+  <string name="menu_home_search">Cari</string>
   <string name="can_delete_source">Can\'t delete the source…</string>
   <string name="base_url_error">There was an issue when trying to communicate with your Selfoss Instance. If the issue persists, please get in touch with me.</string>
-  <string name="pref_header_theme">Themes</string>
-  <string name="default_theme">Default</string>
+  <string name="pref_header_theme">Tema</string>
+  <string name="default_theme">Bawaan</string>
   <string name="teal_orange_theme">Teal/Orange/Light</string>
   <string name="cyan_pink_theme">Cyan/Pink/Light</string>
   <string name="grey_orange_theme">Grey/Orange/Light</string>
@@ -151,11 +151,11 @@
   <string name="login_everything_on">This will log every api call for debug purpose.</string>
   <string name="login_everything_off">No api call will be logged</string>
   <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
-  <string name="translation">Translation</string>
+  <string name="translation">Terjemahan</string>
   <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
-  <string name="drawer_report_bug">Report a bug</string>
+  <string name="drawer_report_bug">Laporkan bug</string>
   <string name="items_number_should_be_number">The items number should be an integer.</string>
   <string name="reader_action_more">Read more</string>
-  <string name="reader_action_open">Open in browser</string>
-  <string name="reader_action_share">Share</string>
+  <string name="reader_action_open">Buka di peramban</string>
+  <string name="reader_action_share">Bagikan</string>
 </resources>
