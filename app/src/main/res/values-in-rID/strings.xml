@@ -89,7 +89,7 @@
   <string name="new_apk_available_title">"A new APK is available."</string>
   <string name="new_apk_available_message">"A new APK is available to download on the official repository."</string>
   <string name="new_apk_available_get">"Unduh sekarang"</string>
-  <string name="new_apk_available_no">"Ignore version"</string>
+  <string name="new_apk_available_no">"Abaikan versi"</string>
   <string name="intro_hello_title">"Hi there !"</string>
   <string name="intro_hello_message">"Terima kasih telah mengunduh aplikasi ini !"</string>
   <string name="intro_needs_selfoss_title">"Sebelum Anda mulai…"</string>
