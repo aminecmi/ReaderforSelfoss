@@ -9,7 +9,7 @@
   <string name="error_invalid_password">"Password not long enough"</string>
   <string name="error_field_required">"Kolom wajib diisi"</string>
   <string name="prompt_url">"URL"</string>
-  <string name="withLoginSwitch">"Login required ?"</string>
+  <string name="withLoginSwitch">"Harus masuk?"</string>
   <string name="withHttpLoginSwitch">"HTTP Login required ?"</string>
   <string name="login_url_problem">"Oops. You may need to add a \"/\" at the end of the url."</string>
   <string name="prompt_login">"Nama pengguna"</string>
