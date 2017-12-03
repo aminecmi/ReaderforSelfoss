@@ -19,7 +19,7 @@
   <string name="action_disconnect">"Desconectar"</string>
   <string name="title_activity_settings">"Configuración"</string>
   <string name="pref_header_general">"General"</string>
-  <string name="pref_switch_actions_tap_title">"Tap action on the articles"</string>
+  <string name="pref_switch_actions_tap_title">"Acción tocar en los artículos"</string>
   <string name="add_source_hint_tags">"Etiqueta1, Etiqueta2, Etiqueta3"</string>
   <string name="add_source_hint_url">"Enlace"</string>
   <string name="add_source_hint_name">"Nombre"</string>
@@ -65,10 +65,10 @@
   <string name="switch_unread_count_title">"Mostrar recuento no leído"</string>
   <string name="display_all_counts_title">"Mostrar recuento de favoritos y leídos"</string>
   <string name="menu_share_the_app">"Invitar amigos"</string>
-  <string name="invitation_title">"Try this app for your Selfoss RSS feeds !"</string>
-  <string name="invitation_message">"I use this app for my Selfoss RSS feeds. You may like it too !"</string>
+  <string name="invitation_title">"¡Prueba esta aplicación para tu contenido RSS de Selfoss!"</string>
+  <string name="invitation_message">"Yo uso esta aplicación para mi contenido RSS de Selfoss. ¡Te puede gusta también!"</string>
   <string name="invitation_cta">"Probar la aplicación"</string>
-  <string name="text_wrong_url">"You seem to be trying to use an invalid URL. Make sure it is correct, and if the problem persists, contact me (via the store contact link). Please note that the app needs you to be using Selfoss. You can't access RSS feeds without it."</string>
+  <string name="text_wrong_url">"Parece estar tratando de utilizar una dirección URL inválida. Asegúrese de que sea correcta y si el problema persiste, póngase en contacto conmigo (mediante el enlace de contacto de la tienda). Tenga en cuenta que la aplicación necesita utilizar Selfoss. No se puede acceder al contenido RSS sin él."</string>
   <string name="pref_general_internal_browser_title">"Abrir enlaces dentro de la aplicación"</string>
   <string name="pref_general_internal_browser_on">"Los artículos se abrirán dentro de la aplicación"</string>
   <string name="pref_general_internal_browser_off">"Los artículos se abrirán con tu navegador predeterminado"</string>
@@ -109,7 +109,7 @@
   <string name="drawer_item_tags">Etiquetas</string>
   <string name="drawer_item_sources">Fuentes</string>
   <string name="drawer_action_edit">editar</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
+  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">No se pudieron guardar en caché los datos de su cajón</string>
   <string name="no_tags_loaded">No hay etiquetas cargadas</string>
   <string name="no_sources_loaded">No hay fuentes cargadas</string>
   <string name="drawer_loading">Cargando…</string>
@@ -142,10 +142,10 @@
   <string name="pref_api_items_number_title">Número de artículos cargados</string>
   <string name="read_debug_title">¿Leer los artículos que aparecen como no leídos?</string>
   <string name="read_debug_off">Sin registro al marcar un elemento como leído</string>
-  <string name="read_debug_on">Api calls will be logged when marking an article as read</string>
+  <string name="read_debug_on">Llamadas a la Api se registrarán al marcar un artículo como leído</string>
   <string name="summary_debug_identifier">Identificador de depuración</string>
-  <string name="unique_id_to_clipboard">Identifier copied to your clipboard</string>
-  <string name="display_header_drawer_summary">Display a header with the selfoss instance url on the lateral drawer.</string>
+  <string name="unique_id_to_clipboard">Identificador copiado a su portapapeles</string>
+  <string name="display_header_drawer_summary">Mostrar una cabecera con la url de instancia de selfoss en el cajón lateral.</string>
   <string name="display_header_drawer_title">Cabecera de cuenta</string>
   <string name="login_everything_title">Registrando todas las llamadas a la api</string>
   <string name="login_everything_on">Esto registrará cada llamada a la api para propósito de depuración.</string>
