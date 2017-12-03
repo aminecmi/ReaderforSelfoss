@@ -5,7 +5,7 @@
   <string name="title_activity_login">"Masuk"</string>
   <string name="prompt_password">"Kata sandi"</string>
   <string name="prompt_http_password">"Kata sandi HTTP"</string>
-  <string name="action_sign_in">"Go"</string>
+  <string name="action_sign_in">"Mulai"</string>
   <string name="error_invalid_password">"Password not long enough"</string>
   <string name="error_field_required">"Field required"</string>
   <string name="prompt_url">"Url"</string>
