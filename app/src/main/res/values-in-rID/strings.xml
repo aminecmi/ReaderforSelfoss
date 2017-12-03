@@ -108,7 +108,7 @@
   <string name="drawer_action_clear">clear</string>
   <string name="drawer_item_tags">Tag</string>
   <string name="drawer_item_sources">Sumber</string>
-  <string name="drawer_action_edit">edit</string>
+  <string name="drawer_action_edit">suntung</string>
   <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
   <string name="no_tags_loaded">No tags loaded</string>
   <string name="no_sources_loaded">No sources loaded</string>
