@@ -109,19 +109,19 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Bronnen</string>
   <string name="drawer_action_edit">bewerken</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
-  <string name="no_tags_loaded">No tags loaded</string>
-  <string name="no_sources_loaded">No sources loaded</string>
-  <string name="drawer_loading">Loading …</string>
+  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">De gegevens in uw opslagruimte kunnen niet in de cache worden opgeslagen</string>
+  <string name="no_tags_loaded">Geen tags geladen</string>
+  <string name="no_sources_loaded">Geen bronnen geladen</string>
+  <string name="drawer_loading">Bezig met laden …</string>
   <string name="menu_home_search">Zoeken</string>
-  <string name="can_delete_source">Can\'t delete the source…</string>
-  <string name="base_url_error">There was an issue when trying to communicate with your Selfoss Instance. If the issue persists, please get in touch with me.</string>
-  <string name="pref_header_theme">Themes</string>
-  <string name="default_theme">Default</string>
-  <string name="teal_orange_theme">Teal/Orange/Light</string>
-  <string name="cyan_pink_theme">Cyan/Pink/Light</string>
-  <string name="grey_orange_theme">Grey/Orange/Light</string>
-  <string name="blue_amber_theme">Blue/Amber/Light</string>
+  <string name="can_delete_source">Kan de bron niet verwijderen…</string>
+  <string name="base_url_error">Er was een probleem bij het communiceren met uw Selfoss Instance. Als het probleem blijft, neem dan contact met mij op.</string>
+  <string name="pref_header_theme">Thema \'s</string>
+  <string name="default_theme">Standaard</string>
+  <string name="teal_orange_theme">Groenblauw/Oranje/Licht</string>
+  <string name="cyan_pink_theme">Cyaan/Roze/Licht</string>
+  <string name="grey_orange_theme">Grijs/Oranje/Licht</string>
+  <string name="blue_amber_theme">Blauw/Amber/Licht</string>
   <string name="indigo_pink_theme">Indigo/Pink/Light</string>
   <string name="red_teal_theme">Red/Teal/Light</string>
   <string name="teal_orange_dark_theme">Teal/Orange/Dark</string>
