@@ -142,10 +142,10 @@
   <string name="pref_api_items_number_title">Geladen items nummer</string>
   <string name="read_debug_title">Gelezen artikelen verschijnen als ongelezen?</string>
   <string name="read_debug_off">Geen logboek bij het markeren van een artikel als gelezen</string>
-  <string name="read_debug_on">Api calls will be logged when marking an article as read</string>
-  <string name="summary_debug_identifier">Debug identifier</string>
-  <string name="unique_id_to_clipboard">Identifier copied to your clipboard</string>
-  <string name="display_header_drawer_summary">Display a header with the selfoss instance url on the lateral drawer.</string>
+  <string name="read_debug_on">Api-oproepen zullen gelogd worden wanneer een artikel als gelezen wordt gemarkeerd</string>
+  <string name="summary_debug_identifier">ID voor foutopsporing</string>
+  <string name="unique_id_to_clipboard">ID naar uw klembord gekopieerd</string>
+  <string name="display_header_drawer_summary">Laat een koptekst weergeven met de url van de selfoss instantie in de zijlade.</string>
   <string name="display_header_drawer_title">Account titel</string>
   <string name="login_everything_title">Logging every api calls</string>
   <string name="login_everything_on">This will log every api call for debug purpose.</string>
