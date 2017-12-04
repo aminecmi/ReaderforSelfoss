@@ -33,7 +33,7 @@
   <string name="cant_get_read">"Ophalen reeds gelezen artikelen mislukt"</string>
   <string name="nothing_here">"Niets gevonden"</string>
   <string name="tab_new">"Nieuw"</string>
-  <string name="tab_read">"All"</string>
+  <string name="tab_read">"Alle"</string>
   <string name="tab_favs">"Favorieten"</string>
   <string name="action_about">"Over"</string>
   <string name="marked_as_read">"Artikel gelezen"</string>
@@ -100,15 +100,15 @@
   <string name="card_height_title">Volledige hoogte kaarten</string>
   <string name="card_height_on">Hoogte aanpassen aan de hand van kaartinhoud</string>
   <string name="card_height_off">Vaste hoogte</string>
-  <string name="source_code">Source code</string>
+  <string name="source_code">Broncode</string>
   <string name="cant_mark_read">Impossible de marquer l\'article comme lu</string>
-  <string name="drawer_error_loading_tags">Error loading tags…</string>
-  <string name="drawer_error_loading_sources">Error loading sources…</string>
+  <string name="drawer_error_loading_tags">Fout bij het laden van tags…</string>
+  <string name="drawer_error_loading_sources">Fout bij laden van bronnen…</string>
   <string name="drawer_item_filters">Filters</string>
-  <string name="drawer_action_clear">clear</string>
+  <string name="drawer_action_clear">wissen</string>
   <string name="drawer_item_tags">Tags</string>
-  <string name="drawer_item_sources">Sources</string>
-  <string name="drawer_action_edit">edit</string>
+  <string name="drawer_item_sources">Bronnen</string>
+  <string name="drawer_action_edit">bewerken</string>
   <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
   <string name="no_tags_loaded">No tags loaded</string>
   <string name="no_sources_loaded">No sources loaded</string>
