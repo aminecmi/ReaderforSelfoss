@@ -150,9 +150,9 @@
   <string name="login_everything_title">Elke api-oproepen loggen</string>
   <string name="login_everything_on">Hiermee wordt elke api oproepen gelogt voor foutopsporingsdoeleinden.</string>
   <string name="login_everything_off">Geen api-oproep wordt gelogt</string>
-  <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
+  <string name="pref_general_infinite_loading_title">Laad meer artikelen door te bladeren</string>
   <string name="translation">Vertaling</string>
-  <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
+  <string name="cant_open_invalid_url">De URL is ongeldig. Ik probeer dit probleem op te lossen, zodat de toepassing niet wordt afgesloten.</string>
   <string name="drawer_report_bug">Een fout melden</string>
   <string name="items_number_should_be_number">The items number should be an integer.</string>
   <string name="reader_action_more">Lees meer</string>
