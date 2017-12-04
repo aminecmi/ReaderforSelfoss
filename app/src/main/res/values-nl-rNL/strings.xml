@@ -137,11 +137,11 @@
   <string name="login_debug_off">Geen log op de inlogpagina</string>
   <string name="login_menu_debug">Fout opsporen</string>
   <string name="self_hosted_cert_switch">Gebruik een zelf gehost certificaat?</string>
-  <string name="self_signed_cert_warning">Due to security reasons, self signed certificates are not supported by default. By activating this, I\'ll not be responsible of any security problem you encounter.</string>
+  <string name="self_signed_cert_warning">Vanwege veiligheidsredenen worden zelfondertekende certificaten niet standaard ondersteund. Door dit te activeren, ben ik niet verantwoordelijk voor beveiligingsproblemen die u tegenkomt.</string>
   <string name="pref_selfoss_category">Selfoss Api</string>
-  <string name="pref_api_items_number_title">Loaded items number</string>
-  <string name="read_debug_title">Read articles appearing as unread ?</string>
-  <string name="read_debug_off">No log when marking an item as read</string>
+  <string name="pref_api_items_number_title">Geladen items nummer</string>
+  <string name="read_debug_title">Gelezen artikelen verschijnen als ongelezen?</string>
+  <string name="read_debug_off">Geen logboek bij het markeren van een artikel als gelezen</string>
   <string name="read_debug_on">Api calls will be logged when marking an article as read</string>
   <string name="summary_debug_identifier">Debug identifier</string>
   <string name="unique_id_to_clipboard">Identifier copied to your clipboard</string>
