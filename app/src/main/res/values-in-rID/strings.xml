@@ -68,7 +68,7 @@
   <string name="invitation_title">"Coba mengggunakan aplikasi ini untuk umpan RSS Selfoss Anda !"</string>
   <string name="invitation_message">"Saya menggunakan aplikasi ini untuk umpan RSS Selfoss saya. Anda akan menyukainya juga!"</string>
   <string name="invitation_cta">"Coba aplikasi"</string>
-  <string name="text_wrong_url">"You seem to be trying to use an invalid URL. Make sure it is correct, and if the problem persists, contact me (via the store contact link). Please note that the app needs you to be using Selfoss. You can't access RSS feeds without it."</string>
+  <string name="text_wrong_url">"Sepertinya Anda mencoba menggunakan URL yang tidak valid. Pastikan itu benar, jika masalah terus berlanjut, hubungi saya (melalui link kontak toko). Harap dicatat bahwa aplikasi ini mengharuskan Anda menggunakan Selfoss. Tanpa itu, Anda tidak bisa mengakses umpan RSS."</string>
   <string name="pref_general_internal_browser_title">"Buka tautan dalam aplikasi"</string>
   <string name="pref_general_internal_browser_on">"Artikel akan dibuka di dalam aplikasi"</string>
   <string name="pref_general_internal_browser_off">"Artikel akan dibuka dalam peramban bawaan Anda"</string>
