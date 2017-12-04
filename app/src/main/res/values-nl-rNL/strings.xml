@@ -148,8 +148,8 @@
   <string name="display_header_drawer_summary">Laat een koptekst weergeven met de url van de selfoss instantie in de zijlade.</string>
   <string name="display_header_drawer_title">Account titel</string>
   <string name="login_everything_title">Elke api-oproepen loggen</string>
-  <string name="login_everything_on">This will log every api call for debug purpose.</string>
-  <string name="login_everything_off">No api call will be logged</string>
+  <string name="login_everything_on">Hiermee wordt elke api oproepen gelogt voor foutopsporingsdoeleinden.</string>
+  <string name="login_everything_off">Geen api-oproep wordt gelogt</string>
   <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
   <string name="translation">Vertaling</string>
   <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
