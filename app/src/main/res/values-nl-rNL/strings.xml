@@ -154,7 +154,7 @@
   <string name="translation">Vertaling</string>
   <string name="cant_open_invalid_url">De URL is ongeldig. Ik probeer dit probleem op te lossen, zodat de toepassing niet wordt afgesloten.</string>
   <string name="drawer_report_bug">Een fout melden</string>
-  <string name="items_number_should_be_number">The items number should be an integer.</string>
+  <string name="items_number_should_be_number">Het aantal items moet een geheel getal zijn.</string>
   <string name="reader_action_more">Lees meer</string>
   <string name="reader_action_open">Openen in browser</string>
   <string name="reader_action_share">Delen</string>
