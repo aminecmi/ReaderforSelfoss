@@ -6,7 +6,7 @@
   <string name="prompt_password">"Kata sandi"</string>
   <string name="prompt_http_password">"Kata sandi HTTP"</string>
   <string name="action_sign_in">"Mulai"</string>
-  <string name="error_invalid_password">"Password not long enough"</string>
+  <string name="error_invalid_password">"Kata sandinya tidak cukup panjang"</string>
   <string name="error_field_required">"Kolom wajib diisi"</string>
   <string name="prompt_url">"URL"</string>
   <string name="withLoginSwitch">"Harus masuk?"</string>
@@ -39,10 +39,10 @@
   <string name="marked_as_read">"Membaca item"</string>
   <string name="undo_string">"Urung"</string>
   <string name="addStringNoUrl">"Masuk untuk menambah sumber."</string>
-  <string name="cant_get_sources">"Can't get sources list."</string>
+  <string name="cant_get_sources">"Tidak bisa mendapatkan daftar sumber."</string>
   <string name="cant_create_source">"Tidak dapat membuat sumber."</string>
-  <string name="cant_get_spouts">"Can't get spouts list."</string>
-  <string name="form_not_complete">"The form is not complete"</string>
+  <string name="cant_get_spouts">"Tidak bisa masuk ke daftar Spouts."</string>
+  <string name="form_not_complete">"Formulirnya belum selesai"</string>
   <string name="pref_header_links">"Tautan"</string>
   <string name="issue_tracker_link">"Issue Tracker"</string>
   <string name="issue_tracker_summary">"Laporkan bug atau meminta fitur baru"</string>
