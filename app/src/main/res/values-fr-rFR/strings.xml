@@ -158,5 +158,5 @@
   <string name="reader_action_more">Lire plus</string>
   <string name="reader_action_open">Ouvrir</string>
   <string name="reader_action_share">Partager</string>
-    <string name="pref_switch_actions_pager_scroll">Marquer les articles comme lues au sroll.</string>
+  <string name="pref_switch_actions_pager_scroll">Marquer les articles comme lus à la navigation.</string>
 </resources>
