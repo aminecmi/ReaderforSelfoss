@@ -25,7 +25,7 @@
   <string name="add_source_hint_name">"Nome"</string>
   <string name="add_source">"Adicionar uma fonte"</string>
   <string name="add_source_save">"Salvar"</string>
-  <string name="wrong_infos">"Check your details again."</string>
+  <string name="wrong_infos">"Verifique seus dados novamente."</string>
   <string name="all_posts_not_read">"All posts weren't read"</string>
   <string name="all_posts_read">"All posts were read"</string>
   <string name="cant_get_favs">"Can't get favorites"</string>
