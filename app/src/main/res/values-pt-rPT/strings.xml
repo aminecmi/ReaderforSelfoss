@@ -144,10 +144,10 @@
   <string name="read_debug_off">Sem log quando marcar um item como lido</string>
   <string name="read_debug_on">Chamadas de Api serão registradas quando marcar um artigo como lido</string>
   <string name="summary_debug_identifier">Depurar o identificador</string>
-  <string name="unique_id_to_clipboard">Identifier copied to your clipboard</string>
-  <string name="display_header_drawer_summary">Display a header with the selfoss instance url on the lateral drawer.</string>
-  <string name="display_header_drawer_title">Account header</string>
-  <string name="login_everything_title">Logging every api calls</string>
+  <string name="unique_id_to_clipboard">Identificador de copiados para a área de transferência</string>
+  <string name="display_header_drawer_summary">Exibir um cabeçalho com o url de instância de selfoss na gaveta lateral.</string>
+  <string name="display_header_drawer_title">Cabeçalho de conta</string>
+  <string name="login_everything_title">Logando todas as chamadas api</string>
   <string name="login_everything_on">This will log every api call for debug purpose.</string>
   <string name="login_everything_off">No api call will be logged</string>
   <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
