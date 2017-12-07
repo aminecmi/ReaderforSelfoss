@@ -101,8 +101,8 @@
   <string name="card_height_on">Altura de cartas irá ajustar ao seu conteúdo</string>
   <string name="card_height_off">Altura do cartão será corrigida</string>
   <string name="source_code">Código fonte</string>
-  <string name="cant_mark_read">Can\'t mark article as read</string>
-  <string name="drawer_error_loading_tags">Error loading tags…</string>
+  <string name="cant_mark_read">Não pode marcar o artigo como lido</string>
+  <string name="drawer_error_loading_tags">Erro ao carregar etiquetas…</string>
   <string name="drawer_error_loading_sources">Error loading sources…</string>
   <string name="drawer_item_filters">Filters</string>
   <string name="drawer_action_clear">clear</string>
