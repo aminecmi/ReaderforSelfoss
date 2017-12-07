@@ -142,8 +142,8 @@
   <string name="pref_api_items_number_title">Número de itens carregados</string>
   <string name="read_debug_title">Leia artigos aparecem como não lidas?</string>
   <string name="read_debug_off">Sem log quando marcar um item como lido</string>
-  <string name="read_debug_on">Api calls will be logged when marking an article as read</string>
-  <string name="summary_debug_identifier">Debug identifier</string>
+  <string name="read_debug_on">Chamadas de Api serão registradas quando marcar um artigo como lido</string>
+  <string name="summary_debug_identifier">Depurar o identificador</string>
   <string name="unique_id_to_clipboard">Identifier copied to your clipboard</string>
   <string name="display_header_drawer_summary">Display a header with the selfoss instance url on the lateral drawer.</string>
   <string name="display_header_drawer_title">Account header</string>
