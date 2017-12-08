@@ -148,10 +148,10 @@
   <string name="display_header_drawer_summary">Exibir um cabeçalho com o url de instância de selfoss na gaveta lateral.</string>
   <string name="display_header_drawer_title">Cabeçalho de conta</string>
   <string name="login_everything_title">Logando todas as chamadas api</string>
-  <string name="login_everything_on">This will log every api call for debug purpose.</string>
-  <string name="login_everything_off">No api call will be logged</string>
-  <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
-  <string name="translation">Translation</string>
+  <string name="login_everything_on">Isto irá registrar todas as chamadas de api para fins de depuração.</string>
+  <string name="login_everything_off">Nenhuma chamada de api será registrada</string>
+  <string name="pref_general_infinite_loading_title">Carregar mais artigos no pergaminho</string>
+  <string name="translation">Tradução</string>
   <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
   <string name="drawer_report_bug">Report a bug</string>
   <string name="items_number_should_be_number">The items number should be an integer.</string>
