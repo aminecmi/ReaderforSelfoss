@@ -152,11 +152,11 @@
   <string name="login_everything_off">Nenhuma chamada de api será registrada</string>
   <string name="pref_general_infinite_loading_title">Carregar mais artigos no pergaminho</string>
   <string name="translation">Tradução</string>
-  <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
-  <string name="drawer_report_bug">Report a bug</string>
-  <string name="items_number_should_be_number">The items number should be an integer.</string>
-  <string name="reader_action_more">Read more</string>
-  <string name="reader_action_open">Open in browser</string>
-  <string name="reader_action_share">Share</string>
-  <string name="pref_switch_actions_pager_scroll">Mark articles as read when scrolling between articles.</string>
+  <string name="cant_open_invalid_url">A url do item é inválido. Eu estou olhando para resolver esta questão, para que o app não vai falhar.</string>
+  <string name="drawer_report_bug">Reportar falha</string>
+  <string name="items_number_should_be_number">O número de itens deve ser um número inteiro.</string>
+  <string name="reader_action_more">Ler mais</string>
+  <string name="reader_action_open">Abrir no browser</string>
+  <string name="reader_action_share">Compartilhar</string>
+  <string name="pref_switch_actions_pager_scroll">Artigos de marca como lida quando rolagem entre artigos.</string>
 </resources>
