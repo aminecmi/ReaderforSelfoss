@@ -158,5 +158,5 @@
   <string name="reader_action_more">Read more</string>
   <string name="reader_action_open">Open in browser</string>
   <string name="reader_action_share">Share</string>
-  <string name="pref_switch_actions_pager_scroll">Mark articles as read when scrolling between articles.</string>
+  <string name="pref_switch_actions_pager_scroll">Mark articles as read when swiping between articles.</string>
 </resources>
