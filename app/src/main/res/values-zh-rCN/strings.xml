@@ -159,7 +159,7 @@
   <string name="reader_action_open">在浏览器中打开</string>
   <string name="reader_action_share">分享</string>
   <string name="pref_switch_actions_pager_scroll">Mark articles as read when swiping between articles.</string>
-    <string name="prefer_webview_in_article_viewer_title">Use a webview in the article viewer.</string>
-    <string name="prefer_webview_in_article_viewer_on">Using the webview for the content of the article viewer. Urls, gifs and images will be better handled, but may be slower.</string>
-    <string name="prefer_webview_in_article_viewer_off">The content of the article will be displayed as simple text with links and images. Urls may not work, and gifs won\'t load.</string>
+  <string name="prefer_webview_in_article_viewer_title">Use a webview in the article viewer.</string>
+  <string name="prefer_webview_in_article_viewer_on">Using the webview for the content of the article viewer. Urls, gifs and images will be better handled, but may be slower.</string>
+  <string name="prefer_webview_in_article_viewer_off">The content of the article will be displayed as simple text with links and images. Urls may not work, and gifs won\'t load.</string>
 </resources>
