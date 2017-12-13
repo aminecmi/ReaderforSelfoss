@@ -159,7 +159,7 @@
   <string name="reader_action_open">Ouvrir</string>
   <string name="reader_action_share">Partager</string>
   <string name="pref_switch_actions_pager_scroll">Marquer les articles comme lus à la navigation dans le lecteur d\'article.</string>
-    <string name="prefer_webview_in_article_viewer_title">Use a webview in the article viewer.</string>
-    <string name="prefer_webview_in_article_viewer_on">Using the webview for the content of the article viewer. Urls, gifs and images will be better handled, but may be slower.</string>
-    <string name="prefer_webview_in_article_viewer_off">The content of the article will be displayed as simple text with links and images. Urls may not work, and gifs won\'t load.</string>
+  <string name="prefer_webview_in_article_viewer_title">Utiliser une \"Webview\" pour afficher les articles.</string>
+  <string name="prefer_webview_in_article_viewer_on">L\'utilisation d\'une \"Webview\" pour afficher les articles permettra d\'afficher les gifs, et mieux gérer les images et liens. Cette option peut être plus lente.</string>
+  <string name="prefer_webview_in_article_viewer_off">Le contenu de l\'article sera un simple teste avec images et liens. Certains liens peuvent ne pas fonctionner, et les gifs ne fonctionneront pas.</string>
 </resources>
