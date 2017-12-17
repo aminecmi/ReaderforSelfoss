@@ -11,4 +11,9 @@
     <color name="refresh_progress_2">@color/colorAccent</color>
     <color name="refresh_progress_3">@color/pink</color>
     <color name="background_grey">#FFe4e4e4</color>
+
+    <color name="dark_webview">#FF303030</color>
+    <color name="dark_webview_text">@color/md_white_1000</color>
+    <color name="light_webview">@color/md_grey_50</color>
+    <color name="light_webview_text">@color/md_grey_900</color>
 </resources>

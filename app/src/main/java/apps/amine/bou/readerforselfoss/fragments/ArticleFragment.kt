@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -30,6 +31,7 @@ import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.crashlytics.android.Crashlytics
+import com.ftinc.scoop.Scoop
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
@@ -237,12 +239,6 @@ class ArticleFragment : Fragment() {
     }
 
     private fun htmlToWebview(c: String) {
-        val attrBackground = TypedValue()
-        activity!!.baseContext.theme.resolveAttribute(
-                android.R.attr.colorBackground,
-                attrBackground,
-                true
-        )
 
         val defaultColor = TypedValue()
         activity!!.baseContext.theme.resolveAttribute(
@@ -254,7 +250,16 @@ class ArticleFragment : Fragment() {
         val stringColor = String.format("#%06X", 0xFFFFFF and accentColor)
 
         rootView.webcontent.visibility = View.VISIBLE
-        rootView.webcontent.setBackgroundColor(attrBackground.data)
+        val textColor = if (Scoop.getInstance().currentFlavor.isDayNight) {
+            rootView.webcontent.setBackgroundColor(ContextCompat.getColor(activity!!.baseContext, R.color.dark_webview))
+            ContextCompat.getColor(activity!!.baseContext, R.color.dark_webview_text)
+        } else {
+            rootView.webcontent.setBackgroundColor(ContextCompat.getColor(activity!!.baseContext, R.color.light_webview))
+            ContextCompat.getColor(activity!!.baseContext, R.color.light_webview_text)
+        }
+
+        val stringTextColor = String.format("#%06X", 0xFFFFFF and textColor)
+
         rootView.webcontent.settings.useWideViewPort = true
         rootView.webcontent.settings.loadWithOverviewMode = true
         rootView.webcontent.settings.javaScriptEnabled = false
@@ -266,7 +271,7 @@ class ArticleFragment : Fragment() {
         }
 
         rootView.webcontent.loadData(
-                "<style>img{display: inline-block;height: auto; width: 100%; max-width: 100%;} a{color: $stringColor}</style>$c",
+                "<style>img{display: inline-block;height: auto; width: 100%; max-width: 100%;} a{color: $stringColor;} *:not(a){color: $stringTextColor;}</style>$c",
                 "text/html; charset=utf-8",
                 "utf-8"
         )
