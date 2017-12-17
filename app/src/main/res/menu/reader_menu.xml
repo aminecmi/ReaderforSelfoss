@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/unsave"
+        android:icon="@drawable/heart_on"
+        android:title="@string/remove_to_favs_reader"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/heart_off"
+        android:title="add_to_favs_reader"
+        android:visible="true"
+        app:showAsAction="always" />
+</menu>

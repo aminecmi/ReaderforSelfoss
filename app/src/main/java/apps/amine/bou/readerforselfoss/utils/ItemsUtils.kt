@@ -29,3 +29,8 @@ fun Item.sourceAndDateText(): String {
 
     return this.sourcetitle + formattedDate
 }
+
+fun Item.toggleStar(): Item {
+    this.starred = !this.starred
+    return this
+}

@@ -1,8 +1,10 @@
 **1.5.7.x**
 
+- Add to favorites from article viewer.
+
 - Added an option to use a webview in the article viewer (see #149)
 
-- Fixes (#151)
+- Fixes (#151 #155)
 
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 

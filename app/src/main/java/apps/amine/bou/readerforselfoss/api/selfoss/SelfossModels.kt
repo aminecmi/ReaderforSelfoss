@@ -66,7 +66,7 @@ data class Item(
         @SerializedName("title") val title: String,
         @SerializedName("content") val content: String,
         @SerializedName("unread") val unread: Boolean,
-        @SerializedName("starred") val starred: Boolean,
+        @SerializedName("starred") var starred: Boolean,
         @SerializedName("thumbnail") val thumbnail: String,
         @SerializedName("icon") val icon: String,
         @SerializedName("link") val link: String,
