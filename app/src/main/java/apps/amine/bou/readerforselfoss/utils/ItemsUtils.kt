@@ -8,7 +8,7 @@ import java.util.*
 
 fun String.toTextDrawableString(): String {
     val textDrawable = StringBuilder()
-    for (s in this.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
+    for (s in this.split(" ".toRegex()).filter { !it.isEmpty() }.toTypedArray()) {
         textDrawable.append(s[0])
     }
     return textDrawable.toString()
