@@ -93,6 +93,7 @@ class ReaderActivity : AppCompatActivity() {
         var adapter = ScreenSlidePagerAdapter(supportFragmentManager)
         pager.adapter = adapter
         pager.currentItem = currentItem
+        (pager.adapter as ScreenSlidePagerAdapter).notifyDataSetChanged()
 
         pager.setPageTransformer(true, DepthPageTransformer())
         (indicator as CircleIndicator).setViewPager(pager)
