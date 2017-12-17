@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -38,6 +37,8 @@ import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.MalformedURLException
+import java.net.URL
 
 class ArticleFragment : Fragment() {
     private lateinit var pageNumber: Number
@@ -124,7 +125,7 @@ class ArticleFragment : Fragment() {
             if (!useWebview) {
                 htmlToTextview(contentText, customTabsIntent, prefs)
             } else {
-                htmlToWebview(contentText)
+                htmlToWebview(contentText, prefs)
             }
 
             if (!contentImage.isEmptyOrNullOrNullString()) {
@@ -186,7 +187,7 @@ class ArticleFragment : Fragment() {
                                             prefs
                                     )
                                 } else {
-                                    htmlToWebview(response.body()!!.content)
+                                    htmlToWebview(response.body()!!.content, prefs)
                                 }
                             }
 
@@ -238,15 +239,9 @@ class ArticleFragment : Fragment() {
         }
     }
 
-    private fun htmlToWebview(c: String) {
+    private fun htmlToWebview(c: String, prefs: SharedPreferences) {
 
-        val defaultColor = TypedValue()
-        activity!!.baseContext.theme.resolveAttribute(
-                android.R.attr.colorAccent,
-                defaultColor,
-                true
-        )
-        val accentColor = fab.backgroundTintList?.defaultColor ?: defaultColor.data
+        val accentColor = ContextCompat.getColor(activity!!.baseContext, R.color.accent)
         val stringColor = String.format("#%06X", 0xFFFFFF and accentColor)
 
         rootView.webcontent.visibility = View.VISIBLE
@@ -270,10 +265,23 @@ class ArticleFragment : Fragment() {
             rootView.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         }
 
-        rootView.webcontent.loadData(
+        var baseUrl: String? = null
+
+        try {
+            val itemUrl = URL(url)
+            baseUrl = itemUrl.protocol + "://" + itemUrl.host
+        } catch (e: MalformedURLException) {
+            Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+            Crashlytics.log(100, "BASE_URL_MALFORMED", e.message)
+            Crashlytics.logException(e)
+        }
+
+        rootView.webcontent.loadDataWithBaseURL(
+                baseUrl,
                 "<style>img{display: inline-block;height: auto; width: 100%; max-width: 100%;} a{color: $stringColor;} *:not(a){color: $stringTextColor;}</style>$c",
                 "text/html; charset=utf-8",
-                "utf-8"
+                "utf-8",
+                null
         )
     }
 
