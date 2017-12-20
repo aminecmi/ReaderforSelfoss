@@ -162,6 +162,6 @@
   <string name="prefer_webview_in_article_viewer_title">Utiliser une \"Webview\" pour afficher les articles.</string>
   <string name="prefer_webview_in_article_viewer_on">L\'utilisation d\'une \"Webview\" pour afficher les articles permettra d\'afficher les gifs, et mieux gérer les images et liens. Cette option peut être plus lente.</string>
   <string name="prefer_webview_in_article_viewer_off">Le contenu de l\'article sera un simple teste avec images et liens. Certains liens peuvent ne pas fonctionner, et les gifs ne fonctionneront pas.</string>
-    <string name="add_to_favs_reader">Ajouter aux favoris</string>
-    <string name="remove_to_favs_reader">Enlever aux favoris</string>
+  <string name="add_to_favs_reader">Ajouter aux favoris</string>
+  <string name="remove_to_favs_reader">Supprimer des favoris</string>
 </resources>
