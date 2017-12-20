@@ -29,14 +29,14 @@ import retrofit2.Response
 class ReaderActivity : AppCompatActivity() {
 
     private var markOnScroll: Boolean = false
-
+    private var debugReadingItems: Boolean = false
     private var useWebview: Boolean = false
+    private var currentItem: Int = 0
+    private lateinit var userIdentifier: String
 
     private lateinit var api: SelfossApi
 
     private lateinit var toolbarMenu: Menu
-
-    private var currentItem: Int = 0
 
     private fun showMenuItem(willAddToFavorite: Boolean) {
         toolbarMenu.findItem(R.id.save).isVisible = willAddToFavorite
@@ -63,8 +63,8 @@ class ReaderActivity : AppCompatActivity() {
         val settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val debugReadingItems = sharedPref.getBoolean("read_debug", false)
-        val userIdentifier = sharedPref.getString("unique_id", "")
+        debugReadingItems = sharedPref.getBoolean("read_debug", false)
+        userIdentifier = sharedPref.getString("unique_id", "")
         markOnScroll = sharedPref.getBoolean("mark_on_scroll", false)
         useWebview = sharedPref.getBoolean("prefer_webview_in_article_viewer", false)
 
@@ -93,6 +93,11 @@ class ReaderActivity : AppCompatActivity() {
         var adapter = ScreenSlidePagerAdapter(supportFragmentManager)
         pager.adapter = adapter
         pager.currentItem = currentItem
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         (pager.adapter as ScreenSlidePagerAdapter).notifyDataSetChanged()
 
         pager.setPageTransformer(true, DepthPageTransformer())
