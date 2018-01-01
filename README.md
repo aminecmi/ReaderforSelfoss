@@ -25,4 +25,4 @@ Check the [Contribution guide](https://github.com/aminecmi/ReaderforSelfoss/blob
 - [See what I'm doing](https://github.com/aminecmi/ReaderforSelfoss/projects/1)
 - [Create an issue, or request a new feature](https://github.com/aminecmi/ReaderforSelfoss/issues)
 - [Help translation the app](https://crowdin.com/project/readerforselfoss)
-- [Ask for help](https://gitter.im/amine-bou/ReaderForSelfoss)
+- [Ask for help](https://join.slack.com/t/readerforselfoss/shared_invite/enQtMjkyNzc3NjM2Mjc1LTUzZTZhOGM5YjQ1MTI5MWZiODRjMjE1ZDBmMzQxZmQ3NWZhYTNhMTBjNGEwNmE2ZGFjODU5NjUxZjBkMWJmMDQ)
