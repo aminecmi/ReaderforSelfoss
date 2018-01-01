@@ -193,7 +193,7 @@ class ReaderActivity : AppCompatActivity() {
         inflater.inflate(R.menu.reader_menu, menu)
         toolbarMenu = menu
 
-        if (allItems[currentItem].starred) {
+        if (!allItems.isEmpty() && allItems[currentItem].starred) {
             canRemoveFromFavorite()
         } else {
             canFavorite()

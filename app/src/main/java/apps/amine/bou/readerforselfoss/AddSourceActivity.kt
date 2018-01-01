@@ -27,6 +27,7 @@ import retrofit2.Response
 class AddSourceActivity : AppCompatActivity() {
 
     private var mSpoutsValue: String? = null
+    private lateinit var api: SelfossApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +37,6 @@ class AddSourceActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        var api: SelfossApi? = null
 
         try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
@@ -56,7 +55,10 @@ class AddSourceActivity : AppCompatActivity() {
         saveBtn.setOnClickListener {
             handleSaveSource(tags, nameInput.text.toString(), sourceUri.text.toString(), api!!)
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         val config = Config(this)
 
         if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid()) {
@@ -74,9 +76,11 @@ class AddSourceActivity : AppCompatActivity() {
     ) {
         val spoutsKV = HashMap<String, String>()
         spoutsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                val spoutName = (view as TextView).text.toString()
-                mSpoutsValue = spoutsKV[spoutName]
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View?, i: Int, l: Long) {
+                if (view != null) {
+                    val spoutName = (view as TextView).text.toString()
+                    mSpoutsValue = spoutsKV[spoutName]
+                }
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {

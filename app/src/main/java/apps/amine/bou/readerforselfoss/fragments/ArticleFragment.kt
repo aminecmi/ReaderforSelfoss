@@ -174,12 +174,12 @@ class ArticleFragment : Fragment() {
                             call: Call<ParsedContent>,
                             response: Response<ParsedContent>
                     ) {
-                        if (response.body() != null && response.body()!!.content != null && response.body()!!.content.isNotEmpty()) {
-                            rootView.source.text = response.body()!!.domain
-                            rootView.titleView.text = response.body()!!.title
-                            url = response.body()!!.url
+                        try {
+                            if (response.body() != null && response.body()!!.content != null && response.body()!!.content.isNotEmpty()) {
+                                rootView.source.text = response.body()!!.domain
+                                rootView.titleView.text = response.body()!!.title
+                                url = response.body()!!.url
 
-                            if (response.body()!!.content != null && !response.body()!!.content.isEmpty()) {
                                 if (!useWebview) {
                                     htmlToTextview(
                                             response.body()!!.content,
@@ -189,25 +189,33 @@ class ArticleFragment : Fragment() {
                                 } else {
                                     htmlToWebview(response.body()!!.content, prefs)
                                 }
-                            }
 
-                            if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isEmpty()) {
-                                rootView.imageView.visibility = View.VISIBLE
-                                Glide
-                                        .with(activity!!.baseContext)
-                                        .asBitmap()
-                                        .load(response.body()!!.lead_image_url)
-                                        .apply(RequestOptions.fitCenterTransform())
-                                        .into(rootView.imageView)
+                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isEmpty()) {
+                                    rootView.imageView.visibility = View.VISIBLE
+                                    Glide
+                                            .with(activity!!.baseContext)
+                                            .asBitmap()
+                                            .load(response.body()!!.lead_image_url)
+                                            .apply(RequestOptions.fitCenterTransform())
+                                            .into(rootView.imageView)
+                                } else {
+                                    rootView.imageView.visibility = View.GONE
+                                }
+
+                                rootView.nestedScrollView.scrollTo(0, 0)
+
+                                rootView.progressBar.visibility = View.GONE
                             } else {
-                                rootView.imageView.visibility = View.GONE
+                                openInBrowserAfterFailing(customTabsIntent)
                             }
-
-                            rootView.nestedScrollView.scrollTo(0, 0)
-
-                            rootView.progressBar.visibility = View.GONE
-                        } else {
-                            openInBrowserAfterFailing(customTabsIntent)
+                        } catch (e: Exception) {
+                            Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                            Crashlytics.log(
+                                    100,
+                                    "MERCURY_CONTENT_EXCEPTION",
+                                    "Fatal Exception on mercury response"
+                            )
+                            Crashlytics.logException(e)
                         }
                     }
 
