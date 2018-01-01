@@ -6,6 +6,8 @@
 
 - Fixes (#151 #152 #155 #157 #160)
 
+- New year fixes !!!
+
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 
 - Toolbar in reader activity.
