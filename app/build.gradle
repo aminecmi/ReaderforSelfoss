@@ -20,7 +20,8 @@ def gitVersion() {
 }
 
 def versionCodeFromGit() {
-    def versionCode = gitVersion() + (ext.configuration.buildDate.format("yyMMD")).toInteger()
+    def dayInYear = ext.configuration.buildDate.format("D").padLeft(3, '0')
+    def versionCode = gitVersion() + (ext.configuration.buildDate.format("yyMM") + dayInYear).toInteger()
     println "version code " + versionCode
     return versionCode.toInteger()
 }
