@@ -8,6 +8,8 @@
 
 - New year fixes !!!
 
+- Changed page indicator position as it was overlaping content.
+
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 
 - Toolbar in reader activity.
