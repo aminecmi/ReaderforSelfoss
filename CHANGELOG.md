@@ -12,6 +12,8 @@
 
 - Now using slack instead of gitter.
 
+- Moved completely to a webview to fix #161.
+
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 
 - Toolbar in reader activity.

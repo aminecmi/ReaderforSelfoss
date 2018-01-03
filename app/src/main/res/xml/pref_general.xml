@@ -33,13 +33,6 @@
         android:summaryOff="@string/prefer_article_viewer_off"
         android:summaryOn="@string/prefer_article_viewer_on"
         android:title="@string/prefer_article_viewer_title" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="prefer_article_viewer"
-        android:key="prefer_webview_in_article_viewer"
-        android:summaryOff="@string/prefer_webview_in_article_viewer_off"
-        android:summaryOn="@string/prefer_webview_in_article_viewer_on"
-        android:title="@string/prefer_webview_in_article_viewer_title" />
 
     <PreferenceCategory
         android:title="@string/pref_general_category_displaying">

@@ -51,8 +51,6 @@ class ArticleFragment : Fragment() {
     private lateinit var contentTitle: String
     private lateinit var fab: FloatingActionButton
 
-    private var useWebview: Boolean = false
-
     override fun onStop() {
         super.onStop()
         mCustomTabActivityHelper.unbindCustomTabsService(activity)
@@ -62,7 +60,6 @@ class ArticleFragment : Fragment() {
         super.onCreate(savedInstanceState)
         pageNumber = arguments!!.getInt(ARG_POSITION)
         allItems = arguments!!.getParcelableArrayList(ARG_ITEMS)
-        useWebview = arguments!!.getBoolean(ARG_WEBVIEW)
     }
 
     private lateinit var rootView: ViewGroup
@@ -122,11 +119,7 @@ class ArticleFragment : Fragment() {
             rootView.source.text = contentSource
             rootView.titleView.text = contentTitle
 
-            if (!useWebview) {
-                htmlToTextview(contentText, customTabsIntent, prefs)
-            } else {
-                htmlToWebview(contentText, prefs)
-            }
+            htmlToWebview(contentText, prefs)
 
             if (!contentImage.isEmptyOrNullOrNullString()) {
                 rootView.imageView.visibility = View.VISIBLE
@@ -150,10 +143,6 @@ class ArticleFragment : Fragment() {
                     }
                 }
         )
-
-        if (!useWebview) {
-            rootView.content.movementMethod = LinkMovementMethod.getInstance()
-        }
 
         return rootView
     }
@@ -180,15 +169,7 @@ class ArticleFragment : Fragment() {
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
 
-                                if (!useWebview) {
-                                    htmlToTextview(
-                                            response.body()!!.content,
-                                            customTabsIntent,
-                                            prefs
-                                    )
-                                } else {
-                                    htmlToWebview(response.body()!!.content, prefs)
-                                }
+                                htmlToWebview(response.body()!!.content, prefs)
 
                                 if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isEmpty()) {
                                     rootView.imageView.visibility = View.VISIBLE
@@ -225,26 +206,6 @@ class ArticleFragment : Fragment() {
                     ) = openInBrowserAfterFailing(customTabsIntent)
                 }
         )
-    }
-
-    private fun htmlToTextview(
-            c: String,
-            customTabsIntent: CustomTabsIntent,
-            prefs: SharedPreferences
-    ) {
-        try {
-            rootView.content.visibility = View.VISIBLE
-            rootView.content.text = Html.fromHtml(
-                    c,
-                    HtmlHttpImageGetter(rootView.content, null, true),
-                    null
-            )
-        } catch (e: Exception) {
-            Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-            Crashlytics.log(100, "CANT_TRANSFORM_TO_HTML", e.message)
-            Crashlytics.logException(e)
-            openInBrowserAfterFailing(customTabsIntent)
-        }
     }
 
     private fun htmlToWebview(c: String, prefs: SharedPreferences) {
@@ -309,17 +270,14 @@ class ArticleFragment : Fragment() {
     companion object {
         private val ARG_POSITION = "position"
         private val ARG_ITEMS = "items"
-        private val ARG_WEBVIEW = "userWebview"
 
         fun newInstance(
                 position: Int,
-                allItems: ArrayList<Item>,
-                webview: Boolean
+                allItems: ArrayList<Item>
         ): ArticleFragment {
             val fragment = ArticleFragment()
             val args = Bundle()
             args.putInt(ARG_POSITION, position)
-            args.putBoolean(ARG_WEBVIEW, webview)
             args.putParcelableArrayList(ARG_ITEMS, allItems)
             fragment.arguments = args
             return fragment

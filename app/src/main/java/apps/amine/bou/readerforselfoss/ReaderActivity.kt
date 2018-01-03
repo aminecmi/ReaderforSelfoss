@@ -30,7 +30,6 @@ class ReaderActivity : AppCompatActivity() {
 
     private var markOnScroll: Boolean = false
     private var debugReadingItems: Boolean = false
-    private var useWebview: Boolean = false
     private var currentItem: Int = 0
     private lateinit var userIdentifier: String
 
@@ -66,8 +65,6 @@ class ReaderActivity : AppCompatActivity() {
         debugReadingItems = sharedPref.getBoolean("read_debug", false)
         userIdentifier = sharedPref.getString("unique_id", "")
         markOnScroll = sharedPref.getBoolean("mark_on_scroll", false)
-        useWebview = sharedPref.getBoolean("prefer_webview_in_article_viewer", false)
-
 
         if (allItems.isEmpty()) {
             Crashlytics.setUserIdentifier(userIdentifier)
@@ -184,7 +181,7 @@ class ReaderActivity : AppCompatActivity() {
         }
 
         override fun getItem(position: Int): ArticleFragment {
-            return ArticleFragment.newInstance(position, allItems, useWebview)
+            return ArticleFragment.newInstance(position, allItems)
         }
     }
 
