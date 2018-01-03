@@ -159,6 +159,6 @@
   <string name="reader_action_open">Tarayıcıda aç</string>
   <string name="reader_action_share">Paylaş</string>
   <string name="pref_switch_actions_pager_scroll">Mark articles as read when swiping between articles.</string>
-    <string name="add_to_favs_reader">Add to favorites</string>
+  <string name="add_to_favs_reader">Add to favorites</string>
   <string name="remove_to_favs_reader">Remove from favorites</string>
 </resources>
