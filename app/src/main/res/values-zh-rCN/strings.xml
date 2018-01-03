@@ -159,6 +159,6 @@
   <string name="reader_action_open">在浏览器中打开</string>
   <string name="reader_action_share">分享</string>
   <string name="pref_switch_actions_pager_scroll">切换文章时将文章标记为已读。</string>
-    <string name="add_to_favs_reader">添加到收藏</string>
+  <string name="add_to_favs_reader">添加到收藏</string>
   <string name="remove_to_favs_reader">从收藏中移除</string>
 </resources>
