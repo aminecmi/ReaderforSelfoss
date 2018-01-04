@@ -421,7 +421,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 } else {
                     for (tag in maybeTags) {
                         val gd = GradientDrawable()
-                        gd.setColor(Color.parseColor(tag.color))
+                        val color = try {
+                            Color.parseColor(tag.color)
+                        } catch (e: IllegalArgumentException) {
+                            resources.getColor(R.color.primary)
+                        }
+
+                        gd.setColor(color)
                         gd.shape = GradientDrawable.RECTANGLE
                         gd.setSize(30, 30)
                         gd.cornerRadius = 30F
