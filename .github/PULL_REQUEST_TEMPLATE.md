@@ -5,6 +5,7 @@
 - [ ] I have updated the documentation accordingly.
 - [ ] I have added tests to cover my changes.
 - [ ] All new and existing tests passed.
+- [ ] This is **NOT** translation related. (See [here](https://github.com/aminecmi/ReaderforSelfoss/pull/170#issuecomment-355715654))
 
 This closes issue #XXX
 

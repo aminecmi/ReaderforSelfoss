@@ -8,7 +8,7 @@ Please read the guidelines before contributing, and follow them (or try to) when
 
 ### What you can do to help.
 
-There are many ways to contribute to this project, you could report bugs, request missing features, suggest enhancements and changes to existing ones. You also can improve the README with useful tips that could help the other users.
+There are many ways to contribute to this project, you could [translate the app](https://crowdin.com/project/readerforselfoss), report bugs, request missing features, suggest enhancements and changes to existing ones. You also can improve the README with useful tips that could help the other users.
 
 You can fork the repository, and [help me solve some issues](https://github.com/aminecmi/ReaderforSelfoss/issues?q=is%3Aissue+is%3Aopen+label%3A%22Up+For+Grabs%22) or [develop new things](https://github.com/aminecmi/ReaderforSelfoss/issues)
 
@@ -28,6 +28,7 @@ Always check if the web version of your instance is working.
 
 ### Pull requests
 
+* Don't create a PR for translations. See [here](https://github.com/aminecmi/ReaderforSelfoss/pull/170#issuecomment-355715654) for an explanation why.
 * Please ask before starting to work on an issue. I may be working on it, or someone else could be doing so.
 * Each pull request should implement **ONE** feature or bugfix. Keep in mind that you can submit as many PR as you want.
 * Your code must be simple and clear enough to avoid using comments to explain what it does.

@@ -14,6 +14,10 @@
 
 - Moved completely to a webview to fix #161.
 
+- Fixed typos in French ( Thanks @aancel )
+
+- Updated the Contribution guide about translations.
+
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 
 - Toolbar in reader activity.
