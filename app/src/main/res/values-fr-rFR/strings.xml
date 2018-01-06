@@ -81,7 +81,7 @@
   <string name="pref_switch_card_view_on">"Les articles seront affichés en forme de carte"</string>
   <string name="pref_switch_card_view_off">"Les articles seront affichés en liste"</string>
   <string name="pref_switch_actions_tap_on">"Afficher la barre d'action sous l'article"</string>
-  <string name="pref_switch_actions_tap_off">"Le clic sur un article l'ouvrira dans le naviguateur selectionné"</string>
+  <string name="pref_switch_actions_tap_off">"Le clic sur un article l'ouvrira dans le navigateur sélectionné"</string>
   <string name="menu_home_refresh">"Mettre à jour"</string>
   <string name="refresh_success_response">"Mise à jour effectuée."</string>
   <string name="refresh_failer_message">"La mise à jour n'a pas fonctionné. Vérifiez vos logs selfoss."</string>
