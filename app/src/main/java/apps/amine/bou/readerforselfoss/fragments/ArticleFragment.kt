@@ -164,14 +164,14 @@ class ArticleFragment : Fragment() {
                             response: Response<ParsedContent>
                     ) {
                         try {
-                            if (response.body() != null && response.body()!!.content != null && response.body()!!.content.isNotEmpty()) {
+                            if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 rootView.source.text = response.body()!!.domain
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
 
-                                htmlToWebview(response.body()!!.content, prefs)
+                                htmlToWebview(response.body()!!.content.orEmpty(), prefs)
 
-                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isEmpty()) {
+                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty()) {
                                     rootView.imageView.visibility = View.VISIBLE
                                     Glide
                                             .with(activity!!.baseContext)

@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 class ParsedContent(
         @SerializedName("title") val title: String,
-        @SerializedName("content") val content: String,
+        @SerializedName("content") val content: String?,
         @SerializedName("date_published") val date_published: String,
-        @SerializedName("lead_image_url") val lead_image_url: String,
+        @SerializedName("lead_image_url") val lead_image_url: String?,
         @SerializedName("dek") val dek: String,
         @SerializedName("url") val url: String,
         @SerializedName("domain") val domain: String,

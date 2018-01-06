@@ -17,13 +17,13 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.adapters.ItemCardAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemListAdapter
+import apps.amine.bou.readerforselfoss.adapters.ItemsAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Sources
@@ -119,6 +119,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var recyclerViewScrollListener: RecyclerView.OnScrollListener? = null
     private lateinit var settings: SharedPreferences
 
+    private var recyclerAdapter: RecyclerView.Adapter<*>? = null
+
     private var badgeNew: Int = -1
     private var badgeAll: Int = -1
     private var badgeFavs: Int = -1
@@ -161,7 +163,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleBottomBar()
         handleDrawer()
 
-        reloadLayoutManager()
         handleSwipeRefreshLayout()
     }
 
@@ -313,6 +314,16 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         handleSharedPrefs()
+
+        reloadLayoutManager()
+
+        if (!infiniteScroll) {
+            recyclerView.setHasFixedSize(true)
+        } else {
+            handleInfiniteScroll()
+        }
+
+        handleBottomBarActions()
 
         getElementsAccordingToTab()
     }
@@ -623,48 +634,67 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun reloadLayoutManager() {
-        val mLayoutManager: RecyclerView.LayoutManager
-        if (shouldBeCardView) {
-            mLayoutManager = StaggeredGridLayoutManager(
-                    calculateNoOfColumns(),
-                    StaggeredGridLayoutManager.VERTICAL
-            )
-            mLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-        } else {
-            mLayoutManager = GridLayoutManager(this, calculateNoOfColumns())
+        val currentManager = recyclerView.layoutManager
+        val layoutManager: RecyclerView.LayoutManager
+
+        // This will only update the layout manager if settings changed
+        when (currentManager) {
+            is StaggeredGridLayoutManager ->
+                    if (!shouldBeCardView) {
+                        layoutManager = GridLayoutManager(this, calculateNoOfColumns())
+                        recyclerView.layoutManager = layoutManager
+                    }
+            is GridLayoutManager ->
+                    if (shouldBeCardView) {
+                        layoutManager = StaggeredGridLayoutManager(
+                                calculateNoOfColumns(),
+                                StaggeredGridLayoutManager.VERTICAL
+                        )
+                        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                        recyclerView.layoutManager = layoutManager
+                    }
+            else ->
+                if (currentManager == null) {
+                    if (!shouldBeCardView) {
+                        layoutManager = GridLayoutManager(this, calculateNoOfColumns())
+                        recyclerView.layoutManager = layoutManager
+                    } else {
+                        layoutManager = StaggeredGridLayoutManager(
+                                calculateNoOfColumns(),
+                                StaggeredGridLayoutManager.VERTICAL
+                        )
+                        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                        recyclerView.layoutManager = layoutManager
+                    }
+                } else {
+                    Unit
+                }
         }
-
-        recyclerView.layoutManager = mLayoutManager
-
-        if (!infiniteScroll) {
-            recyclerView.setHasFixedSize(true)
-        } else {
-            handleInfiniteScroll()
-        }
-
-        handleBottomBarActions(mLayoutManager)
     }
 
-    private fun handleBottomBarActions(mLayoutManager: RecyclerView.LayoutManager) {
+    private fun handleBottomBarActions() {
         bottomBar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabUnselected(position: Int) = Unit
 
-            override fun onTabReselected(position: Int) =
-                    when (mLayoutManager) {
-                        is StaggeredGridLayoutManager ->
-                            if (mLayoutManager.findFirstCompletelyVisibleItemPositions(null)[0] == 0) {
-                                getElementsAccordingToTab()
-                            } else {
-                                mLayoutManager.scrollToPositionWithOffset(0, 0)
-                            }
-                        is GridLayoutManager ->
-                            if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
-                                getElementsAccordingToTab()
-                            } else {
-                                mLayoutManager.scrollToPositionWithOffset(0, 0)
-                            }
-                        else -> Unit
-                    }
+            override fun onTabReselected(position: Int) {
+                val layoutManager = recyclerView.adapter
+
+                when (layoutManager) {
+                    is StaggeredGridLayoutManager ->
+                        if (layoutManager.findFirstCompletelyVisibleItemPositions(null)[0] == 0) {
+                            getElementsAccordingToTab()
+                        } else {
+                            layoutManager.scrollToPositionWithOffset(0, 0)
+                        }
+                    is GridLayoutManager ->
+                        if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+                            getElementsAccordingToTab()
+                        } else {
+                            layoutManager.scrollToPositionWithOffset(0, 0)
+                        }
+                    else -> Unit
+                }
+            }
 
             override fun onTabSelected(position: Int) {
                 offset = 0
@@ -739,25 +769,21 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             call: (String?, Long?, String?) -> Call<List<Item>>
     ) {
         fun handleItemsResponse(response: Response<List<Item>>) {
-            val didUpdate = (response.body() != items)
+            val shouldUpdate = (response.body() != items)
             if (response.body() != null) {
-                if (response.body() != items) {
-                    if (appendResults) {
-                        items.addAll(response.body() as ArrayList<Item>)
-                    } else {
-                        items = response.body() as ArrayList<Item>
-                    }
+                if (shouldUpdate) {
+                    items = response.body() as ArrayList<Item>
                 }
             } else {
                 if (!appendResults) {
                     items = ArrayList()
                 }
             }
-            if (didUpdate) {
+            if (shouldUpdate) {
                 handleListResult(appendResults)
             }
 
-            mayBeEmpty()
+            if (!appendResults) mayBeEmpty()
             swipeRefreshLayout.isRefreshing = false
         }
 
@@ -836,49 +862,49 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         }
 
-        reloadLayoutManager()
+        if (recyclerAdapter == null) {
+            if (shouldBeCardView) {
+                recyclerAdapter =
+                        ItemCardAdapter(
+                                this,
+                                items,
+                                api,
+                                customTabActivityHelper,
+                                internalBrowser,
+                                articleViewer,
+                                fullHeightCards,
+                                appColors,
+                                debugReadingItems,
+                                userIdentifier
+                        )
+            } else {
+                recyclerAdapter =
+                        ItemListAdapter(
+                                this,
+                                items,
+                                api,
+                                customTabActivityHelper,
+                                clickBehavior,
+                                internalBrowser,
+                                articleViewer,
+                                debugReadingItems,
+                                userIdentifier
+                        )
 
-        val mAdapter: RecyclerView.Adapter<*>
-        if (shouldBeCardView) {
-            mAdapter =
-                    ItemCardAdapter(
-                            this,
-                            items,
-                            api,
-                            customTabActivityHelper,
-                            internalBrowser,
-                            articleViewer,
-                            fullHeightCards,
-                            appColors,
-                            debugReadingItems,
-                            userIdentifier
-                    )
+                recyclerView.addItemDecoration(
+                        DividerItemDecoration(
+                                this@HomeActivity,
+                                DividerItemDecoration.VERTICAL
+                        )
+                )
+            }
+            recyclerView.adapter = recyclerAdapter
         } else {
-            mAdapter =
-                    ItemListAdapter(
-                            this,
-                            items,
-                            api,
-                            customTabActivityHelper,
-                            clickBehavior,
-                            internalBrowser,
-                            articleViewer,
-                            debugReadingItems,
-                            userIdentifier
-                    )
-
-            recyclerView.addItemDecoration(
-                    DividerItemDecoration(
-                            this@HomeActivity,
-                            DividerItemDecoration.VERTICAL
-                    )
-            )
-        }
-        recyclerView.adapter = mAdapter
-        mAdapter.notifyDataSetChanged()
-
-        if (appendResults) {
-            recyclerView.scrollToPosition(firstVisible!!)
+            if (!appendResults) {
+                (recyclerAdapter as ItemsAdapter<*>).updateAllItems(items)
+            } else {
+                (recyclerAdapter as ItemsAdapter<*>).addItemsAtEnd(items)
+            }
         }
 
         reloadBadges()
