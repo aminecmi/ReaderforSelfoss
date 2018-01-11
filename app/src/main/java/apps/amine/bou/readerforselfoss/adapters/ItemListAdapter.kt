@@ -93,7 +93,7 @@ class ItemListAdapter(
             if (itm.getIcon(c).isEmpty()) {
                 val color = generator.getColor(itm.sourcetitle)
                 val textDrawable = StringBuilder()
-                for (s in itm.sourcetitle.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
+                for (s in itm.sourcetitle.split(" ".toRegex()).filter { it.isEmpty() }.toTypedArray()) {
                     textDrawable.append(s[0])
                 }
 
