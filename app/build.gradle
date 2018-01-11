@@ -32,8 +32,6 @@ def versionNameFromGit() {
     return versionName
 }
 
-apply plugin: 'org.sonarqube'
-
 apply plugin: 'com.android.application'
 
 apply plugin: 'io.fabric'

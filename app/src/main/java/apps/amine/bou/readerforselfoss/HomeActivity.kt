@@ -619,7 +619,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 )
         )
 
-        val resultType = object : TypeToken<DrawerData>() {}.type //NOSONAR
+        val resultType = object : TypeToken<DrawerData>() {}.type
         Reservoir.getAsync(
                 "drawerData", resultType, object : ReservoirGetCallback<DrawerData> {
             override fun onSuccess(maybeDrawerData: DrawerData?) {
