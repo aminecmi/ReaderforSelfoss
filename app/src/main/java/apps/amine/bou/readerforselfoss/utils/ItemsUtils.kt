@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss.utils
 
 import android.text.format.DateUtils
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import com.crashlytics.android.Crashlytics
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -9,7 +10,12 @@ import java.util.*
 fun String.toTextDrawableString(): String {
     val textDrawable = StringBuilder()
     for (s in this.split(" ".toRegex()).filter { !it.isEmpty() }.toTypedArray()) {
-        textDrawable.append(s[0])
+        try {
+            textDrawable.append(s[0])
+        } catch (e: StringIndexOutOfBoundsException) {
+            Crashlytics.log(100, "TEXT_DRAWABLE_INDEX_OUT_OF_BOUND", this + " produces ${e.message}")
+            Crashlytics.logException(e)
+        }
     }
     return textDrawable.toString()
 }
