@@ -67,7 +67,6 @@ class ItemListAdapter(
         val itm = items[position]
 
 
-        holder.mView.favButton.isLiked = itm.starred
         holder.mView.title.text = Html.fromHtml(itm.title)
 
         holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
@@ -108,9 +107,14 @@ class ItemListAdapter(
             c.bitmapCenterCrop(itm.getThumbnail(c), holder.mView.itemImage)
         }
 
-        if (bars[position]) {
-            holder.mView.actionBar.visibility = View.VISIBLE
-        } else {
+        // TODO: maybe handle this differently. It crashes when changing tab
+        try {
+            if (bars[position]) {
+                holder.mView.actionBar.visibility = View.VISIBLE
+            } else {
+                holder.mView.actionBar.visibility = View.GONE
+            }
+        } catch (e: IndexOutOfBoundsException) {
             holder.mView.actionBar.visibility = View.GONE
         }
 
