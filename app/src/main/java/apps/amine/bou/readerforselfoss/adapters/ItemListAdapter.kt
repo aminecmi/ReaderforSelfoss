@@ -26,6 +26,7 @@ import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.succeeded
+import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.crashlytics.android.Crashlytics
@@ -92,14 +93,13 @@ class ItemListAdapter(
 
             if (itm.getIcon(c).isEmpty()) {
                 val color = generator.getColor(itm.sourcetitle)
-                val textDrawable = StringBuilder()
-                for (s in itm.sourcetitle.split(" ".toRegex()).filter { it.isEmpty() }.toTypedArray()) {
-                    textDrawable.append(s[0])
-                }
 
-                val builder = TextDrawable.builder().round()
+                val drawable =
+                        TextDrawable
+                                .builder()
+                                .round()
+                                .build(itm.sourcetitle.toTextDrawableString(), color)
 
-                val drawable = builder.build(textDrawable.toString(), color)
                 holder.mView.itemImage.setImageDrawable(drawable)
             } else {
                 c.circularBitmapDrawable(itm.getIcon(c), holder.mView.itemImage)
