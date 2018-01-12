@@ -12,6 +12,8 @@ ext {
     configuration = [
             buildDate: new Date()
     ]
+    // This will make me able to build multiple times a day. May break thinks. I may forget it.
+    todaysBuilds = "1"
 }
 
 def gitVersion() {
@@ -20,14 +22,15 @@ def gitVersion() {
 }
 
 def versionCodeFromGit() {
-    def dayInYear = ext.configuration.buildDate.format("D").padLeft(3, '0')
-    def versionCode = gitVersion() + (ext.configuration.buildDate.format("yyMM") + dayInYear).toInteger()
+    def dayInYear = ext.configuration.buildDate.format("D").padLeft(2, '0')
+    def versionCode = gitVersion() + (ext.configuration.buildDate.format("yyMM") + ext.todaysBuilds + dayInYear).toInteger()
     println "version code " + versionCode
     return versionCode.toInteger()
 }
 
 def versionNameFromGit() {
-    def versionName = gitVersion() + ext.configuration.buildDate.format('yyyyMMddHHmm')
+    def dayInYear = ext.configuration.buildDate.format("D").padLeft(2, '0')
+    def versionName = gitVersion() + ext.configuration.buildDate.format('yyMM') + ext.todaysBuilds + dayInYear
     println "version name " + versionName
     return versionName
 }
@@ -95,7 +98,8 @@ android {
             buildConfigField "boolean", "GITHUB_VERSION", "true"
         }
         storeConfig {
-            versionNameSuffix '-store'
+            // As jenkins publishes to alpha first, this is the default suffix now.
+            versionNameSuffix '-alpha'
             dimension "build"
             buildConfigField "boolean", "GITHUB_VERSION", "false"
         }
