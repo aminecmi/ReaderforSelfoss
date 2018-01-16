@@ -99,7 +99,7 @@ android {
         }
         storeConfig {
             // As jenkins publishes to alpha first, this is the default suffix now.
-            versionNameSuffix '-alpha'
+            versionNameSuffix '-store'
             dimension "build"
             buildConfigField "boolean", "GITHUB_VERSION", "false"
         }
