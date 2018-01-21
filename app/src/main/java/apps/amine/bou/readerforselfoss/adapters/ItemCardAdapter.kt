@@ -2,8 +2,6 @@ package apps.amine.bou.readerforselfoss.adapters
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.Html
@@ -11,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView.ScaleType
-import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
@@ -26,12 +23,10 @@ import apps.amine.bou.readerforselfoss.utils.openInBrowserAsNewTask
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
-import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
-import com.crashlytics.android.Crashlytics
 import com.like.LikeButton
 import com.like.OnLikeListener
 import kotlinx.android.synthetic.main.card_item.view.*
@@ -40,20 +35,21 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ItemCardAdapter(
-        override val app: Activity,
-        override var items: ArrayList<Item>,
-        override val api: SelfossApi,
-        private val helper: CustomTabActivityHelper,
-        private val internalBrowser: Boolean,
-        private val articleViewer: Boolean,
-        private val fullHeightCards: Boolean,
-        private val appColors: AppColors,
-        override val debugReadingItems: Boolean,
-        override val userIdentifier: String
+    override val app: Activity,
+    override var items: ArrayList<Item>,
+    override val api: SelfossApi,
+    private val helper: CustomTabActivityHelper,
+    private val internalBrowser: Boolean,
+    private val articleViewer: Boolean,
+    private val fullHeightCards: Boolean,
+    private val appColors: AppColors,
+    override val debugReadingItems: Boolean,
+    override val userIdentifier: String
 ) : ItemsAdapter<ItemCardAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
-    private val imageMaxHeight: Int = c.resources.getDimension(R.dimen.card_image_max_height).toInt()
+    private val imageMaxHeight: Int =
+        c.resources.getDimension(R.dimen.card_image_max_height).toInt()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(c).inflate(R.layout.card_item, parent, false) as CardView
@@ -87,10 +83,10 @@ class ItemCardAdapter(
             val color = generator.getColor(itm.sourcetitle)
 
             val drawable =
-                    TextDrawable
-                            .builder()
-                            .round()
-                            .build(itm.sourcetitle.toTextDrawableString(), color)
+                TextDrawable
+                    .builder()
+                    .round()
+                    .build(itm.sourcetitle.toTextDrawableString(), color)
             holder.mView.sourceImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(itm.getIcon(c), holder.mView.sourceImage)
@@ -117,20 +113,20 @@ class ItemCardAdapter(
                     val (id) = items[adapterPosition]
                     api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
                         ) {
                         }
 
                         override fun onFailure(
-                                call: Call<SuccessResponse>,
-                                t: Throwable
+                            call: Call<SuccessResponse>,
+                            t: Throwable
                         ) {
                             mView.favButton.isLiked = false
                             Toast.makeText(
-                                    c,
-                                    R.string.cant_mark_favortie,
-                                    Toast.LENGTH_SHORT
+                                c,
+                                R.string.cant_mark_favortie,
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     })
@@ -140,20 +136,20 @@ class ItemCardAdapter(
                     val (id) = items[adapterPosition]
                     api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
                         ) {
                         }
 
                         override fun onFailure(
-                                call: Call<SuccessResponse>,
-                                t: Throwable
+                            call: Call<SuccessResponse>,
+                            t: Throwable
                         ) {
                             mView.favButton.isLiked = true
                             Toast.makeText(
-                                    c,
-                                    R.string.cant_unmark_favortie,
-                                    Toast.LENGTH_SHORT
+                                c,
+                                R.string.cant_unmark_favortie,
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     })
@@ -175,13 +171,13 @@ class ItemCardAdapter(
 
             mView.setOnClickListener {
                 c.openItemUrl(
-                        items,
-                        adapterPosition,
-                        items[adapterPosition].getLinkDecoded(),
-                        customTabsIntent,
-                        internalBrowser,
-                        articleViewer,
-                        app
+                    items,
+                    adapterPosition,
+                    items[adapterPosition].getLinkDecoded(),
+                    customTabsIntent,
+                    internalBrowser,
+                    articleViewer,
+                    app
                 )
             }
         }

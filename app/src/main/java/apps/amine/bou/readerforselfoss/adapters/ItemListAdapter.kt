@@ -2,16 +2,13 @@ package apps.amine.bou.readerforselfoss.adapters
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
@@ -25,11 +22,9 @@ import apps.amine.bou.readerforselfoss.utils.openInBrowserAsNewTask
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
-import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.crashlytics.android.Crashlytics
 import com.like.LikeButton
 import com.like.OnLikeListener
 import kotlinx.android.synthetic.main.list_item.view.*
@@ -40,15 +35,15 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ItemListAdapter(
-        override val app: Activity,
-        override var items: ArrayList<Item>,
-        override val api: SelfossApi,
-        private val helper: CustomTabActivityHelper,
-        private val clickBehavior: Boolean,
-        private val internalBrowser: Boolean,
-        private val articleViewer: Boolean,
-        override val debugReadingItems: Boolean,
-        override val userIdentifier: String
+    override val app: Activity,
+    override var items: ArrayList<Item>,
+    override val api: SelfossApi,
+    private val helper: CustomTabActivityHelper,
+    private val clickBehavior: Boolean,
+    private val internalBrowser: Boolean,
+    private val articleViewer: Boolean,
+    override val debugReadingItems: Boolean,
+    override val userIdentifier: String
 ) : ItemsAdapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
     private val c: Context = app.baseContext
@@ -56,9 +51,9 @@ class ItemListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(c).inflate(
-                R.layout.list_item,
-                parent,
-                false
+            R.layout.list_item,
+            parent,
+            false
         ) as ConstraintLayout
         return ViewHolder(v)
     }
@@ -74,13 +69,13 @@ class ItemListAdapter(
         if (itm.getThumbnail(c).isEmpty()) {
             val sizeInInt = 46
             val sizeInDp = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
+                TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
                     .displayMetrics
             ).toInt()
 
             val marginInInt = 16
             val marginInDp = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, marginInInt.toFloat(), c.resources
+                TypedValue.COMPLEX_UNIT_DIP, marginInInt.toFloat(), c.resources
                     .displayMetrics
             ).toInt()
 
@@ -94,10 +89,10 @@ class ItemListAdapter(
                 val color = generator.getColor(itm.sourcetitle)
 
                 val drawable =
-                        TextDrawable
-                                .builder()
-                                .round()
-                                .build(itm.sourcetitle.toTextDrawableString(), color)
+                    TextDrawable
+                        .builder()
+                        .round()
+                        .build(itm.sourcetitle.toTextDrawableString(), color)
 
                 holder.mView.itemImage.setImageDrawable(drawable)
             } else {
@@ -123,8 +118,6 @@ class ItemListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-
-
     inner class ViewHolder(val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
 
         init {
@@ -139,20 +132,20 @@ class ItemListAdapter(
                     val (id) = items[adapterPosition]
                     api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
                         ) {
                         }
 
                         override fun onFailure(
-                                call: Call<SuccessResponse>,
-                                t: Throwable
+                            call: Call<SuccessResponse>,
+                            t: Throwable
                         ) {
                             mView.favButton.isLiked = false
                             Toast.makeText(
-                                    c,
-                                    R.string.cant_mark_favortie,
-                                    Toast.LENGTH_SHORT
+                                c,
+                                R.string.cant_mark_favortie,
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     })
@@ -162,20 +155,20 @@ class ItemListAdapter(
                     val (id) = items[adapterPosition]
                     api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
                         ) {
                         }
 
                         override fun onFailure(
-                                call: Call<SuccessResponse>,
-                                t: Throwable
+                            call: Call<SuccessResponse>,
+                            t: Throwable
                         ) {
                             mView.favButton.isLiked = true
                             Toast.makeText(
-                                    c,
-                                    R.string.cant_unmark_favortie,
-                                    Toast.LENGTH_SHORT
+                                c,
+                                R.string.cant_unmark_favortie,
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     })
@@ -200,13 +193,13 @@ class ItemListAdapter(
             if (!clickBehavior) {
                 mView.setOnClickListener {
                     c.openItemUrl(
-                            items,
-                            adapterPosition,
-                            items[adapterPosition].getLinkDecoded(),
-                            customTabsIntent,
-                            internalBrowser,
-                            articleViewer,
-                            app
+                        items,
+                        adapterPosition,
+                        items[adapterPosition].getLinkDecoded(),
+                        customTabsIntent,
+                        internalBrowser,
+                        articleViewer,
+                        app
                     )
                 }
                 mView.setOnLongClickListener {
@@ -217,13 +210,13 @@ class ItemListAdapter(
                 mView.setOnClickListener { actionBarShowHide() }
                 mView.setOnLongClickListener {
                     c.openItemUrl(
-                            items,
-                            adapterPosition,
-                            items[adapterPosition].getLinkDecoded(),
-                            customTabsIntent,
-                            internalBrowser,
-                            articleViewer,
-                            app
+                        items,
+                        adapterPosition,
+                        items[adapterPosition].getLinkDecoded(),
+                        customTabsIntent,
+                        internalBrowser,
+                        articleViewer,
+                        app
                     )
                     true
                 }
@@ -239,6 +232,4 @@ class ItemListAdapter(
             }
         }
     }
-
-
 }

@@ -15,7 +15,8 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerUIUtils
 import com.mikepenz.materialize.util.UIUtils
 
-abstract class CustomUrlBasePrimaryDrawerItem<T, VH : RecyclerView.ViewHolder> : BaseDrawerItem<T, VH>() {
+abstract class CustomUrlBasePrimaryDrawerItem<T, VH : RecyclerView.ViewHolder> :
+    BaseDrawerItem<T, VH>() {
     fun withIcon(url: String): T {
         this.icon = ImageHolder(url)
         return this as T
@@ -76,8 +77,8 @@ abstract class CustomUrlBasePrimaryDrawerItem<T, VH : RecyclerView.ViewHolder> :
 
         //set the background for the item
         UIUtils.setBackground(
-                viewHolder.view,
-                UIUtils.getSelectableBackground(ctx, selectedColor, true)
+            viewHolder.view,
+            UIUtils.getSelectableBackground(ctx, selectedColor, true)
         )
         //set the text for the name
         StringHolder.applyTo(this.getName(), viewHolder.name)
@@ -88,9 +89,9 @@ abstract class CustomUrlBasePrimaryDrawerItem<T, VH : RecyclerView.ViewHolder> :
         viewHolder.name.setTextColor(getTextColorStateList(color, selectedTextColor))
         //set the description text color
         ColorHolder.applyToOr(
-                descriptionTextColor,
-                viewHolder.description,
-                getTextColorStateList(color, selectedTextColor)
+            descriptionTextColor,
+            viewHolder.description,
+            getTextColorStateList(color, selectedTextColor)
         )
 
         //define the typeface for our textViews

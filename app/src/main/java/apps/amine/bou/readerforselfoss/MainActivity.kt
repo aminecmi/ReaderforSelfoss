@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         if (PreferenceManager.getDefaultSharedPreferences(baseContext).getBoolean(
                 "firstStart",
                 true
-        )) {
+            )) {
             val i = Intent(this@MainActivity, IntroActivity::class.java)
             startActivity(i)
         } else {

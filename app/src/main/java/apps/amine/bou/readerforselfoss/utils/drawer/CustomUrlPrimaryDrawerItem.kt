@@ -10,7 +10,9 @@ import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.interfaces.ColorfulBadgeable
 
-class CustomUrlPrimaryDrawerItem : CustomUrlBasePrimaryDrawerItem<CustomUrlPrimaryDrawerItem, CustomUrlPrimaryDrawerItem.ViewHolder>(), ColorfulBadgeable<CustomUrlPrimaryDrawerItem> {
+class CustomUrlPrimaryDrawerItem :
+    CustomUrlBasePrimaryDrawerItem<CustomUrlPrimaryDrawerItem, CustomUrlPrimaryDrawerItem.ViewHolder>(),
+    ColorfulBadgeable<CustomUrlPrimaryDrawerItem> {
     protected var mBadge: StringHolder = StringHolder("")
     protected var mBadgeStyle = BadgeStyle()
 
@@ -64,8 +66,8 @@ class CustomUrlPrimaryDrawerItem : CustomUrlBasePrimaryDrawerItem<CustomUrlPrima
         //style the badge if it is visible
         if (badgeVisible) {
             mBadgeStyle.style(
-                    viewHolder.badge,
-                    getTextColorStateList(getColor(ctx), getSelectedTextColor(ctx))
+                viewHolder.badge,
+                getTextColorStateList(getColor(ctx), getSelectedTextColor(ctx))
             )
             viewHolder.badgeContainer.visibility = View.VISIBLE
         } else {

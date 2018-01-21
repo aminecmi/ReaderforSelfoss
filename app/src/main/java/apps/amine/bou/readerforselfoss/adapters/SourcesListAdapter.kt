@@ -22,18 +22,18 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SourcesListAdapter(
-        private val app: Activity,
-        private val items: ArrayList<Sources>,
-        private val api: SelfossApi
+    private val app: Activity,
+    private val items: ArrayList<Sources>,
+    private val api: SelfossApi
 ) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(c).inflate(
-                R.layout.source_list_item,
-                parent,
-                false
+            R.layout.source_list_item,
+            parent,
+            false
         ) as ConstraintLayout
         return ViewHolder(v)
     }
@@ -45,10 +45,10 @@ class SourcesListAdapter(
             val color = generator.getColor(itm.title)
 
             val drawable =
-                    TextDrawable
-                            .builder()
-                            .round()
-                            .build(itm.title.toTextDrawableString(), color)
+                TextDrawable
+                    .builder()
+                    .round()
+                    .build(itm.title.toTextDrawableString(), color)
             holder.mView.itemImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(itm.getIcon(c), holder.mView.itemImage)
@@ -73,8 +73,8 @@ class SourcesListAdapter(
                 val (id) = items[adapterPosition]
                 api.deleteSource(id).enqueue(object : Callback<SuccessResponse> {
                     override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
+                        call: Call<SuccessResponse>,
+                        response: Response<SuccessResponse>
                     ) {
                         if (response.body() != null && response.body()!!.isSuccess) {
                             items.removeAt(adapterPosition)
@@ -82,18 +82,18 @@ class SourcesListAdapter(
                             notifyItemRangeChanged(adapterPosition, itemCount)
                         } else {
                             Toast.makeText(
-                                    app,
-                                    R.string.can_delete_source,
-                                    Toast.LENGTH_SHORT
+                                app,
+                                R.string.can_delete_source,
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
 
                     override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                         Toast.makeText(
-                                app,
-                                R.string.can_delete_source,
-                                Toast.LENGTH_SHORT
+                            app,
+                            R.string.can_delete_source,
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 })

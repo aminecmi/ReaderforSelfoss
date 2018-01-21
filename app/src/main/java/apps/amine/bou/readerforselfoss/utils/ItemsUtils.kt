@@ -13,7 +13,11 @@ fun String.toTextDrawableString(): String {
         try {
             textDrawable.append(s[0])
         } catch (e: StringIndexOutOfBoundsException) {
-            Crashlytics.log(100, "TEXT_DRAWABLE_INDEX_OUT_OF_BOUND", this + " produces ${e.message}")
+            Crashlytics.log(
+                100,
+                "TEXT_DRAWABLE_INDEX_OUT_OF_BOUND",
+                this + " produces ${e.message}"
+            )
             Crashlytics.logException(e)
         }
     }
@@ -23,10 +27,10 @@ fun String.toTextDrawableString(): String {
 fun Item.sourceAndDateText(): String {
     val formattedDate: String = try {
         " " + DateUtils.getRelativeTimeSpanString(
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime).time,
-                Date().time,
-                DateUtils.MINUTE_IN_MILLIS,
-                DateUtils.FORMAT_ABBREV_RELATIVE
+            SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime).time,
+            Date().time,
+            DateUtils.MINUTE_IN_MILLIS,
+            DateUtils.FORMAT_ABBREV_RELATIVE
         )
     } catch (e: ParseException) {
         e.printStackTrace()

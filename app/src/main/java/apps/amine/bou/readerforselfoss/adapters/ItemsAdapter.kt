@@ -30,29 +30,29 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
 
     private fun doUnmark(i: Item, position: Int) {
         val s = Snackbar
-                .make(
-                        app.findViewById(R.id.coordLayout),
-                        R.string.marked_as_read,
-                        Snackbar.LENGTH_LONG
-                )
-                .setAction(R.string.undo_string) {
-                    items.add(position, i)
-                    notifyItemInserted(position)
+            .make(
+                app.findViewById(R.id.coordLayout),
+                R.string.marked_as_read,
+                Snackbar.LENGTH_LONG
+            )
+            .setAction(R.string.undo_string) {
+                items.add(position, i)
+                notifyItemInserted(position)
 
-                    api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
-                        ) {
-                        }
+                api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
+                    override fun onResponse(
+                        call: Call<SuccessResponse>,
+                        response: Response<SuccessResponse>
+                    ) {
+                    }
 
-                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                            items.remove(i)
-                            notifyItemRemoved(position)
-                            doUnmark(i, position)
-                        }
-                    })
-                }
+                    override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                        items.remove(i)
+                        notifyItemRemoved(position)
+                        doUnmark(i, position)
+                    }
+                })
+            }
 
         val view = s.view
         val tv: TextView = view.findViewById(android.support.design.R.id.snackbar_text)
@@ -69,18 +69,18 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
 
         api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
             override fun onResponse(
-                    call: Call<SuccessResponse>,
-                    response: Response<SuccessResponse>
+                call: Call<SuccessResponse>,
+                response: Response<SuccessResponse>
             ) {
                 if (!response.succeeded() && debugReadingItems) {
                     val message =
-                            "message: ${response.message()} " +
-                                    "response isSuccess: ${response.isSuccessful} " +
-                                    "response code: ${response.code()} " +
-                                    "response message: ${response.message()} " +
-                                    "response errorBody: ${response.errorBody()?.string()} " +
-                                    "body success: ${response.body()?.success} " +
-                                    "body isSuccess: ${response.body()?.isSuccess}"
+                        "message: ${response.message()} " +
+                                "response isSuccess: ${response.isSuccessful} " +
+                                "response code: ${response.code()} " +
+                                "response message: ${response.message()} " +
+                                "response errorBody: ${response.errorBody()?.string()} " +
+                                "body success: ${response.body()?.success} " +
+                                "body isSuccess: ${response.body()?.isSuccess}"
                     Crashlytics.setUserIdentifier(userIdentifier)
                     Crashlytics.log(100, "READ_DEBUG_SUCCESS", message)
                     Crashlytics.logException(Exception("Was success, but did it work ?"))
@@ -98,9 +98,9 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                     Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
                 }
                 Toast.makeText(
-                        app,
-                        app.getString(R.string.cant_mark_read),
-                        Toast.LENGTH_SHORT
+                    app,
+                    app.getString(R.string.cant_mark_read),
+                    Toast.LENGTH_SHORT
                 ).show()
                 items.add(i)
                 notifyItemInserted(position)

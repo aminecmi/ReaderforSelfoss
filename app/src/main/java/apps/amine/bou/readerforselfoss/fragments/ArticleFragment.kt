@@ -9,8 +9,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
-import android.text.Html
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -33,7 +31,6 @@ import com.crashlytics.android.Crashlytics
 import com.ftinc.scoop.Scoop
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,12 +62,12 @@ class ArticleFragment : Fragment() {
     private lateinit var rootView: ViewGroup
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         rootView = inflater
-                .inflate(R.layout.fragment_article, container, false) as ViewGroup
+            .inflate(R.layout.fragment_article, container, false) as ViewGroup
 
         url = allItems[pageNumber.toInt()].getLinkDecoded()
         contentText = allItems[pageNumber.toInt()].content
@@ -89,27 +86,27 @@ class ArticleFragment : Fragment() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
 
         mFloatingToolbar.setClickListener(
-                object : FloatingToolbar.ItemClickListener {
-                    override fun onItemClick(item: MenuItem) {
-                        when (item.itemId) {
-                            R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
-                            R.id.share_action -> activity!!.shareLink(url)
-                            R.id.open_action -> activity!!.openItemUrl(
-                                    allItems,
-                                    pageNumber.toInt(),
-                                    url,
-                                    customTabsIntent,
-                                    false,
-                                    false,
-                                    activity!!
-                            )
-                            else -> Unit
-                        }
-                    }
-
-                    override fun onItemLongClick(item: MenuItem?) {
+            object : FloatingToolbar.ItemClickListener {
+                override fun onItemClick(item: MenuItem) {
+                    when (item.itemId) {
+                        R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
+                        R.id.share_action -> activity!!.shareLink(url)
+                        R.id.open_action -> activity!!.openItemUrl(
+                            allItems,
+                            pageNumber.toInt(),
+                            url,
+                            customTabsIntent,
+                            false,
+                            false,
+                            activity!!
+                        )
+                        else -> Unit
                     }
                 }
+
+                override fun onItemLongClick(item: MenuItem?) {
+                }
+            }
         )
 
 
@@ -124,149 +121,153 @@ class ArticleFragment : Fragment() {
             if (!contentImage.isEmptyOrNullOrNullString()) {
                 rootView.imageView.visibility = View.VISIBLE
                 Glide
-                        .with(activity!!.baseContext)
-                        .asBitmap()
-                        .load(contentImage)
-                        .apply(RequestOptions.fitCenterTransform())
-                        .into(rootView.imageView)
+                    .with(activity!!.baseContext)
+                    .asBitmap()
+                    .load(contentImage)
+                    .apply(RequestOptions.fitCenterTransform())
+                    .into(rootView.imageView)
             } else {
                 rootView.imageView.visibility = View.GONE
             }
         }
 
         rootView.nestedScrollView.setOnScrollChangeListener(
-                NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-                    if (scrollY > oldScrollY) {
-                        fab.hide()
-                    } else {
-                        if (mFloatingToolbar.isShowing) mFloatingToolbar.hide() else fab.show()
-                    }
+            NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+                if (scrollY > oldScrollY) {
+                    fab.hide()
+                } else {
+                    if (mFloatingToolbar.isShowing) mFloatingToolbar.hide() else fab.show()
                 }
+            }
         )
 
         return rootView
     }
 
     private fun getContentFromMercury(
-            customTabsIntent: CustomTabsIntent,
-            prefs: SharedPreferences
+        customTabsIntent: CustomTabsIntent,
+        prefs: SharedPreferences
     ) {
         rootView.progressBar.visibility = View.VISIBLE
         val parser = MercuryApi(
-                BuildConfig.MERCURY_KEY,
-                prefs.getBoolean("should_log_everything", false)
+            BuildConfig.MERCURY_KEY,
+            prefs.getBoolean("should_log_everything", false)
         )
 
         parser.parseUrl(url).enqueue(
-                object : Callback<ParsedContent> {
-                    override fun onResponse(
-                            call: Call<ParsedContent>,
-                            response: Response<ParsedContent>
-                    ) {
-                        // TODO: clean all the following after finding the mercury content issue
-                        try {
-                            if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
-                                try {
-                                    rootView.source.text = response.body()!!.domain
-                                    rootView.titleView.text = response.body()!!.title
-                                    url = response.body()!!.url
-                                } catch (e: Exception) {
-                                    Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                    Crashlytics.log(
-                                            100,
-                                            "MERCURY_CONTENT_EXCEPTION",
-                                            "source titleView or url issues"
-                                    )
-                                    Crashlytics.logException(e)
-                                }
-
-                                try {
-                                    htmlToWebview(response.body()!!.content.orEmpty(), prefs)
-                                } catch (e: Exception) {
-                                    Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                    Crashlytics.log(
-                                            100,
-                                            "MERCURY_CONTENT_EXCEPTION",
-                                            "Webview issue"
-                                    )
-                                    Crashlytics.logException(e)
-                                }
-
-                                try {
-                                    if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty()) {
-                                        rootView.imageView.visibility = View.VISIBLE
-                                        try {
-                                            Glide
-                                                    .with(activity!!.baseContext)
-                                                    .asBitmap()
-                                                    .load(response.body()!!.lead_image_url)
-                                                    .apply(RequestOptions.fitCenterTransform())
-                                                    .into(rootView.imageView)
-                                        } catch (e: Exception) {
-                                            Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                            Crashlytics.log(
-                                                    100,
-                                                    "MERCURY_CONTENT_EXCEPTION",
-                                                    "Glide issue"
-                                            )
-                                            Crashlytics.logException(e)
-                                        }
-                                    } else {
-                                        rootView.imageView.visibility = View.GONE
-                                    }
-                                } catch (e: Exception) {
-                                    Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                    Crashlytics.log(
-                                            100,
-                                            "MERCURY_CONTENT_EXCEPTION",
-                                            "Glide or image issue"
-                                    )
-                                    Crashlytics.logException(e)
-                                }
-
-                                try {
-                                    rootView.nestedScrollView.scrollTo(0, 0)
-
-                                    rootView.progressBar.visibility = View.GONE
-                                } catch (e: Exception) {
-                                    Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                    Crashlytics.log(
-                                            100,
-                                            "MERCURY_CONTENT_EXCEPTION",
-                                            "Scroll or visibility issues"
-                                    )
-                                    Crashlytics.logException(e)
-                                }
-                            } else {
-                                try {
-                                    openInBrowserAfterFailing(customTabsIntent)
-                                } catch (e: Exception) {
-                                    Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                    Crashlytics.log(
-                                            100,
-                                            "MERCURY_CONTENT_EXCEPTION",
-                                            "Browser after failing issue"
-                                    )
-                                    Crashlytics.logException(e)
-                                }
-                            }
-                        } catch (e: Exception) {
-                            Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                            Crashlytics.log(
+            object : Callback<ParsedContent> {
+                override fun onResponse(
+                    call: Call<ParsedContent>,
+                    response: Response<ParsedContent>
+                ) {
+                    // TODO: clean all the following after finding the mercury content issue
+                    try {
+                        if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
+                            try {
+                                rootView.source.text = response.body()!!.domain
+                                rootView.titleView.text = response.body()!!.title
+                                url = response.body()!!.url
+                            } catch (e: Exception) {
+                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                                Crashlytics.log(
                                     100,
                                     "MERCURY_CONTENT_EXCEPTION",
-                                    "UNCAUGHT (?) Fatal Exception on mercury response"
-                            )
-                            Crashlytics.logException(e)
+                                    "source titleView or url issues"
+                                )
+                                Crashlytics.logException(e)
+                            }
+
+                            try {
+                                htmlToWebview(response.body()!!.content.orEmpty(), prefs)
+                            } catch (e: Exception) {
+                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                                Crashlytics.log(
+                                    100,
+                                    "MERCURY_CONTENT_EXCEPTION",
+                                    "Webview issue"
+                                )
+                                Crashlytics.logException(e)
+                            }
+
+                            try {
+                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty()) {
+                                    rootView.imageView.visibility = View.VISIBLE
+                                    try {
+                                        Glide
+                                            .with(activity!!.baseContext)
+                                            .asBitmap()
+                                            .load(response.body()!!.lead_image_url)
+                                            .apply(RequestOptions.fitCenterTransform())
+                                            .into(rootView.imageView)
+                                    } catch (e: Exception) {
+                                        Crashlytics.setUserIdentifier(
+                                            prefs.getString(
+                                                "unique_id",
+                                                ""
+                                            )
+                                        )
+                                        Crashlytics.log(
+                                            100,
+                                            "MERCURY_CONTENT_EXCEPTION",
+                                            "Glide issue"
+                                        )
+                                        Crashlytics.logException(e)
+                                    }
+                                } else {
+                                    rootView.imageView.visibility = View.GONE
+                                }
+                            } catch (e: Exception) {
+                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                                Crashlytics.log(
+                                    100,
+                                    "MERCURY_CONTENT_EXCEPTION",
+                                    "Glide or image issue"
+                                )
+                                Crashlytics.logException(e)
+                            }
+
+                            try {
+                                rootView.nestedScrollView.scrollTo(0, 0)
+
+                                rootView.progressBar.visibility = View.GONE
+                            } catch (e: Exception) {
+                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                                Crashlytics.log(
+                                    100,
+                                    "MERCURY_CONTENT_EXCEPTION",
+                                    "Scroll or visibility issues"
+                                )
+                                Crashlytics.logException(e)
+                            }
+                        } else {
+                            try {
+                                openInBrowserAfterFailing(customTabsIntent)
+                            } catch (e: Exception) {
+                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                                Crashlytics.log(
+                                    100,
+                                    "MERCURY_CONTENT_EXCEPTION",
+                                    "Browser after failing issue"
+                                )
+                                Crashlytics.logException(e)
+                            }
                         }
-
+                    } catch (e: Exception) {
+                        Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
+                        Crashlytics.log(
+                            100,
+                            "MERCURY_CONTENT_EXCEPTION",
+                            "UNCAUGHT (?) Fatal Exception on mercury response"
+                        )
+                        Crashlytics.logException(e)
                     }
-
-                    override fun onFailure(
-                            call: Call<ParsedContent>,
-                            t: Throwable
-                    ) = openInBrowserAfterFailing(customTabsIntent)
                 }
+
+                override fun onFailure(
+                    call: Call<ParsedContent>,
+                    t: Throwable
+                ) = openInBrowserAfterFailing(customTabsIntent)
+            }
         )
     }
 
@@ -277,10 +278,20 @@ class ArticleFragment : Fragment() {
 
         rootView.webcontent.visibility = View.VISIBLE
         val textColor = if (Scoop.getInstance().currentFlavor.isDayNight) {
-            rootView.webcontent.setBackgroundColor(ContextCompat.getColor(activity!!.baseContext, R.color.dark_webview))
+            rootView.webcontent.setBackgroundColor(
+                ContextCompat.getColor(
+                    activity!!.baseContext,
+                    R.color.dark_webview
+                )
+            )
             ContextCompat.getColor(activity!!.baseContext, R.color.dark_webview_text)
         } else {
-            rootView.webcontent.setBackgroundColor(ContextCompat.getColor(activity!!.baseContext, R.color.light_webview))
+            rootView.webcontent.setBackgroundColor(
+                ContextCompat.getColor(
+                    activity!!.baseContext,
+                    R.color.light_webview
+                )
+            )
             ContextCompat.getColor(activity!!.baseContext, R.color.light_webview_text)
         }
 
@@ -291,7 +302,8 @@ class ArticleFragment : Fragment() {
         rootView.webcontent.settings.javaScriptEnabled = false
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            rootView.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
+            rootView.webcontent.settings.layoutAlgorithm =
+                    WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
         } else {
             rootView.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         }
@@ -308,24 +320,24 @@ class ArticleFragment : Fragment() {
         }
 
         rootView.webcontent.loadDataWithBaseURL(
-                baseUrl,
-                "<style>img{display: inline-block;height: auto; width: 100%; max-width: 100%;} a{color: $stringColor;} *:not(a){color: $stringTextColor;}</style>$c",
-                "text/html; charset=utf-8",
-                "utf-8",
-                null
+            baseUrl,
+            "<style>img{display: inline-block;height: auto; width: 100%; max-width: 100%;} a{color: $stringColor;} *:not(a){color: $stringTextColor;}</style>$c",
+            "text/html; charset=utf-8",
+            "utf-8",
+            null
         )
     }
 
     private fun openInBrowserAfterFailing(customTabsIntent: CustomTabsIntent) {
         rootView.progressBar.visibility = View.GONE
         activity!!.openItemUrl(
-                allItems,
-                pageNumber.toInt(),
-                url,
-                customTabsIntent,
-                true,
-                false,
-                activity!!
+            allItems,
+            pageNumber.toInt(),
+            url,
+            customTabsIntent,
+            true,
+            false,
+            activity!!
         )
     }
 
@@ -334,8 +346,8 @@ class ArticleFragment : Fragment() {
         private val ARG_ITEMS = "items"
 
         fun newInstance(
-                position: Int,
-                allItems: ArrayList<Item>
+            position: Int,
+            allItems: ArrayList<Item>
         ): ArticleFragment {
             val fragment = ArticleFragment()
             val args = Bundle()

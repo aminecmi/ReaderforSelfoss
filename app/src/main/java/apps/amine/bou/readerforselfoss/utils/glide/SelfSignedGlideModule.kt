@@ -23,9 +23,9 @@ class SelfSignedGlideModule : GlideModule {
                 val client = getUnsafeHttpClient().build()
 
                 registry?.append(
-                        GlideUrl::class.java,
-                        InputStream::class.java,
-                        com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader.Factory(client)
+                    GlideUrl::class.java,
+                    InputStream::class.java,
+                    com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader.Factory(client)
                 )
             }
         }

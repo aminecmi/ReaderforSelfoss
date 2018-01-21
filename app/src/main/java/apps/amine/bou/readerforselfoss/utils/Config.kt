@@ -29,10 +29,10 @@ class Config(c: Context) {
         val settingsName = "paramsselfoss"
 
         fun logoutAndRedirect(
-                c: Context,
-                callingActivity: Activity,
-                editor: SharedPreferences.Editor,
-                baseUrlFail: Boolean = false
+            c: Context,
+            callingActivity: Activity,
+            editor: SharedPreferences.Editor,
+            baseUrlFail: Boolean = false
         ): Boolean {
             editor.remove("url")
             editor.remove("login")

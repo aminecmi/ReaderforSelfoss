@@ -1,8 +1,6 @@
 package apps.amine.bou.readerforselfoss.settings;
 
 
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -27,10 +25,13 @@ import android.text.Spanned;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.ftinc.scoop.ui.ScoopSettingsActivity;
+
+import java.util.List;
+
 import apps.amine.bou.readerforselfoss.BuildConfig;
 import apps.amine.bou.readerforselfoss.R;
 import apps.amine.bou.readerforselfoss.utils.Config;
-import com.ftinc.scoop.ui.ScoopSettingsActivity;
 
 
 /**
@@ -150,7 +151,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             final SwitchPreference tabOnTap = (SwitchPreference) findPreference("tab_on_tap");
             tabOnTap.setEnabled(!cardViewActive.isChecked());
             cardViewActive.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                public boolean onPreferenceChange(Preference preference, Object newValue){
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
                     boolean isEnabled = (Boolean) newValue;
                     tabOnTap.setEnabled(!isEnabled);
                     return true;
@@ -159,20 +160,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             EditTextPreference itemsNumber = (EditTextPreference) findPreference("prefer_api_items_number");
             itemsNumber.getEditText().setFilters(new InputFilter[]{
-                new InputFilter (){
+                    new InputFilter() {
 
-                    @Override
-                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                        try {
-                            int input = Integer.parseInt(dest.toString() + source.toString());
-                            if (input <= 200 && input >0)
-                                return null;
-                        } catch (NumberFormatException nfe) {
-                            Toast.makeText(getActivity(), R.string.items_number_should_be_number, Toast.LENGTH_LONG).show();
+                        @Override
+                        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                            try {
+                                int input = Integer.parseInt(dest.toString() + source.toString());
+                                if (input <= 200 && input > 0)
+                                    return null;
+                            } catch (NumberFormatException nfe) {
+                                Toast.makeText(getActivity(), R.string.items_number_should_be_number, Toast.LENGTH_LONG).show();
+                            }
+                            return "";
                         }
-                        return "";
                     }
-                }
             });
         }
 
@@ -243,7 +244,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_links);
             setHasOptionsMenu(true);
 
-            findPreference( "trackerLink" ).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            findPreference("trackerLink").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     openUrl(Uri.parse(BuildConfig.TRACKER_URL));

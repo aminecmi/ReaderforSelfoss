@@ -16,8 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import apps.amine.bou.readerforselfoss.R;
 import com.ftinc.scoop.Scoop;
+
+import apps.amine.bou.readerforselfoss.R;
 
 
 /**
@@ -40,7 +41,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
+        LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         AppBarLayout bar = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
         Toolbar toolbar = bar.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

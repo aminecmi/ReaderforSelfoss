@@ -77,13 +77,13 @@ class LoginActivity : AppCompatActivity() {
         }
 
         passwordView.setOnEditorActionListener(
-                TextView.OnEditorActionListener { _, id, _ ->
-                    if (id == R.id.loginView || id == EditorInfo.IME_NULL) {
-                        attemptLogin()
-                        return@OnEditorActionListener true
-                    }
-                    false
+            TextView.OnEditorActionListener { _, id, _ ->
+                if (id == R.id.loginView || id == EditorInfo.IME_NULL) {
+                    attemptLogin()
+                    return@OnEditorActionListener true
                 }
+                false
+            }
         )
 
         signInButton.setOnClickListener { attemptLogin() }
@@ -111,9 +111,9 @@ class LoginActivity : AppCompatActivity() {
             alertDialog.setTitle(getString(R.string.warning_wrong_url))
             alertDialog.setMessage(getString(R.string.base_url_error))
             alertDialog.setButton(
-                    AlertDialog.BUTTON_NEUTRAL,
-                    "OK",
-                    { dialog, _ -> dialog.dismiss() }
+                AlertDialog.BUTTON_NEUTRAL,
+                "OK",
+                { dialog, _ -> dialog.dismiss() }
             )
             alertDialog.show()
         }
@@ -154,9 +154,9 @@ class LoginActivity : AppCompatActivity() {
                 alertDialog.setTitle(getString(R.string.warning_wrong_url))
                 alertDialog.setMessage(getString(R.string.text_wrong_url))
                 alertDialog.setButton(
-                        AlertDialog.BUTTON_NEUTRAL,
-                        "OK",
-                        { dialog, _ -> dialog.dismiss() }
+                    AlertDialog.BUTTON_NEUTRAL,
+                    "OK",
+                    { dialog, _ -> dialog.dismiss() }
                 )
                 alertDialog.show()
                 inValidCount = 0
@@ -191,10 +191,10 @@ class LoginActivity : AppCompatActivity() {
             editor.apply()
 
             val api = SelfossApi(
-                    this,
-                    this@LoginActivity,
-                    isWithSelfSignedCert,
-                    isWithSelfSignedCert
+                this,
+                this@LoginActivity,
+                isWithSelfSignedCert,
+                isWithSelfSignedCert
             )
             api.login().enqueue(object : Callback<SuccessResponse> {
                 private fun preferenceError(t: Throwable) {
@@ -214,17 +214,17 @@ class LoginActivity : AppCompatActivity() {
                         Crashlytics.log(100, "LOGIN_DEBUG_ERRROR", t.message)
                         Crashlytics.logException(t)
                         Toast.makeText(
-                                this@LoginActivity,
-                                t.message,
-                                Toast.LENGTH_LONG
+                            this@LoginActivity,
+                            t.message,
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                     showProgress(false)
                 }
 
                 override fun onResponse(
-                        call: Call<SuccessResponse>,
-                        response: Response<SuccessResponse>
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
                 ) {
                     if (response.body() != null && response.body()!!.isSuccess) {
                         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, Bundle())
@@ -246,28 +246,28 @@ class LoginActivity : AppCompatActivity() {
 
         loginForm.visibility = if (show) View.GONE else View.VISIBLE
         loginForm
-                .animate()
-                .setDuration(shortAnimTime.toLong())
-                .alpha(
-                        if (show) 0F else 1F
-                ).setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        loginForm.visibility = if (show) View.GONE else View.VISIBLE
-                    }
-                }
+            .animate()
+            .setDuration(shortAnimTime.toLong())
+            .alpha(
+                if (show) 0F else 1F
+            ).setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                loginForm.visibility = if (show) View.GONE else View.VISIBLE
+            }
+        }
         )
 
         loginProgress.visibility = if (show) View.VISIBLE else View.GONE
         loginProgress
-                .animate()
-                .setDuration(shortAnimTime.toLong())
-                .alpha(
-                        if (show) 1F else 0F
-                ).setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        loginProgress.visibility = if (show) View.VISIBLE else View.GONE
-                    }
-                }
+            .animate()
+            .setDuration(shortAnimTime.toLong())
+            .alpha(
+                if (show) 1F else 0F
+            ).setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                loginProgress.visibility = if (show) View.VISIBLE else View.GONE
+            }
+        }
         )
     }
 
@@ -281,10 +281,10 @@ class LoginActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.about -> {
                 LibsBuilder()
-                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                        .withAboutIconShown(true)
-                        .withAboutVersionShown(true)
-                        .start(this)
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutVersionShown(true)
+                    .start(this)
                 return true
             }
             R.id.login_debug -> {

@@ -10,13 +10,13 @@ internal class BooleanTypeAdapter : JsonDeserializer<Boolean> {
 
     @Throws(JsonParseException::class)
     override fun deserialize(
-            json: JsonElement,
-            typeOfT: Type,
-            context: JsonDeserializationContext
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext
     ): Boolean? =
-            try {
-                json.asInt == 1
-            } catch (e: Exception) {
-                json.asBoolean
-            }
+        try {
+            json.asInt == 1
+        } catch (e: Exception) {
+            json.asBoolean
+        }
 }

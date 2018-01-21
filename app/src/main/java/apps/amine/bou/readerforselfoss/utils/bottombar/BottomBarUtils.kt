@@ -9,4 +9,4 @@ fun TextBadgeItem.removeBadge(): TextBadgeItem {
 }
 
 fun TextBadgeItem.maybeShow(): TextBadgeItem =
-        if (this.isHidden) this.show() else this
+    if (this.isHidden) this.show() else this

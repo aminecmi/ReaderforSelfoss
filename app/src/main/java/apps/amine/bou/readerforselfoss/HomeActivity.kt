@@ -151,10 +151,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
         api = SelfossApi(
-                this,
-                this@HomeActivity,
-                settings.getBoolean("isSelfSignedCert", false),
-                sharedPref.getBoolean("should_log_everything", false)
+            this,
+            this@HomeActivity,
+            settings.getBoolean("isSelfSignedCert", false),
+            sharedPref.getBoolean("should_log_everything", false)
         )
         items = ArrayList()
 
@@ -168,9 +168,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun handleSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeResources(
-                R.color.refresh_progress_1,
-                R.color.refresh_progress_2,
-                R.color.refresh_progress_3
+            R.color.refresh_progress_1,
+            R.color.refresh_progress_2,
+            R.color.refresh_progress_3
         )
         swipeRefreshLayout.setOnRefreshListener {
             handleDrawerItems()
@@ -178,79 +178,79 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         val simpleItemTouchCallback =
-                object : ItemTouchHelper.SimpleCallback(
-                        0,
-                        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-                ) {
-                    override fun getSwipeDirs(
-                            recyclerView: RecyclerView?,
-                            viewHolder: RecyclerView.ViewHolder?
-                    ): Int =
-                            if (elementsShown != UNREAD_SHOWN) {
-                                0
-                            } else {
-                                super.getSwipeDirs(
-                                        recyclerView,
-                                        viewHolder
-                                )
-                            }
+            object : ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun getSwipeDirs(
+                    recyclerView: RecyclerView?,
+                    viewHolder: RecyclerView.ViewHolder?
+                ): Int =
+                    if (elementsShown != UNREAD_SHOWN) {
+                        0
+                    } else {
+                        super.getSwipeDirs(
+                            recyclerView,
+                            viewHolder
+                        )
+                    }
 
-                    override fun onMove(
-                            recyclerView: RecyclerView,
-                            viewHolder: RecyclerView.ViewHolder,
-                            target: RecyclerView.ViewHolder
-                    ): Boolean = false
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean = false
 
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                        try {
-                            val i = items[viewHolder.adapterPosition]
-                            val position = items.indexOf(i)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                    try {
+                        val i = items[viewHolder.adapterPosition]
+                        val position = items.indexOf(i)
 
-                            val adapter = recyclerView.adapter
-                            when (adapter) {
-                                is ItemCardAdapter -> adapter.removeItemAtIndex(position)
-                                is ItemListAdapter -> adapter.removeItemAtIndex(position)
-                            }
-
-                            if (items.size > 0) {
-                                badgeNew--
-                                reloadBadgeContent()
-                            } else {
-                                tabNewBadge.hide()
-                            }
-
-                            val manager = recyclerView.layoutManager
-                            val lastVisibleItem: Int = when (manager) {
-                                is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
-                                        null
-                                ).last()
-                                is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
-                                else -> 0
-                            }
-
-                            if (lastVisibleItem === items.size &&
-                                    items.size <= maxItemNumber() &&
-                                    (maxItemNumber() >= itemsNumber || !lastFetchDone)
-                            ) {
-                                if (maxItemNumber() < itemsNumber) {
-                                    lastFetchDone = true
-                                }
-                                getElementsAccordingToTab(
-                                        appendResults = true,
-                                        offsetOverride = lastVisibleItem
-                                )
-                            }
-                        } catch (e: IndexOutOfBoundsException) {
-                            Crashlytics.setUserIdentifier(userIdentifier)
-                            Crashlytics.log(
-                                    100,
-                                    "SWIPE_INDEX_OUT_OF_BOUND",
-                                    "IndexOutOfBoundsException when swiping"
-                            )
-                            Crashlytics.logException(e)
+                        val adapter = recyclerView.adapter
+                        when (adapter) {
+                            is ItemCardAdapter -> adapter.removeItemAtIndex(position)
+                            is ItemListAdapter -> adapter.removeItemAtIndex(position)
                         }
+
+                        if (items.size > 0) {
+                            badgeNew--
+                            reloadBadgeContent()
+                        } else {
+                            tabNewBadge.hide()
+                        }
+
+                        val manager = recyclerView.layoutManager
+                        val lastVisibleItem: Int = when (manager) {
+                            is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
+                                null
+                            ).last()
+                            is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
+                            else -> 0
+                        }
+
+                        if (lastVisibleItem === items.size &&
+                            items.size <= maxItemNumber() &&
+                            (maxItemNumber() >= itemsNumber || !lastFetchDone)
+                        ) {
+                            if (maxItemNumber() < itemsNumber) {
+                                lastFetchDone = true
+                            }
+                            getElementsAccordingToTab(
+                                appendResults = true,
+                                offsetOverride = lastVisibleItem
+                            )
+                        }
+                    } catch (e: IndexOutOfBoundsException) {
+                        Crashlytics.setUserIdentifier(userIdentifier)
+                        Crashlytics.log(
+                            100,
+                            "SWIPE_INDEX_OUT_OF_BOUND",
+                            "IndexOutOfBoundsException when swiping"
+                        )
+                        Crashlytics.logException(e)
                     }
                 }
+            }
 
         ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(recyclerView)
     }
@@ -258,43 +258,43 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun handleBottomBar() {
 
         tabNewBadge = TextBadgeItem()
-                .setText("")
-                .setHideOnSelect(false).hide(false)
-                .setBackgroundColor(appColors.primary)
+            .setText("")
+            .setHideOnSelect(false).hide(false)
+            .setBackgroundColor(appColors.primary)
         tabArchiveBadge = TextBadgeItem()
-                .setText("")
-                .setHideOnSelect(false).hide(false)
-                .setBackgroundColor(appColors.primary)
+            .setText("")
+            .setHideOnSelect(false).hide(false)
+            .setBackgroundColor(appColors.primary)
         tabStarredBadge = TextBadgeItem()
-                .setText("")
-                .setHideOnSelect(false).hide(false)
-                .setBackgroundColor(appColors.primary)
+            .setText("")
+            .setHideOnSelect(false).hide(false)
+            .setBackgroundColor(appColors.primary)
 
         val tabNew =
-                BottomNavigationItem(
-                        R.drawable.ic_fiber_new_black_24dp,
-                        getString(R.string.tab_new)
-                ).setActiveColor(appColors.accent)
-                        .setBadgeItem(tabNewBadge)
+            BottomNavigationItem(
+                R.drawable.ic_fiber_new_black_24dp,
+                getString(R.string.tab_new)
+            ).setActiveColor(appColors.accent)
+                .setBadgeItem(tabNewBadge)
         val tabArchive =
-                BottomNavigationItem(
-                        R.drawable.ic_archive_black_24dp,
-                        getString(R.string.tab_read)
-                ).setActiveColor(appColors.dark)
-                        .setBadgeItem(tabArchiveBadge)
+            BottomNavigationItem(
+                R.drawable.ic_archive_black_24dp,
+                getString(R.string.tab_read)
+            ).setActiveColor(appColors.dark)
+                .setBadgeItem(tabArchiveBadge)
         val tabStarred =
-                BottomNavigationItem(
-                        R.drawable.ic_favorite_black_24dp,
-                        getString(R.string.tab_favs)
-                ).setActiveColorResource(R.color.pink)
-                        .setBadgeItem(tabStarredBadge)
+            BottomNavigationItem(
+                R.drawable.ic_favorite_black_24dp,
+                getString(R.string.tab_favs)
+            ).setActiveColorResource(R.color.pink)
+                .setBadgeItem(tabStarredBadge)
 
         bottomBar
-                .addItem(tabNew)
-                .addItem(tabArchive)
-                .addItem(tabStarred)
-                .setFirstSelectedPosition(0)
-                .initialise()
+            .addItem(tabNew)
+            .addItem(tabArchive)
+            .addItem(tabStarred)
+            .setFirstSelectedPosition(0)
+            .initialise()
 
         bottomBar.setMode(BottomNavigationBar.MODE_SHIFTING)
         bottomBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
@@ -351,7 +351,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun handleDrawer() {
         displayAccountHeader =
                 PreferenceManager.getDefaultSharedPreferences(this)
-                        .getBoolean("account_header_displaying", false)
+                    .getBoolean("account_header_displaying", false)
 
         drawer = drawer {
             rootViewRes = R.id.drawer_layout
@@ -385,17 +385,17 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     iconTintingEnabled = true
                     onClick { _ ->
                         IssueReporterLauncher.forTarget(
-                                getString(R.string.report_github_user),
-                                getString(R.string.report_github_repo)
+                            getString(R.string.report_github_user),
+                            getString(R.string.report_github_repo)
                         )
-                                .theme(R.style.Theme_App_Light)
-                                .guestToken(BuildConfig.GITHUB_TOKEN)
-                                .guestEmailRequired(true)
-                                .minDescriptionLength(20)
-                                .putExtraInfo("Unique ID", settings.getString("unique_id", ""))
-                                .putExtraInfo("From github", BuildConfig.GITHUB_VERSION)
-                                .homeAsUpEnabled(true)
-                                .launch(this@HomeActivity)
+                            .theme(R.style.Theme_App_Light)
+                            .guestToken(BuildConfig.GITHUB_TOKEN)
+                            .guestEmailRequired(true)
+                            .minDescriptionLength(20)
+                            .putExtraInfo("Unique ID", settings.getString("unique_id", ""))
+                            .putExtraInfo("From github", BuildConfig.GITHUB_VERSION)
+                            .homeAsUpEnabled(true)
+                            .launch(this@HomeActivity)
                         false
                     }
                 }
@@ -405,11 +405,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     iconTintingEnabled = true
                     onClick { _ ->
                         startActivityForResult(
-                                Intent(
-                                        this@HomeActivity,
-                                        SettingsActivity::class.java
-                                ),
-                                MENU_PREFERENCES
+                            Intent(
+                                this@HomeActivity,
+                                SettingsActivity::class.java
+                            ),
+                            MENU_PREFERENCES
                         )
                         false
                     }
@@ -424,9 +424,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 if (maybeTags == null) {
                     if (loadedFromCache) {
                         drawer.addItem(
-                                SecondaryDrawerItem()
-                                        .withName(getString(R.string.drawer_error_loading_tags))
-                                        .withSelectable(false)
+                            SecondaryDrawerItem()
+                                .withName(getString(R.string.drawer_error_loading_tags))
+                                .withSelectable(false)
                         )
                     }
                 } else {
@@ -443,20 +443,20 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         gd.setSize(30, 30)
                         gd.cornerRadius = 30F
                         drawer.addItem(
-                                PrimaryDrawerItem()
-                                        .withName(tag.tag)
-                                        .withIdentifier(tag.tag.longHash())
-                                        .withIcon(gd)
-                                        .withBadge("${tag.unread}")
-                                        .withBadgeStyle(
-                                                BadgeStyle().withTextColor(Color.WHITE)
-                                                        .withColor(appColors.accent)
-                                        )
-                                        .withOnDrawerItemClickListener { _, _, _ ->
-                                            maybeTagFilter = tag
-                                            getElementsAccordingToTab()
-                                            false
-                                        }
+                            PrimaryDrawerItem()
+                                .withName(tag.tag)
+                                .withIdentifier(tag.tag.longHash())
+                                .withIcon(gd)
+                                .withBadge("${tag.unread}")
+                                .withBadgeStyle(
+                                    BadgeStyle().withTextColor(Color.WHITE)
+                                        .withColor(appColors.accent)
+                                )
+                                .withOnDrawerItemClickListener { _, _, _ ->
+                                    maybeTagFilter = tag
+                                    getElementsAccordingToTab()
+                                    false
+                                }
                         )
                     }
                 }
@@ -466,23 +466,23 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 if (maybeSources == null) {
                     if (loadedFromCache) {
                         drawer.addItem(
-                                SecondaryDrawerItem()
-                                        .withName(getString(R.string.drawer_error_loading_sources))
-                                        .withSelectable(false)
+                            SecondaryDrawerItem()
+                                .withName(getString(R.string.drawer_error_loading_sources))
+                                .withSelectable(false)
                         )
                     }
                 } else {
                     for (tag in maybeSources) {
                         drawer.addItem(
-                                CustomUrlPrimaryDrawerItem()
-                                        .withName(tag.title)
-                                        .withIdentifier(tag.id.toLong())
-                                        .withIcon(tag.getIcon(this@HomeActivity))
-                                        .withOnDrawerItemClickListener { _, _, _ ->
-                                            maybeSourceFilter = tag
-                                            getElementsAccordingToTab()
-                                            false
-                                        }
+                            CustomUrlPrimaryDrawerItem()
+                                .withName(tag.title)
+                                .withIdentifier(tag.id.toLong())
+                                .withIcon(tag.getIcon(this@HomeActivity))
+                                .withOnDrawerItemClickListener { _, _, _ ->
+                                    maybeSourceFilter = tag
+                                    getElementsAccordingToTab()
+                                    false
+                                }
                         )
                     }
                 }
@@ -491,86 +491,86 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             drawer.removeAllItems()
             if (maybeDrawerData != null) {
                 drawer.addItem(
-                        SecondaryDrawerItem()
-                                .withName(getString(R.string.drawer_item_filters))
-                                .withSelectable(false)
-                                .withIdentifier(DRAWER_ID_FILTERS)
-                                .withBadge(getString(R.string.drawer_action_clear))
-                                .withOnDrawerItemClickListener { _, _, _ ->
-                                    maybeSourceFilter = null
-                                    maybeTagFilter = null
-                                    getElementsAccordingToTab()
-                                    false
-                                }
+                    SecondaryDrawerItem()
+                        .withName(getString(R.string.drawer_item_filters))
+                        .withSelectable(false)
+                        .withIdentifier(DRAWER_ID_FILTERS)
+                        .withBadge(getString(R.string.drawer_action_clear))
+                        .withOnDrawerItemClickListener { _, _, _ ->
+                            maybeSourceFilter = null
+                            maybeTagFilter = null
+                            getElementsAccordingToTab()
+                            false
+                        }
                 )
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
-                        SecondaryDrawerItem()
-                                .withName(getString(R.string.drawer_item_tags))
-                                .withIdentifier(DRAWER_ID_TAGS)
-                                .withSelectable(false)
+                    SecondaryDrawerItem()
+                        .withName(getString(R.string.drawer_item_tags))
+                        .withIdentifier(DRAWER_ID_TAGS)
+                        .withSelectable(false)
                 )
                 handleTags(maybeDrawerData.tags)
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
-                        SecondaryDrawerItem()
-                                .withName(getString(R.string.drawer_item_sources))
-                                .withIdentifier(DRAWER_ID_TAGS)
-                                .withBadge(getString(R.string.drawer_action_edit))
-                                .withSelectable(false)
-                                .withOnDrawerItemClickListener { _, _, _ ->
-                                    startActivity(Intent(this, SourcesActivity::class.java))
-                                    false
-                                }
+                    SecondaryDrawerItem()
+                        .withName(getString(R.string.drawer_item_sources))
+                        .withIdentifier(DRAWER_ID_TAGS)
+                        .withBadge(getString(R.string.drawer_action_edit))
+                        .withSelectable(false)
+                        .withOnDrawerItemClickListener { _, _, _ ->
+                            startActivity(Intent(this, SourcesActivity::class.java))
+                            false
+                        }
                 )
                 handleSources(maybeDrawerData.sources)
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
-                        PrimaryDrawerItem()
-                                .withName(R.string.action_about)
-                                .withSelectable(false)
-                                .withIcon(R.drawable.ic_info_outline)
-                                .withIconTintingEnabled(true)
-                                .withOnDrawerItemClickListener { _, _, _ ->
-                                    LibsBuilder()
-                                            .withActivityStyle(
-                                                    if (appColors.isDarkTheme) {
-                                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
-                                                    } else {
-                                                        Libs.ActivityStyle.DARK
-                                                    }
-                                            )
-                                            .withAboutIconShown(true)
-                                            .withAboutVersionShown(true)
-                                            .start(this@HomeActivity)
-                                    false
-                                }
+                    PrimaryDrawerItem()
+                        .withName(R.string.action_about)
+                        .withSelectable(false)
+                        .withIcon(R.drawable.ic_info_outline)
+                        .withIconTintingEnabled(true)
+                        .withOnDrawerItemClickListener { _, _, _ ->
+                            LibsBuilder()
+                                .withActivityStyle(
+                                    if (appColors.isDarkTheme) {
+                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
+                                    } else {
+                                        Libs.ActivityStyle.DARK
+                                    }
+                                )
+                                .withAboutIconShown(true)
+                                .withAboutVersionShown(true)
+                                .start(this@HomeActivity)
+                            false
+                        }
                 )
 
 
                 if (!loadedFromCache) {
                     Reservoir.putAsync(
-                            "drawerData", maybeDrawerData, object : ReservoirPutCallback {
-                        override fun onSuccess() {
-                        }
+                        "drawerData", maybeDrawerData, object : ReservoirPutCallback {
+                            override fun onSuccess() {
+                            }
 
-                        override fun onFailure(p0: Exception?) {
-                        }
-                    })
+                            override fun onFailure(p0: Exception?) {
+                            }
+                        })
                 }
             } else {
                 if (!loadedFromCache) {
                     drawer.addItem(
-                            PrimaryDrawerItem()
-                                    .withName(getString(R.string.no_tags_loaded))
-                                    .withIdentifier(DRAWER_ID_TAGS)
-                                    .withSelectable(false)
+                        PrimaryDrawerItem()
+                            .withName(getString(R.string.no_tags_loaded))
+                            .withIdentifier(DRAWER_ID_TAGS)
+                            .withSelectable(false)
                     )
                     drawer.addItem(
-                            PrimaryDrawerItem()
-                                    .withName(getString(R.string.no_sources_loaded))
-                                    .withIdentifier(DRAWER_ID_SOURCES)
-                                    .withSelectable(false)
+                        PrimaryDrawerItem()
+                            .withName(getString(R.string.no_sources_loaded))
+                            .withIdentifier(DRAWER_ID_SOURCES)
+                            .withSelectable(false)
                     )
                 }
             }
@@ -583,8 +583,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             fun sourcesApiCall() {
                 api.sources.enqueue(object : Callback<List<Sources>> {
                     override fun onResponse(
-                            call: Call<List<Sources>>?,
-                            response: Response<List<Sources>>
+                        call: Call<List<Sources>>?,
+                        response: Response<List<Sources>>
                     ) {
                         sources = response.body()
                         val apiDrawerData = DrawerData(tags, sources)
@@ -600,8 +600,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             api.tags.enqueue(object : Callback<List<Tag>> {
                 override fun onResponse(
-                        call: Call<List<Tag>>,
-                        response: Response<List<Tag>>
+                    call: Call<List<Tag>>,
+                    response: Response<List<Tag>>
                 ) {
                     tags = response.body()
                     sourcesApiCall()
@@ -614,23 +614,23 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         drawer.addItem(
-                PrimaryDrawerItem().withName(getString(R.string.drawer_loading)).withSelectable(
-                        false
-                )
+            PrimaryDrawerItem().withName(getString(R.string.drawer_loading)).withSelectable(
+                false
+            )
         )
 
         val resultType = object : TypeToken<DrawerData>() {}.type
         Reservoir.getAsync(
-                "drawerData", resultType, object : ReservoirGetCallback<DrawerData> {
-            override fun onSuccess(maybeDrawerData: DrawerData?) {
-                handleDrawerData(maybeDrawerData, loadedFromCache = true)
-                drawerApiCalls(maybeDrawerData)
-            }
+            "drawerData", resultType, object : ReservoirGetCallback<DrawerData> {
+                override fun onSuccess(maybeDrawerData: DrawerData?) {
+                    handleDrawerData(maybeDrawerData, loadedFromCache = true)
+                    drawerApiCalls(maybeDrawerData)
+                }
 
-            override fun onFailure(p0: Exception?) {
-                drawerApiCalls(null)
-            }
-        })
+                override fun onFailure(p0: Exception?) {
+                    drawerApiCalls(null)
+                }
+            })
     }
 
     private fun reloadLayoutManager() {
@@ -640,19 +640,20 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         // This will only update the layout manager if settings changed
         when (currentManager) {
             is StaggeredGridLayoutManager ->
-                    if (!shouldBeCardView) {
-                        layoutManager = GridLayoutManager(this, calculateNoOfColumns())
-                        recyclerView.layoutManager = layoutManager
-                    }
+                if (!shouldBeCardView) {
+                    layoutManager = GridLayoutManager(this, calculateNoOfColumns())
+                    recyclerView.layoutManager = layoutManager
+                }
             is GridLayoutManager ->
-                    if (shouldBeCardView) {
-                        layoutManager = StaggeredGridLayoutManager(
-                                calculateNoOfColumns(),
-                                StaggeredGridLayoutManager.VERTICAL
-                        )
-                        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-                        recyclerView.layoutManager = layoutManager
-                    }
+                if (shouldBeCardView) {
+                    layoutManager = StaggeredGridLayoutManager(
+                        calculateNoOfColumns(),
+                        StaggeredGridLayoutManager.VERTICAL
+                    )
+                    layoutManager.gapStrategy =
+                            StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                    recyclerView.layoutManager = layoutManager
+                }
             else ->
                 if (currentManager == null) {
                     if (!shouldBeCardView) {
@@ -660,10 +661,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         recyclerView.layoutManager = layoutManager
                     } else {
                         layoutManager = StaggeredGridLayoutManager(
-                                calculateNoOfColumns(),
-                                StaggeredGridLayoutManager.VERTICAL
+                            calculateNoOfColumns(),
+                            StaggeredGridLayoutManager.VERTICAL
                         )
-                        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                        layoutManager.gapStrategy =
+                                StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                         recyclerView.layoutManager = layoutManager
                     }
                 } else {
@@ -717,7 +719,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         val manager = recyclerView.layoutManager
                         val lastVisibleItem: Int = when (manager) {
                             is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
-                                    null
+                                null
                             ).last()
                             is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
                             else -> 0
@@ -736,17 +738,17 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun mayBeEmpty() =
-            if (items.isEmpty()) {
-                emptyText.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
-            } else {
-                emptyText.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-            }
+        if (items.isEmpty()) {
+            emptyText.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+        } else {
+            emptyText.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+        }
 
     private fun getElementsAccordingToTab(
-            appendResults: Boolean = false,
-            offsetOverride: Int? = null
+        appendResults: Boolean = false,
+        offsetOverride: Int? = null
     ) {
         offset = if (appendResults && offsetOverride === null) {
             (offset + itemsNumber)
@@ -764,9 +766,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun doCallTo(
-            appendResults: Boolean,
-            toastMessage: Int,
-            call: (String?, Long?, String?) -> Call<List<Item>>
+        appendResults: Boolean,
+        toastMessage: Int,
+        call: (String?, Long?, String?) -> Call<List<Item>>
     ) {
         fun handleItemsResponse(response: Response<List<Item>>) {
             val shouldUpdate = (response.body() != items)
@@ -792,34 +794,34 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         call(maybeTagFilter?.tag, maybeSourceFilter?.id?.toLong(), maybeSearchFilter)
-                .enqueue(object : Callback<List<Item>> {
-                    override fun onResponse(
-                            call: Call<List<Item>>,
-                            response: Response<List<Item>>
-                    ) {
-                        handleItemsResponse(response)
-                    }
+            .enqueue(object : Callback<List<Item>> {
+                override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+                ) {
+                    handleItemsResponse(response)
+                }
 
-                    override fun onFailure(call: Call<List<Item>>, t: Throwable) {
-                        swipeRefreshLayout.isRefreshing = false
-                        Toast.makeText(
-                                this@HomeActivity,
-                                toastMessage,
-                                Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                    swipeRefreshLayout.isRefreshing = false
+                    Toast.makeText(
+                        this@HomeActivity,
+                        toastMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     private fun getUnRead(appendResults: Boolean = false) {
         elementsShown = UNREAD_SHOWN
         doCallTo(appendResults, R.string.cant_get_new_elements) { t, id, f ->
             api.newItems(
-                    t,
-                    id,
-                    f,
-                    itemsNumber,
-                    offset
+                t,
+                id,
+                f,
+                itemsNumber,
+                offset
             )
         }
     }
@@ -828,11 +830,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         elementsShown = READ_SHOWN
         doCallTo(appendResults, R.string.cant_get_read) { t, id, f ->
             api.readItems(
-                    t,
-                    id,
-                    f,
-                    itemsNumber,
-                    offset
+                t,
+                id,
+                f,
+                itemsNumber,
+                offset
             )
         }
     }
@@ -841,11 +843,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         elementsShown = FAV_SHOWN
         doCallTo(appendResults, R.string.cant_get_favs) { t, id, f ->
             api.starredItems(
-                    t,
-                    id,
-                    f,
-                    itemsNumber,
-                    offset
+                t,
+                id,
+                f,
+                itemsNumber,
+                offset
             )
         }
     }
@@ -866,36 +868,36 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (shouldBeCardView) {
                 recyclerAdapter =
                         ItemCardAdapter(
-                                this,
-                                items,
-                                api,
-                                customTabActivityHelper,
-                                internalBrowser,
-                                articleViewer,
-                                fullHeightCards,
-                                appColors,
-                                debugReadingItems,
-                                userIdentifier
+                            this,
+                            items,
+                            api,
+                            customTabActivityHelper,
+                            internalBrowser,
+                            articleViewer,
+                            fullHeightCards,
+                            appColors,
+                            debugReadingItems,
+                            userIdentifier
                         )
             } else {
                 recyclerAdapter =
                         ItemListAdapter(
-                                this,
-                                items,
-                                api,
-                                customTabActivityHelper,
-                                clickBehavior,
-                                internalBrowser,
-                                articleViewer,
-                                debugReadingItems,
-                                userIdentifier
+                            this,
+                            items,
+                            api,
+                            customTabActivityHelper,
+                            clickBehavior,
+                            internalBrowser,
+                            articleViewer,
+                            debugReadingItems,
+                            userIdentifier
                         )
 
                 recyclerView.addItemDecoration(
-                        DividerItemDecoration(
-                                this@HomeActivity,
-                                DividerItemDecoration.VERTICAL
-                        )
+                    DividerItemDecoration(
+                        this@HomeActivity,
+                        DividerItemDecoration.VERTICAL
+                    )
                 )
             }
             recyclerView.adapter = recyclerAdapter
@@ -935,16 +937,16 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (succeeded) {
             if (displayUnreadCount) {
                 tabNewBadge
-                        .setText(badgeNew.toString())
-                        .maybeShow()
+                    .setText(badgeNew.toString())
+                    .maybeShow()
             }
             if (displayAllCount) {
                 tabArchiveBadge
-                        .setText(badgeAll.toString())
-                        .maybeShow()
+                    .setText(badgeAll.toString())
+                    .maybeShow()
                 tabStarredBadge
-                        .setText(badgeFavs.toString())
-                        .maybeShow()
+                    .setText(badgeFavs.toString())
+                    .maybeShow()
             } else {
                 tabArchiveBadge.removeBadge()
                 tabStarredBadge.removeBadge()
@@ -1009,21 +1011,21 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             R.id.refresh -> {
                 api.update().enqueue(object : Callback<String> {
                     override fun onResponse(
-                            call: Call<String>,
-                            response: Response<String>
+                        call: Call<String>,
+                        response: Response<String>
                     ) {
                         Toast.makeText(
-                                this@HomeActivity,
-                                R.string.refresh_success_response, Toast.LENGTH_LONG
+                            this@HomeActivity,
+                            R.string.refresh_success_response, Toast.LENGTH_LONG
                         )
-                                .show()
+                            .show()
                     }
 
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         Toast.makeText(
-                                this@HomeActivity,
-                                R.string.refresh_failer_message,
-                                Toast.LENGTH_SHORT
+                            this@HomeActivity,
+                            R.string.refresh_failer_message,
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 })
@@ -1037,21 +1039,21 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                     api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
                         ) {
                             if (response.body() != null && response.body()!!.isSuccess) {
                                 Toast.makeText(
-                                        this@HomeActivity,
-                                        R.string.all_posts_read,
-                                        Toast.LENGTH_SHORT
+                                    this@HomeActivity,
+                                    R.string.all_posts_read,
+                                    Toast.LENGTH_SHORT
                                 ).show()
                                 tabNewBadge.removeBadge()
                             } else {
                                 Toast.makeText(
-                                        this@HomeActivity,
-                                        R.string.all_posts_not_read,
-                                        Toast.LENGTH_SHORT
+                                    this@HomeActivity,
+                                    R.string.all_posts_not_read,
+                                    Toast.LENGTH_SHORT
                                 ).show()
                             }
 
@@ -1060,9 +1062,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                         override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                             Toast.makeText(
-                                    this@HomeActivity,
-                                    R.string.all_posts_not_read,
-                                    Toast.LENGTH_SHORT
+                                this@HomeActivity,
+                                R.string.all_posts_not_read,
+                                Toast.LENGTH_SHORT
                             ).show()
                             swipeRefreshLayout.isRefreshing = false
                         }
@@ -1070,9 +1072,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     items = ArrayList()
                     if (items.isEmpty()) {
                         Toast.makeText(
-                                this@HomeActivity,
-                                R.string.nothing_here,
-                                Toast.LENGTH_SHORT
+                            this@HomeActivity,
+                            R.string.nothing_here,
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                     handleListResult()
@@ -1084,7 +1086,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
             R.id.action_share_the_app -> {
                 if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
-                    val share = AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                    val share =
+                        AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                             .setMessage(getString(R.string.invitation_message))
                             .setDeepLink(Uri.parse("https://ymbh5.app.goo.gl/qbvQ"))
                             .setCallToActionText(getString(R.string.invitation_cta))
@@ -1094,8 +1097,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(
-                            Intent.EXTRA_TEXT,
-                            getString(R.string.invitation_message) + " https://ymbh5.app.goo.gl/qbvQ"
+                        Intent.EXTRA_TEXT,
+                        getString(R.string.invitation_message) + " https://ymbh5.app.goo.gl/qbvQ"
                     )
                     sendIntent.type = "text/plain"
                     startActivityForResult(sendIntent, REQUEST_INVITE_BYMAIL)
@@ -1107,10 +1110,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun maxItemNumber(): Int =
-            when (elementsShown) {
-                UNREAD_SHOWN -> badgeNew
-                READ_SHOWN -> badgeAll
-                FAV_SHOWN -> badgeFavs
-                else -> badgeNew // if !elementsShown then unread are fetched.
-            }
+        when (elementsShown) {
+            UNREAD_SHOWN -> badgeNew
+            READ_SHOWN -> badgeAll
+            FAV_SHOWN -> badgeFavs
+            else -> badgeNew // if !elementsShown then unread are fetched.
+        }
 }

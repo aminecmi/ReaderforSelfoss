@@ -21,15 +21,15 @@ class MercuryApi(private val key: String, shouldLog: Boolean) {
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         val gson = GsonBuilder()
-                .setLenient()
-                .create()
+            .setLenient()
+            .create()
         val retrofit =
-                Retrofit
-                        .Builder()
-                        .baseUrl("https://mercury.postlight.com")
-                        .client(client)
-                        .addConverterFactory(GsonConverterFactory.create(gson))
-                        .build()
+            Retrofit
+                .Builder()
+                .baseUrl("https://mercury.postlight.com")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
         service = retrofit.create(MercuryService::class.java)
     }
 

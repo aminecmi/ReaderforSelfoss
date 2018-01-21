@@ -69,9 +69,9 @@ class ReaderActivity : AppCompatActivity() {
         if (allItems.isEmpty()) {
             Crashlytics.setUserIdentifier(userIdentifier)
             Crashlytics.log(
-                    100,
-                    "READER_ITEMS_EMPTY",
-                    "Items empty when trying to open the Article Reader. Was (static) companion object field set ?"
+                100,
+                "READER_ITEMS_EMPTY",
+                "Items empty when trying to open the Article Reader. Was (static) companion object field set ?"
             )
             Crashlytics.logException(Exception("Empty items on Reader Activity."))
 
@@ -79,10 +79,10 @@ class ReaderActivity : AppCompatActivity() {
         }
 
         api = SelfossApi(
-                this,
-                this@ReaderActivity,
-                settings.getBoolean("isSelfSignedCert", false),
-                sharedPref.getBoolean("should_log_everything", false)
+            this,
+            this@ReaderActivity,
+            settings.getBoolean("isSelfSignedCert", false),
+            sharedPref.getBoolean("should_log_everything", false)
         )
 
         currentItem = intent.getIntExtra("currentItem", 0)
@@ -101,65 +101,65 @@ class ReaderActivity : AppCompatActivity() {
         (indicator as CircleIndicator).setViewPager(pager)
 
         pager.addOnPageChangeListener(
-                object : ViewPager.SimpleOnPageChangeListener() {
-                    var isLastItem = false
+            object : ViewPager.SimpleOnPageChangeListener() {
+                var isLastItem = false
 
-                    override fun onPageSelected(position: Int) {
-                        isLastItem = (position === (allItems.size - 1))
+                override fun onPageSelected(position: Int) {
+                    isLastItem = (position === (allItems.size - 1))
 
-                        if (allItems[position].starred) {
-                            canRemoveFromFavorite()
-                        } else {
-                            canFavorite()
-                        }
-                    }
-
-                    override fun onPageScrollStateChanged(state: Int) {
-                        if (markOnScroll && (state === ViewPager.SCROLL_STATE_DRAGGING || (state === ViewPager.SCROLL_STATE_IDLE && isLastItem))) {
-                            api.markItem(allItems[pager.currentItem].id).enqueue(
-                                    object : Callback<SuccessResponse> {
-                                        override fun onResponse(
-                                                call: Call<SuccessResponse>,
-                                                response: Response<SuccessResponse>
-                                        ) {
-                                            if (!response.succeeded() && debugReadingItems) {
-                                                val message =
-                                                        "message: ${response.message()} " +
-                                                                "response isSuccess: ${response.isSuccessful} " +
-                                                                "response code: ${response.code()} " +
-                                                                "response message: ${response.message()} " +
-                                                                "response errorBody: ${response.errorBody()?.string()} " +
-                                                                "body success: ${response.body()?.success} " +
-                                                                "body isSuccess: ${response.body()?.isSuccess}"
-                                                Crashlytics.setUserIdentifier(userIdentifier)
-                                                Crashlytics.log(
-                                                        100,
-                                                        "READ_DEBUG_SUCCESS",
-                                                        message
-                                                )
-                                                Crashlytics.logException(Exception("Was success, but did it work ?"))
-                                            }
-                                        }
-
-                                        override fun onFailure(
-                                                call: Call<SuccessResponse>,
-                                                t: Throwable
-                                        ) {
-                                            if (debugReadingItems) {
-                                                Crashlytics.setUserIdentifier(userIdentifier)
-                                                Crashlytics.log(
-                                                        100,
-                                                        "READ_DEBUG_ERROR",
-                                                        t.message
-                                                )
-                                                Crashlytics.logException(t)
-                                            }
-                                        }
-                                    }
-                            )
-                        }
+                    if (allItems[position].starred) {
+                        canRemoveFromFavorite()
+                    } else {
+                        canFavorite()
                     }
                 }
+
+                override fun onPageScrollStateChanged(state: Int) {
+                    if (markOnScroll && (state === ViewPager.SCROLL_STATE_DRAGGING || (state === ViewPager.SCROLL_STATE_IDLE && isLastItem))) {
+                        api.markItem(allItems[pager.currentItem].id).enqueue(
+                            object : Callback<SuccessResponse> {
+                                override fun onResponse(
+                                    call: Call<SuccessResponse>,
+                                    response: Response<SuccessResponse>
+                                ) {
+                                    if (!response.succeeded() && debugReadingItems) {
+                                        val message =
+                                            "message: ${response.message()} " +
+                                                    "response isSuccess: ${response.isSuccessful} " +
+                                                    "response code: ${response.code()} " +
+                                                    "response message: ${response.message()} " +
+                                                    "response errorBody: ${response.errorBody()?.string()} " +
+                                                    "body success: ${response.body()?.success} " +
+                                                    "body isSuccess: ${response.body()?.isSuccess}"
+                                        Crashlytics.setUserIdentifier(userIdentifier)
+                                        Crashlytics.log(
+                                            100,
+                                            "READ_DEBUG_SUCCESS",
+                                            message
+                                        )
+                                        Crashlytics.logException(Exception("Was success, but did it work ?"))
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<SuccessResponse>,
+                                    t: Throwable
+                                ) {
+                                    if (debugReadingItems) {
+                                        Crashlytics.setUserIdentifier(userIdentifier)
+                                        Crashlytics.log(
+                                            100,
+                                            "READ_DEBUG_ERROR",
+                                            t.message
+                                        )
+                                        Crashlytics.logException(t)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            }
         )
     }
 
@@ -175,7 +175,8 @@ class ReaderActivity : AppCompatActivity() {
         oldInstanceState!!.clear()
     }
 
-    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) :
+        FragmentStatePagerAdapter(fm) {
         override fun getCount(): Int {
             return allItems.size
         }
@@ -206,48 +207,50 @@ class ReaderActivity : AppCompatActivity() {
                 return true
             }
             R.id.save -> {
-                api.starrItem(allItems[pager.currentItem].id).enqueue(object : Callback<SuccessResponse> {
-                    override fun onResponse(
+                api.starrItem(allItems[pager.currentItem].id)
+                    .enqueue(object : Callback<SuccessResponse> {
+                        override fun onResponse(
                             call: Call<SuccessResponse>,
                             response: Response<SuccessResponse>
-                    ) {
-                        allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
-                        canRemoveFromFavorite()
-                    }
+                        ) {
+                            allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+                            canRemoveFromFavorite()
+                        }
 
-                    override fun onFailure(
+                        override fun onFailure(
                             call: Call<SuccessResponse>,
                             t: Throwable
-                    ) {
-                        Toast.makeText(
+                        ) {
+                            Toast.makeText(
                                 baseContext,
                                 R.string.cant_mark_favortie,
                                 Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                            ).show()
+                        }
+                    })
             }
             R.id.unsave -> {
-                api.unstarrItem(allItems[pager.currentItem].id).enqueue(object : Callback<SuccessResponse> {
-                    override fun onResponse(
+                api.unstarrItem(allItems[pager.currentItem].id)
+                    .enqueue(object : Callback<SuccessResponse> {
+                        override fun onResponse(
                             call: Call<SuccessResponse>,
                             response: Response<SuccessResponse>
-                    ) {
-                        allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
-                        canFavorite()
-                    }
+                        ) {
+                            allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+                            canFavorite()
+                        }
 
-                    override fun onFailure(
+                        override fun onFailure(
                             call: Call<SuccessResponse>,
                             t: Throwable
-                    ) {
-                        Toast.makeText(
+                        ) {
+                            Toast.makeText(
                                 baseContext,
                                 R.string.cant_unmark_favortie,
                                 Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                            ).show()
+                        }
+                    })
             }
         }
         return super.onOptionsItemSelected(item)
