@@ -20,8 +20,10 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -131,6 +133,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
+                || ArticleViewerPreferenceFragment.class.getName().equals(fragmentName)
                 || DebugPreferenceFragment.class.getName().equals(fragmentName)
                 || LinksPreferenceFragment.class.getName().equals(fragmentName);
     }
@@ -171,6 +174,56 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             } catch (NumberFormatException nfe) {
                                 Toast.makeText(getActivity(), R.string.items_number_should_be_number, Toast.LENGTH_LONG).show();
                             }
+                            return "";
+                        }
+                    }
+            });
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                getActivity().finish();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class ArticleViewerPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_viewer);
+            setHasOptionsMenu(true);
+
+            final EditTextPreference fontSize = (EditTextPreference) findPreference("reader_font_size");
+            fontSize.getEditText().addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    try {
+                        fontSize.getEditText().setTextSize(Integer.parseInt(editable.toString()));
+                    } catch (NumberFormatException e) {}
+                }
+            });
+            fontSize.getEditText().setFilters(new InputFilter[]{
+                    new InputFilter() {
+
+                        @Override
+                        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                            try {
+                                int input = Integer.parseInt(dest.toString() + source.toString());
+                                if (input > 0)
+                                    return null;
+                            } catch (NumberFormatException nfe) {}
                             return "";
                         }
                     }

@@ -25,6 +25,7 @@ import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
+import apps.amine.bou.readerforselfoss.utils.toPx
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.crashlytics.android.Crashlytics
@@ -39,6 +40,7 @@ import java.net.URL
 
 class ArticleFragment : Fragment() {
     private lateinit var pageNumber: Number
+    private var fontSize: Int = 14
     private lateinit var allItems: ArrayList<Item>
     private lateinit var mCustomTabActivityHelper: CustomTabActivityHelper
     private lateinit var url: String
@@ -84,6 +86,8 @@ class ArticleFragment : Fragment() {
         mCustomTabActivityHelper.bindCustomTabsService(activity)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        fontSize = prefs.getString("reader_font_size", "14").toInt()
+
 
         mFloatingToolbar.setClickListener(
             object : FloatingToolbar.ItemClickListener {
@@ -321,7 +325,7 @@ class ArticleFragment : Fragment() {
 
         rootView.webcontent.loadDataWithBaseURL(
             baseUrl,
-            "<style>img{display: inline-block;height: auto; width: 100%; max-width: 100%;} a{color: $stringColor;} *:not(a){color: $stringTextColor;}</style>$c",
+            "<style>img {display: inline-block;height: auto;width: 100%;max-width: 100%;}a {color: $stringColor;}*:not(a) {color: $stringTextColor;}* {word-break: break-word;font-size: ${fontSize.toPx}px;text-align: justify;}</style>$c",
             "text/html; charset=utf-8",
             "utf-8",
             null

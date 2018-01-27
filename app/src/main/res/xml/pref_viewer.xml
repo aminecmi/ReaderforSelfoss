@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="mark_on_scroll"
+        android:title="@string/pref_switch_actions_pager_scroll" />
+
+    <EditTextPreference
+        android:defaultValue="14"
+        android:inputType="number"
+        android:key="reader_font_size"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_content_reader_font_size" />
+</PreferenceScreen>

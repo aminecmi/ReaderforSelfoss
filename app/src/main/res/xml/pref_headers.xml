@@ -5,6 +5,12 @@
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/pref_header_general"/>
 
+
+    <header
+        android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$ArticleViewerPreferenceFragment"
+        android:icon="@drawable/ic_chrome_reader_mode_black_24"
+        android:title="@string/pref_header_viewer"/>
+
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$DebugPreferenceFragment"
         android:icon="@drawable/ic_bug_report"

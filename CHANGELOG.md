@@ -4,7 +4,7 @@
 
 - Added an option to use a webview in the article viewer (see #149)
 
-- Fixes (#151 #152 #155 #157 #160)
+- Fixes (#151 #152 #155 #157 #160 #174)
 
 - New year fixes !!!
 
@@ -19,6 +19,8 @@
 - Updated the Contribution guide about translations.
 
 - Better handling for articles update. (See #169)
+
+- Ability to change the article viewer content font size (see #153)
 
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 

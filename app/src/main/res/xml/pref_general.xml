@@ -76,9 +76,5 @@
         android:summaryOff="@string/pref_switch_actions_tap_off"
         android:summaryOn="@string/pref_switch_actions_tap_on"
         android:title="@string/pref_switch_actions_tap_title" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="mark_on_scroll"
-        android:title="@string/pref_switch_actions_pager_scroll" />
 
 </PreferenceScreen>
