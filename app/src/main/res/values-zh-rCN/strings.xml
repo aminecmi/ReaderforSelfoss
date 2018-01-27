@@ -161,4 +161,6 @@
   <string name="pref_switch_actions_pager_scroll">切换文章时将文章标记为已读。</string>
   <string name="add_to_favs_reader">添加到收藏</string>
   <string name="remove_to_favs_reader">从收藏中移除</string>
+  <string name="pref_content_reader_font_size">Article reader content font size</string>
+  <string name="pref_header_viewer">Article viewer</string>
 </resources>
