@@ -161,6 +161,6 @@
   <string name="pref_switch_actions_pager_scroll">Marquer les articles comme lus à la navigation dans le lecteur d\'article.</string>
   <string name="add_to_favs_reader">Ajouter aux favoris</string>
   <string name="remove_to_favs_reader">Supprimer des favoris</string>
-  <string name="pref_content_reader_font_size">Article reader content font size</string>
-  <string name="pref_header_viewer">Article viewer</string>
+  <string name="pref_content_reader_font_size">Taille du texte du contenu du lecteur d\'articles</string>
+  <string name="pref_header_viewer">Lecteur d\'articles</string>
 </resources>
