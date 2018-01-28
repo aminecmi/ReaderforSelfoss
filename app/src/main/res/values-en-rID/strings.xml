@@ -25,7 +25,7 @@
   <string name="add_source_hint_name">"Nama"</string>
   <string name="add_source">"Tambahkan sebuah sumber"</string>
   <string name="add_source_save">"Simpan"</string>
-  <string name="wrong_infos">"Check your details again."</string>
+  <string name="wrong_infos">"Anda periksa kembali secara detail."</string>
   <string name="all_posts_not_read">"All posts weren't read"</string>
   <string name="all_posts_read">"All posts were read"</string>
   <string name="cant_get_favs">"Can't get favorites"</string>
