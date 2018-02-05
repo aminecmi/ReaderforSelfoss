@@ -159,8 +159,8 @@
   <string name="reader_action_open">Abrir no navegador</string>
   <string name="reader_action_share">Compartilhar</string>
   <string name="pref_switch_actions_pager_scroll">Mark articles as read when swiping between articles.</string>
-  <string name="add_to_favs_reader">Add to favorites</string>
-  <string name="remove_to_favs_reader">Remove from favorites</string>
-  <string name="pref_content_reader_font_size">Article reader content font size</string>
-  <string name="pref_header_viewer">Article viewer</string>
+  <string name="add_to_favs_reader">Adicionar aos favoritos</string>
+  <string name="remove_to_favs_reader">Remover dos favoritos</string>
+  <string name="pref_content_reader_font_size">Tamanho da fonte do conteúdo do leitor de artigos</string>
+  <string name="pref_header_viewer">Visualizador de artigos</string>
 </resources>
