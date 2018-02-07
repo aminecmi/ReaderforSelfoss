@@ -22,6 +22,10 @@
 
 - Ability to change the article viewer content font size (see #153)
 
+- Versions updates.
+
+- Added padding to the recyclerview.
+
 **1.5.5.x (didn't last long) AND 1.5.6.x**
 
 - Toolbar in reader activity.

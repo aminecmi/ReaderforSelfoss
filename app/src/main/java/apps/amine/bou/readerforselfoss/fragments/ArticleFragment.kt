@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
+import android.widget.Toast
 import apps.amine.bou.readerforselfoss.BuildConfig
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
@@ -318,6 +319,7 @@ class ArticleFragment : Fragment() {
             val itemUrl = URL(url)
             baseUrl = itemUrl.protocol + "://" + itemUrl.host
         } catch (e: MalformedURLException) {
+            Toast.makeText(activity!!.baseContext, "You are encountering a bug that I can't solve. Can you please contact me to solve the issue, please ?", Toast.LENGTH_LONG).show()
             Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
             Crashlytics.log(100, "BASE_URL_MALFORMED", e.message)
             Crashlytics.logException(e)
