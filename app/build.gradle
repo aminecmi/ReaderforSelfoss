@@ -133,7 +133,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.firebase:firebase-config:11.6.2'
     compile 'com.google.firebase:firebase-invites:11.6.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true;
     }
 
@@ -181,6 +181,8 @@ dependencies {
 
     // Pager
     compile 'me.relex:circleindicator:1.2.2@aar'
+
+    implementation 'androidx.core:core-ktx:0.1'
 
 }
 
