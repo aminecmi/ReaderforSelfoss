@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -10,6 +11,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.view.MenuItemCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
@@ -1006,78 +1008,92 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         return true
     }
 
+    private fun needsConfirmation(titleRes: Int, messageRes: Int, doFn: () -> Unit) {
+        AlertDialog.Builder(this@HomeActivity)
+            .setMessage(messageRes)
+            .setTitle(titleRes)
+            .setPositiveButton(android.R.string.ok) { _, _ -> doFn() }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .create()
+            .show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh -> {
-                api.update().enqueue(object : Callback<String> {
-                    override fun onResponse(
-                        call: Call<String>,
-                        response: Response<String>
-                    ) {
-                        Toast.makeText(
-                            this@HomeActivity,
-                            R.string.refresh_success_response, Toast.LENGTH_LONG
-                        )
-                            .show()
-                    }
+                needsConfirmation(R.string.menu_home_refresh, R.string.refresh_dialog_message, {
+                    api.update().enqueue(object : Callback<String> {
+                        override fun onResponse(
+                            call: Call<String>,
+                            response: Response<String>
+                        ) {
+                            Toast.makeText(
+                                this@HomeActivity,
+                                R.string.refresh_success_response, Toast.LENGTH_LONG
+                            )
+                                .show()
+                        }
 
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                        Toast.makeText(
-                            this@HomeActivity,
-                            R.string.refresh_failer_message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                            Toast.makeText(
+                                this@HomeActivity,
+                                R.string.refresh_failer_message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+                    Toast.makeText(this, R.string.refresh_in_progress, Toast.LENGTH_SHORT).show()
                 })
-                Toast.makeText(this, R.string.refresh_in_progress, Toast.LENGTH_SHORT).show()
                 return true
             }
             R.id.readAll -> {
                 if (elementsShown == UNREAD_SHOWN) {
-                    swipeRefreshLayout.isRefreshing = false
-                    val ids = items.map { it.id }
+                    needsConfirmation(R.string.readAll, R.string.markall_dialog_message, {
+                        swipeRefreshLayout.isRefreshing = false
+                        val ids = items.map { it.id }
 
-                    api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                            if (response.body() != null && response.body()!!.isSuccess) {
-                                Toast.makeText(
-                                    this@HomeActivity,
-                                    R.string.all_posts_read,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                tabNewBadge.removeBadge()
-                            } else {
+                        api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
+                            override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                            ) {
+                                if (response.body() != null && response.body()!!.isSuccess) {
+                                    Toast.makeText(
+                                        this@HomeActivity,
+                                        R.string.all_posts_read,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    tabNewBadge.removeBadge()
+                                } else {
+                                    Toast.makeText(
+                                        this@HomeActivity,
+                                        R.string.all_posts_not_read,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                swipeRefreshLayout.isRefreshing = false
+                            }
+
+                            override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                                 Toast.makeText(
                                     this@HomeActivity,
                                     R.string.all_posts_not_read,
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                swipeRefreshLayout.isRefreshing = false
                             }
-
-                            swipeRefreshLayout.isRefreshing = false
-                        }
-
-                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                        })
+                        items = ArrayList()
+                        if (items.isEmpty()) {
                             Toast.makeText(
                                 this@HomeActivity,
-                                R.string.all_posts_not_read,
+                                R.string.nothing_here,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            swipeRefreshLayout.isRefreshing = false
                         }
+                        handleListResult()
                     })
-                    items = ArrayList()
-                    if (items.isEmpty()) {
-                        Toast.makeText(
-                            this@HomeActivity,
-                            R.string.nothing_here,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    handleListResult()
                 }
                 return true
             }
