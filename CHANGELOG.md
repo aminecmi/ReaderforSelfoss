@@ -1,5 +1,7 @@
 **1.5.7.x**
 
+- Added confirmation to the mark as read and update menues.
+
 - Add to favorites from article viewer.
 
 - Added an option to use a webview in the article viewer (see #149)

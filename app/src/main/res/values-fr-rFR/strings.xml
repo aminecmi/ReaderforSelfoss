@@ -163,6 +163,6 @@
   <string name="remove_to_favs_reader">Supprimer des favoris</string>
   <string name="pref_content_reader_font_size">Taille du texte du contenu du lecteur d\'articles</string>
   <string name="pref_header_viewer">Lecteur d\'articles</string>
-  <string name="refresh_dialog_message">This will refresh your Selfoss instance.</string>
-  <string name="markall_dialog_message">This will mark all the items as read.</string>
+  <string name="refresh_dialog_message">En validant, votre instance Selfoss sera mise à jour.</string>
+  <string name="markall_dialog_message">Marquer tous les éléments comme lus ?</string>
 </resources>
