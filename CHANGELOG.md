@@ -24,7 +24,7 @@
 
 - Ability to change the article viewer content font size (see #153)
 
-- Versions updates.
+- Versions updates * 2.
 
 - Added padding to the recyclerview.
 
