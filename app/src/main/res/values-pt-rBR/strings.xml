@@ -163,4 +163,6 @@
   <string name="remove_to_favs_reader">Remover dos favoritos</string>
   <string name="pref_content_reader_font_size">Tamanho da fonte do conteúdo do leitor de artigos</string>
   <string name="pref_header_viewer">Visualizador de artigos</string>
+  <string name="refresh_dialog_message">This will refresh your Selfoss instance.</string>
+  <string name="markall_dialog_message">This will mark all the items as read.</string>
 </resources>
