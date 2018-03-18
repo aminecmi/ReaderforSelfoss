@@ -153,13 +153,13 @@
   <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
   <string name="translation">Übersetzung</string>
   <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
-  <string name="drawer_report_bug">Report a bug</string>
+  <string name="drawer_report_bug">Melde einen Fehler</string>
   <string name="items_number_should_be_number">The items number should be an integer.</string>
   <string name="reader_action_more">Read more</string>
-  <string name="reader_action_open">Open in browser</string>
+  <string name="reader_action_open">Im Browser öffnen</string>
   <string name="reader_action_share">Teilen</string>
   <string name="pref_switch_actions_pager_scroll">Mark articles as read when swiping between articles.</string>
-  <string name="add_to_favs_reader">Add to favorites</string>
+  <string name="add_to_favs_reader">Zu Favoriten hinzufügen</string>
   <string name="remove_to_favs_reader">Remove from favorites</string>
   <string name="pref_content_reader_font_size">Article reader content font size</string>
   <string name="pref_header_viewer">Article viewer</string>
