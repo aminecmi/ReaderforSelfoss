@@ -33,7 +33,7 @@
   <string name="cant_get_read">"Gelese Artikel können nicht abgerufen werden"</string>
   <string name="nothing_here">"Keine Einträge vorhanden"</string>
   <string name="tab_new">"Neu"</string>
-  <string name="tab_read">"All"</string>
+  <string name="tab_read">"Alle"</string>
   <string name="tab_favs">"Favoriten"</string>
   <string name="action_about">"Über"</string>
   <string name="marked_as_read">"Artikel gelesen"</string>
