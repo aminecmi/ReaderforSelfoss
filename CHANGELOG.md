@@ -44,6 +44,8 @@
 
 - Changed versions handling.
 
+- Removed indonesian english as it was causing issues with the english version of the app.
+
 **1.5.4.22**
 
 - You can now scroll through the loaded articles !
