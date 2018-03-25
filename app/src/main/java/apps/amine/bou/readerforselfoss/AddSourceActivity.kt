@@ -99,7 +99,7 @@ class AddSourceActivity : AppCompatActivity() {
 
                     val itemsStrings = items.map { it.value.name }
                     for ((key, value) in items) {
-                        spoutsKV.put(value.name, key)
+                        spoutsKV[value.name] = key
                     }
 
                     mProgress.visibility = View.GONE

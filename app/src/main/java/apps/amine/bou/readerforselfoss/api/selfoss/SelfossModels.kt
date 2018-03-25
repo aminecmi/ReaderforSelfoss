@@ -145,7 +145,7 @@ data class Item(
 
         // handle url not starting with http
         if (stringUrl.startsWith("//")) {
-            stringUrl = "http:" + stringUrl
+            stringUrl = "http:$stringUrl"
         }
 
         return stringUrl

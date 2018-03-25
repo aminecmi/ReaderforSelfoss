@@ -1,7 +1,6 @@
 package apps.amine.bou.readerforselfoss.fragments
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -14,13 +13,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
-import android.support.v7.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
-import android.widget.Toast
 import apps.amine.bou.readerforselfoss.BuildConfig
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi

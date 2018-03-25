@@ -79,8 +79,7 @@ class ReaderActivity : AppCompatActivity() {
 
         currentItem = intent.getIntExtra("currentItem", 0)
 
-        var adapter = ScreenSlidePagerAdapter(supportFragmentManager)
-        pager.adapter = adapter
+        pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager)
         pager.currentItem = currentItem
     }
 

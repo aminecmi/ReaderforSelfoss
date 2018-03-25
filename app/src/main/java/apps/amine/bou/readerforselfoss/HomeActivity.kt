@@ -2,7 +2,6 @@ package apps.amine.bou.readerforselfoss
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -52,7 +51,6 @@ import com.anupcowkur.reservoir.ReservoirPutCallback
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
-import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.InviteEvent
 import com.ftinc.scoop.Scoop
@@ -664,7 +662,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         recyclerView.layoutManager = layoutManager
                     }
                 } else {
-                    Unit
                 }
         }
     }
