@@ -204,11 +204,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 ): Boolean = false
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                    try {
-                        val i = items[viewHolder.adapterPosition]
-                        val position = items.indexOf(i)
+                    val position = viewHolder.adapterPosition
+                    val i = items.elementAtOrNull(position)
 
+                    if (i != null) {
                         val adapter = recyclerView.adapter
+
                         when (adapter) {
                             is ItemCardAdapter -> adapter.removeItemAtIndex(position)
                             is ItemListAdapter -> adapter.removeItemAtIndex(position)
@@ -242,14 +243,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 offsetOverride = lastVisibleItem
                             )
                         }
-                    } catch (e: IndexOutOfBoundsException) {
-                        Crashlytics.setUserIdentifier(userIdentifier)
-                        Crashlytics.log(
-                            100,
-                            "SWIPE_INDEX_OUT_OF_BOUND",
-                            "IndexOutOfBoundsException when swiping"
-                        )
-                        Crashlytics.logException(e)
                     }
                 }
             }

@@ -6,7 +6,7 @@
 
 - Added an option to use a webview in the article viewer (see #149)
 
-- Fixes (#151 #152 #155 #157 #160 #174)
+- Fixes (#151 #152 #155 #157 #160 #174) and more.
 
 - New year fixes !!!
 

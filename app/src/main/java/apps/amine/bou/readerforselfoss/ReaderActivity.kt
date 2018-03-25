@@ -67,14 +67,6 @@ class ReaderActivity : AppCompatActivity() {
         markOnScroll = sharedPref.getBoolean("mark_on_scroll", false)
 
         if (allItems.isEmpty()) {
-            Crashlytics.setUserIdentifier(userIdentifier)
-            Crashlytics.log(
-                100,
-                "READER_ITEMS_EMPTY",
-                "Items empty when trying to open the Article Reader. Was (static) companion object field set ?"
-            )
-            Crashlytics.logException(Exception("Empty items on Reader Activity."))
-
             finish()
         }
 
