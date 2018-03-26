@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="apps.amine.bou.readerforselfoss">
+    package="apps.amine.bou.readerforselfoss"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    
+     <!-- Remove unwanted permissions from Crashlytics.. see https://www.reddit.com/r/androiddev/comments/86c02l/google_play_services_1200_released/dw4ehln/?context=0 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove" />
 
     <!-- For firebase only -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
