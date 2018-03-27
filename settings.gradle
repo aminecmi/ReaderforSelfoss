@@ -1,1 +1,20 @@
 include ':app'
+
+ext.isCiServer = !!System.getProperty("CI")
+
+buildCache {
+    local {
+        enabled = !isCiServer
+    }
+    remote(HttpBuildCache) {
+        url = 'http://amine-bou.fr:8885/cache/'
+        push = isCiServer
+
+        println "user " + System.getProperty("cacheUser")
+        println "pass " + System.getProperty("cachePassword")
+        credentials {
+            username = System.getProperty("cacheUser")
+            password = System.getProperty("cachePassword")
+        }
+    }
+}
