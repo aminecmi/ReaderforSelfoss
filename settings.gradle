@@ -10,8 +10,7 @@ buildCache {
         url = 'http://amine-bou.fr:8885/cache/'
         push = isCiServer
 
-        println "user " + System.getProperty("cacheUser")
-        println "pass " + System.getProperty("cachePassword")
+        println "push ? " + isCiServer
         credentials {
             username = System.getProperty("cacheUser")
             password = System.getProperty("cachePassword")
