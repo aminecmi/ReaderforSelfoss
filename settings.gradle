@@ -7,13 +7,9 @@ buildCache {
         enabled = !isCiServer
     }
     remote(HttpBuildCache) {
-        url = 'http://amine-bou.fr:8885/cache/'
+        url = System.getProperty("cacheUrl")
         push = isCiServer
 
-        println "push ? " + isCiServer
-        credentials {
-            username = System.getProperty("cacheUser")
-            password = System.getProperty("cachePassword")
-        }
+        println "url ? " + System.getProperty("cacheUrl")
     }
 }
