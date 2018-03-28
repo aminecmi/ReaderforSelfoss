@@ -51,6 +51,7 @@ import com.anupcowkur.reservoir.ReservoirPutCallback
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
+import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.InviteEvent
 import com.ftinc.scoop.Scoop
@@ -88,6 +89,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var items: ArrayList<Item> = ArrayList()
     private var clickBehavior = false
     private var debugReadingItems = false
+    private var shouldLogEverything = false
     private var internalBrowser = false
     private var articleViewer = false
     private var shouldBeCardView = false
@@ -154,7 +156,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             this,
             this@HomeActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            sharedPref.getBoolean("should_log_everything", false)
+            shouldLogEverything
         )
         items = ArrayList()
 
@@ -328,6 +330,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun handleSharedPrefs() {
         debugReadingItems = sharedPref.getBoolean("read_debug", false)
+        shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
         clickBehavior = sharedPref.getBoolean("tab_on_tap", false)
         internalBrowser = sharedPref.getBoolean("prefer_internal_browser", true)
         articleViewer = sharedPref.getBoolean("prefer_article_viewer", true)
@@ -1042,6 +1045,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         swipeRefreshLayout.isRefreshing = false
                         val ids = items.map { it.id }
 
+                        fun readAllDebug(e: Throwable) {
+                            Crashlytics.setUserIdentifier(userIdentifier)
+                            Crashlytics.log(100, "READ_ALL_ERROR", e.message)
+                            Crashlytics.logException(e)
+                        }
+
                         api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
                                 call: Call<SuccessResponse>,
@@ -1060,6 +1069,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                         R.string.all_posts_not_read,
                                         Toast.LENGTH_SHORT
                                     ).show()
+
+                                    if (debugReadingItems) {
+                                        readAllDebug(
+                                            Throwable("Got response, but : response.body() (${response.body()}) != null && response.body()!!.isSuccess (${response.body()!!.isSuccess})")
+                                        )
+                                    }
+
                                 }
 
                                 swipeRefreshLayout.isRefreshing = false
@@ -1072,6 +1088,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 swipeRefreshLayout.isRefreshing = false
+
+                                if (debugReadingItems) {
+                                    readAllDebug(t)
+                                }
                             }
                         })
                         items = ArrayList()
