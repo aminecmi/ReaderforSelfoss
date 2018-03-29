@@ -1072,7 +1072,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                                     if (debugReadingItems) {
                                         readAllDebug(
-                                            Throwable("Got response, but : response.body() (${response.body()}) != null && response.body()!!.isSuccess (${response.body()!!.isSuccess})")
+                                            Throwable("Got response, but : response.body() (${response.body()}) != null && response.body()!!.isSuccess (${response.body()?.isSuccess})")
                                         )
                                     }
 

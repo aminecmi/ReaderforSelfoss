@@ -48,7 +48,11 @@
 #}
 -dontwarn okio.**
 -dontwarn retrofit2.Platform$Java8
--keepattributes Signature
+-keep class retrofit.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+-keepattributes *Annotation*,Signature
 -keepattributes Exceptions
 -dontwarn okio.**
 -dontwarn javax.annotation.Nullable
