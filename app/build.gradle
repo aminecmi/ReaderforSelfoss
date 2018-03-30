@@ -13,7 +13,7 @@ ext {
             buildDate: new Date()
     ]
     // This will make me able to build multiple times a day. May break thinks. I may forget it.
-    todaysBuilds = "1"
+    todaysBuilds = "2"
 }
 
 def gitVersion() {
