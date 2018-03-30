@@ -87,6 +87,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private val FAV_SHOWN = 3
 
     private var items: ArrayList<Item> = ArrayList()
+    private var allItems: ArrayList<Item> = ArrayList()
     private var clickBehavior = false
     private var debugReadingItems = false
     private var shouldLogEverything = false
@@ -159,6 +160,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             shouldLogEverything
         )
         items = ArrayList()
+        allItems = ArrayList()
 
         appColors = AppColors(this@HomeActivity)
 
@@ -770,10 +772,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (response.body() != null) {
                 if (shouldUpdate) {
                     items = response.body() as ArrayList<Item>
+
+                    items.forEach {
+                        if (!allItems.contains(it)) allItems.add(it)
+                    }
                 }
             } else {
                 if (!appendResults) {
                     items = ArrayList()
+                    allItems = ArrayList()
                 }
             }
             if (shouldUpdate) {
@@ -1043,7 +1050,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 if (elementsShown == UNREAD_SHOWN) {
                     needsConfirmation(R.string.readAll, R.string.markall_dialog_message, {
                         swipeRefreshLayout.isRefreshing = false
-                        val ids = items.map { it.id }
+                        val ids = allItems.map { it.id }
 
                         fun readAllDebug(e: Throwable) {
                             Crashlytics.setUserIdentifier(userIdentifier)
@@ -1098,8 +1105,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                     }
                                 }
                             })
+                            items = ArrayList()
+                            allItems = ArrayList()
                         }
-                        items = ArrayList()
                         if (items.isEmpty()) {
                             Toast.makeText(
                                 this@HomeActivity,
