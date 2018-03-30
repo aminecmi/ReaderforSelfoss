@@ -1051,49 +1051,54 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             Crashlytics.logException(e)
                         }
 
-                        api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
-                            override fun onResponse(
-                                call: Call<SuccessResponse>,
-                                response: Response<SuccessResponse>
-                            ) {
-                                if (response.body() != null && response.body()!!.isSuccess) {
-                                    Toast.makeText(
-                                        this@HomeActivity,
-                                        R.string.all_posts_read,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    tabNewBadge.removeBadge()
-                                } else {
+                        if (ids.isNotEmpty()) {
+                            api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
+                                override fun onResponse(
+                                    call: Call<SuccessResponse>,
+                                    response: Response<SuccessResponse>
+                                ) {
+                                    if (response.body() != null && response.body()!!.isSuccess) {
+                                        Toast.makeText(
+                                            this@HomeActivity,
+                                            R.string.all_posts_read,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        tabNewBadge.removeBadge()
+                                    } else {
+                                        Toast.makeText(
+                                            this@HomeActivity,
+                                            R.string.all_posts_not_read,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        if (debugReadingItems) {
+                                            readAllDebug(
+                                                Throwable(
+                                                    "Got response, but : response.body() (${response.body()}) != null && response.body()!!.isSuccess (${response.body()?.isSuccess})." +
+                                                            "Request url was (${call.request().url()}), ids were $ids"
+                                                )
+                                            )
+                                        }
+
+                                    }
+
+                                    swipeRefreshLayout.isRefreshing = false
+                                }
+
+                                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@HomeActivity,
                                         R.string.all_posts_not_read,
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    swipeRefreshLayout.isRefreshing = false
 
                                     if (debugReadingItems) {
-                                        readAllDebug(
-                                            Throwable("Got response, but : response.body() (${response.body()}) != null && response.body()!!.isSuccess (${response.body()?.isSuccess})")
-                                        )
+                                        readAllDebug(t)
                                     }
-
                                 }
-
-                                swipeRefreshLayout.isRefreshing = false
-                            }
-
-                            override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@HomeActivity,
-                                    R.string.all_posts_not_read,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                swipeRefreshLayout.isRefreshing = false
-
-                                if (debugReadingItems) {
-                                    readAllDebug(t)
-                                }
-                            }
-                        })
+                            })
+                        }
                         items = ArrayList()
                         if (items.isEmpty()) {
                             Toast.makeText(
