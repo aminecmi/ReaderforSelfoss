@@ -451,6 +451,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                         .withColor(appColors.accent)
                                 )
                                 .withOnDrawerItemClickListener { _, _, _ ->
+                                    allItems = ArrayList()
                                     maybeTagFilter = tag
                                     getElementsAccordingToTab()
                                     false
@@ -477,6 +478,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 .withIdentifier(tag.id.toLong())
                                 .withIcon(tag.getIcon(this@HomeActivity))
                                 .withOnDrawerItemClickListener { _, _, _ ->
+                                    allItems = ArrayList()
                                     maybeSourceFilter = tag
                                     getElementsAccordingToTab()
                                     false
@@ -495,6 +497,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         .withIdentifier(DRAWER_ID_FILTERS)
                         .withBadge(getString(R.string.drawer_action_clear))
                         .withOnDrawerItemClickListener { _, _, _ ->
+                            allItems = ArrayList()
                             maybeSourceFilter = null
                             maybeTagFilter = null
                             getElementsAccordingToTab()
