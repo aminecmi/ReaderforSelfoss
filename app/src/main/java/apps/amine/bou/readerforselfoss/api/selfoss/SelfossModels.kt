@@ -70,7 +70,8 @@ data class Item(
     @SerializedName("thumbnail") val thumbnail: String,
     @SerializedName("icon") val icon: String,
     @SerializedName("link") val link: String,
-    @SerializedName("sourcetitle") val sourcetitle: String
+    @SerializedName("sourcetitle") val sourcetitle: String,
+    @SerializedName("tags") val tags: String
 ) : Parcelable {
 
     var config: Config? = null
@@ -92,7 +93,8 @@ data class Item(
         thumbnail = source.readString(),
         icon = source.readString(),
         link = source.readString(),
-        sourcetitle = source.readString()
+        sourcetitle = source.readString(),
+        tags = source.readString()
     )
 
     override fun describeContents() = 0
@@ -108,6 +110,7 @@ data class Item(
         dest.writeString(icon)
         dest.writeString(link)
         dest.writeString(sourcetitle)
+        dest.writeString(tags)
     }
 
     fun getIcon(app: Context): String {

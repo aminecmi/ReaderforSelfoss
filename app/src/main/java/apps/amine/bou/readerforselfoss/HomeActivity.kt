@@ -66,6 +66,7 @@ import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.holder.BadgeStyle
+import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
@@ -127,6 +128,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var badgeNew: Int = -1
     private var badgeAll: Int = -1
     private var badgeFavs: Int = -1
+
+
+    private lateinit var tagsBadge: Map<Long, Int>
 
     data class DrawerData(val tags: List<Tag>?, val sources: List<Sources>?)
 
@@ -220,6 +224,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         if (items.size > 0) {
                             badgeNew--
                             reloadBadgeContent()
+
+                            tagsBadge = tagsBadge.map {
+                                if (it.key == i.tags.longHash()) {
+                                    (it.key to (it.value - 1))
+                                } else {
+                                    (it.key to it.value)
+                                }
+                            }.toMap()
+                            reloadTagsBadges()
                         } else {
                             tabNewBadge.hide()
                         }
@@ -417,6 +430,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleDrawerItems() {
+        tagsBadge = emptyMap()
         fun handleDrawerData(maybeDrawerData: DrawerData?, loadedFromCache: Boolean = false) {
             fun handleTags(maybeTags: List<Tag>?) {
                 if (maybeTags == null) {
@@ -428,10 +442,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                     }
                 } else {
-                    for (tag in maybeTags) {
+                    tagsBadge = maybeTags.map {
                         val gd = GradientDrawable()
                         val color = try {
-                            Color.parseColor(tag.color)
+                            Color.parseColor(it.color)
                         } catch (e: IllegalArgumentException) {
                             resources.getColor(R.color.primary)
                         }
@@ -442,22 +456,24 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         gd.cornerRadius = 30F
                         drawer.addItem(
                             PrimaryDrawerItem()
-                                .withName(tag.tag)
-                                .withIdentifier(tag.tag.longHash())
+                                .withName(it.tag)
+                                .withIdentifier(it.tag.longHash())
                                 .withIcon(gd)
-                                .withBadge("${tag.unread}")
+                                .withBadge("${it.unread}")
                                 .withBadgeStyle(
                                     BadgeStyle().withTextColor(Color.WHITE)
                                         .withColor(appColors.accent)
                                 )
                                 .withOnDrawerItemClickListener { _, _, _ ->
                                     allItems = ArrayList()
-                                    maybeTagFilter = tag
+                                    maybeTagFilter = it
                                     getElementsAccordingToTab()
                                     false
                                 }
                         )
-                    }
+
+                        (it.tag.longHash() to it.unread)
+                    }.toMap()
                 }
             }
 
@@ -963,6 +979,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
     }
 
+    private fun reloadTagsBadges() {
+        tagsBadge.forEach {
+            drawer.updateBadge(it.key, StringHolder("${it.value}"))
+        }
+        drawer.resetDrawerContent()
+    }
+
     private fun calculateNoOfColumns(): Int {
         val displayMetrics = resources.displayMetrics
         val dpWidth = displayMetrics.widthPixels / displayMetrics.density
@@ -1054,6 +1077,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     needsConfirmation(R.string.readAll, R.string.markall_dialog_message, {
                         swipeRefreshLayout.isRefreshing = false
                         val ids = allItems.map { it.id }
+                        val itemsByTag: Map<Long, Int> =
+                            allItems
+                                .groupBy { it.tags.longHash() }
+                                .map { it.key to it.value.size }
+                                .toMap()
 
                         fun readAllDebug(e: Throwable) {
                             Crashlytics.setUserIdentifier(userIdentifier)
@@ -1074,6 +1102,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         tabNewBadge.removeBadge()
+
+
+                                        tagsBadge = itemsByTag.map {
+                                            (it.key to ((tagsBadge[it.key] ?: it.value) - it.value))
+                                        }.toMap()
+
+                                        reloadTagsBadges()
+
+                                        getElementsAccordingToTab()
                                     } else {
                                         Toast.makeText(
                                             this@HomeActivity,
