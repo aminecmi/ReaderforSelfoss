@@ -165,4 +165,6 @@
   <string name="pref_header_viewer">Visor de artículos</string>
   <string name="refresh_dialog_message">This will refresh your Selfoss instance.</string>
   <string name="markall_dialog_message">This will mark all the items as read.</string>
+  <string name="pref_switch_actions_pager_scroll">Mark as read on swipe</string>
+  <string name="pref_switch_actions_pager_scroll_off">Don\'t mark articles as read when swiping.</string>
 </resources>

@@ -165,4 +165,6 @@
   <string name="pref_header_viewer">Lecteur d\'articles</string>
   <string name="refresh_dialog_message">En validant, votre instance Selfoss sera mise à jour.</string>
   <string name="markall_dialog_message">Marquer tous les éléments comme lus ?</string>
+  <string name="pref_switch_actions_pager_scroll">Marquer comme lu à la navigation.</string>
+  <string name="pref_switch_actions_pager_scroll_off">Ne pas marquer les articles comme lus à la navigation.</string>
 </resources>
