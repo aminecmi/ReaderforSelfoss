@@ -44,3 +44,12 @@ fun Item.toggleStar(): Item {
     this.starred = !this.starred
     return this
 }
+
+fun List<Item>.flattenTags(): List<Item> =
+    this.flatMap {
+        val item = it
+        val tags: List<String> = it.tags.split(",")
+        tags.map {
+            item.copy(tags = it.trim())
+        }
+    }

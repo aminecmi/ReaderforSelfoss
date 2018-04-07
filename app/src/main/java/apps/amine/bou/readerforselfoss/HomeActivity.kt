@@ -39,6 +39,7 @@ import apps.amine.bou.readerforselfoss.utils.bottombar.removeBadge
 import apps.amine.bou.readerforselfoss.utils.checkApkVersion
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
+import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
@@ -225,8 +226,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             badgeNew--
                             reloadBadgeContent()
 
+                            val tagHashes = i.tags.split(",").map { it.longHash() }
                             tagsBadge = tagsBadge.map {
-                                if (it.key == i.tags.longHash()) {
+                                if (tagHashes.contains(it.key)) {
                                     (it.key to (it.value - 1))
                                 } else {
                                     (it.key to it.value)
@@ -1078,7 +1080,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         swipeRefreshLayout.isRefreshing = false
                         val ids = allItems.map { it.id }
                         val itemsByTag: Map<Long, Int> =
-                            allItems
+                            allItems.flattenTags()
                                 .groupBy { it.tags.longHash() }
                                 .map { it.key to it.value.size }
                                 .toMap()
