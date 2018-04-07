@@ -158,11 +158,13 @@
   <string name="reader_action_more">Lees meer</string>
   <string name="reader_action_open">Openen in browser</string>
   <string name="reader_action_share">Delen</string>
-  <string name="pref_switch_actions_pager_scroll">Mark articles as read when swiping between articles.</string>
+  <string name="pref_switch_actions_pager_scroll_on">Mark articles as read when swiping between articles.</string>
   <string name="add_to_favs_reader">Add to favorites</string>
   <string name="remove_to_favs_reader">Remove from favorites</string>
   <string name="pref_content_reader_font_size">Article reader content font size</string>
   <string name="pref_header_viewer">Article viewer</string>
   <string name="refresh_dialog_message">This will refresh your Selfoss instance.</string>
   <string name="markall_dialog_message">This will mark all the items as read.</string>
+  <string name="pref_switch_actions_pager_scroll">Mark as read on swipe</string>
+  <string name="pref_switch_actions_pager_scroll_off">Don\'t mark articles as read when swiping.</string>
 </resources>
