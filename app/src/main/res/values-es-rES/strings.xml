@@ -158,7 +158,7 @@
   <string name="reader_action_more">Leer más</string>
   <string name="reader_action_open">Abrir en el navegador</string>
   <string name="reader_action_share">Compartir</string>
-  <string name="pref_switch_actions_pager_scroll_on">Mark articles as read when swiping between articles.</string>
+  <string name="pref_switch_actions_pager_scroll_on">Marcar artículos como leidos al desplazarse entre ellos.</string>
   <string name="add_to_favs_reader">Añadir a Favoritos</string>
   <string name="remove_to_favs_reader">Eliminar de favoritos</string>
   <string name="pref_content_reader_font_size">Tamaño de la fuente</string>
