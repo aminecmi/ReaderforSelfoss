@@ -125,11 +125,11 @@ class ArticleFragment : Fragment() {
             }
         )
 
+        rootView.source.text = contentSource
 
         if (contentText.isEmptyOrNullOrNullString()) {
             getContentFromMercury(customTabsIntent, prefs, context)
         } else {
-            rootView.source.text = contentSource
             rootView.titleView.text = contentTitle
 
             htmlToWebview(contentText, prefs, context)
@@ -181,7 +181,6 @@ class ArticleFragment : Fragment() {
                     try {
                         if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                             try {
-                                rootView.source.text = response.body()!!.domain
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
                             } catch (e: Exception) {
