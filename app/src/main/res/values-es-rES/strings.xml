@@ -163,8 +163,8 @@
   <string name="remove_to_favs_reader">Eliminar de favoritos</string>
   <string name="pref_content_reader_font_size">Tamaño de la fuente</string>
   <string name="pref_header_viewer">Visor de artículos</string>
-  <string name="refresh_dialog_message">This will refresh your Selfoss instance.</string>
-  <string name="markall_dialog_message">This will mark all the items as read.</string>
-  <string name="pref_switch_actions_pager_scroll">Mark as read on swipe</string>
-  <string name="pref_switch_actions_pager_scroll_off">Don\'t mark articles as read when swiping.</string>
+  <string name="refresh_dialog_message">Esto actualizará su instancia de Selfoss.</string>
+  <string name="markall_dialog_message">Esto marcará todos los artículos como leídos.</string>
+  <string name="pref_switch_actions_pager_scroll">Marcar como leído al arrastrar</string>
+  <string name="pref_switch_actions_pager_scroll_off">No marca artículos como leídos al arrastrar.</string>
 </resources>
