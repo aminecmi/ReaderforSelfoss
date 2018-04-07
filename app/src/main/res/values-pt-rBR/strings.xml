@@ -158,11 +158,13 @@
   <string name="reader_action_more">Leia mais</string>
   <string name="reader_action_open">Abrir no navegador</string>
   <string name="reader_action_share">Compartilhar</string>
-  <string name="pref_switch_actions_pager_scroll">Se esta configuração estiver ativada, os artigos serão marcados como lidos ao deslizar para a esquerda e para a direita no leitor do artigo.</string>
+  <string name="pref_switch_actions_pager_scroll_on">Mark articles as read when swiping between articles.</string>
   <string name="add_to_favs_reader">Adicionar aos favoritos</string>
   <string name="remove_to_favs_reader">Remover dos favoritos</string>
   <string name="pref_content_reader_font_size">Tamanho da fonte do conteúdo do leitor de artigos</string>
   <string name="pref_header_viewer">Visualizador de artigos</string>
   <string name="refresh_dialog_message">Isso atualizará sua instância do Selfoss.</string>
   <string name="markall_dialog_message">Isso marcará todos os itens como lidos.</string>
+  <string name="pref_switch_actions_pager_scroll">Mark as read on swipe</string>
+  <string name="pref_switch_actions_pager_scroll_off">Don\'t mark articles as read when swiping.</string>
 </resources>
