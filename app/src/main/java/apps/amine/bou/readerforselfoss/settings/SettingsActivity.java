@@ -249,7 +249,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_debug);
             setHasOptionsMenu(true);
 
-            SharedPreferences pref = getActivity().getSharedPreferences(Config.Companion.getSettingsName(), Context.MODE_PRIVATE);
+            SharedPreferences pref = getActivity().getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE);
             final String id = pref.getString("unique_id", "...");
 
             final Preference identifier = findPreference("debug_identifier");
@@ -259,11 +259,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             identifier.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    ClipData clip = ClipData.newPlainText("Selfoss unique id", id);
-                    clipboard.setPrimaryClip(clip);
+                    if (clipboard != null) {
+                        ClipData clip = ClipData.newPlainText("Selfoss unique id", id);
+                        clipboard.setPrimaryClip(clip);
 
-                    Toast.makeText(getActivity(), R.string.unique_id_to_clipboard, Toast.LENGTH_LONG).show();
-                    return true;
+                        Toast.makeText(getActivity(), R.string.unique_id_to_clipboard, Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+                    return false;
                 }
             });
             identifier.setTitle(id);

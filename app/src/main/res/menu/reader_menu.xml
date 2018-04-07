@@ -7,11 +7,11 @@
         android:icon="@drawable/heart_on"
         android:title="@string/remove_to_favs_reader"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/save"
         android:icon="@drawable/heart_off"
-        android:title="add_to_favs_reader"
+        android:title="@string/add_to_favs_reader"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

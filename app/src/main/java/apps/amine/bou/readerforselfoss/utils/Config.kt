@@ -26,7 +26,7 @@ class Config(c: Context) {
         get() = settings.getString("httpPassword", "")
 
     companion object {
-        val settingsName = "paramsselfoss"
+        const val settingsName = "paramsselfoss"
 
         fun logoutAndRedirect(
             c: Context,

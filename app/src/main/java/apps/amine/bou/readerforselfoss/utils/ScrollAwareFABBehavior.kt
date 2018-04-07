@@ -11,6 +11,7 @@ class ScrollAwareFABBehavior(
     attrs: AttributeSet
 ) : CoordinatorLayout.Behavior<FloatingActionButton>() {
 
+
     override fun onStartNestedScroll(
         coordinatorLayout: CoordinatorLayout,
         child: FloatingActionButton,
