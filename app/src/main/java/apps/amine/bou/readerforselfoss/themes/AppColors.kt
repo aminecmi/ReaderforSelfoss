@@ -2,49 +2,62 @@ package apps.amine.bou.readerforselfoss.themes
 
 import android.app.Activity
 import android.content.Context
+import android.preference.PreferenceManager
 import android.support.annotation.ColorInt
 import android.util.TypedValue
 import apps.amine.bou.readerforselfoss.R
 
 class AppColors(a: Activity) {
-    @ColorInt val accent: Int
-    @ColorInt val dark: Int
-    @ColorInt val primary: Int
-    @ColorInt val cardBackground: Int
-    @ColorInt val windowBackground: Int
+
+    @ColorInt val colorPrimary: Int
+    @ColorInt val colorPrimaryDark: Int
+    @ColorInt val colorAccent: Int
+    @ColorInt val colorAccentDark: Int
+    @ColorInt val cardBackgroundColor: Int
     val isDarkTheme: Boolean
 
     init {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(a)
+
+        colorPrimary =
+                sharedPref.getInt(
+                    "color_primary",
+                    a.resources.getColor(R.color.colorPrimary)
+                )
+        colorPrimaryDark =
+                sharedPref.getInt(
+                    "color_primary_dark",
+                    a.resources.getColor(R.color.colorPrimaryDark)
+                )
+        colorAccent =
+                sharedPref.getInt(
+                    "color_accent",
+                    a.resources.getColor(R.color.colorAccent)
+                )
+        colorAccentDark =
+                sharedPref.getInt(
+                    "color_accent_dark",
+                    a.resources.getColor(R.color.colorAccentDark)
+                )
+        isDarkTheme =
+                sharedPref.getBoolean(
+                    "dark_theme",
+                    false
+                )
+
+        if (isDarkTheme) {
+            a.setTheme(R.style.NoBarDark)
+        } else {
+            a.setTheme(R.style.NoBar)
+        }
+
         val wrapper = Context::class.java
         val method = wrapper!!.getMethod("getThemeResId")
         method.isAccessible = true
 
-        isDarkTheme = when (method.invoke(a.baseContext)) {
-            R.style.NoBarTealOrangeDark,
-            R.style.NoBarDark,
-            R.style.NoBarBlueAmberDark,
-            R.style.NoBarGreyOrangeDark,
-            R.style.NoBarIndigoPinkDark,
-            R.style.NoBarRedTealDark,
-            R.style.NoBarCyanPinkDark -> true
-            else -> false
-        }
-
-        val typedAccent = TypedValue()
-        val typedAccentDark = TypedValue()
-        val typedPrimary = TypedValue()
         val typedCardBackground = TypedValue()
-        val typedWindowBackground = TypedValue()
-
-        a.theme.resolveAttribute(R.attr.colorAccent, typedAccent, true)
-        a.theme.resolveAttribute(R.attr.colorAccent, typedAccent, true)
-        a.theme.resolveAttribute(R.attr.colorPrimary, typedPrimary, true)
         a.theme.resolveAttribute(R.attr.cardBackgroundColor, typedCardBackground, true)
-        a.theme.resolveAttribute(android.R.attr.colorBackground, typedWindowBackground, true)
-        accent = typedAccent.data
-        dark = typedAccentDark.data
-        primary = typedPrimary.data
-        cardBackground = typedCardBackground.data
-        windowBackground = typedWindowBackground.data
+
+        cardBackgroundColor = typedCardBackground.data
     }
 }

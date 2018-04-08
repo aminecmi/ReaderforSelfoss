@@ -16,4 +16,7 @@
     <color name="dark_webview_text">@color/md_white_1000</color>
     <color name="light_webview">@color/md_grey_50</color>
     <color name="light_webview_text">@color/md_grey_900</color>
+
+    <color name="cardBackgroundColor">#FFFFFFFF</color>
+    <color name="materialDrawerHeaderSelectionText">@color/md_grey_900</color>
 </resources>

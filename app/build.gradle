@@ -13,7 +13,7 @@ ext {
             buildDate: new Date()
     ]
     // This will make me able to build multiple times a day. May break thinks. I may forget it.
-    todaysBuilds = "4"
+    todaysBuilds = "1"
 }
 
 def gitVersion() {
@@ -172,6 +172,7 @@ dependencies {
 
     // Themes
     implementation 'com.52inc:scoops:1.0.0'
+    implementation'com.jrummyapps:colorpicker:2.1.7'
 
     // Github issues reporter
     implementation 'com.heinrichreimersoftware:android-issue-reporter:1.3.1'

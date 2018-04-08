@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- TODO translate this file -->
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="dark_theme"
+        android:title="Dark theme" />
+
+    <com.jrummyapps.android.colorpicker.ColorPreference
+        android:defaultValue="@color/colorPrimary"
+        android:key="color_primary"
+        android:title="Primary color"/>
+
+    <com.jrummyapps.android.colorpicker.ColorPreference
+        android:defaultValue="@color/colorPrimaryDark"
+        android:key="color_primary_dark"
+        android:title="Primary dark color"/>
+
+    <com.jrummyapps.android.colorpicker.ColorPreference
+        android:defaultValue="@color/colorAccent"
+        android:key="color_accent"
+        android:title="Accent color"/>
+
+    <com.jrummyapps.android.colorpicker.ColorPreference
+        android:defaultValue="@color/colorAccentDark"
+        android:key="color_accent_dark"
+        android:title="Accent dark color"/>
+</PreferenceScreen>

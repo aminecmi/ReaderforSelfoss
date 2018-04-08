@@ -33,6 +33,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.api.selfoss.Tag
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.bottombar.maybeShow
 import apps.amine.bou.readerforselfoss.utils.bottombar.removeBadge
@@ -90,6 +91,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private var items: ArrayList<Item> = ArrayList()
     private var allItems: ArrayList<Item> = ArrayList()
+
     private var clickBehavior = false
     private var debugReadingItems = false
     private var shouldLogEverything = false
@@ -108,6 +110,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var displayAccountHeader: Boolean = false
     private var infiniteScroll: Boolean = false
     private var lastFetchDone: Boolean = false
+
 
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
@@ -142,8 +145,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Scoop.getInstance().apply(this)
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        appColors = AppColors(this@HomeActivity)
+
         setContentView(R.layout.activity_home)
+
+        handleThemeBinding()
 
         setSupportActionBar(toolBar)
         if (savedInstanceState == null) {
@@ -156,7 +164,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         customTabActivityHelper = CustomTabActivityHelper()
 
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
         api = SelfossApi(
             this,
@@ -166,8 +173,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         )
         items = ArrayList()
         allItems = ArrayList()
-
-        appColors = AppColors(this@HomeActivity)
 
         handleBottomBar()
         handleDrawer()
@@ -272,27 +277,27 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         tabNewBadge = TextBadgeItem()
             .setText("")
             .setHideOnSelect(false).hide(false)
-            .setBackgroundColor(appColors.primary)
+            .setBackgroundColor(appColors.colorPrimary)
         tabArchiveBadge = TextBadgeItem()
             .setText("")
             .setHideOnSelect(false).hide(false)
-            .setBackgroundColor(appColors.primary)
+            .setBackgroundColor(appColors.colorPrimary)
         tabStarredBadge = TextBadgeItem()
             .setText("")
             .setHideOnSelect(false).hide(false)
-            .setBackgroundColor(appColors.primary)
+            .setBackgroundColor(appColors.colorPrimary)
 
         val tabNew =
             BottomNavigationItem(
                 R.drawable.ic_fiber_new_black_24dp,
                 getString(R.string.tab_new)
-            ).setActiveColor(appColors.accent)
+            ).setActiveColor(appColors.colorAccent)
                 .setBadgeItem(tabNewBadge)
         val tabArchive =
             BottomNavigationItem(
                 R.drawable.ic_archive_black_24dp,
                 getString(R.string.tab_read)
-            ).setActiveColor(appColors.dark)
+            ).setActiveColor(appColors.colorAccentDark)
                 .setBadgeItem(tabArchiveBadge)
         val tabStarred =
             BottomNavigationItem(
@@ -315,6 +320,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onResume() {
         super.onResume()
 
+        // TODO: Make this the only appcolors init
+        appColors = AppColors(this@HomeActivity)
+
         handleDrawerItems()
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -326,6 +334,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         handleSharedPrefs()
+
+        handleThemeUpdate()
 
         reloadLayoutManager()
 
@@ -359,6 +369,26 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         userIdentifier = sharedPref.getString("unique_id", "")
         displayAccountHeader = sharedPref.getBoolean("account_header_displaying", false)
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
+    }
+
+    private fun handleThemeBinding() {
+        Scoop.getInstance()
+            .bind(this, Toppings.PRIMARY.value, toolBar)
+            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+    }
+
+    private fun handleThemeUpdate() {
+
+        Scoop.getInstance()
+            .update(Toppings.PRIMARY.value, appColors.colorPrimary)
+            .update(Toppings.PRIMARY_DARK.value, appColors.colorPrimaryDark)
+            /*.update(Toppings.ACCENT.value, colorAccent)
+            .update(Toppings.ACCENT_DARK.value, colorAccentDark)
+            .update(Toppings.BACKGROUND.value, colorBackground)
+            .update(Toppings.CARD_BACKGROUND.value, cardBackgroundColor)
+            .update(Toppings.TEXT_PRIMARY.value, textColorPrimary)
+            .update(Toppings.TEXT_SECONDARY.value, textColorSecondary)
+            .update(Toppings.HEADER_DRAWER_TEXT.value, materialDrawerHeaderSelectionText)*/
     }
 
     private fun handleDrawer() {
@@ -449,7 +479,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         val color = try {
                             Color.parseColor(it.color)
                         } catch (e: IllegalArgumentException) {
-                            resources.getColor(R.color.primary)
+                            appColors.colorPrimary
                         }
 
                         gd.setColor(color)
@@ -464,7 +494,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 .withBadge("${it.unread}")
                                 .withBadgeStyle(
                                     BadgeStyle().withTextColor(Color.WHITE)
-                                        .withColor(appColors.accent)
+                                        .withColor(appColors.colorAccent)
                                 )
                                 .withOnDrawerItemClickListener { _, _, _ ->
                                     allItems = ArrayList()

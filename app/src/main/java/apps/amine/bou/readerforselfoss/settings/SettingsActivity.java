@@ -24,6 +24,8 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -135,7 +137,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || ArticleViewerPreferenceFragment.class.getName().equals(fragmentName)
                 || DebugPreferenceFragment.class.getName().equals(fragmentName)
-                || LinksPreferenceFragment.class.getName().equals(fragmentName);
+                || LinksPreferenceFragment.class.getName().equals(fragmentName)
+                || ThemePreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -336,14 +339,38 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    @Override
-    public void onHeaderClick(Header header, int position) {
-        super.onHeaderClick(header, position);
-        if (header.id == R.id.theme_change) {
-            Intent intent = ScoopSettingsActivity.createIntent(getApplicationContext());
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(intent);
-            finish();
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class ThemePreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_theme);
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                getActivity().finish();
+                return true;
+            } else if (id == R.id.clear) {
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = pref.edit();
+                editor.remove("color_primary");
+                editor.remove("color_primary_dark");
+                editor.remove("color_accent");
+                editor.remove("color_accent_dark");
+                editor.remove("dark_theme");
+                editor.apply();
+                getActivity().finish();
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            inflater.inflate(R.menu.settings_theme, menu);
         }
     }
 

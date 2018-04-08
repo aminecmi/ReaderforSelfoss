@@ -87,31 +87,6 @@ class MyApp : MultiDexApplication() {
     private fun initTheme() {
         Scoop.waffleCone()
             .addFlavor(getString(R.string.default_theme), R.style.NoBar, true)
-            .addDayNightFlavor(getString(R.string.default_dark_theme), R.style.NoBarDark)
-            .addFlavor(getString(R.string.teal_orange_theme), R.style.NoBarTealOrange)
-            .addDayNightFlavor(
-                getString(R.string.teal_orange_dark_theme),
-                R.style.NoBarTealOrangeDark
-            )
-            .addFlavor(getString(R.string.cyan_pink_theme), R.style.NoBarCyanPink)
-            .addDayNightFlavor(getString(R.string.cyan_pink_dark_theme), R.style.NoBarCyanPinkDark)
-            .addFlavor(getString(R.string.grey_orange_theme), R.style.NoBarGreyOrange)
-            .addDayNightFlavor(
-                getString(R.string.grey_orange_dark_theme),
-                R.style.NoBarGreyOrangeDark
-            )
-            .addFlavor(getString(R.string.blue_amber_theme), R.style.NoBarBlueAmber)
-            .addDayNightFlavor(
-                getString(R.string.blue_amber_dark_theme),
-                R.style.NoBarBlueAmberDark
-            )
-            .addFlavor(getString(R.string.indigo_pink_theme), R.style.NoBarIndigoPink)
-            .addDayNightFlavor(
-                getString(R.string.indigo_pink_dark_theme),
-                R.style.NoBarIndigoPinkDark
-            )
-            .addFlavor(getString(R.string.red_teal_theme), R.style.NoBarRedTeal)
-            .addDayNightFlavor(getString(R.string.red_teal_dark_theme), R.style.NoBarRedTealDark)
             .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
             .initialize()
     }

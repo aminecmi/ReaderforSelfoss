@@ -101,7 +101,7 @@ class ItemCardAdapter(
 
     inner class ViewHolder(val mView: CardView) : RecyclerView.ViewHolder(mView) {
         init {
-            mView.setCardBackgroundColor(appColors.cardBackground)
+            mView.setCardBackgroundColor(appColors.cardBackgroundColor)
             handleClickListeners()
             handleCustomTabActions()
         }
