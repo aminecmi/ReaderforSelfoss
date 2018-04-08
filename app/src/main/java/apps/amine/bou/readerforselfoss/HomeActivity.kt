@@ -146,7 +146,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         appColors = AppColors(this@HomeActivity)
 
         setContentView(R.layout.activity_home)
@@ -163,6 +162,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         customTabActivityHelper = CustomTabActivityHelper()
 
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
 
         api = SelfossApi(

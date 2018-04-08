@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -17,6 +18,8 @@ import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.crashlytics.android.Crashlytics
@@ -41,11 +44,20 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var userIdentifier: String
     private var logErrors: Boolean = false
+    private lateinit var appColors: AppColors
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Scoop.getInstance().apply(this)
+
+        appColors = AppColors(this@LoginActivity)
+
         setContentView(R.layout.activity_login)
+
+        // TODO: add input + switch colors
+        Scoop.getInstance()
+            .bind(this, Toppings.PRIMARY.value, toolbar)
+            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+
 
         setSupportActionBar(toolbar)
 

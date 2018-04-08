@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import com.ftinc.scoop.Scoop;
 
 import apps.amine.bou.readerforselfoss.R;
+import apps.amine.bou.readerforselfoss.themes.AppColors;
+import apps.amine.bou.readerforselfoss.themes.Toppings;
 
 
 /**
@@ -33,7 +35,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
-        Scoop.getInstance().apply(this);
+        new AppColors(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -44,6 +46,12 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         AppBarLayout bar = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
         Toolbar toolbar = bar.findViewById(R.id.toolbar);
+
+        // TODO: all switches
+        Scoop.getInstance()
+                .bind(this, Toppings.PRIMARY.getValue(), toolbar)
+                .bindStatusBar(this, Toppings.PRIMARY_DARK.getValue());
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -14,6 +14,8 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.fragments.ArticleFragment
+import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.succeeded
@@ -52,8 +54,15 @@ class ReaderActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Scoop.getInstance().apply(this)
+
+        AppColors(this@ReaderActivity)
+
         setContentView(R.layout.activity_reader)
+
+        // TODO: fab
+        Scoop.getInstance()
+            .bind(this, Toppings.PRIMARY.value, toolBar)
+            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
 
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

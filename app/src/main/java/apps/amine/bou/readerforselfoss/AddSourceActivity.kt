@@ -16,6 +16,8 @@ import android.widget.Toast
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Spout
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.ftinc.scoop.Scoop
@@ -31,8 +33,15 @@ class AddSourceActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Scoop.getInstance().apply(this)
+
+        AppColors(this@AddSourceActivity)
+
         setContentView(R.layout.activity_add_source)
+
+        // TODO: add buttons and inputs
+        Scoop.getInstance()
+            .bind(this, Toppings.PRIMARY.value, toolbar)
+            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

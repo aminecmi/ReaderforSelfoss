@@ -9,6 +9,8 @@ import android.widget.Toast
 import apps.amine.bou.readerforselfoss.adapters.SourcesListAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Sources
+import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.themes.Toppings
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_sources.*
 import retrofit2.Call
@@ -19,8 +21,14 @@ class SourcesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Scoop.getInstance().apply(this)
+
+        AppColors(this@SourcesActivity)
+
         setContentView(R.layout.activity_sources)
+
+        Scoop.getInstance()
+            .bind(this, Toppings.PRIMARY.value, toolbar)
+            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
