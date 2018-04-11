@@ -3,6 +3,8 @@ package apps.amine.bou.readerforselfoss.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +25,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
@@ -55,6 +58,7 @@ class ArticleFragment : Fragment() {
     private var showMalformedUrl: Boolean = false
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var fab: FloatingActionButton
+    private lateinit var appColors: AppColors
 
     override fun onStop() {
         super.onStop()
@@ -63,6 +67,7 @@ class ArticleFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appColors = AppColors(activity!!)
 
         pageNumber = arguments!!.getInt(ARG_POSITION)
         allItems = arguments!!.getParcelableArrayList(ARG_ITEMS)
@@ -88,8 +93,15 @@ class ArticleFragment : Fragment() {
         contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
 
         fab = rootView.fab
-        val mFloatingToolbar: FloatingToolbar = rootView.floatingToolbar
-        mFloatingToolbar.attachFab(fab)
+
+        fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
+
+        fab.rippleColor = appColors.colorAccentDark
+
+        val floatingToolbar: FloatingToolbar = rootView.floatingToolbar
+        floatingToolbar.attachFab(fab)
+
+        floatingToolbar.background = ColorDrawable(appColors.colorAccent)
 
         val customTabsIntent = activity!!.buildCustomTabsIntent()
         mCustomTabActivityHelper = CustomTabActivityHelper()
@@ -101,7 +113,7 @@ class ArticleFragment : Fragment() {
         showMalformedUrl = prefs.getBoolean("show_error_malformed_url", true)
 
 
-        mFloatingToolbar.setClickListener(
+        floatingToolbar.setClickListener(
             object : FloatingToolbar.ItemClickListener {
                 override fun onItemClick(item: MenuItem) {
                     when (item.itemId) {
@@ -152,7 +164,7 @@ class ArticleFragment : Fragment() {
                 if (scrollY > oldScrollY) {
                     fab.hide()
                 } else {
-                    if (mFloatingToolbar.isShowing) mFloatingToolbar.hide() else fab.show()
+                    if (floatingToolbar.isShowing) floatingToolbar.hide() else fab.show()
                 }
             }
         )
@@ -289,8 +301,7 @@ class ArticleFragment : Fragment() {
 
     private fun htmlToWebview(c: String, prefs: SharedPreferences, context: Context) {
 
-        val accentColor = ContextCompat.getColor(context, R.color.accent)
-        val stringColor = String.format("#%06X", 0xFFFFFF and accentColor)
+        val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
         rootView.webcontent.visibility = View.VISIBLE
         val textColor = if (Scoop.getInstance().currentFlavor.isDayNight) {
