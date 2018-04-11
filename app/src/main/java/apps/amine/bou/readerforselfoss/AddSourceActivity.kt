@@ -1,6 +1,7 @@
 package apps.amine.bou.readerforselfoss
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.constraint.ConstraintLayout
@@ -25,23 +26,57 @@ import kotlinx.android.synthetic.main.activity_add_source.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.graphics.PorterDuff
+
+
 
 class AddSourceActivity : AppCompatActivity() {
 
     private var mSpoutsValue: String? = null
     private lateinit var api: SelfossApi
 
+    private lateinit var appColors: AppColors
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppColors(this@AddSourceActivity)
+        appColors = AppColors(this@AddSourceActivity)
 
         setContentView(R.layout.activity_add_source)
 
-        // TODO: add buttons and inputs
+        // TODO: input bubble cursor
         Scoop.getInstance()
             .bind(this, Toppings.PRIMARY.value, toolbar)
             .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+
+        val drawable = nameInput.background
+        drawable.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)
+
+
+        // TODO: clean
+        if(Build.VERSION.SDK_INT > 16) {
+            nameInput.background = drawable
+        } else{
+            nameInput.setBackgroundDrawable(drawable)
+        }
+
+        val drawable1 = sourceUri.background
+        drawable1.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)
+
+        if(Build.VERSION.SDK_INT > 16) {
+            sourceUri.background = drawable1
+        } else{
+            sourceUri.setBackgroundDrawable(drawable1)
+        }
+
+        val drawable2 = tags.background
+        drawable2.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)
+
+        if(Build.VERSION.SDK_INT > 16) {
+            tags.background = drawable2
+        } else{
+            tags.setBackgroundDrawable(drawable2)
+        }
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -60,6 +95,8 @@ class AddSourceActivity : AppCompatActivity() {
         }
 
         maybeGetDetailsFromIntentSharing(intent, sourceUri, nameInput)
+
+        saveBtn.setTextColor(appColors.colorAccent)
 
         saveBtn.setOnClickListener {
             handleSaveSource(tags, nameInput.text.toString(), sourceUri.text.toString(), api!!)

@@ -1,6 +1,7 @@
 package apps.amine.bou.readerforselfoss
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
@@ -19,10 +20,12 @@ import retrofit2.Response
 
 class SourcesActivity : AppCompatActivity() {
 
+    private lateinit var appColors: AppColors
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppColors(this@SourcesActivity)
+        appColors = AppColors(this@SourcesActivity)
 
         setContentView(R.layout.activity_sources)
 
@@ -33,6 +36,9 @@ class SourcesActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        fab.rippleColor = appColors.colorAccentDark
+        fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
     }
 
     override fun onStop() {
