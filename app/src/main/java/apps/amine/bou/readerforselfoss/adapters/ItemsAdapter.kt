@@ -10,6 +10,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import com.crashlytics.android.Crashlytics
 import retrofit2.Call
@@ -22,6 +23,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     abstract val debugReadingItems: Boolean
     abstract val userIdentifier: String
     abstract val app: Activity
+    abstract val appColors: AppColors
 
     fun updateAllItems(newItems: ArrayList<Item>) {
         items = newItems

@@ -382,13 +382,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         Scoop.getInstance()
             .update(Toppings.PRIMARY.value, appColors.colorPrimary)
             .update(Toppings.PRIMARY_DARK.value, appColors.colorPrimaryDark)
-            /*.update(Toppings.ACCENT.value, colorAccent)
-            .update(Toppings.ACCENT_DARK.value, colorAccentDark)
-            .update(Toppings.BACKGROUND.value, colorBackground)
-            .update(Toppings.CARD_BACKGROUND.value, cardBackgroundColor)
-            .update(Toppings.TEXT_PRIMARY.value, textColorPrimary)
-            .update(Toppings.TEXT_SECONDARY.value, textColorSecondary)
-            .update(Toppings.HEADER_DRAWER_TEXT.value, materialDrawerHeaderSelectionText)*/
     }
 
     private fun handleDrawer() {
@@ -943,7 +936,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             internalBrowser,
                             articleViewer,
                             debugReadingItems,
-                            userIdentifier
+                            userIdentifier,
+                            appColors
                         )
 
                 recyclerView.addItemDecoration(

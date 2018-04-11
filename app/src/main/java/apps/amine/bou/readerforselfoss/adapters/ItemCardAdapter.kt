@@ -42,7 +42,7 @@ class ItemCardAdapter(
     private val internalBrowser: Boolean,
     private val articleViewer: Boolean,
     private val fullHeightCards: Boolean,
-    private val appColors: AppColors,
+    override val appColors: AppColors,
     override val debugReadingItems: Boolean,
     override val userIdentifier: String
 ) : ItemsAdapter<ItemCardAdapter.ViewHolder>() {
@@ -62,6 +62,8 @@ class ItemCardAdapter(
 
         holder.mView.favButton.isLiked = itm.starred
         holder.mView.title.text = Html.fromHtml(itm.title)
+
+        holder.mView.title.setLinkTextColor(appColors.colorAccent)
 
         holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
 

@@ -14,6 +14,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.bitmapCenterCrop
@@ -43,7 +44,8 @@ class ItemListAdapter(
     private val internalBrowser: Boolean,
     private val articleViewer: Boolean,
     override val debugReadingItems: Boolean,
-    override val userIdentifier: String
+    override val userIdentifier: String,
+    override val appColors: AppColors
 ) : ItemsAdapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
     private val c: Context = app.baseContext
@@ -63,6 +65,8 @@ class ItemListAdapter(
 
 
         holder.mView.title.text = Html.fromHtml(itm.title)
+
+        holder.mView.title.setLinkTextColor(appColors.colorAccent)
 
         holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
 
