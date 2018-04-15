@@ -19,4 +19,5 @@
 
     <color name="cardBackgroundColor">#FFFFFFFF</color>
     <color name="materialDrawerHeaderSelectionText">@color/md_grey_900</color>
+    <color name="darkBackground">#FF303030</color>
 </resources>

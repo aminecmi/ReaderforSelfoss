@@ -304,14 +304,14 @@ class ArticleFragment : Fragment() {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
         rootView.webcontent.visibility = View.VISIBLE
-        val textColor = if (Scoop.getInstance().currentFlavor.isDayNight) {
+        val (textColor, backgroundColor) = if (appColors.isDarkTheme) {
             rootView.webcontent.setBackgroundColor(
                 ContextCompat.getColor(
                     context,
                     R.color.dark_webview
                 )
             )
-            ContextCompat.getColor(context, R.color.dark_webview_text)
+            Pair(ContextCompat.getColor(context, R.color.dark_webview_text), ContextCompat.getColor(context, R.color.light_webview_text))
         } else {
             rootView.webcontent.setBackgroundColor(
                 ContextCompat.getColor(
@@ -319,10 +319,11 @@ class ArticleFragment : Fragment() {
                     R.color.light_webview
                 )
             )
-            ContextCompat.getColor(context, R.color.light_webview_text)
+            Pair(ContextCompat.getColor(context, R.color.light_webview_text), ContextCompat.getColor(context, R.color.dark_webview_text))
         }
 
         val stringTextColor = String.format("#%06X", 0xFFFFFF and textColor)
+        val stringBackgroundColor = String.format("#%06X", 0xFFFFFF and backgroundColor)
 
         rootView.webcontent.settings.useWideViewPort = true
         rootView.webcontent.settings.loadWithOverviewMode = true
@@ -408,7 +409,7 @@ class ArticleFragment : Fragment() {
                 |pre, code {
                 |  white-space: pre-wrap;
                 |  width:100%;
-                |  background-color: #EEEEEE;
+                |  background-color: $stringBackgroundColor;
                 |}</style>$c""".trimMargin(),
             "text/html; charset=utf-8",
             "utf-8",

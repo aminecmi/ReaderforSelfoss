@@ -35,6 +35,7 @@ import java.util.List;
 
 import apps.amine.bou.readerforselfoss.BuildConfig;
 import apps.amine.bou.readerforselfoss.R;
+import apps.amine.bou.readerforselfoss.themes.AppColors;
 import apps.amine.bou.readerforselfoss.utils.Config;
 
 
@@ -95,6 +96,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new AppColors(this);
         super.onCreate(savedInstanceState);
         setupActionBar();
     }

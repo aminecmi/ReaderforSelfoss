@@ -55,11 +55,9 @@ class ReaderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppColors(this@ReaderActivity)
-
+        val appColors = AppColors(this@ReaderActivity)
         setContentView(R.layout.activity_reader)
 
-        // TODO: fab
         Scoop.getInstance()
             .bind(this, Toppings.PRIMARY.value, toolBar)
             .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
