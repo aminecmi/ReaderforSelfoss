@@ -87,6 +87,7 @@ class MyApp : MultiDexApplication() {
     private fun initTheme() {
         Scoop.waffleCone()
             .addFlavor(getString(R.string.default_theme), R.style.NoBar, true)
+            .addFlavor(getString(R.string.default_dark_theme), R.style.NoBarDark, false)
             .setSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this))
             .initialize()
     }

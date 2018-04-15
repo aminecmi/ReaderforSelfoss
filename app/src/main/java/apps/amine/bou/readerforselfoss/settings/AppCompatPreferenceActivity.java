@@ -33,9 +33,10 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new AppColors(this);
+
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
-        new AppColors(this);
         super.onCreate(savedInstanceState);
     }
 

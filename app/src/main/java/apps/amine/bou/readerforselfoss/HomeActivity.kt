@@ -144,9 +144,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         appColors = AppColors(this@HomeActivity)
+
+        super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_home)
 

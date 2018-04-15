@@ -1,6 +1,7 @@
 package apps.amine.bou.readerforselfoss
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.FragmentManager
@@ -53,9 +54,10 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val appColors = AppColors(this@ReaderActivity)
+
         super.onCreate(savedInstanceState)
 
-        val appColors = AppColors(this@ReaderActivity)
         setContentView(R.layout.activity_reader)
 
         Scoop.getInstance()

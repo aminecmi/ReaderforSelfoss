@@ -66,8 +66,9 @@ class ArticleFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         appColors = AppColors(activity!!)
+
+        super.onCreate(savedInstanceState)
 
         pageNumber = arguments!!.getInt(ARG_POSITION)
         allItems = arguments!!.getParcelableArrayList(ARG_ITEMS)
@@ -446,4 +447,6 @@ class ArticleFragment : Fragment() {
             return fragment
         }
     }
+
+
 }
