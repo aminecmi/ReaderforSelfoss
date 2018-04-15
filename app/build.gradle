@@ -22,14 +22,14 @@ def gitVersion() {
 }
 
 def versionCodeFromGit() {
-    def dayInYear = ext.configuration.buildDate.format("D").padLeft(3, '0').substring(1, 3)
+    def dayInYear = ext.configuration.buildDate.format("D").padLeft(3, '0')
     def versionCode = gitVersion() + (ext.configuration.buildDate.format("yyMM") + dayInYear + ext.todaysBuilds).toInteger()
     println "version code " + versionCode
     return versionCode.toInteger()
 }
 
 def versionNameFromGit() {
-    def dayInYear = ext.configuration.buildDate.format("D").padLeft(3, '0').substring(1, 3)
+    def dayInYear = ext.configuration.buildDate.format("D").padLeft(3, '0')
     def versionName = gitVersion() + ext.configuration.buildDate.format('yyMM') + dayInYear + ext.todaysBuilds
     println "version name " + versionName
     return versionName
