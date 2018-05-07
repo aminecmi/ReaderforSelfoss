@@ -2,14 +2,17 @@ package apps.amine.bou.readerforselfoss
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -54,8 +57,6 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val appColors = AppColors(this@ReaderActivity)
-
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_reader)
@@ -88,7 +89,7 @@ class ReaderActivity : AppCompatActivity() {
 
         currentItem = intent.getIntExtra("currentItem", 0)
 
-        pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager)
+        pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager, AppColors(this@ReaderActivity))
         pager.currentItem = currentItem
     }
 
@@ -175,14 +176,22 @@ class ReaderActivity : AppCompatActivity() {
         oldInstanceState!!.clear()
     }
 
-    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) :
+    private inner class ScreenSlidePagerAdapter(fm: FragmentManager, val appColors: AppColors) :
         FragmentStatePagerAdapter(fm) {
+
+
         override fun getCount(): Int {
             return allItems.size
         }
 
         override fun getItem(position: Int): ArticleFragment {
             return ArticleFragment.newInstance(position, allItems)
+        }
+
+        override fun startUpdate(container: ViewGroup) {
+            super.startUpdate(container)
+
+            container.background = ColorDrawable(ContextCompat.getColor(this@ReaderActivity, appColors.colorBackground))
         }
     }
 

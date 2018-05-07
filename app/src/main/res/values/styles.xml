@@ -24,7 +24,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorAccentDark">@color/colorAccentDark</item>
         <item name="cardBackgroundColor">@color/md_grey_800</item>
-        <item name="android:colorBackground">#303030</item>
+        <item name="android:colorBackground">@color/darkBackground</item>
         <item name="bnbBackgroundColor">@color/md_grey_900</item>
         <item name="android:textColorPrimary">@color/md_white_1000</item>
         <item name="android:textColorSecondary">@color/md_grey_600</item>

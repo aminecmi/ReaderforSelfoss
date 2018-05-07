@@ -17,6 +17,7 @@ class AppColors(a: Activity) {
     @ColorInt val colorAccent: Int
     @ColorInt val colorAccentDark: Int
     @ColorInt val cardBackgroundColor: Int
+    @ColorInt val colorBackground: Int
     val isDarkTheme: Boolean
 
     init {
@@ -48,10 +49,12 @@ class AppColors(a: Activity) {
                     false
                 )
 
-        if (isDarkTheme) {
+        colorBackground = if (isDarkTheme) {
             a.setTheme(R.style.NoBarDark)
+            R.color.darkBackground
         } else {
             a.setTheme(R.style.NoBar)
+            android.R.color.background_light
         }
 
         val wrapper = Context::class.java

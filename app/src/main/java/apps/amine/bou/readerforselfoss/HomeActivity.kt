@@ -577,9 +577,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             LibsBuilder()
                                 .withActivityStyle(
                                     if (appColors.isDarkTheme) {
-                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
-                                    } else {
                                         Libs.ActivityStyle.DARK
+                                    } else {
+                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
                                     }
                                 )
                                 .withAboutIconShown(true)
