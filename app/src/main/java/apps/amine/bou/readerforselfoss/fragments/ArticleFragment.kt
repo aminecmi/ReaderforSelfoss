@@ -354,7 +354,7 @@ class ArticleFragment : Fragment() {
 
                         // This won't be translated because it should only be temporary.
                         val to = BuildConfig.FEEDBACK_EMAIL
-                        val subject= "[MalformedURLException]"
+                        val subject= "[ReaderForSelfoss MalformedURLException]"
                         val body= "Please specify the source, item and spout you are using for the url below : \n ${e.message}"
                         val mailTo = "mailto:" + to + "?&subject=" + Uri.encode(subject) + "&body=" + Uri.encode(body)
 
