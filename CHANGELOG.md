@@ -1,3 +1,7 @@
+**1.6.x**
+
+- Dynamic themes !
+
 **1.5.7.x**
 
 - Added confirmation to the mark as read and update menues.
