@@ -265,6 +265,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 offsetOverride = lastVisibleItem
                             )
                         }
+                    } else {
+                        Toast.makeText(
+                            this@HomeActivity,
+                            "Found null when swiping at positon $position.",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }
