@@ -24,10 +24,12 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     abstract val userIdentifier: String
     abstract val app: Activity
     abstract val appColors: AppColors
+    abstract val updateItems: (ArrayList<Item>) -> Unit
 
     fun updateAllItems(newItems: ArrayList<Item>) {
         items = newItems
         notifyDataSetChanged()
+        updateItems(items)
     }
 
     private fun doUnmark(i: Item, position: Int) {
@@ -40,6 +42,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
             .setAction(R.string.undo_string) {
                 items.add(position, i)
                 notifyItemInserted(position)
+                updateItems(items)
 
                 api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
                     override fun onResponse(
@@ -51,6 +54,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                     override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                         items.remove(i)
                         notifyItemRemoved(position)
+                        updateItems(items)
                         doUnmark(i, position)
                     }
                 })
@@ -68,6 +72,8 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
 
         items.remove(i)
         notifyItemRemoved(position)
+        updateItems(items)
+
 
         api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
             override fun onResponse(
@@ -106,6 +112,8 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                 ).show()
                 items.add(i)
                 notifyItemInserted(position)
+                updateItems(items)
+
             }
         })
     }
@@ -113,11 +121,15 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     fun addItemAtIndex(item: Item, position: Int) {
         items.add(position, item)
         notifyItemInserted(position)
+        updateItems(items)
+
     }
 
     fun addItemsAtEnd(newItems: List<Item>) {
         val oldSize = items.size
         items.addAll(newItems)
         notifyItemRangeInserted(oldSize, newItems.size)
+        updateItems(items)
+
     }
 }

@@ -45,7 +45,8 @@ class ItemListAdapter(
     private val articleViewer: Boolean,
     override val debugReadingItems: Boolean,
     override val userIdentifier: String,
-    override val appColors: AppColors
+    override val appColors: AppColors,
+    override val updateItems: (ArrayList<Item>) -> Unit
 ) : ItemsAdapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
     private val c: Context = app.baseContext

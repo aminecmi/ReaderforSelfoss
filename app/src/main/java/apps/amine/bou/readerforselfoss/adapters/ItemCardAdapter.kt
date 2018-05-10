@@ -44,7 +44,8 @@ class ItemCardAdapter(
     private val fullHeightCards: Boolean,
     override val appColors: AppColors,
     override val debugReadingItems: Boolean,
-    override val userIdentifier: String
+    override val userIdentifier: String,
+    override val updateItems: (ArrayList<Item>) -> Unit
 ) : ItemsAdapter<ItemCardAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL

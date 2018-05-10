@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -76,7 +77,6 @@ import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val MENU_PREFERENCES = 12302
@@ -187,6 +187,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             R.color.refresh_progress_3
         )
         swipeRefreshLayout.setOnRefreshListener {
+            allItems = ArrayList()
+            lastFetchDone = false
             handleDrawerItems()
             getElementsAccordingToTab()
         }
@@ -253,11 +255,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             else -> 0
                         }
 
+                        Log.e("TAGTAG", "$lastVisibleItem === ${items.size} && ${items.size} <= ${maxItemNumber()} && ${!lastFetchDone}x")
                         if (lastVisibleItem === items.size &&
                             items.size <= maxItemNumber() &&
-                            (maxItemNumber() >= itemsNumber || !lastFetchDone)
+                            !lastFetchDone
                         ) {
-                            if (maxItemNumber() < itemsNumber) {
+                            if (maxItemNumber() <= itemsNumber) {
                                 lastFetchDone = true
                             }
                             getElementsAccordingToTab(
@@ -823,8 +826,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 if (shouldUpdate) {
                     items = response.body() as ArrayList<Item>
 
-                    items.forEach {
-                        if (!allItems.contains(it)) allItems.add(it)
+                    if (allItems.isEmpty()) {
+                        allItems = items
+                    } else {
+                        items.forEach {
+                            if (!allItems.contains(it)) allItems.add(it)
+                        }
                     }
                 }
             } else {
@@ -929,7 +936,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             fullHeightCards,
                             appColors,
                             debugReadingItems,
-                            userIdentifier
+                            userIdentifier,
+                            {
+                                updateItems(it)
+                            }
                         )
             } else {
                 recyclerAdapter =
@@ -943,7 +953,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             articleViewer,
                             debugReadingItems,
                             userIdentifier,
-                            appColors
+                            appColors,
+                            {
+                                updateItems(it)
+                            }
                         )
 
                 recyclerView.addItemDecoration(
@@ -1227,4 +1240,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             FAV_SHOWN -> badgeFavs
             else -> badgeNew // if !elementsShown then unread are fetched.
         }
+
+    fun updateItems(adapterItems: ArrayList<Item>) {
+        items = adapterItems
+    }
 }
+
