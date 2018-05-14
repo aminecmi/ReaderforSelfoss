@@ -118,8 +118,8 @@
   <string name="base_url_error">Ada masalah saat berkomunikasi dengan Selfoss Anda. Jika masalah berlanjut, tolong hubungi saya.</string>
   <string name="pref_header_theme">Tema</string>
   <string name="default_theme">Bawaan</string>
-    <string name="default_dark_theme">Bawaan/Gelap</string>
-    <string name="pref_header_debug">Debug</string>
+  <string name="default_dark_theme">Bawaan/Gelap</string>
+  <string name="pref_header_debug">Debug</string>
   <string name="login_debug_title">Aktifkan untuk mencatat semua kesalahan koneksi</string>
   <string name="login_debug_on">Semua kesalahan koneksi akan dicatat</string>
   <string name="login_debug_off">Kesalahan pada halaman masuk</string>
