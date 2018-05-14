@@ -2,6 +2,10 @@
 
 - Dynamic themes !
 
+- Strings cleaning.
+
+- Versions updates.
+
 **1.5.7.x**
 
 - Added confirmation to the mark as read and update menues.
