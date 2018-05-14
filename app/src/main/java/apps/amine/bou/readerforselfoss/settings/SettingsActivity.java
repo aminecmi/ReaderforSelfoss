@@ -29,8 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.ftinc.scoop.ui.ScoopSettingsActivity;
-
 import java.util.List;
 
 import apps.amine.bou.readerforselfoss.BuildConfig;
