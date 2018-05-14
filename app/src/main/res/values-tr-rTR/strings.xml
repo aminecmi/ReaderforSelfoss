@@ -118,8 +118,8 @@
   <string name="base_url_error">Selfoss Örneğinizle iletişim kurmaya çalışırken bir sorun oluştu. Sorun devam ederse, lütfen benimle iletişime geçin.</string>
   <string name="pref_header_theme">Temalar</string>
   <string name="default_theme">Varsayılan</string>
-    <string name="default_dark_theme">Varsayılan/koyu</string>
-    <string name="pref_header_debug">Hata ayıklama</string>
+  <string name="default_dark_theme">Varsayılan/koyu</string>
+  <string name="pref_header_debug">Hata ayıklama</string>
   <string name="login_debug_title">Giriş hatalarını kaydetmek için etkinleştir</string>
   <string name="login_debug_on">Oturum açma sayfasındaki herhangi bir hata günlüğe kaydedilecek</string>
   <string name="login_debug_off">Oturum açma sayfasında oturum yok</string>
