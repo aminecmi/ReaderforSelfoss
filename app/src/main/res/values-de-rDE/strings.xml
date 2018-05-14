@@ -118,8 +118,8 @@
   <string name="base_url_error">Beim Versuch deine Selfoss-Instanz zu erreichen ist ein Fehler aufgetreten. Solltet dieser Fehler bestehen bleiben, trete bitte mit mir in Kontakt.</string>
   <string name="pref_header_theme">Designs</string>
   <string name="default_theme">Standard</string>
-    <string name="default_dark_theme">Standard (Dunkel)</string>
-    <string name="pref_header_debug">Debug</string>
+  <string name="default_dark_theme">Standard (Dunkel)</string>
+  <string name="pref_header_debug">Debug</string>
   <string name="login_debug_title">Aktivieren, um Login-Fehler zu protokollieren</string>
   <string name="login_debug_on">Fehler auf der Login-Seite werden protokolliert</string>
   <string name="login_debug_off">Fehler auf der Login-Seite werden nicht protokolliert</string>

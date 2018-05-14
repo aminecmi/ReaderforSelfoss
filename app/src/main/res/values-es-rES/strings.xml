@@ -118,8 +118,8 @@
   <string name="base_url_error">Hubo un problema al intentar comunicarse con su instancia de Selfoss. Si el problema persiste, póngase en contacto conmigo.</string>
   <string name="pref_header_theme">Temas</string>
   <string name="default_theme">Predeterminado</string>
-    <string name="default_dark_theme">Predeterminado/Oscuro</string>
-    <string name="pref_header_debug">Depurar</string>
+  <string name="default_dark_theme">Predeterminado/Oscuro</string>
+  <string name="pref_header_debug">Depurar</string>
   <string name="login_debug_title">Activar para registrar errores de inicio de sesión</string>
   <string name="login_debug_on">Cualquier error en la página de inicio de sesión se registrará</string>
   <string name="login_debug_off">No hay registro en la página de inicio de sesión</string>

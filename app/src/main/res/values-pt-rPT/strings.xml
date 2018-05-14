@@ -118,8 +118,8 @@
   <string name="base_url_error">Houve um problema ao tentar se comunicar com sua instância de Selfoss. Se o problema persistir, por favor entre em contato comigo.</string>
   <string name="pref_header_theme">Temas</string>
   <string name="default_theme">Predefinição</string>
-    <string name="default_dark_theme">Padrão/escuro</string>
-    <string name="pref_header_debug">Depurar</string>
+  <string name="default_dark_theme">Padrão/escuro</string>
+  <string name="pref_header_debug">Depurar</string>
   <string name="login_debug_title">Ativar para registrar erros de logon</string>
   <string name="login_debug_on">Qualquer erro na página de login será registrado</string>
   <string name="login_debug_off">Não há registro na página de login</string>

@@ -118,8 +118,8 @@
   <string name="base_url_error">与您的 Selfoss 通信时出现问题。如果问题一直存在，请与我联系。</string>
   <string name="pref_header_theme">主题</string>
   <string name="default_theme">默认​​​​​</string>
-    <string name="default_dark_theme">默认值/暗</string>
-    <string name="pref_header_debug">调试</string>
+  <string name="default_dark_theme">默认值/暗</string>
+  <string name="pref_header_debug">调试</string>
   <string name="login_debug_title">激活以记录登录错误</string>
   <string name="login_debug_on">登录页上的任何错误都将被记录</string>
   <string name="login_debug_off">登录页上没有记录</string>
