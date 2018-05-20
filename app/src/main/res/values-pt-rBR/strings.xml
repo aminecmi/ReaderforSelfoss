@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Exibir a contagem de artigos não lidos como um badge na barra inferior."</string>
   <string name="switch_unread_count_title">"Exibir contagem de artigos não lidos"</string>
   <string name="display_all_counts_title">"Exibir contagem de lidos e favoritos"</string>
-  <string name="menu_share_the_app">"Convidar amigos"</string>
+
   <string name="invitation_title">"Experimente este aplicativo para seus feeds RSS do Selfoss !"</string>
   <string name="invitation_message">"Eu uso o app para o visualizar meu feed RSS do Selfoss. Você vai gostar também !"</string>
   <string name="invitation_cta">"Experimente o aplicativo"</string>

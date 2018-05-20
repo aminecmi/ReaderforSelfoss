@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Okunmamış sayıyı, alt çubuk için bir rozet olarak görüntüleyin."</string>
   <string name="switch_unread_count_title">"Okunmamış sayıyı görüntüle"</string>
   <string name="display_all_counts_title">"Favori ve okunan sayıları göster"</string>
-  <string name="menu_share_the_app">"Arkadaşları davet et"</string>
+
   <string name="invitation_title">"Selfoss RSS yayınlarınız için bu uygulamayı deneyin!"</string>
   <string name="invitation_message">"Bu uygulamayı Selfoss RSS özet akışlarım için kullanıyorum. Sizin de hoşunuza gidebilir !"</string>
   <string name="invitation_cta">"Uygulamayı dene"</string>

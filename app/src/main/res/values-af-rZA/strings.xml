@@ -64,7 +64,6 @@
   <string name="switch_unread_count">"Display the unread count as a badge for the bottom bar."</string>
   <string name="switch_unread_count_title">"Display unread count"</string>
   <string name="display_all_counts_title">"Display count for favorite and read"</string>
-  <string name="menu_share_the_app">"Invite friends"</string>
   <string name="invitation_title">"Try this app for your Selfoss RSS feeds !"</string>
   <string name="invitation_message">"I use this app for my Selfoss RSS feeds. You may like it too !"</string>
   <string name="invitation_cta">"Try the app"</string>

@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Mostra el recompte d'articles no llegits amb un distintiu a la barra inferior."</string>
   <string name="switch_unread_count_title">"Mostra el recompte d'articles no llegits"</string>
   <string name="display_all_counts_title">"Mostra el recompte d'articles llegits"</string>
-  <string name="menu_share_the_app">"Convida amics"</string>
+
   <string name="invitation_title">"Prova aquesta aplicació per als canals RSS de Selfoss."</string>
   <string name="invitation_message">"Jo utilitzo aquesta aplicació per llegir els canals RSS de Selfoss. Segur que a tu també t'agrada!"</string>
   <string name="invitation_cta">"Prova l'aplicació"</string>

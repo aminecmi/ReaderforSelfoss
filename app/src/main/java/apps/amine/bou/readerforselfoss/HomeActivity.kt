@@ -38,7 +38,6 @@ import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.bottombar.maybeShow
 import apps.amine.bou.readerforselfoss.utils.bottombar.removeBadge
-import apps.amine.bou.readerforselfoss.utils.checkApkVersion
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
@@ -54,15 +53,8 @@ import com.anupcowkur.reservoir.ReservoirPutCallback
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.InviteEvent
 import com.ftinc.scoop.Scoop
 import com.github.stkent.amplify.tracking.Amplify
-import com.google.android.gms.appinvite.AppInviteInvitation
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.reflect.TypeToken
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher
 import com.mikepenz.aboutlibraries.Libs
@@ -80,8 +72,6 @@ import retrofit2.Response
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val MENU_PREFERENCES = 12302
-    private val REQUEST_INVITE = 13231
-    private val REQUEST_INVITE_BYMAIL = 13232
     private val DRAWER_ID_TAGS = 100101L
     private val DRAWER_ID_SOURCES = 100110L
     private val DRAWER_ID_FILTERS = 100111L
@@ -120,7 +110,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var customTabActivityHelper: CustomTabActivityHelper
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var sharedPref: SharedPreferences
-    private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
     private lateinit var appColors: AppColors
     private var offset: Int = 0
     private var firstVisible: Int = 0
@@ -156,9 +145,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (savedInstanceState == null) {
             Amplify.getSharedInstance().promptIfReady(promptView)
         }
-
-        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        firebaseRemoteConfig.setDefaults(R.xml.default_remote_config)
 
         customTabActivityHelper = CustomTabActivityHelper()
 
@@ -337,10 +323,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
         editor = settings.edit()
-
-        if (BuildConfig.GITHUB_VERSION) {
-            this@HomeActivity.checkApkVersion(settings, editor, firebaseRemoteConfig)
-        }
 
         handleSharedPrefs()
 
@@ -1057,13 +1039,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 drawer.closeDrawer()
                 recreate()
             }
-            REQUEST_INVITE -> if (result == Activity.RESULT_OK) {
-                Answers.getInstance().logInvite(InviteEvent())
-            }
-            REQUEST_INVITE_BYMAIL -> {
-                Answers.getInstance().logInvite(InviteEvent())
-                super.onActivityResult(req, result, data)
-            }
             else -> super.onActivityResult(req, result, data)
         }
     }
@@ -1129,9 +1104,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 .toMap()
 
                         fun readAllDebug(e: Throwable) {
-                            Crashlytics.setUserIdentifier(userIdentifier)
-                            Crashlytics.log(100, "READ_ALL_ERROR", e.message)
-                            Crashlytics.logException(e)
+                            // TODO: debug
                         }
 
                         if (ids.isNotEmpty()) {
@@ -1207,27 +1180,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
             R.id.action_disconnect -> {
                 return Config.logoutAndRedirect(this, this@HomeActivity, editor)
-            }
-            R.id.action_share_the_app -> {
-                if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
-                    val share =
-                        AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
-                            .setMessage(getString(R.string.invitation_message))
-                            .setDeepLink(Uri.parse("https://ymbh5.app.goo.gl/qbvQ"))
-                            .setCallToActionText(getString(R.string.invitation_cta))
-                            .build()
-                    startActivityForResult(share, REQUEST_INVITE)
-                } else {
-                    val sendIntent = Intent()
-                    sendIntent.action = Intent.ACTION_SEND
-                    sendIntent.putExtra(
-                        Intent.EXTRA_TEXT,
-                        getString(R.string.invitation_message) + " https://ymbh5.app.goo.gl/qbvQ"
-                    )
-                    sendIntent.type = "text/plain"
-                    startActivityForResult(sendIntent, REQUEST_INVITE_BYMAIL)
-                }
-                return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)
         }

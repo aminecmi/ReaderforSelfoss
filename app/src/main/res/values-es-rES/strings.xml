@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Mostrar el recuento no leído como una insignia de la barra inferior."</string>
   <string name="switch_unread_count_title">"Mostrar recuento no leído"</string>
   <string name="display_all_counts_title">"Mostrar recuento de favoritos y leídos"</string>
-  <string name="menu_share_the_app">"Invitar amigos"</string>
+
   <string name="invitation_title">"¡Prueba esta aplicación para tu contenido RSS de Selfoss!"</string>
   <string name="invitation_message">"Yo uso esta aplicación para mi contenido RSS de Selfoss. ¡Te puede gusta también!"</string>
   <string name="invitation_cta">"Probar la aplicación"</string>

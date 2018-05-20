@@ -20,11 +20,6 @@
         android:orderInCategory="99"
         android:title="@string/menu_home_refresh" />
 
-    <item
-        android:id="@+id/action_share_the_app"
-        android:orderInCategory="102"
-        android:title="@string/menu_share_the_app" />
-
     <item android:id="@+id/action_disconnect"
           android:title="@string/action_disconnect"
           android:orderInCategory="104"

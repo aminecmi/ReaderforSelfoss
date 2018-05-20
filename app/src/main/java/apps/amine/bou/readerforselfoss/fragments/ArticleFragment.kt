@@ -35,8 +35,6 @@ import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.toPx
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.crashlytics.android.Crashlytics
-import com.ftinc.scoop.Scoop
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
 import retrofit2.Call
@@ -197,25 +195,13 @@ class ArticleFragment : Fragment() {
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
                             } catch (e: Exception) {
-                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                Crashlytics.log(
-                                    100,
-                                    "MERCURY_CONTENT_EXCEPTION",
-                                    "source titleView or url issues"
-                                )
-                                Crashlytics.logException(e)
+                                // TODO: logs
                             }
 
                             try {
                                 htmlToWebview(response.body()!!.content.orEmpty(), prefs, context)
                             } catch (e: Exception) {
-                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                Crashlytics.log(
-                                    100,
-                                    "MERCURY_CONTENT_EXCEPTION",
-                                    "Webview issue ${e.message}"
-                                )
-                                Crashlytics.logException(e)
+                                // TODO: logs
                             }
 
                             try {
@@ -229,30 +215,13 @@ class ArticleFragment : Fragment() {
                                             .apply(RequestOptions.fitCenterTransform())
                                             .into(rootView.imageView)
                                     } catch (e: Exception) {
-                                        Crashlytics.setUserIdentifier(
-                                            prefs.getString(
-                                                "unique_id",
-                                                ""
-                                            )
-                                        )
-                                        Crashlytics.log(
-                                            100,
-                                            "MERCURY_CONTENT_EXCEPTION",
-                                            "Glide issue with image ${response.body()!!.lead_image_url}"
-                                        )
-                                        Crashlytics.logException(e)
+                                        // TODO: logs
                                     }
                                 } else {
                                     rootView.imageView.visibility = View.GONE
                                 }
                             } catch (e: Exception) {
-                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                Crashlytics.log(
-                                    100,
-                                    "MERCURY_CONTENT_EXCEPTION",
-                                    "Glide or image issue"
-                                )
-                                Crashlytics.logException(e)
+                                // TODO: logs
                             }
 
                             try {
@@ -260,35 +229,17 @@ class ArticleFragment : Fragment() {
 
                                 rootView.progressBar.visibility = View.GONE
                             } catch (e: Exception) {
-                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                Crashlytics.log(
-                                    100,
-                                    "MERCURY_CONTENT_EXCEPTION",
-                                    "Scroll or visibility issues"
-                                )
-                                Crashlytics.logException(e)
+                                // TODO: logs
                             }
                         } else {
                             try {
                                 openInBrowserAfterFailing(customTabsIntent)
                             } catch (e: Exception) {
-                                Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                                Crashlytics.log(
-                                    100,
-                                    "MERCURY_CONTENT_EXCEPTION",
-                                    "Browser after failing issue"
-                                )
-                                Crashlytics.logException(e)
+                                // TODO: logs
                             }
                         }
                     } catch (e: Exception) {
-                        Crashlytics.setUserIdentifier(prefs.getString("unique_id", ""))
-                        Crashlytics.log(
-                            100,
-                            "MERCURY_CONTENT_EXCEPTION",
-                            "UNCAUGHT (?) Fatal Exception on mercury response"
-                        )
-                        Crashlytics.logException(e)
+                        // TODO: logs
                     }
                 }
 

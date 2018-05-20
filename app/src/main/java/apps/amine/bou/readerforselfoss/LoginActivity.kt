@@ -20,8 +20,6 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.android.synthetic.main.activity_login.*
@@ -38,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var settings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var userIdentifier: String
     private var logErrors: Boolean = false
     private lateinit var appColors: AppColors
@@ -64,8 +61,6 @@ class LoginActivity : AppCompatActivity() {
         if (settings.getString("url", "").isNotEmpty()) {
             goToMain()
         }
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         handleActions()
     }
@@ -213,9 +208,7 @@ class LoginActivity : AppCompatActivity() {
                     httpLoginView.error = getString(R.string.wrong_infos)
                     httpPasswordView.error = getString(R.string.wrong_infos)
                     if (logErrors) {
-                        Crashlytics.setUserIdentifier(userIdentifier)
-                        Crashlytics.log(100, "LOGIN_DEBUG_ERRROR", t.message)
-                        Crashlytics.logException(t)
+                        // TODO: log
                         Toast.makeText(
                             this@LoginActivity,
                             t.message,
@@ -230,7 +223,6 @@ class LoginActivity : AppCompatActivity() {
                     response: Response<SuccessResponse>
                 ) {
                     if (response.body() != null && response.body()!!.isSuccess) {
-                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, Bundle())
                         goToMain()
                     } else {
                         preferenceError(Exception("No response body..."))

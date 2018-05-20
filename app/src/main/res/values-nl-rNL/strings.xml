@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Geef het aantal ongelezen artikelen weer in de balk onderaan"</string>
   <string name="switch_unread_count_title">"Geef aantal ongelezen weer"</string>
   <string name="display_all_counts_title">"Geef aantal weer bij favorieten en gelezen"</string>
-  <string name="menu_share_the_app">"Vrienden uitnodigen"</string>
+
   <string name="invitation_title">"Probeer deze app voor je Selfoss RSS feeds!"</string>
   <string name="invitation_message">"Ik gebruik deze app voor mijn Selfoss RSS feeds. Misschien is het ook wat voor jou!"</string>
   <string name="invitation_cta">"App proberen"</string>

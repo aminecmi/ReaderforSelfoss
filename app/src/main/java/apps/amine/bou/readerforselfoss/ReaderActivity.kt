@@ -24,7 +24,6 @@ import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toggleStar
-import com.crashlytics.android.Crashlytics
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_reader.*
 import me.relex.circleindicator.CircleIndicator
@@ -132,13 +131,7 @@ class ReaderActivity : AppCompatActivity() {
                                                     "response errorBody: ${response.errorBody()?.string()} " +
                                                     "body success: ${response.body()?.success} " +
                                                     "body isSuccess: ${response.body()?.isSuccess}"
-                                        Crashlytics.setUserIdentifier(userIdentifier)
-                                        Crashlytics.log(
-                                            100,
-                                            "READ_DEBUG_SUCCESS",
-                                            message
-                                        )
-                                        Crashlytics.logException(Exception("Was success, but did it work ?"))
+                                        // TODO: logs
                                     }
                                 }
 
@@ -147,13 +140,7 @@ class ReaderActivity : AppCompatActivity() {
                                     t: Throwable
                                 ) {
                                     if (debugReadingItems) {
-                                        Crashlytics.setUserIdentifier(userIdentifier)
-                                        Crashlytics.log(
-                                            100,
-                                            "READ_DEBUG_ERROR",
-                                            t.message
-                                        )
-                                        Crashlytics.logException(t)
+                                        // TODO: logs
                                     }
                                 }
                             }

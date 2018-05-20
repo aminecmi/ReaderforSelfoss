@@ -10,14 +10,12 @@ import apps.amine.bou.readerforselfoss.utils.Config
 import com.anupcowkur.reservoir.Reservoir
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.crashlytics.android.Crashlytics
 import com.ftinc.scoop.Scoop
 import com.github.stkent.amplify.feedback.DefaultEmailFeedbackCollector
 import com.github.stkent.amplify.feedback.GooglePlayStoreFeedbackCollector
 import com.github.stkent.amplify.tracking.Amplify
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
-import io.fabric.sdk.android.Fabric
 import java.io.IOException
 import java.util.UUID.randomUUID
 
@@ -25,7 +23,6 @@ class MyApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        Fabric.with(this, Crashlytics())
 
         initAmplify()
 

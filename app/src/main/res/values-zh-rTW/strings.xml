@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"将未读数在底部显示为一个徽标。"</string>
   <string name="switch_unread_count_title">"显示未读数"</string>
   <string name="display_all_counts_title">"显示收藏和已读的计数"</string>
-  <string name="menu_share_the_app">"邀请朋友"</string>
+
   <string name="invitation_title">"尝试用这个应用来阅读你的 Selfoss RSS 源！"</string>
   <string name="invitation_message">"我用这个应用来阅读我的 Selfoss RSS 源。你也会喜欢的！"</string>
   <string name="invitation_cta">"试用应用程序"</string>

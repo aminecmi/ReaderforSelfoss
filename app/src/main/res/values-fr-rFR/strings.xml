@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Afficher le nombre d'articles non lus sur la barre en bas de l'écran"</string>
   <string name="switch_unread_count_title">"Afficher le nombre de non lus"</string>
   <string name="display_all_counts_title">"Afficher le nombre de favoris et d'articles lus"</string>
-  <string name="menu_share_the_app">"Inviter des amis"</string>
+
   <string name="invitation_title">"Essaye cette application pour les flux RSS Selfoss !"</string>
   <string name="invitation_message">"J'utilise cette applications pour mon flux RSS Selfoss. Tu aimeras peut être !"</string>
   <string name="invitation_cta">"Essayer maintenant"</string>

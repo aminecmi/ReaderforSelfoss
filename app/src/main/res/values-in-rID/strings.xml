@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Tampilkan jumlah item yang belum dibaca di bilah bawah."</string>
   <string name="switch_unread_count_title">"Tampilkan jumlah item yang belum dibaca"</string>
   <string name="display_all_counts_title">"Tampilkan jumlah item untuk favorit dan sudah dibaca"</string>
-  <string name="menu_share_the_app">"Undang teman"</string>
+
   <string name="invitation_title">"Coba mengggunakan aplikasi ini untuk umpan RSS Selfoss Anda !"</string>
   <string name="invitation_message">"Saya menggunakan aplikasi ini untuk umpan RSS Selfoss saya. Anda akan menyukainya juga!"</string>
   <string name="invitation_cta">"Coba aplikasi"</string>

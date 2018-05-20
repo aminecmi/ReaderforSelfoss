@@ -12,7 +12,6 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.succeeded
-import com.crashlytics.android.Crashlytics
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,10 +88,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                                 "response errorBody: ${response.errorBody()?.string()} " +
                                 "body success: ${response.body()?.success} " +
                                 "body isSuccess: ${response.body()?.isSuccess}"
-                    Crashlytics.setUserIdentifier(userIdentifier)
-                    Crashlytics.log(100, "READ_DEBUG_SUCCESS", message)
-                    Crashlytics.logException(Exception("Was success, but did it work ?"))
-
+                    // TODO: logs
                     Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
                 }
                 doUnmark(i, position)
@@ -100,9 +96,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
 
             override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                 if (debugReadingItems) {
-                    Crashlytics.setUserIdentifier(userIdentifier)
-                    Crashlytics.log(100, "READ_DEBUG_ERROR", t.message)
-                    Crashlytics.logException(t)
+                    // TODO: logs
                     Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
                 }
                 Toast.makeText(

@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Exibir a contagem não lida como um emblema para a barra inferior."</string>
   <string name="switch_unread_count_title">"Exibir a contagem não lida"</string>
   <string name="display_all_counts_title">"Exibir a contagem para o favorito e leitura"</string>
-  <string name="menu_share_the_app">"Convidar amigos"</string>
+
   <string name="invitation_title">"Tente este aplicativo para seus Selfoss RSS feeds!"</string>
   <string name="invitation_message">"Eu uso este app para meus Selfoss RSS feeds. Você pode gostar também!"</string>
   <string name="invitation_cta">"Tente o aplicativo"</string>

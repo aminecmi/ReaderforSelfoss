@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Zeige die Zahl ungelesener Artikel in der unteren Leiste."</string>
   <string name="switch_unread_count_title">"Zeige Anzahl ungelesener Artikel"</string>
   <string name="display_all_counts_title">"Zeige Anzahl der Favoriten und gelesenen Artikel"</string>
-  <string name="menu_share_the_app">"Freunde einladen"</string>
+
   <string name="invitation_title">"Probiere diese App für deine Selfoss RSS-Feeds!"</string>
   <string name="invitation_message">"Ich benutze diese App für meine Selfoss RSS-Feeds. Vielleicht magst du sie auch!"</string>
   <string name="invitation_cta">"Probier die App"</string>

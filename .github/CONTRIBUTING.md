@@ -47,8 +47,6 @@ You can directly import this project into IntellIJ/Android Studio.
 
 You'll have to:
 
-- Configure fabric and add your `apiKey` and `apiSecret` in the `fabric.properties` file.
-- Create a firebase project and add the `google-services.json` to the `app/` folder.
 - Define some parameters either in `~/.gradle/gradle.properties` or as gradle parameters (see the examples)
 
     - mercuryApiKey: A [Mercury](https://mercury.postlight.com/web-parser/) web parser api key for the internal browser
