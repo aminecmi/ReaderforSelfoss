@@ -27,6 +27,7 @@ import apps.amine.bou.readerforselfoss.utils.toggleStar
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_reader.*
 import me.relex.circleindicator.CircleIndicator
+import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -131,7 +132,7 @@ class ReaderActivity : AppCompatActivity() {
                                                     "response errorBody: ${response.errorBody()?.string()} " +
                                                     "body success: ${response.body()?.success} " +
                                                     "body isSuccess: ${response.body()?.isSuccess}"
-                                        // TODO: logs
+                                        ACRA.getErrorReporter().handleSilentException(Exception(message))
                                     }
                                 }
 
@@ -140,7 +141,7 @@ class ReaderActivity : AppCompatActivity() {
                                     t: Throwable
                                 ) {
                                     if (debugReadingItems) {
-                                        // TODO: logs
+                                        ACRA.getErrorReporter().handleSilentException(t)
                                     }
                                 }
                             }

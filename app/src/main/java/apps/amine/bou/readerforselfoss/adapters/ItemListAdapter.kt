@@ -97,7 +97,7 @@ class ItemListAdapter(
                     TextDrawable
                         .builder()
                         .round()
-                        .build(itm.sourcetitle.toTextDrawableString(), color)
+                        .build(itm.sourcetitle.toTextDrawableString(c), color)
 
                 holder.mView.itemImage.setImageDrawable(drawable)
             } else {

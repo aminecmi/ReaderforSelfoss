@@ -23,6 +23,7 @@ import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.android.synthetic.main.activity_login.*
+import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -208,7 +209,7 @@ class LoginActivity : AppCompatActivity() {
                     httpLoginView.error = getString(R.string.wrong_infos)
                     httpPasswordView.error = getString(R.string.wrong_infos)
                     if (logErrors) {
-                        // TODO: log
+                        ACRA.getErrorReporter().handleSilentException(t)
                         Toast.makeText(
                             this@LoginActivity,
                             t.message,

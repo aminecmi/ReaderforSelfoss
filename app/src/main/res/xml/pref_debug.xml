@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="should_log_everything"
-        android:summaryOff="@string/login_everything_off"
-        android:summaryOn="@string/login_everything_on"
-        android:title="@string/login_everything_title" />
+    <PreferenceCategory android:title="@string/pref_debug_crash_reports">
+        <EditTextPreference
+            android:key="acra.user.email"
+            android:summary="@string/pref_acra_user_email_summary"
+            android:title="@string/pref_acra_user_email" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="login_debug"
-        android:summaryOff="@string/login_debug_off"
-        android:summaryOn="@string/login_debug_on"
-        android:title="@string/login_debug_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="acra.alwaysaccept"
+            android:summaryOff="@string/pref_acra_alwaysaccept_disabled"
+            android:summaryOn="@string/pref_acra_alwaysaccept_enabled"
+            android:title="@string/pref_acra_alwaysaccept" />
+    </PreferenceCategory>
 
+    <PreferenceCategory>
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="read_debug"
-        android:summaryOff="@string/read_debug_off"
-        android:summaryOn="@string/read_debug_on"
-        android:title="@string/read_debug_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="should_log_everything"
+            android:summaryOff="@string/login_everything_off"
+            android:summaryOn="@string/login_everything_on"
+            android:title="@string/login_everything_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="login_debug"
+            android:summaryOff="@string/login_debug_off"
+            android:summaryOn="@string/login_debug_on"
+            android:title="@string/login_debug_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="read_debug"
+            android:summaryOff="@string/read_debug_off"
+            android:summaryOn="@string/read_debug_on"
+            android:title="@string/read_debug_title" />
+    </PreferenceCategory>
+
 
     <Preference
         android:enabled="true"

@@ -48,7 +48,7 @@ class SourcesListAdapter(
                 TextDrawable
                     .builder()
                     .round()
-                    .build(itm.title.toTextDrawableString(), color)
+                    .build(itm.title.toTextDrawableString(c), color)
             holder.mView.itemImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(itm.getIcon(c), holder.mView.itemImage)

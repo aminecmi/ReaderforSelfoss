@@ -89,7 +89,7 @@ class ItemCardAdapter(
                 TextDrawable
                     .builder()
                     .round()
-                    .build(itm.sourcetitle.toTextDrawableString(), color)
+                    .build(itm.sourcetitle.toTextDrawableString(c), color)
             holder.mView.sourceImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(itm.getIcon(c), holder.mView.sourceImage)

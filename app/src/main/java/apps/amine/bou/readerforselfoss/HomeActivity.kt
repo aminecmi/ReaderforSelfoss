@@ -1,12 +1,10 @@
 package apps.amine.bou.readerforselfoss
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.view.MenuItemCompat
@@ -164,6 +162,27 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
+
+        throw NullPointerException()
+
+    }
+
+    private fun handleGDPRDialog(GDPRShown: Boolean) {
+        if (!GDPRShown) {
+            val alertDialog = AlertDialog.Builder(this).create()
+            alertDialog.setTitle(getString(R.string.gdpr_dialog_title))
+            alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
+            alertDialog.setButton(
+                AlertDialog.BUTTON_NEUTRAL,
+                "OK",
+                { dialog, _ ->
+                    editor.putBoolean("GDPR_shown", true)
+                    editor.commit()
+                    dialog.dismiss()
+                }
+            )
+            alertDialog.show()
+        }
     }
 
     private fun handleSwipeRefreshLayout() {
@@ -339,6 +358,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleBottomBarActions()
 
         getElementsAccordingToTab()
+
+        handleGDPRDialog(sharedPref.getBoolean("GDPR_shown", false))
     }
 
     override fun onStop() {
@@ -417,7 +438,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                             .theme(R.style.Theme_App_Light)
                             .guestToken(BuildConfig.GITHUB_TOKEN)
-                            .guestEmailRequired(true)
                             .minDescriptionLength(20)
                             .putExtraInfo("Unique ID", settings.getString("unique_id", ""))
                             .putExtraInfo("From github", BuildConfig.GITHUB_VERSION)

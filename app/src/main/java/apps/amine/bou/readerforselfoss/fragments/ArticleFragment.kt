@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
+import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -195,13 +196,13 @@ class ArticleFragment : Fragment() {
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
                             } catch (e: Exception) {
-                                // TODO: logs
+                                ACRA.getErrorReporter().handleSilentException(e)
                             }
 
                             try {
                                 htmlToWebview(response.body()!!.content.orEmpty(), prefs, context)
                             } catch (e: Exception) {
-                                // TODO: logs
+                                ACRA.getErrorReporter().handleSilentException(e)
                             }
 
                             try {
@@ -215,13 +216,13 @@ class ArticleFragment : Fragment() {
                                             .apply(RequestOptions.fitCenterTransform())
                                             .into(rootView.imageView)
                                     } catch (e: Exception) {
-                                        // TODO: logs
+                                        ACRA.getErrorReporter().handleSilentException(e)
                                     }
                                 } else {
                                     rootView.imageView.visibility = View.GONE
                                 }
                             } catch (e: Exception) {
-                                // TODO: logs
+                                ACRA.getErrorReporter().handleSilentException(e)
                             }
 
                             try {
@@ -229,17 +230,17 @@ class ArticleFragment : Fragment() {
 
                                 rootView.progressBar.visibility = View.GONE
                             } catch (e: Exception) {
-                                // TODO: logs
+                                ACRA.getErrorReporter().handleSilentException(e)
                             }
                         } else {
                             try {
                                 openInBrowserAfterFailing(customTabsIntent)
                             } catch (e: Exception) {
-                                // TODO: logs
+                                ACRA.getErrorReporter().handleSilentException(e)
                             }
                         }
                     } catch (e: Exception) {
-                        // TODO: logs
+                        ACRA.getErrorReporter().handleSilentException(e)
                     }
                 }
 

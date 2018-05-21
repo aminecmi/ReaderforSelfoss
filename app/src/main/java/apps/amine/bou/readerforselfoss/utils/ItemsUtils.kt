@@ -1,18 +1,20 @@
 package apps.amine.bou.readerforselfoss.utils
 
+import android.content.Context
 import android.text.format.DateUtils
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import org.acra.ACRA
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun String.toTextDrawableString(): String {
+fun String.toTextDrawableString(c: Context): String {
     val textDrawable = StringBuilder()
     for (s in this.split(" ".toRegex()).filter { !it.isEmpty() }.toTypedArray()) {
         try {
             textDrawable.append(s[0])
         } catch (e: StringIndexOutOfBoundsException) {
-            // TODO: logs
+            ACRA.getErrorReporter().handleSilentException(e)
         }
     }
     return textDrawable.toString()
