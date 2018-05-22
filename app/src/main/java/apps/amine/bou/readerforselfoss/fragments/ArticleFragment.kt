@@ -29,6 +29,7 @@ import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
+import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
@@ -196,13 +197,13 @@ class ArticleFragment : Fragment() {
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().handleSilentException(e)
+                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                             }
 
                             try {
                                 htmlToWebview(response.body()!!.content.orEmpty(), prefs, context)
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().handleSilentException(e)
+                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                             }
 
                             try {
@@ -216,13 +217,13 @@ class ArticleFragment : Fragment() {
                                             .apply(RequestOptions.fitCenterTransform())
                                             .into(rootView.imageView)
                                     } catch (e: Exception) {
-                                        ACRA.getErrorReporter().handleSilentException(e)
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                                     }
                                 } else {
                                     rootView.imageView.visibility = View.GONE
                                 }
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().handleSilentException(e)
+                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                             }
 
                             try {
@@ -230,17 +231,17 @@ class ArticleFragment : Fragment() {
 
                                 rootView.progressBar.visibility = View.GONE
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().handleSilentException(e)
+                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                             }
                         } else {
                             try {
                                 openInBrowserAfterFailing(customTabsIntent)
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().handleSilentException(e)
+                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                             }
                         }
                     } catch (e: Exception) {
-                        ACRA.getErrorReporter().handleSilentException(e)
+                        ACRA.getErrorReporter().maybeHandleSilentException(e, context)
                     }
                 }
 

@@ -40,6 +40,7 @@ import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
+import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
@@ -64,6 +65,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
+import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -162,13 +164,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
-
-        throw NullPointerException()
-
     }
 
     private fun handleGDPRDialog(GDPRShown: Boolean) {
         if (!GDPRShown) {
+            val sharedEditor = sharedPref.edit()
             val alertDialog = AlertDialog.Builder(this).create()
             alertDialog.setTitle(getString(R.string.gdpr_dialog_title))
             alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
@@ -176,8 +176,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 AlertDialog.BUTTON_NEUTRAL,
                 "OK",
                 { dialog, _ ->
-                    editor.putBoolean("GDPR_shown", true)
-                    editor.commit()
+                    sharedEditor.putBoolean("GDPR_shown", true)
+                    sharedEditor.commit()
                     dialog.dismiss()
                 }
             )

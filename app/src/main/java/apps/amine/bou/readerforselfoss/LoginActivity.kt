@@ -20,6 +20,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
+import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.android.synthetic.main.activity_login.*
@@ -209,7 +210,7 @@ class LoginActivity : AppCompatActivity() {
                     httpLoginView.error = getString(R.string.wrong_infos)
                     httpPasswordView.error = getString(R.string.wrong_infos)
                     if (logErrors) {
-                        ACRA.getErrorReporter().handleSilentException(t)
+                        ACRA.getErrorReporter().maybeHandleSilentException(t, this@LoginActivity)
                         Toast.makeText(
                             this@LoginActivity,
                             t.message,

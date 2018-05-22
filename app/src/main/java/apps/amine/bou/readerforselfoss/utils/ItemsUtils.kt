@@ -14,7 +14,7 @@ fun String.toTextDrawableString(c: Context): String {
         try {
             textDrawable.append(s[0])
         } catch (e: StringIndexOutOfBoundsException) {
-            ACRA.getErrorReporter().handleSilentException(e)
+            ACRA.getErrorReporter().maybeHandleSilentException(e, c)
         }
     }
     return textDrawable.toString()

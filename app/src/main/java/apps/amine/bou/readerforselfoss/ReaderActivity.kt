@@ -22,6 +22,7 @@ import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
 import apps.amine.bou.readerforselfoss.utils.Config
+import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toggleStar
 import com.ftinc.scoop.Scoop
@@ -132,7 +133,7 @@ class ReaderActivity : AppCompatActivity() {
                                                     "response errorBody: ${response.errorBody()?.string()} " +
                                                     "body success: ${response.body()?.success} " +
                                                     "body isSuccess: ${response.body()?.isSuccess}"
-                                        ACRA.getErrorReporter().handleSilentException(Exception(message))
+                                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), this@ReaderActivity)
                                     }
                                 }
 
@@ -141,7 +142,7 @@ class ReaderActivity : AppCompatActivity() {
                                     t: Throwable
                                 ) {
                                     if (debugReadingItems) {
-                                        ACRA.getErrorReporter().handleSilentException(t)
+                                        ACRA.getErrorReporter().maybeHandleSilentException(t, this@ReaderActivity)
                                     }
                                 }
                             }

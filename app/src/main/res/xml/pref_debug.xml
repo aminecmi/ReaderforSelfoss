@@ -15,23 +15,31 @@
             android:title="@string/pref_acra_alwaysaccept" />
     </PreferenceCategory>
 
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_debug_debug_logs">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="acra_should_log"
+            android:title="@string/acra_login" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="should_log_everything"
+            android:dependency="acra_should_log"
             android:summaryOff="@string/login_everything_off"
             android:summaryOn="@string/login_everything_on"
             android:title="@string/login_everything_title" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="login_debug"
+            android:dependency="acra_should_log"
             android:summaryOff="@string/login_debug_off"
             android:summaryOn="@string/login_debug_on"
             android:title="@string/login_debug_title" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="read_debug"
+            android:dependency="acra_should_log"
             android:summaryOff="@string/read_debug_off"
             android:summaryOn="@string/read_debug_on"
             android:title="@string/read_debug_title" />

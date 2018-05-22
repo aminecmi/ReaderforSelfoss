@@ -11,6 +11,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import org.acra.ACRA
 import retrofit2.Call
@@ -89,7 +90,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                                 "response errorBody: ${response.errorBody()?.string()} " +
                                 "body success: ${response.body()?.success} " +
                                 "body isSuccess: ${response.body()?.isSuccess}"
-                    ACRA.getErrorReporter().handleSilentException(Exception(message))
+                    ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
                     Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
                 }
                 doUnmark(i, position)
@@ -97,7 +98,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
 
             override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                 if (debugReadingItems) {
-                    ACRA.getErrorReporter().handleSilentException(t)
+                    ACRA.getErrorReporter().maybeHandleSilentException(t, app)
                     Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
                 }
                 Toast.makeText(
