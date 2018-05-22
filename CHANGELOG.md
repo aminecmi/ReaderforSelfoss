@@ -1,5 +1,9 @@
 **1.6.x**
 
+- Removed firebase and fabric.
+
+- Added Acra for optional crash reporting and error logging.
+
 - Dynamic themes !
 
 - Strings cleaning.
