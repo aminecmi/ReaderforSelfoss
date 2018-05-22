@@ -64,7 +64,6 @@
   <string name="switch_unread_count">"将未读数在底部显示为一个徽标。"</string>
   <string name="switch_unread_count_title">"显示未读数"</string>
   <string name="display_all_counts_title">"显示收藏和已读的计数"</string>
-
   <string name="invitation_title">"尝试用这个应用来阅读你的 Selfoss RSS 源！"</string>
   <string name="invitation_message">"我用这个应用来阅读我的 Selfoss RSS 源。你也会喜欢的！"</string>
   <string name="invitation_cta">"试用应用程序"</string>
@@ -155,4 +154,15 @@
   <string name="markall_dialog_message">This will mark all the items as read.</string>
   <string name="pref_switch_actions_pager_scroll">Mark as read on swipe</string>
   <string name="pref_switch_actions_pager_scroll_off">Don\'t mark articles as read when swiping.</string>
+  <string name="gdpr_dialog_message">The app does not collect any personal data. Every analytics tools were removed. Crash reports sending is now optional, as is the debug logging. Keep in mind that debugging and crash reports are essential for the app development (You can configure everything in Settings &gt; Debug).</string>
+  <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
+  <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
+  <string name="crash_dialog_comment">You can add any helpful details in the comment bellow.</string>
+  <string name="pref_acra_user_email">Contact email</string>
+  <string name="pref_acra_user_email_summary">Add an email so I can contact you about the crash reports you send.</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
+  <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
+  <string name="pref_debug_crash_reports">Crash reports</string>
+  <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
 </resources>
