@@ -154,15 +154,16 @@
   <string name="markall_dialog_message">Marquer tous les éléments comme lus ?</string>
   <string name="pref_switch_actions_pager_scroll">Marquer comme lu à la navigation.</string>
   <string name="pref_switch_actions_pager_scroll_off">Ne pas marquer les articles comme lus à la navigation.</string>
-  <string name="gdpr_dialog_message">The app does not collect any personal data. Every analytics tools were removed. Crash reports sending is now optional, as is the debug logging. Keep in mind that debugging and crash reports are essential for the app development (You can configure everything in Settings &gt; Debug).</string>
-  <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
-  <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
-  <string name="crash_dialog_comment">You can add any helpful details in the comment bellow.</string>
-  <string name="pref_acra_user_email">Contact email</string>
-  <string name="pref_acra_user_email_summary">Add an email so I can contact you about the crash reports you send.</string>
-  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
-  <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
-  <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
-  <string name="pref_debug_crash_reports">Crash reports</string>
-  <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
+  <string name="gdpr_dialog_message">L\'application ne collecte aucune donnée personnelle. Tous les outils d\'anlytics ont été supprimés. Les rapports d\'erreurs sont maintenant optionnels, ainsi que les logs. N\'oubliez pas que les rapports d\'erreurs sont essentiels pour la résolution des bugs (Vous pouvez configurer toute cela dans Paramètres &gt; Debug).</string>
+  <string name="gdpr_dialog_title">L\'application ne partage aucune de vos données.</string>
+  <string name="crash_dialog_text">Quelque chose s\'est mal passé, S\'il vous plaît, envoyez le rapport au développeur.</string>
+  <string name="crash_dialog_comment">Vous pouvez ajouter tous les détails utiles dans le champ de commentaire plus bas.</string>
+  <string name="pref_acra_user_email">Email de contact</string>
+  <string name="pref_acra_user_email_summary">Ajoutez un mail pour que le développeur puisse vous contacter pour résoudre le problème.</string>
+  <string name="pref_acra_alwaysaccept">Envoyer automatiquement les rapports d\'erreur</string>
+  <string name="pref_acra_alwaysaccept_enabled">Enverra automatiquement les rapports d\'erreur</string>
+  <string name="pref_acra_alwaysaccept_disabled">Demandera une confirmation à chaque incident.</string>
+  <string name="pref_debug_crash_reports">Rapport d\'erreur</string>
+  <string name="pref_debug_debug_logs">Log de debug (seront envoyés automatiquement)</string>
+  <string name="acra_login">Activer les logs</string>
 </resources>
