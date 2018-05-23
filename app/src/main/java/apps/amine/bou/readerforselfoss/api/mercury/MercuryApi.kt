@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MercuryApi(private val key: String, shouldLog: Boolean) {
+class MercuryApi(shouldLog: Boolean) {
     private val service: MercuryService
 
     init {
@@ -26,7 +26,7 @@ class MercuryApi(private val key: String, shouldLog: Boolean) {
         val retrofit =
             Retrofit
                 .Builder()
-                .baseUrl("https://mercury.postlight.com")
+                .baseUrl("https://www.amine-bou.fr")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
@@ -34,6 +34,6 @@ class MercuryApi(private val key: String, shouldLog: Boolean) {
     }
 
     fun parseUrl(url: String): Call<ParsedContent> {
-        return service.parseUrl(url, this.key)
+        return service.parseUrl(url)
     }
 }

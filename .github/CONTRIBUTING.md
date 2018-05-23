@@ -49,7 +49,6 @@ You'll have to:
 
 - Define some parameters either in `~/.gradle/gradle.properties` or as gradle parameters (see the examples)
 
-    - mercuryApiKey: A [Mercury](https://mercury.postlight.com/web-parser/) web parser api key for the internal browser
     - feedbackEmail: An email to receive users  feedback.
     - sourceUrl: an url to the source code, used in the settings. **It can be empty.**
     - trackerUrl: an url to the tracker, used in the settings. **It can be empty.**
@@ -63,7 +62,6 @@ You'll have to:
 appLoginUrl="URL" # It can be empty.
 appLoginUsername="LOGIN" # It can be empty.
 appLoginPassword="PASS" # It can be empty.
-mercuryApiKey="LONGAPIKEY"
 feedbackEmail="EMAIL"
 sourceUrl="URLSOURCE" # It can be empty.
 trackerUrl="URLTRACKER" # It can be empty.
@@ -73,5 +71,5 @@ githubToken="GITHUBTOKEN" # It can be empty or use https://github.com/heinrichre
 #### As gradle parameters
 
 ```
-./gradlew .... -P appLoginUrl="URL" -P appLoginUsername="LOGIN" -P appLoginPassword="PASS" -P mercuryApiKey="LONGAPIKEY" -P feedbackEmail="EMAIL" -P sourceUrl="URLSOURCE" -P trackerUrl="URLTRACKER" -P githubToken="GITHUBTOKEN"
+./gradlew .... -P appLoginUrl="URL" -P appLoginUsername="LOGIN" -P appLoginPassword="PASS" -P feedbackEmail="EMAIL" -P sourceUrl="URLSOURCE" -P trackerUrl="URLTRACKER" -P githubToken="GITHUBTOKEN"
 ```

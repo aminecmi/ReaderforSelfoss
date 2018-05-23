@@ -180,7 +180,6 @@ class ArticleFragment : Fragment() {
     ) {
         rootView.progressBar.visibility = View.VISIBLE
         val parser = MercuryApi(
-            BuildConfig.MERCURY_KEY,
             prefs.getBoolean("should_log_everything", false)
         )
 
