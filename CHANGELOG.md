@@ -1,5 +1,7 @@
 **1.6.x**
 
+- Removed all Build config things.
+
 - Removed firebase and fabric.
 
 - Added Acra for optional crash reporting and error logging.

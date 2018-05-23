@@ -159,8 +159,6 @@ dependencies {
     // Crash
     implementation "ch.acra:acra-http:5.1.3"
     implementation "ch.acra:acra-dialog:5.1.3"
-
-
 }
 
 
