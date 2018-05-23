@@ -49,10 +49,6 @@ You'll have to:
 
 - Define some parameters either in `~/.gradle/gradle.properties` or as gradle parameters (see the examples)
 
-    - feedbackEmail: An email to receive users  feedback.
-    - sourceUrl: an url to the source code, used in the settings. **It can be empty.**
-    - trackerUrl: an url to the tracker, used in the settings. **It can be empty.**
-    - githubToken: a github token used to report issues from within the app. [Details  here](https://github.com/heinrichreimer/android-issue-reporter#how-to-create-a-bot-key). **It can be empty.** 
     - appLoginUrl, appLoginUsername and appLoginPassword: url, username and password of a selfoss instance. **These are only used for tests. They can be empty if you don't test API calls.**
 
 ### Examples:
@@ -62,14 +58,10 @@ You'll have to:
 appLoginUrl="URL" # It can be empty.
 appLoginUsername="LOGIN" # It can be empty.
 appLoginPassword="PASS" # It can be empty.
-feedbackEmail="EMAIL"
-sourceUrl="URLSOURCE" # It can be empty.
-trackerUrl="URLTRACKER" # It can be empty.
-githubToken="GITHUBTOKEN" # It can be empty or use https://github.com/heinrichreimer/android-issue-reporter#how-to-create-a-bot-key to generate one
 ```
 
 #### As gradle parameters
 
 ```
-./gradlew .... -P appLoginUrl="URL" -P appLoginUsername="LOGIN" -P appLoginPassword="PASS" -P feedbackEmail="EMAIL" -P sourceUrl="URLSOURCE" -P trackerUrl="URLTRACKER" -P githubToken="GITHUBTOKEN"
+./gradlew .... -P appLoginUrl="URL" -P appLoginUsername="LOGIN" -P appLoginPassword="PASS"
 ```

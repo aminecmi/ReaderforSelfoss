@@ -28,6 +28,14 @@ class Config(c: Context) {
     companion object {
         const val settingsName = "paramsselfoss"
 
+        const val feedbackEmail = "aminecmi@gmail.com"
+
+        const val translationUrl = "https://crwd.in/readerforselfoss"
+
+        const val sourceUrl = "https://github.com/aminecmi/ReaderforSelfoss"
+
+        const val trackerUrl = "https://github.com/aminecmi/ReaderforSelfoss/issues"
+
         fun logoutAndRedirect(
             c: Context,
             callingActivity: Activity,

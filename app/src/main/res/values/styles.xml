@@ -43,11 +43,4 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
     </style>
 
-    <style name="Theme.App.Light" parent="Theme.IssueReporter.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/md_grey_900</item>
-    </style>
-
 </resources>

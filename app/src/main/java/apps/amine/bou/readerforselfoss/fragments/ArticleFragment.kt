@@ -26,6 +26,7 @@ import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
@@ -305,7 +306,7 @@ class ArticleFragment : Fragment() {
                     { dialog, _ ->
 
                         // This won't be translated because it should only be temporary.
-                        val to = BuildConfig.FEEDBACK_EMAIL
+                        val to = Config.feedbackEmail
                         val subject= "[ReaderForSelfoss MalformedURLException]"
                         val body= "Please specify the source, item and spout you are using for the url below : \n ${e.message}"
                         val mailTo = "mailto:" + to + "?&subject=" + Uri.encode(subject) + "&body=" + Uri.encode(body)

@@ -76,7 +76,7 @@ class MyApp : MultiDexApplication() {
     private fun initAmplify() {
         Amplify.initSharedInstance(this)
             .setPositiveFeedbackCollectors(GooglePlayStoreFeedbackCollector())
-            .setCriticalFeedbackCollectors(DefaultEmailFeedbackCollector(BuildConfig.FEEDBACK_EMAIL))
+            .setCriticalFeedbackCollectors(DefaultEmailFeedbackCollector(Config.feedbackEmail))
             .applyAllDefaultRules()
     }
 

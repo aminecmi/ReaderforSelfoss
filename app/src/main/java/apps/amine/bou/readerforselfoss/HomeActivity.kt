@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.view.MenuItemCompat
@@ -55,7 +56,6 @@ import com.ashokvarma.bottomnavigation.TextBadgeItem
 import com.ftinc.scoop.Scoop
 import com.github.stkent.amplify.tracking.Amplify
 import com.google.gson.reflect.TypeToken
-import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -432,17 +432,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     icon = R.drawable.ic_bug_report
                     iconTintingEnabled = true
                     onClick { _ ->
-                        IssueReporterLauncher.forTarget(
-                            getString(R.string.report_github_user),
-                            getString(R.string.report_github_repo)
-                        )
-                            .theme(R.style.Theme_App_Light)
-                            .guestToken(BuildConfig.GITHUB_TOKEN)
-                            .minDescriptionLength(20)
-                            .putExtraInfo("Unique ID", settings.getString("unique_id", ""))
-                            .putExtraInfo("From github", BuildConfig.GITHUB_VERSION)
-                            .homeAsUpEnabled(true)
-                            .launch(this@HomeActivity)
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Config.trackerUrl))
+                        startActivity(browserIntent)
                         false
                     }
                 }

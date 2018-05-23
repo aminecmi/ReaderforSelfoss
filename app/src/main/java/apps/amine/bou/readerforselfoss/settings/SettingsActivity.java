@@ -306,7 +306,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             findPreference("trackerLink").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    openUrl(Uri.parse(BuildConfig.TRACKER_URL));
+                    openUrl(Uri.parse(Config.trackerUrl));
                     return true;
                 }
             });
@@ -314,7 +314,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             findPreference("sourceLink").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    openUrl(Uri.parse(BuildConfig.SOURCE_URL));
+                    openUrl(Uri.parse(Config.sourceUrl));
                     return false;
                 }
             });
@@ -322,7 +322,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             findPreference("translation").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    openUrl(Uri.parse(BuildConfig.TRANSLATION_URL));
+                    openUrl(Uri.parse(Config.translationUrl));
                     return false;
                 }
             });
