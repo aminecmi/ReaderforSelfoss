@@ -25,7 +25,6 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.KeyEvent
 import apps.amine.bou.readerforselfoss.utils.Config
-import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -90,25 +89,6 @@ class HomeActivityEspressoTest {
         onView(withText(R.string.action_disconnect)).perform(click())
 
         intended(hasComponent(LoginActivity::class.java.name), times(1))
-    }
-
-    @Test
-    fun drawerTesting() {
-
-        rule.launchActivity(Intent())
-
-        onView(withId(R.id.material_drawer_layout)).perform(DrawerActions.open())
-
-        onView(withText(R.string.drawer_report_bug)).perform(click())
-        intended(hasComponent(IssueReporterLauncher.Activity::class.java.name))
-        onView(isRoot()).perform(pressBack())
-        onView(isRoot()).perform(pressBack())
-        intended(hasComponent(HomeActivity::class.java.name))
-
-        onView(withId(R.id.material_drawer_layout)).perform(DrawerActions.open())
-
-        onView(withId(R.id.material_drawer_layout)).perform(DrawerActions.open())
-        onView(withText(R.string.drawer_action_clear)).perform(click())
     }
 
     // TODO: test articles opening and actions for cards and lists
