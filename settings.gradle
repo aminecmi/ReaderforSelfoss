@@ -1,15 +1,1 @@
 include ':app'
-
-ext.isCiServer = !!System.getProperty("CI")
-
-buildCache {
-    local {
-        enabled = !isCiServer
-    }
-    remote(HttpBuildCache) {
-        url = System.getProperty("cacheUrl")
-        push = isCiServer
-
-        println "url ? " + System.getProperty("cacheUrl")
-    }
-}
