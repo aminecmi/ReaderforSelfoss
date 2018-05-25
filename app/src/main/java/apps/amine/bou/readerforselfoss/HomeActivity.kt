@@ -167,8 +167,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleGDPRDialog(GDPRShown: Boolean) {
+        val sharedEditor = sharedPref.edit()
         if (!GDPRShown) {
-            val sharedEditor = sharedPref.edit()
             val alertDialog = AlertDialog.Builder(this).create()
             alertDialog.setTitle(getString(R.string.gdpr_dialog_title))
             alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
@@ -182,6 +182,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             )
             alertDialog.show()
+        }
+
+        if (sharedPref.getString("acra.user.email", "").isNotEmpty()) {
+            sharedEditor.remove("acra.user.email");
+            sharedEditor.commit();
         }
     }
 
