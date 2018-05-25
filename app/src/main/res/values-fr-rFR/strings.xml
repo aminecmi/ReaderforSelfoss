@@ -157,7 +157,7 @@
   <string name="gdpr_dialog_message">L\'application ne collecte aucune donnée personnelle. Tous les outils d\'anlytics ont été supprimés. Les rapports d\'erreurs sont maintenant optionnels, ainsi que les logs. N\'oubliez pas que les rapports d\'erreurs sont essentiels pour la résolution des bugs (Vous pouvez configurer toute cela dans Paramètres &gt; Debug).</string>
   <string name="gdpr_dialog_title">L\'application ne partage aucune de vos données.</string>
   <string name="crash_dialog_text">Quelque chose s\'est mal passé, S\'il vous plaît, envoyez le rapport au développeur.</string>
-  <string name="crash_dialog_comment">Vous pouvez ajouter tous les détails utiles dans le champ de commentaire plus bas. N\'ajoutez aucune information personelle. Vous pouvez m'envoyer un email avec votre identifiant de debug, et je vous informerai à la correction du problème.</string>
+  <string name="crash_dialog_comment">Vous pouvez ajouter tous les détails utiles dans le champ de commentaire plus bas. N\'ajoutez aucune information personnelle. Vous pouvez m\'envoyer un email avec votre identifiant de debug, et je vous informerai à la correction du problème.</string>
   <string name="pref_acra_user_email">Email de contact</string>
   <string name="pref_acra_user_email_summary">Ajoutez un mail pour que le développeur puisse vous contacter pour résoudre le problème.</string>
   <string name="pref_acra_alwaysaccept">Envoyer automatiquement les rapports d\'erreur</string>
