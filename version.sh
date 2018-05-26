@@ -3,8 +3,9 @@
 
 echo "Creating tag $@"
 
-git tag $@
+TAG="v$@"
+git tag ${TAG}
 
 echo "Pushing tag"
 
-git push origin $@
+git push origin ${TAG}
