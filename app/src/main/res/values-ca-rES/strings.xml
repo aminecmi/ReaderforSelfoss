@@ -157,10 +157,10 @@
   <string name="gdpr_dialog_message">Aquesta aplicació no recull cap dada personal. S\'han suprimit totes les eines d\'anàlisi. A partir d\'ara, l\'enviament d\'informes és opcional, així com el registre de depuració d\'errors. Recordeu que la depuració i els informes d\'error són essencials per al desenvolupament de l\'aplicació (Ho podeu configurar tot a Configuració &gt; Depura).</string>
   <string name="gdpr_dialog_title">Aquesta aplicació no comparteix cap data personal vostra.</string>
   <string name="crash_dialog_text">Alguna cosa ha anat malament. Envieu l\'informe al desenvolupador.</string>
-  <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-  <string name="pref_acra_user_email">Contact email</string>
-  <string name="pref_acra_user_email_summary">Add an email so I can contact you about the crash reports you send.</string>
-  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="crash_dialog_comment">Podeu afegir informació útil en la secció de comentaris. No incloeu cap dada personal en el vostre comentari. També em podeu enviar un correu electrònic amb l\'identificador de depuració i us ho faré saber quan el problema s\'hagi resolt.</string>
+  <string name="pref_acra_user_email">Correu electrònic de contacte</string>
+  <string name="pref_acra_user_email_summary">Afegiu una adreça de correu electrònic per tal que pugui contactar-vos en relació amb l\'informe d\'errors que heu enviat.</string>
+  <string name="pref_acra_alwaysaccept">Envia informes d\'error automàtics</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
