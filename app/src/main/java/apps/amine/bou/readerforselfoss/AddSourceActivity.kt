@@ -44,10 +44,11 @@ class AddSourceActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_add_source)
 
-        // TODO: input bubble cursor
-        Scoop.getInstance()
-            .bind(this, Toppings.PRIMARY.value, toolbar)
-            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        val scoop = Scoop.getInstance()
+        scoop.bind(this, Toppings.PRIMARY.value, toolbar)
+        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        }
 
         val drawable = nameInput.background
         drawable.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)

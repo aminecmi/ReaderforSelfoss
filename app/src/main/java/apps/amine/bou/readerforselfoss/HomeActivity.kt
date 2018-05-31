@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.view.MenuItemCompat
@@ -389,16 +390,21 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleThemeBinding() {
-        Scoop.getInstance()
-            .bind(this, Toppings.PRIMARY.value, toolBar)
-            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        val scoop = Scoop.getInstance()
+        scoop.bind(this, Toppings.PRIMARY.value, toolBar)
+        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        }
     }
 
     private fun handleThemeUpdate() {
 
-        Scoop.getInstance()
-            .update(Toppings.PRIMARY.value, appColors.colorPrimary)
-            .update(Toppings.PRIMARY_DARK.value, appColors.colorPrimaryDark)
+        val scoop = Scoop.getInstance()
+        scoop.update(Toppings.PRIMARY.value, appColors.colorPrimary)
+
+        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scoop.update(Toppings.PRIMARY_DARK.value, appColors.colorPrimaryDark)
+        }
     }
 
     private fun handleDrawer() {

@@ -3,6 +3,7 @@ package apps.amine.bou.readerforselfoss
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.FragmentManager
@@ -62,9 +63,11 @@ class ReaderActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_reader)
 
-        Scoop.getInstance()
-            .bind(this, Toppings.PRIMARY.value, toolBar)
-            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        val scoop = Scoop.getInstance()
+        scoop.bind(this, Toppings.PRIMARY.value, toolBar)
+        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        }
 
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

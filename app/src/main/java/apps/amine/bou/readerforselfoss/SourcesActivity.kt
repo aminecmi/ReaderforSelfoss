@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
@@ -29,9 +30,11 @@ class SourcesActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sources)
 
-        Scoop.getInstance()
-            .bind(this, Toppings.PRIMARY.value, toolbar)
-            .bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        val scoop = Scoop.getInstance()
+        scoop.bind(this, Toppings.PRIMARY.value, toolbar)
+        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
+        }
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -1,6 +1,7 @@
 package apps.amine.bou.readerforselfoss.settings;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.annotation.LayoutRes;
@@ -48,10 +49,11 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         AppBarLayout bar = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
         Toolbar toolbar = bar.findViewById(R.id.toolbar);
 
-        // TODO: all switches
-        Scoop.getInstance()
-                .bind(this, Toppings.PRIMARY.getValue(), toolbar)
-                .bindStatusBar(this, Toppings.PRIMARY_DARK.getValue());
+        Scoop scoop = Scoop.getInstance();
+        scoop.bind(this, Toppings.PRIMARY.getValue(), toolbar);
+        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.getValue());
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
