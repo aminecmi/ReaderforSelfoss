@@ -1,6 +1,5 @@
 package apps.amine.bou.readerforselfoss.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
@@ -20,7 +19,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
-import apps.amine.bou.readerforselfoss.BuildConfig
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
@@ -86,8 +84,6 @@ class ArticleFragment : Fragment() {
         rootView = inflater
             .inflate(R.layout.fragment_article, container, false) as ViewGroup
 
-        val context: Context = activity!!
-
         url = allItems[pageNumber.toInt()].getLinkDecoded()
         contentText = allItems[pageNumber.toInt()].content
         contentTitle = allItems[pageNumber.toInt()].title
@@ -119,7 +115,7 @@ class ArticleFragment : Fragment() {
             object : FloatingToolbar.ItemClickListener {
                 override fun onItemClick(item: MenuItem) {
                     when (item.itemId) {
-                        R.id.more_action -> getContentFromMercury(customTabsIntent, prefs, context)
+                        R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
                         R.id.share_action -> activity!!.shareLink(url)
                         R.id.open_action -> activity!!.openItemUrl(
                             allItems,
@@ -142,16 +138,16 @@ class ArticleFragment : Fragment() {
         rootView.source.text = contentSource
 
         if (contentText.isEmptyOrNullOrNullString()) {
-            getContentFromMercury(customTabsIntent, prefs, context)
+            getContentFromMercury(customTabsIntent, prefs)
         } else {
             rootView.titleView.text = contentTitle
 
-            htmlToWebview(contentText, prefs, context)
+            htmlToWebview(contentText, prefs)
 
-            if (!contentImage.isEmptyOrNullOrNullString()) {
+            if (!contentImage.isEmptyOrNullOrNullString() && context != null) {
                 rootView.imageView.visibility = View.VISIBLE
                 Glide
-                    .with(context)
+                    .with(context!!)
                     .asBitmap()
                     .load(contentImage)
                     .apply(RequestOptions.fitCenterTransform())
@@ -176,8 +172,7 @@ class ArticleFragment : Fragment() {
 
     private fun getContentFromMercury(
         customTabsIntent: CustomTabsIntent,
-        prefs: SharedPreferences,
-        context: Context
+        prefs: SharedPreferences
     ) {
         rootView.progressBar.visibility = View.VISIBLE
         val parser = MercuryApi(
@@ -197,33 +192,39 @@ class ArticleFragment : Fragment() {
                                 rootView.titleView.text = response.body()!!.title
                                 url = response.body()!!.url
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                                if (context != null) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                }
                             }
 
                             try {
-                                htmlToWebview(response.body()!!.content.orEmpty(), prefs, context)
+                                htmlToWebview(response.body()!!.content.orEmpty(), prefs)
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                                if (context != null) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                }
                             }
 
                             try {
-                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty()) {
+                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty() && context != null) {
                                     rootView.imageView.visibility = View.VISIBLE
                                     try {
                                         Glide
-                                            .with(context)
+                                            .with(context!!)
                                             .asBitmap()
                                             .load(response.body()!!.lead_image_url)
                                             .apply(RequestOptions.fitCenterTransform())
                                             .into(rootView.imageView)
                                     } catch (e: Exception) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                     }
                                 } else {
                                     rootView.imageView.visibility = View.GONE
                                 }
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                                if (context != null) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                }
                             }
 
                             try {
@@ -231,17 +232,23 @@ class ArticleFragment : Fragment() {
 
                                 rootView.progressBar.visibility = View.GONE
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                                if (context != null) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                }
                             }
                         } else {
                             try {
                                 openInBrowserAfterFailing(customTabsIntent)
                             } catch (e: Exception) {
-                                ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                                if (context != null) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                }
                             }
                         }
                     } catch (e: Exception) {
-                        ACRA.getErrorReporter().maybeHandleSilentException(e, context)
+                        if (context != null) {
+                            ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                        }
                     }
                 }
 
@@ -253,31 +260,47 @@ class ArticleFragment : Fragment() {
         )
     }
 
-    private fun htmlToWebview(c: String, prefs: SharedPreferences, context: Context) {
-
+    private fun htmlToWebview(c: String, prefs: SharedPreferences) {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
         rootView.webcontent.visibility = View.VISIBLE
         val (textColor, backgroundColor) = if (appColors.isDarkTheme) {
-            rootView.webcontent.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.dark_webview
+            if (context != null) {
+                rootView.webcontent.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.dark_webview
+                    )
                 )
-            )
-            Pair(ContextCompat.getColor(context, R.color.dark_webview_text), ContextCompat.getColor(context, R.color.light_webview_text))
+                Pair(ContextCompat.getColor(context!!, R.color.dark_webview_text), ContextCompat.getColor(context!!, R.color.light_webview_text))
+            } else {
+                Pair(null, null)
+            }
         } else {
-            rootView.webcontent.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.light_webview
+            if (context != null) {
+                rootView.webcontent.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.light_webview
+                    )
                 )
-            )
-            Pair(ContextCompat.getColor(context, R.color.light_webview_text), ContextCompat.getColor(context, R.color.dark_webview_text))
+                Pair(ContextCompat.getColor(context!!, R.color.light_webview_text), ContextCompat.getColor(context!!, R.color.dark_webview_text))
+            } else {
+                Pair(null, null)
+            }
         }
 
-        val stringTextColor = String.format("#%06X", 0xFFFFFF and textColor)
-        val stringBackgroundColor = String.format("#%06X", 0xFFFFFF and backgroundColor)
+        val stringTextColor: String = if (textColor != null) {
+            String.format("#%06X", 0xFFFFFF and textColor)
+        } else {
+            "#000000"
+        }
+
+        val stringBackgroundColor = if (backgroundColor != null) {
+            String.format("#%06X", 0xFFFFFF and backgroundColor)
+        } else {
+            "#FFFFFF"
+        }
 
         rootView.webcontent.settings.useWideViewPort = true
         rootView.webcontent.settings.loadWithOverviewMode = true
@@ -296,8 +319,8 @@ class ArticleFragment : Fragment() {
             val itemUrl = URL(url)
             baseUrl = itemUrl.protocol + "://" + itemUrl.host
         } catch (e: MalformedURLException) {
-            if (showMalformedUrl) {
-                val alertDialog = AlertDialog.Builder(context).create()
+            if (showMalformedUrl && context != null) {
+                val alertDialog = AlertDialog.Builder(context!!).create()
                 alertDialog.setTitle("Error")
                 alertDialog.setMessage("You are encountering a bug that I can't solve. Can you please contact me to solve the issue, please ?")
                 alertDialog.setButton(
