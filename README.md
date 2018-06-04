@@ -8,6 +8,14 @@
 
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
 
+## Join the alpha channel
+
+**Keep in mind, it could be instable, but you'll have the new updates faster**
+
+- First, join the google [group](https://groups.google.com/d/forum/reader-for-selfoss-alpha-testing).
+- Then, join the [alpha channel](https://play.google.com/apps/testing/apps.amine.bou.readerforselfoss) of the app.
+- You'll be able to update the app for the current alpha version.
+
 This is the repo of [Reader For Selfoss](https://play.google.com/store/apps/details?id=apps.amine.bou.readerforselfoss&hl=en).
 
 It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfoss.aditu.de/)
