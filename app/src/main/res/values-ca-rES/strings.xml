@@ -21,14 +21,14 @@
   <string name="pref_header_general">"General"</string>
   <string name="pref_switch_actions_tap_title">"Fer un toc als articles"</string>
   <string name="add_source_hint_tags">"Etiqueta1, Etiqueta2, Etiqueta3"</string>
-  <string name="add_source_hint_url">"Enllaça"</string>
+  <string name="add_source_hint_url">"Enllaç"</string>
   <string name="add_source_hint_name">"Nom"</string>
   <string name="add_source">"Afegeix una font"</string>
   <string name="add_source_save">"Desa"</string>
   <string name="wrong_infos">"Torneu a comprovar la informació."</string>
   <string name="all_posts_not_read">"No s'han llegit totes les publicacions"</string>
   <string name="all_posts_read">"S'han llegit totes les publicacions"</string>
-  <string name="cant_get_favs">"No s'han pogut obtenir preferits"</string>
+  <string name="cant_get_favs">"No es poden obtenir preferits"</string>
   <string name="cant_get_new_elements">"No es pot accedir als articles nous"</string>
   <string name="cant_get_read">"No es poden llegir els articles"</string>
   <string name="nothing_here">"No hi ha res"</string>
