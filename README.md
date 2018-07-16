@@ -14,6 +14,8 @@ It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfo
 
 The last APK built from source is available [here](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/lastSuccessfulBuild/artifact/SignApksBuilder-out/selfoss-key/selfoss/app-githubConfig-release-unsigned.apk/app-githubConfig-release.apk).
 
+**Available on F-Droid [here](https://f-droid.org/fr/packages/apps.amine.bou.readerforselfoss/) !**
+
 ## Join the alpha channel
 
 **Keep in mind, it could be instable, but you'll have the new updates faster**
