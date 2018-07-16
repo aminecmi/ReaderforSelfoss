@@ -159,9 +159,9 @@
   <string name="crash_dialog_text">Algo salió mal. Envié el informe al desarrollador.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
   <string name="pref_acra_user_email">Correo electrónico de contacto</string>
-  <string name="pref_acra_user_email_summary">Add an email so I can contact you about the crash reports you send.</string>
+  <string name="pref_acra_user_email_summary">Añade un correo electrónico para que pueda ponerme en contacto contigo sobre los informes de fallos que has enviado.</string>
   <string name="pref_acra_alwaysaccept">Enviar automáticamente informe de fallos</string>
-  <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
+  <string name="pref_acra_alwaysaccept_enabled">Se enviaran automáticamente los informes de fallos</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Informe de fallos</string>
   <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
