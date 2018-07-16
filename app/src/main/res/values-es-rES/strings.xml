@@ -155,14 +155,14 @@
   <string name="pref_switch_actions_pager_scroll">Marcar como leído al arrastrar</string>
   <string name="pref_switch_actions_pager_scroll_off">No marca artículos como leídos al arrastrar.</string>
   <string name="gdpr_dialog_message">The app does not collect any personal data. Every analytics tools were removed. Crash reports sending is now optional, as is the debug logging. Keep in mind that debugging and crash reports are essential for the app development (You can configure everything in Settings &gt; Debug).</string>
-  <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
+  <string name="gdpr_dialog_title">La aplicación no comparte ningún dato personal sobre usted.</string>
   <string name="crash_dialog_text">Algo salió mal. Envié el informe al desarrollador.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
   <string name="pref_acra_user_email">Correo electrónico de contacto</string>
   <string name="pref_acra_user_email_summary">Añade un correo electrónico para que pueda ponerme en contacto contigo sobre los informes de fallos que has enviado.</string>
   <string name="pref_acra_alwaysaccept">Enviar automáticamente informe de fallos</string>
   <string name="pref_acra_alwaysaccept_enabled">Se enviaran automáticamente los informes de fallos</string>
-  <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
+  <string name="pref_acra_alwaysaccept_disabled">Le preguntará al enviar informes de fallos.</string>
   <string name="pref_debug_crash_reports">Informe de fallos</string>
   <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
   <string name="acra_login">Enable logging</string>
