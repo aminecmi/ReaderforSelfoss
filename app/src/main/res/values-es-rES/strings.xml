@@ -148,13 +148,13 @@
   <string name="pref_switch_actions_pager_scroll_on">Marcar artículos como leidos al desplazarse entre ellos.</string>
   <string name="add_to_favs_reader">Añadir a Favoritos</string>
   <string name="remove_to_favs_reader">Eliminar de favoritos</string>
-  <string name="pref_content_reader_font_size">Tamaño de la fuente</string>
+  <string name="pref_content_reader_font_size">Tamaño de la fuente del lector</string>
   <string name="pref_header_viewer">Visor de artículos</string>
   <string name="refresh_dialog_message">Esto actualizará su instancia de Selfoss.</string>
   <string name="markall_dialog_message">Esto marcará todos los artículos como leídos.</string>
-  <string name="pref_switch_actions_pager_scroll">Marcar como leído al arrastrar</string>
-  <string name="pref_switch_actions_pager_scroll_off">No marca artículos como leídos al arrastrar.</string>
-  <string name="gdpr_dialog_message">The app does not collect any personal data. Every analytics tools were removed. Crash reports sending is now optional, as is the debug logging. Keep in mind that debugging and crash reports are essential for the app development (You can configure everything in Settings &gt; Debug).</string>
+  <string name="pref_switch_actions_pager_scroll">Marcar artículos como leídos al deslizar con el dedo hacia los lados</string>
+  <string name="pref_switch_actions_pager_scroll_off">No marcar artículos como leídos al deslizar con el dedo hacia los lados.</string>
+  <string name="gdpr_dialog_message">La aplicación no recopila ningún dato personal. Todas las herramientas de analítica fueron eliminadas. El envío de informes de errores es opcional, así como los registros de depuración. Ten en cuenta que tanto los registros como los informes de errores son esenciales para el desarrollo de la aplicación (Puedes configurar todo en \"Configuración &gt; Depurar\").</string>
   <string name="gdpr_dialog_title">La aplicación no comparte ningún dato personal sobre usted.</string>
   <string name="crash_dialog_text">Algo salió mal. Envié el informe al desarrollador.</string>
   <string name="crash_dialog_comment">Puede agregar cualquier información útil en el siguiente comentario. No incluya ningún dato personal en el comentario. Podría enviarme un correo electrónico con el id de depuración para ser notificado cuando el problema se resuelva.</string>
