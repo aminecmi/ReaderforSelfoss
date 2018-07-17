@@ -157,7 +157,7 @@
   <string name="gdpr_dialog_message">The app does not collect any personal data. Every analytics tools were removed. Crash reports sending is now optional, as is the debug logging. Keep in mind that debugging and crash reports are essential for the app development (You can configure everything in Settings &gt; Debug).</string>
   <string name="gdpr_dialog_title">La aplicación no comparte ningún dato personal sobre usted.</string>
   <string name="crash_dialog_text">Algo salió mal. Envié el informe al desarrollador.</string>
-  <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
+  <string name="crash_dialog_comment">Puede agregar cualquier información útil en el siguiente comentario. No incluya ningún dato personal en el comentario. Podría enviarme un correo electrónico con el id de depuración para ser notificado cuando el problema se resuelva.</string>
   <string name="pref_acra_user_email">Correo electrónico de contacto</string>
   <string name="pref_acra_user_email_summary">Añade un correo electrónico para que pueda ponerme en contacto contigo sobre los informes de fallos que has enviado.</string>
   <string name="pref_acra_alwaysaccept">Enviar automáticamente informe de fallos</string>
