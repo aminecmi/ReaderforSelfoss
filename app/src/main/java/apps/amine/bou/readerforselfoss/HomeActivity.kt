@@ -819,6 +819,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
     }
 
+    private fun filter(tags: String, hidden: String): Boolean {
+      val tagsList = tags.replace("\\s".toRegex(), "").split(",")
+      val hiddenList = hidden.replace("\\s".toRegex(), "").split(",")
+      return tagsList.intersect(hiddenList).isEmpty()
+    }
+
     private fun doCallTo(
         appendResults: Boolean,
         toastMessage: Int,
@@ -829,6 +835,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (response.body() != null) {
                 if (shouldUpdate) {
                     items = response.body() as ArrayList<Item>
+                    val hiddenTags = sharedPref.getString("hidden_tags", "")
+                    items = items.filter {
+                      maybeTagFilter != null || filter(it.tags, hiddenTags)
+                    } as ArrayList<Item>
 
                     if (allItems.isEmpty()) {
                         allItems = items
