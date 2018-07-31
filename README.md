@@ -1,20 +1,12 @@
 # ReaderForSelfoss
 
-[![Slack Channel](https://img.shields.io/badge/chat-slack-green.svg)](https://join.slack.com/t/readerforselfoss/shared_invite/enQtMjkyNzc3NjM2Mjc1LTUzZTZhOGM5YjQ1MTI5MWZiODRjMjE1ZDBmMzQxZmQ3NWZhYTNhMTBjNGEwNmE2ZGFjODU5NjUxZjBkMWJmMDQ)
-
-[![Build Status](http://jenkins.amine-bou.fr/job/ReaderForSelfoss/badge/icon)](http://jenkins.amine-bou.fr/job/ReaderForSelfoss/)
-
-[![Code Triagers Badge](https://www.codetriage.com/aminecmi/readerforselfoss/badges/users.svg)](https://www.codetriage.com/aminecmi/readerforselfoss)
-
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
-
-This is the repo of [Reader For Selfoss](https://play.google.com/store/apps/details?id=apps.amine.bou.readerforselfoss&hl=en).
+[![Slack Channel](https://img.shields.io/badge/chat-slack-green.svg)](https://join.slack.com/t/readerforselfoss/shared_invite/enQtMjkyNzc3NjM2Mjc1LTUzZTZhOGM5YjQ1MTI5MWZiODRjMjE1ZDBmMzQxZmQ3NWZhYTNhMTBjNGEwNmE2ZGFjODU5NjUxZjBkMWJmMDQ) [![Build Status](http://jenkins.amine-bou.fr/job/ReaderForSelfoss/badge/icon)](http://jenkins.amine-bou.fr/job/ReaderForSelfoss/) [![Code Triagers Badge](https://www.codetriage.com/aminecmi/readerforselfoss/badges/users.svg)](https://www.codetriage.com/aminecmi/readerforselfoss) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
 
 It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfoss.aditu.de/)
 
-The last APK built from source is available [here](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/lastSuccessfulBuild/artifact/SignApksBuilder-out/selfoss-key/selfoss/app-githubConfig-release-unsigned.apk/app-githubConfig-release.apk).
+<a href='https://play.google.com/store/apps/details?id=apps.amine.bou.readerforselfoss'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="100"/></a> <a href="https://f-droid.org/apps.amine.bou.readerforselfoss"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
 
-**Available on F-Droid [here](https://f-droid.org/fr/packages/apps.amine.bou.readerforselfoss/) !**
+Also, the last APK built from source is available [here](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/lastSuccessfulBuild/artifact/SignApksBuilder-out/selfoss-key/selfoss/app-githubConfig-release-unsigned.apk/app-githubConfig-release.apk).
 
 ## Join the alpha channel
 
