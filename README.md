@@ -1,6 +1,6 @@
 # ReaderForSelfoss
 
-[![Slack Channel](https://img.shields.io/badge/chat-slack-green.svg)](https://join.slack.com/t/readerforselfoss/shared_invite/enQtMjkyNzc3NjM2Mjc1LTUzZTZhOGM5YjQ1MTI5MWZiODRjMjE1ZDBmMzQxZmQ3NWZhYTNhMTBjNGEwNmE2ZGFjODU5NjUxZjBkMWJmMDQ) [![Build Status](http://jenkins.amine-bou.fr/job/ReaderForSelfoss/badge/icon)](http://jenkins.amine-bou.fr/job/ReaderForSelfoss/) [![Code Triagers Badge](https://www.codetriage.com/aminecmi/readerforselfoss/badges/users.svg)](https://www.codetriage.com/aminecmi/readerforselfoss) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
+[![Slack Channel](https://img.shields.io/badge/chat-slack-green.svg)](https://join.slack.com/t/readerforselfoss/shared_invite/enQtMjkyNzc3NjM2Mjc1LTUzZTZhOGM5YjQ1MTI5MWZiODRjMjE1ZDBmMzQxZmQ3NWZhYTNhMTBjNGEwNmE2ZGFjODU5NjUxZjBkMWJmMDQ) [![Build Status](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/badge/icon)](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/) [![Code Triagers Badge](https://www.codetriage.com/aminecmi/readerforselfoss/badges/users.svg)](https://www.codetriage.com/aminecmi/readerforselfoss) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
 
 It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfoss.aditu.de/)
 
