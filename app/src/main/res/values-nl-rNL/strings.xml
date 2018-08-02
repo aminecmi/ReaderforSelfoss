@@ -127,6 +127,7 @@
   <string name="self_signed_cert_warning">Vanwege veiligheidsredenen worden zelfondertekende certificaten niet standaard ondersteund. Door dit te activeren, ben ik niet verantwoordelijk voor beveiligingsproblemen die u tegenkomt.</string>
   <string name="pref_selfoss_category">Selfoss Api</string>
   <string name="pref_api_items_number_title">Geladen items nummer</string>
+  <string name="pref_hidden_tags">Hidden tags.</string>
   <string name="read_debug_title">Gelezen artikelen verschijnen als ongelezen?</string>
   <string name="read_debug_off">Geen logboek bij het markeren van een artikel als gelezen</string>
   <string name="read_debug_on">Api-oproepen zullen gelogd worden wanneer een artikel als gelezen wordt gemarkeerd</string>
@@ -166,5 +167,5 @@
   <string name="pref_debug_crash_reports">Crash reports</string>
   <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
   <string name="acra_login">Enable logging</string>
-    <string name="drawer_item_hidden_tags">Hidden Tags</string>
+  <string name="drawer_item_hidden_tags">Hidden Tags</string>
 </resources>
