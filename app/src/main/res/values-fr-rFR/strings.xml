@@ -166,4 +166,5 @@
   <string name="pref_debug_crash_reports">Rapport d\'erreur</string>
   <string name="pref_debug_debug_logs">Log de debug (seront envoyés automatiquement)</string>
   <string name="acra_login">Activer les logs</string>
+    <string name="drawer_item_hidden_tags">Hidden Tags</string>
 </resources>

@@ -1,5 +1,7 @@
 **1.6.x**
 
+- Handling hidden tags.
+
 - Fixed pre-lolipop issue with automatic theme changes.
 
 - Removed all Build config things.

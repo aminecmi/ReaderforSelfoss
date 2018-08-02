@@ -166,4 +166,5 @@
   <string name="pref_debug_crash_reports">Informe de fallos</string>
   <string name="pref_debug_debug_logs">Registro de depuración (éstos se enviarán sin diálogo)</string>
   <string name="acra_login">Habilitar el registro</string>
+    <string name="drawer_item_hidden_tags">Hidden Tags</string>
 </resources>

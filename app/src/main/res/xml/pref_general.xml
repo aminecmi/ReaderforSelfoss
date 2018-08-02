@@ -12,6 +12,14 @@
         android:singleLine="true"
         android:title="@string/pref_api_items_number_title" />
 
+    <EditTextPreference
+        android:defaultValue=""
+        android:hint="@string/add_source_hint_tags"
+        android:key="hidden_tags"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_hidden_tags" />
+
     <SwitchPreference
         android:defaultValue="false"
         android:key="infinite_loading"
