@@ -181,6 +181,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         }
                     }
             });
+
         }
 
         @Override
