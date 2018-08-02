@@ -14,6 +14,7 @@
 
     <EditTextPreference
         android:defaultValue=""
+        android:hint="@string/add_source_hint_tags"
         android:key="hidden_tags"
         android:selectAllOnFocus="true"
         android:singleLine="true"

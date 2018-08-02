@@ -74,6 +74,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val MENU_PREFERENCES = 12302
     private val DRAWER_ID_TAGS = 100101L
+    private val DRAWER_ID_HIDDEN_TAGS = 101100L
     private val DRAWER_ID_SOURCES = 100110L
     private val DRAWER_ID_FILTERS = 100111L
     private val UNREAD_SHOWN = 1
@@ -101,6 +102,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var displayAccountHeader: Boolean = false
     private var infiniteScroll: Boolean = false
     private var lastFetchDone: Boolean = false
+    private var hiddenTags: List<String> = emptyList()
 
 
     private lateinit var tabNewBadge: TextBadgeItem
@@ -186,8 +188,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         if (sharedPref.getString("acra.user.email", "").isNotEmpty()) {
-            sharedEditor.remove("acra.user.email");
-            sharedEditor.commit();
+            sharedEditor.remove("acra.user.email")
+            sharedEditor.commit()
         }
     }
 
@@ -343,13 +345,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         // TODO: Make this the only appcolors init
         appColors = AppColors(this@HomeActivity)
 
-        handleDrawerItems()
-
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
         editor = settings.edit()
 
         handleSharedPrefs()
+
+        handleDrawerItems()
 
         handleThemeUpdate()
 
@@ -387,6 +389,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         userIdentifier = sharedPref.getString("unique_id", "")
         displayAccountHeader = sharedPref.getBoolean("account_header_displaying", false)
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
+        hiddenTags = if (sharedPref.getString("hidden_tags", "").isNotEmpty()) {
+            sharedPref.getString("hidden_tags", "").replace("\\s".toRegex(), "").split(",")
+        } else {
+            emptyList()
+        }
     }
 
     private fun handleThemeBinding() {
@@ -515,6 +522,52 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
+            fun handleHiddenTags(maybeTags: List<Tag>?) {
+                if (maybeTags == null) {
+                    if (loadedFromCache) {
+                        drawer.addItem(
+                            SecondaryDrawerItem()
+                                .withName(getString(R.string.drawer_error_loading_tags))
+                                .withSelectable(false)
+                        )
+                    }
+                } else {
+                    val actualTags: List<Tag> = maybeTags.filter { hiddenTags.contains(it.tag) }
+                    tagsBadge = actualTags.map {
+                        val gd = GradientDrawable()
+                        val color = try {
+                            Color.parseColor(it.color)
+                        } catch (e: IllegalArgumentException) {
+                            appColors.colorPrimary
+                        }
+
+                        gd.setColor(color)
+                        gd.shape = GradientDrawable.RECTANGLE
+                        gd.setSize(30, 30)
+                        gd.cornerRadius = 30F
+                        drawer.addItem(
+                            PrimaryDrawerItem()
+                                .withName(it.tag)
+                                .withIdentifier(it.tag.longHash())
+                                .withIcon(gd)
+                                .withBadge("${it.unread}")
+                                .withBadgeStyle(
+                                    BadgeStyle().withTextColor(Color.WHITE)
+                                        .withColor(appColors.colorAccent)
+                                )
+                                .withOnDrawerItemClickListener { _, _, _ ->
+                                    allItems = ArrayList()
+                                    maybeTagFilter = it
+                                    getElementsAccordingToTab()
+                                    false
+                                }
+                        )
+
+                        (it.tag.longHash() to it.unread)
+                    }.toMap()
+                }
+            }
+
             fun handleSources(maybeSources: List<Sources>?) {
                 if (maybeSources == null) {
                     if (loadedFromCache) {
@@ -566,6 +619,16 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         .withSelectable(false)
                 )
                 handleTags(maybeDrawerData.tags)
+                if (hiddenTags.isNotEmpty()) {
+                    drawer.addItem(DividerDrawerItem())
+                    drawer.addItem(
+                        SecondaryDrawerItem()
+                            .withName(getString(R.string.drawer_item_hidden_tags))
+                            .withIdentifier(DRAWER_ID_HIDDEN_TAGS)
+                            .withSelectable(false)
+                    )
+                    handleHiddenTags(maybeDrawerData.tags)
+                }
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
                     SecondaryDrawerItem()
@@ -819,10 +882,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
     }
 
-    private fun filter(tags: String, hidden: String): Boolean {
+    private fun filter(tags: String): Boolean {
       val tagsList = tags.replace("\\s".toRegex(), "").split(",")
-      val hiddenList = hidden.replace("\\s".toRegex(), "").split(",")
-      return tagsList.intersect(hiddenList).isEmpty()
+      return tagsList.intersect(hiddenTags).isEmpty()
     }
 
     private fun doCallTo(
@@ -835,9 +897,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (response.body() != null) {
                 if (shouldUpdate) {
                     items = response.body() as ArrayList<Item>
-                    val hiddenTags = sharedPref.getString("hidden_tags", "")
                     items = items.filter {
-                      maybeTagFilter != null || filter(it.tags, hiddenTags)
+                      maybeTagFilter != null || filter(it.tags)
                     } as ArrayList<Item>
 
                     if (allItems.isEmpty()) {
