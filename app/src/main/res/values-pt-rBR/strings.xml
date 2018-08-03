@@ -127,7 +127,7 @@
   <string name="self_signed_cert_warning">Por motivos de segurança, certificados autônomos não são suportados por padrão. Ao ativar, não serei responsável por qualquer problema de segurança que você encontre.</string>
   <string name="pref_selfoss_category">Selfoss Api</string>
   <string name="pref_api_items_number_title">Quantidade de itens carregados</string>
-  <string name="pref_hidden_tags">Hidden tags.</string>
+  <string name="pref_hidden_tags">Hidden Tags</string>
   <string name="read_debug_title">Ler os artigos que aparecem como não lidos ?</string>
   <string name="read_debug_off">Nenhum registro ao marcar um item como lido</string>
   <string name="read_debug_on">As chamadas Api serão registradas ao marcar um artigo como lido</string>

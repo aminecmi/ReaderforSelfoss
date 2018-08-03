@@ -127,7 +127,7 @@
   <string name="self_signed_cert_warning">Untuk alasan keamanan, sertifikat yang ditandatangani sendiri tidak didukung secara bawaan. Jika Anda mengaktifkan item ini, saya tidak akan bertanggung jawab atas masalah keamanan yang Anda hadapi.</string>
   <string name="pref_selfoss_category">Selfoss Api</string>
   <string name="pref_api_items_number_title">Item nomor dimuat</string>
-  <string name="pref_hidden_tags">Hidden tags.</string>
+  <string name="pref_hidden_tags">Hidden Tags</string>
   <string name="read_debug_title">Baca artikel yang ini sebagai belum dibaca ?</string>
   <string name="read_debug_off">Tidak ada catatan saat item ditandai sebagai telah dibaca</string>
   <string name="read_debug_on">Panggilan api dicatat saat item ditandai sebagai telah dibaca</string>

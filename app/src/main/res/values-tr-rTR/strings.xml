@@ -127,7 +127,7 @@
   <string name="self_signed_cert_warning">Güvenlik nedeniyle, kendinden imzalı sertifikalar varsayılan olarak desteklenmez. Bunu etkinleştirerek karşılaştığınız herhangi bir güvenlik sorununun sorumluluğunu almayacağım.</string>
   <string name="pref_selfoss_category">Selfoss Uygulaması</string>
   <string name="pref_api_items_number_title">Yüklenen öğe numarası</string>
-  <string name="pref_hidden_tags">Hidden tags.</string>
+  <string name="pref_hidden_tags">Hidden Tags</string>
   <string name="read_debug_title">Okunmamış makaleleri görüntüle?</string>
   <string name="read_debug_off">Bir öğeyi işaretlediğinde günlük yok</string>
   <string name="read_debug_on">Bir makaleyi okundu olarak işaretlerken Api çağrıları günlüğe kaydedilir</string>

@@ -487,7 +487,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                     }
                 } else {
-                    tagsBadge = maybeTags.map {
+                    val filteredTags = maybeTags.filterNot { hiddenTags.contains(it.tag) }
+                    tagsBadge = filteredTags.map {
                         val gd = GradientDrawable()
                         val color = try {
                             Color.parseColor(it.color)
@@ -532,8 +533,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                     }
                 } else {
-                    val actualTags: List<Tag> = maybeTags.filter { hiddenTags.contains(it.tag) }
-                    tagsBadge = actualTags.map {
+                    val filteredHiddenTags: List<Tag> = maybeTags.filter { hiddenTags.contains(it.tag) }
+                    tagsBadge = filteredHiddenTags.map {
                         val gd = GradientDrawable()
                         val color = try {
                             Color.parseColor(it.color)
