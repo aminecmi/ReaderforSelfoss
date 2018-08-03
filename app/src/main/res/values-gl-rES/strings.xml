@@ -127,7 +127,7 @@
   <string name="self_signed_cert_warning">Por razóns de seguridade, por defecto non se permiten os certificados autoasinados. Activando isto, non serei responsable de calquera problema de seguridade que atopes.</string>
   <string name="pref_selfoss_category">API de Selfoss</string>
   <string name="pref_api_items_number_title">Número de elementos cargados</string>
-  <string name="pref_hidden_tags">Hidden Tags</string>
+  <string name="pref_hidden_tags">Etiquetas ocultas</string>
   <string name="read_debug_title">Ler os artigos que aparecen coma non lidos?</string>
   <string name="read_debug_off">Non rexistrar cando se marca un elemento coma lido</string>
   <string name="read_debug_on">As chamadas á API serán rexistradas cando se marque un artigo coma lido</string>
@@ -167,5 +167,5 @@
   <string name="pref_debug_crash_reports">Informes de erros</string>
   <string name="pref_debug_debug_logs">Rexistro de depuración (Estes enviaranse automáticamente)</string>
   <string name="acra_login">Habilitar o rexistro</string>
-  <string name="drawer_item_hidden_tags">Hidden Tags</string>
+  <string name="drawer_item_hidden_tags">Etiquetas ocultas</string>
 </resources>
