@@ -42,7 +42,6 @@ import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
@@ -66,7 +65,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -177,13 +175,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
             alertDialog.setButton(
                 AlertDialog.BUTTON_NEUTRAL,
-                "OK",
-                { dialog, _ ->
-                    sharedEditor.putBoolean("GDPR_shown", true)
-                    sharedEditor.commit()
-                    dialog.dismiss()
-                }
-            )
+                "OK"
+            ) { dialog, _ ->
+                sharedEditor.putBoolean("GDPR_shown", true)
+                sharedEditor.commit()
+                dialog.dismiss()
+            }
             alertDialog.show()
         }
 
@@ -242,44 +239,22 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             is ItemListAdapter -> adapter.removeItemAtIndex(position)
                         }
 
-                        if (items.size > 0) {
-                            badgeNew--
-                            reloadBadgeContent()
+                        badgeNew--
+                        reloadBadgeContent()
 
-                            val tagHashes = i.tags.split(",").map { it.longHash() }
-                            tagsBadge = tagsBadge.map {
-                                if (tagHashes.contains(it.key)) {
-                                    (it.key to (it.value - 1))
-                                } else {
-                                    (it.key to it.value)
-                                }
-                            }.toMap()
-                            reloadTagsBadges()
-                        } else {
-                            tabNewBadge.hide()
-                        }
-
-                        val manager = recyclerView.layoutManager
-                        val lastVisibleItem: Int = when (manager) {
-                            is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
-                                null
-                            ).last()
-                            is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
-                            else -> 0
-                        }
-
-                        Log.e("TAGTAG", "$lastVisibleItem === ${items.size} && ${items.size} <= ${maxItemNumber()} && ${!lastFetchDone}x")
-                        if (lastVisibleItem === items.size &&
-                            items.size <= maxItemNumber() &&
-                            !lastFetchDone
-                        ) {
-                            if (maxItemNumber() <= itemsNumber) {
-                                lastFetchDone = true
+                        val tagHashes = i.tags.split(",").map { it.longHash() }
+                        tagsBadge = tagsBadge.map {
+                            if (tagHashes.contains(it.key)) {
+                                (it.key to (it.value - 1))
+                            } else {
+                                (it.key to it.value)
                             }
-                            getElementsAccordingToTab(
-                                appendResults = true,
-                                offsetOverride = lastVisibleItem
-                            )
+                        }.toMap()
+                        reloadTagsBadges()
+
+                        // Just load everythin
+                        if (items.size <= 0) {
+                            getElementsAccordingToTab()
                         }
                     } else {
                         Toast.makeText(
@@ -1012,11 +987,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             fullHeightCards,
                             appColors,
                             debugReadingItems,
-                            userIdentifier,
-                            {
-                                updateItems(it)
-                            }
-                        )
+                            userIdentifier
+                        ) {
+                            updateItems(it)
+                        }
             } else {
                 recyclerAdapter =
                         ItemListAdapter(
@@ -1029,11 +1003,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             articleViewer,
                             debugReadingItems,
                             userIdentifier,
-                            appColors,
-                            {
-                                updateItems(it)
-                            }
-                        )
+                            appColors
+                        ) {
+                            updateItems(it)
+                        }
 
                 recyclerView.addItemDecoration(
                     DividerItemDecoration(
@@ -1161,7 +1134,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh -> {
-                needsConfirmation(R.string.menu_home_refresh, R.string.refresh_dialog_message, {
+                needsConfirmation(R.string.menu_home_refresh, R.string.refresh_dialog_message) {
                     api.update().enqueue(object : Callback<String> {
                         override fun onResponse(
                             call: Call<String>,
@@ -1183,12 +1156,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         }
                     })
                     Toast.makeText(this, R.string.refresh_in_progress, Toast.LENGTH_SHORT).show()
-                })
+                }
                 return true
             }
             R.id.readAll -> {
                 if (elementsShown == UNREAD_SHOWN) {
-                    needsConfirmation(R.string.readAll, R.string.markall_dialog_message, {
+                    needsConfirmation(R.string.readAll, R.string.markall_dialog_message) {
                         swipeRefreshLayout.isRefreshing = false
                         val ids = allItems.map { it.id }
                         val itemsByTag: Map<Long, Int> =
@@ -1238,7 +1211,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                                 )
                                             )
                                         }
-
                                     }
 
                                     swipeRefreshLayout.isRefreshing = false
@@ -1268,7 +1240,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             ).show()
                         }
                         handleListResult()
-                    })
+                    }
                 }
                 return true
             }
