@@ -1,15 +1,11 @@
 package apps.amine.bou.readerforselfoss
 
-import android.content.Context
-import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -22,14 +18,10 @@ import apps.amine.bou.readerforselfoss.fragments.ArticleFragment
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
-import apps.amine.bou.readerforselfoss.utils.Config
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
-import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toggleStar
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_reader.*
 import me.relex.circleindicator.CircleIndicator
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,9 +29,7 @@ import retrofit2.Response
 class ReaderActivity : AppCompatActivity() {
 
     private var markOnScroll: Boolean = false
-    private var debugReadingItems: Boolean = false
     private var currentItem: Int = 0
-    private lateinit var userIdentifier: String
 
     private lateinit var api: SelfossApi
 
@@ -73,23 +63,10 @@ class ReaderActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-
-        debugReadingItems = sharedPref.getBoolean("read_debug", false)
-        userIdentifier = sharedPref.getString("unique_id", "")
-        markOnScroll = sharedPref.getBoolean("mark_on_scroll", false)
 
         if (allItems.isEmpty()) {
             finish()
         }
-
-        api = SelfossApi(
-            this,
-            this@ReaderActivity,
-            settings.getBoolean("isSelfSignedCert", false),
-            sharedPref.getBoolean("should_log_everything", false)
-        )
 
         currentItem = intent.getIntExtra("currentItem", 0)
 
@@ -104,56 +81,6 @@ class ReaderActivity : AppCompatActivity() {
 
         pager.setPageTransformer(true, DepthPageTransformer())
         (indicator as CircleIndicator).setViewPager(pager)
-
-        pager.addOnPageChangeListener(
-            object : ViewPager.SimpleOnPageChangeListener() {
-                var isLastItem = false
-
-                override fun onPageSelected(position: Int) {
-                    isLastItem = (position === (allItems.size - 1))
-
-                    if (allItems[position].starred) {
-                        canRemoveFromFavorite()
-                    } else {
-                        canFavorite()
-                    }
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {
-                    if (markOnScroll && (state === ViewPager.SCROLL_STATE_DRAGGING || (state === ViewPager.SCROLL_STATE_IDLE && isLastItem))) {
-                        api.markItem(allItems[pager.currentItem].id).enqueue(
-                            object : Callback<SuccessResponse> {
-                                override fun onResponse(
-                                    call: Call<SuccessResponse>,
-                                    response: Response<SuccessResponse>
-                                ) {
-                                    if (!response.succeeded() && debugReadingItems) {
-                                        val message =
-                                            "message: ${response.message()} " +
-                                                    "response isSuccess: ${response.isSuccessful} " +
-                                                    "response code: ${response.code()} " +
-                                                    "response message: ${response.message()} " +
-                                                    "response errorBody: ${response.errorBody()?.string()} " +
-                                                    "body success: ${response.body()?.success} " +
-                                                    "body isSuccess: ${response.body()?.isSuccess}"
-                                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), this@ReaderActivity)
-                                    }
-                                }
-
-                                override fun onFailure(
-                                    call: Call<SuccessResponse>,
-                                    t: Throwable
-                                ) {
-                                    if (debugReadingItems) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(t, this@ReaderActivity)
-                                    }
-                                }
-                            }
-                        )
-                    }
-                }
-            }
-        )
     }
 
     override fun onPause() {

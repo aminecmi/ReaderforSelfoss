@@ -1,5 +1,6 @@
 package apps.amine.bou.readerforselfoss.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
@@ -23,6 +24,8 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
+import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
@@ -32,6 +35,7 @@ import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
+import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toPx
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -90,6 +94,22 @@ class ArticleFragment : Fragment() {
         contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
         contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        editor = prefs.edit()
+        fontSize = prefs.getString("reader_font_size", "14").toInt()
+        showMalformedUrl = prefs.getBoolean("show_error_malformed_url", true)
+
+        val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+        val debugReadingItems = prefs.getBoolean("read_debug", false)
+        val markOnScroll = prefs.getBoolean("mark_on_scroll", false)
+
+        val api = SelfossApi(
+            context!!,
+            activity!!,
+            settings.getBoolean("isSelfSignedCert", false),
+            prefs.getBoolean("should_log_everything", false)
+        )
+
         fab = rootView.fab
 
         fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
@@ -104,11 +124,6 @@ class ArticleFragment : Fragment() {
         val customTabsIntent = activity!!.buildCustomTabsIntent()
         mCustomTabActivityHelper = CustomTabActivityHelper()
         mCustomTabActivityHelper.bindCustomTabsService(activity)
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-        editor = prefs.edit()
-        fontSize = prefs.getString("reader_font_size", "14").toInt()
-        showMalformedUrl = prefs.getBoolean("show_error_malformed_url", true)
 
 
         floatingToolbar.setClickListener(
@@ -125,6 +140,35 @@ class ArticleFragment : Fragment() {
                             false,
                             false,
                             activity!!
+                        )
+                        R.id.unread_action -> api.unmarkItem(allItems[pageNumber.toInt()].id).enqueue(
+                            object : Callback<SuccessResponse> {
+                                override fun onResponse(
+                                    call: Call<SuccessResponse>,
+                                    response: Response<SuccessResponse>
+                                ) {
+                                    if (!response.succeeded() && debugReadingItems) {
+                                        val message =
+                                            "message: ${response.message()} " +
+                                                    "response isSuccess: ${response.isSuccessful} " +
+                                                    "response code: ${response.code()} " +
+                                                    "response message: ${response.message()} " +
+                                                    "response errorBody: ${response.errorBody()?.string()} " +
+                                                    "body success: ${response.body()?.success} " +
+                                                    "body isSuccess: ${response.body()?.isSuccess}"
+                                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<SuccessResponse>,
+                                    t: Throwable
+                                ) {
+                                    if (debugReadingItems) {
+                                        ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
+                                    }
+                                }
+                            }
                         )
                         else -> Unit
                     }
@@ -166,6 +210,38 @@ class ArticleFragment : Fragment() {
                 }
             }
         )
+
+        if (markOnScroll) {
+            api.markItem(allItems[pageNumber.toInt()].id).enqueue(
+                object : Callback<SuccessResponse> {
+                    override fun onResponse(
+                        call: Call<SuccessResponse>,
+                        response: Response<SuccessResponse>
+                    ) {
+                        if (!response.succeeded() && debugReadingItems) {
+                            val message =
+                                "message: ${response.message()} " +
+                                        "response isSuccess: ${response.isSuccessful} " +
+                                        "response code: ${response.code()} " +
+                                        "response message: ${response.message()} " +
+                                        "response errorBody: ${response.errorBody()?.string()} " +
+                                        "body success: ${response.body()?.success} " +
+                                        "body isSuccess: ${response.body()?.isSuccess}"
+                            ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<SuccessResponse>,
+                        t: Throwable
+                    ) {
+                        if (debugReadingItems) {
+                            ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
+                        }
+                    }
+                }
+            )
+        }
 
         return rootView
     }
@@ -325,36 +401,33 @@ class ArticleFragment : Fragment() {
                 alertDialog.setMessage("You are encountering a bug that I can't solve. Can you please contact me to solve the issue, please ?")
                 alertDialog.setButton(
                     AlertDialog.BUTTON_POSITIVE,
-                    "Send mail",
-                    { dialog, _ ->
+                    "Send mail"
+                ) { dialog, _ ->
 
-                        // This won't be translated because it should only be temporary.
-                        val to = Config.feedbackEmail
-                        val subject= "[ReaderForSelfoss MalformedURLException]"
-                        val body= "Please specify the source, item and spout you are using for the url below : \n ${e.message}"
-                        val mailTo = "mailto:" + to + "?&subject=" + Uri.encode(subject) + "&body=" + Uri.encode(body)
+                    // This won't be translated because it should only be temporary.
+                    val to = Config.feedbackEmail
+                    val subject= "[ReaderForSelfoss MalformedURLException]"
+                    val body= "Please specify the source, item and spout you are using for the url below : \n ${e.message}"
+                    val mailTo = "mailto:" + to + "?&subject=" + Uri.encode(subject) + "&body=" + Uri.encode(body)
 
-                        val emailIntent = Intent(Intent.ACTION_VIEW)
-                        emailIntent.data = Uri.parse(mailTo)
-                        startActivity(emailIntent)
+                    val emailIntent = Intent(Intent.ACTION_VIEW)
+                    emailIntent.data = Uri.parse(mailTo)
+                    startActivity(emailIntent)
 
-                        dialog.dismiss()
-                    }
-                )
+                    dialog.dismiss()
+                }
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEUTRAL,
-                    "Not now",
-                    { dialog, _ -> dialog.dismiss() }
-                )
+                    "Not now"
+                ) { dialog, _ -> dialog.dismiss() }
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE,
-                    "Don't show anymore.",
-                    { dialog, _ ->
-                        editor.putBoolean("show_error_malformed_url", false)
-                        editor.apply()
-                        dialog.dismiss()
-                    }
-                )
+                    "Don't show anymore."
+                ) { dialog, _ ->
+                    editor.putBoolean("show_error_malformed_url", false)
+                    editor.apply()
+                    dialog.dismiss()
+                }
                 alertDialog.show()
             }
         }

@@ -171,4 +171,5 @@
     <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
     <string name="acra_login">Enable logging</string>
     <string name="drawer_item_hidden_tags">Hidden Tags</string>
+    <string name="unmark">Mark item as unread</string>
 </resources>
