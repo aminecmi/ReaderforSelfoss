@@ -155,7 +155,7 @@
   <string name="markall_dialog_message">Marquer tous les éléments comme lus ?</string>
   <string name="pref_switch_actions_pager_scroll">Marquer comme lu à la navigation.</string>
   <string name="pref_switch_actions_pager_scroll_off">Ne pas marquer les articles comme lus à la navigation.</string>
-  <string name="gdpr_dialog_message">L\'application ne collecte aucune donnée personnelle. Tous les outils d\'anlytics ont été supprimés. Les rapports d\'erreurs sont maintenant optionnels, ainsi que les logs. N\'oubliez pas que les rapports d\'erreurs sont essentiels pour la résolution des bugs (Vous pouvez configurer toute cela dans Paramètres &gt; Debug).</string>
+  <string name="gdpr_dialog_message">L\'application ne collecte aucune donnée personnelle. Tous les outils d\'analytics ont été supprimés. Les rapports d\'erreurs sont maintenant optionnels, ainsi que les logs. N\'oubliez pas que les rapports d\'erreurs sont essentiels pour la résolution des bugs (vous pouvez configurer tout cela dans Paramètres &gt; Debug).</string>
   <string name="gdpr_dialog_title">L\'application ne partage aucune de vos données.</string>
   <string name="crash_dialog_text">Quelque chose s\'est mal passé, S\'il vous plaît, envoyez le rapport au développeur.</string>
   <string name="crash_dialog_comment">Vous pouvez ajouter tous les détails utiles dans le champ de commentaire plus bas. N\'ajoutez aucune information personnelle. Vous pouvez m\'envoyer un email avec votre identifiant de debug, et je vous informerai à la correction du problème.</string>
@@ -168,5 +168,5 @@
   <string name="pref_debug_debug_logs">Log de debug (seront envoyés automatiquement)</string>
   <string name="acra_login">Activer les logs</string>
   <string name="drawer_item_hidden_tags">Tags Cachés</string>
-  <string name="unmark">Mark item as unread</string>
+  <string name="unmark">Marquer l\'article comme non lu</string>
 </resources>
