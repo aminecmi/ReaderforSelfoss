@@ -168,5 +168,5 @@
   <string name="pref_debug_debug_logs">Registro de depuración (éstos se enviarán sin diálogo)</string>
   <string name="acra_login">Habilitar el registro</string>
   <string name="drawer_item_hidden_tags">Etiquetas ocultas</string>
-  <string name="unmark">Mark item as unread</string>
+  <string name="unmark">Marcar artículo como no leído</string>
 </resources>
