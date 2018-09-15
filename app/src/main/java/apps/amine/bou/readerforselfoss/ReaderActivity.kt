@@ -3,6 +3,7 @@ package apps.amine.bou.readerforselfoss
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
@@ -63,6 +64,15 @@ class ReaderActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+        api = SelfossApi(
+            this,
+            this@ReaderActivity,
+            prefs.getBoolean("isSelfSignedCert", false),
+            prefs.getBoolean("should_log_everything", false)
+        )
+
 
         if (allItems.isEmpty()) {
             finish()
@@ -77,10 +87,14 @@ class ReaderActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        (pager.adapter as ScreenSlidePagerAdapter).notifyDataSetChanged()
+        notifyAdapter()
 
         pager.setPageTransformer(true, DepthPageTransformer())
         (indicator as CircleIndicator).setViewPager(pager)
+    }
+
+    private fun notifyAdapter() {
+        (pager.adapter as ScreenSlidePagerAdapter).notifyDataSetChanged()
     }
 
     override fun onPause() {
@@ -142,6 +156,7 @@ class ReaderActivity : AppCompatActivity() {
                             response: Response<SuccessResponse>
                         ) {
                             allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+                            notifyAdapter()
                             canRemoveFromFavorite()
                         }
 
@@ -165,6 +180,7 @@ class ReaderActivity : AppCompatActivity() {
                             response: Response<SuccessResponse>
                         ) {
                             allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+                            notifyAdapter()
                             canFavorite()
                         }
 
