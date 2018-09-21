@@ -101,7 +101,6 @@ class ArticleFragment : Fragment() {
 
         val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         val debugReadingItems = prefs.getBoolean("read_debug", false)
-        val markOnScroll = prefs.getBoolean("mark_on_scroll", false)
 
         val api = SelfossApi(
             context!!,
@@ -210,38 +209,6 @@ class ArticleFragment : Fragment() {
                 }
             }
         )
-
-        if (markOnScroll) {
-            api.markItem(allItems[pageNumber.toInt()].id).enqueue(
-                object : Callback<SuccessResponse> {
-                    override fun onResponse(
-                        call: Call<SuccessResponse>,
-                        response: Response<SuccessResponse>
-                    ) {
-                        if (!response.succeeded() && debugReadingItems) {
-                            val message =
-                                "message: ${response.message()} " +
-                                        "response isSuccess: ${response.isSuccessful} " +
-                                        "response code: ${response.code()} " +
-                                        "response message: ${response.message()} " +
-                                        "response errorBody: ${response.errorBody()?.string()} " +
-                                        "body success: ${response.body()?.success} " +
-                                        "body isSuccess: ${response.body()?.isSuccess}"
-                            ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<SuccessResponse>,
-                        t: Throwable
-                    ) {
-                        if (debugReadingItems) {
-                            ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
-                        }
-                    }
-                }
-            )
-        }
 
         return rootView
     }
