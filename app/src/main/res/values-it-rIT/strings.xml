@@ -125,9 +125,9 @@
   <string name="login_menu_debug">Debug</string>
   <string name="self_hosted_cert_switch">Using a self hosted certificate ?</string>
   <string name="self_signed_cert_warning">Due to security reasons, self signed certificates are not supported by default. By activating this, I\'ll not be responsible of any security problem you encounter.</string>
-  <string name="pref_selfoss_category">Selfoss Api</string>
-  <string name="pref_api_items_number_title">Loaded items number</string>
-  <string name="pref_hidden_tags">Hidden Tags</string>
+  <string name="pref_selfoss_category">Api di Selfoss</string>
+  <string name="pref_api_items_number_title">Numero di elementi caricati</string>
+  <string name="pref_hidden_tags">Tag nascosti</string>
   <string name="read_debug_title">Read articles appearing as unread ?</string>
   <string name="read_debug_off">No log when marking an item as read</string>
   <string name="read_debug_on">Api calls will be logged when marking an article as read</string>
@@ -139,9 +139,9 @@
   <string name="login_everything_on">This will log every api call for debug purpose.</string>
   <string name="login_everything_off">No api call will be logged</string>
   <string name="pref_general_infinite_loading_title">Load more articles on scroll</string>
-  <string name="translation">Translation</string>
+  <string name="translation">Traduzioni</string>
   <string name="cant_open_invalid_url">The item url is invalid. I\'m looking into solving this issue so the app won\'t crash.</string>
-  <string name="drawer_report_bug">Report a bug</string>
+  <string name="drawer_report_bug">Segnala un bug</string>
   <string name="items_number_should_be_number">The items number should be an integer.</string>
   <string name="reader_action_more">Read more</string>
   <string name="reader_action_open">Open in browser</string>
@@ -168,5 +168,5 @@
   <string name="pref_debug_debug_logs">Debug logging (these will be sent without a dialog)</string>
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
-  <string name="unmark">Mark item as unread</string>
+  <string name="unmark">Segna come non letto</string>
 </resources>
