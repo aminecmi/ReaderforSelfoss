@@ -75,4 +75,4 @@
 
 -dontwarn javax.annotation.**
 
--keep class android.support.v7.widget.SearchView { *; }
+-keep class androidx.appcompat.widget.SearchView { *; }

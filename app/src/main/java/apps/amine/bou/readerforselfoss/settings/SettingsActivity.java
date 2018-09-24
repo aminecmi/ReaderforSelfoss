@@ -19,7 +19,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import apps.amine.bou.readerforselfoss.BuildConfig;
 import apps.amine.bou.readerforselfoss.R;
 import apps.amine.bou.readerforselfoss.themes.AppColors;
 import apps.amine.bou.readerforselfoss.utils.Config;

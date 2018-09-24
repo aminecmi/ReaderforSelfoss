@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsService;
+import androidx.browser.customtabs.CustomTabsService;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -24,7 +24,7 @@ class CustomTabsHelper {
     private static final String DEV_PACKAGE = "com.chrome.dev";
     private static final String LOCAL_PACKAGE = "com.google.android.apps.chrome";
     private static final String EXTRA_CUSTOM_TABS_KEEP_ALIVE =
-            "android.support.customtabs.extra.KEEP_ALIVE";
+            "androidx.browser.customtabs.extra.KEEP_ALIVE";
 
     private static String sPackageNameToUse;
 
