@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.constraint.ConstraintLayout
-import android.support.v7.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -22,13 +22,12 @@ import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.ftinc.scoop.Scoop
-import kotlinx.android.synthetic.main.activity_add_source.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.graphics.PorterDuff
-
-
+import androidx.appcompat.widget.Toolbar
+import kotlinx.android.synthetic.main.activity_add_source.*
 
 class AddSourceActivity : AppCompatActivity() {
 

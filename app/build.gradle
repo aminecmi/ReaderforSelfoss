@@ -53,7 +53,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         // tests
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -85,26 +85,26 @@ android {
 
 dependencies {
     // Testing
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0-alpha4'
     // Espresso-intents for validation and stubbing of Intents
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0-alpha4'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Android Support
-    implementation "com.android.support:appcompat-v7:$android_version"
-    implementation "com.android.support:design:$android_version"
-    implementation "com.android.support:recyclerview-v7:$android_version"
-    implementation "com.android.support:support-v4:$android_version"
-    implementation "com.android.support:support-vector-drawable:$android_version"
-    implementation "com.android.support:customtabs:$android_version"
-    implementation "com.android.support:cardview-v7:$android_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
 
     //multidex
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.0'
 
     // Intro
     implementation 'agency.tango.android:material-intro-screen:0.0.5'
@@ -133,7 +133,7 @@ dependencies {
     implementation 'com.github.stkent:amplify:2.1.0'
 
     // Drawer
-    implementation 'co.zsmb:materialdrawer-kt:1.3.5'
+    implementation 'co.zsmb:materialdrawer-kt:2.0.0'
     implementation 'com.anupcowkur:reservoir:3.1.0'
 
     // Themes
@@ -144,11 +144,11 @@ dependencies {
     // Pager
     implementation 'me.relex:circleindicator:1.2.2@aar'
 
-    implementation 'androidx.core:core-ktx:0.3'
+    implementation 'androidx.core:core-ktx:1.0.0'
 
     // Crash
-    implementation 'ch.acra:acra-http:5.1.3'
-    implementation 'ch.acra:acra-dialog:5.1.3'
+    implementation 'ch.acra:acra-http:5.2.0'
+    implementation 'ch.acra:acra-dialog:5.2.0'
 }
 
 
