@@ -2,7 +2,7 @@ package apps.amine.bou.readerforselfoss.utils.glide
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

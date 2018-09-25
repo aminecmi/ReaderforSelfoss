@@ -4,11 +4,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -101,8 +101,7 @@ class ReaderActivity : AppCompatActivity() {
         notifyAdapter()
 
         pager.setPageTransformer(true, DepthPageTransformer())
-        // TODO: add back the page indicator
-        // (indicator as CircleIndicator).setViewPager(pager as android.support.v4.view.ViewPager)
+        (indicator as CircleIndicator).setViewPager(pager)
 
         pager.addOnPageChangeListener(
             object : ViewPager.SimpleOnPageChangeListener() {

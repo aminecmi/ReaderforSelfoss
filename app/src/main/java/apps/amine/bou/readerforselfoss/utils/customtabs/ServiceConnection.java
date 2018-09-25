@@ -2,8 +2,8 @@ package apps.amine.bou.readerforselfoss.utils.customtabs;
 
 
 import android.content.ComponentName;
-import androidx.browser.customtabs.CustomTabsClient;
-import androidx.browser.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsServiceConnection;
 
 import java.lang.ref.WeakReference;
 

@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -112,8 +112,9 @@ class LoginActivity : AppCompatActivity() {
             alertDialog.setMessage(getString(R.string.base_url_error))
             alertDialog.setButton(
                 AlertDialog.BUTTON_NEUTRAL,
-                "OK"
-            ) { dialog, _ -> dialog.dismiss() }
+                "OK",
+                { dialog, _ -> dialog.dismiss() }
+            )
             alertDialog.show()
         }
     }
@@ -154,8 +155,9 @@ class LoginActivity : AppCompatActivity() {
                 alertDialog.setMessage(getString(R.string.text_wrong_url))
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEUTRAL,
-                    "OK"
-                ) { dialog, _ -> dialog.dismiss() }
+                    "OK",
+                    { dialog, _ -> dialog.dismiss() }
+                )
                 alertDialog.show()
                 inValidCount = 0
             }

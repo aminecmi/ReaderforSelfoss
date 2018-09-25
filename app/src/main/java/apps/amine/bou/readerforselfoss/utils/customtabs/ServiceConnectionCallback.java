@@ -1,7 +1,7 @@
 package apps.amine.bou.readerforselfoss.utils.customtabs;
 
 
-import androidx.browser.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsClient;
 
 
 public interface ServiceConnectionCallback {

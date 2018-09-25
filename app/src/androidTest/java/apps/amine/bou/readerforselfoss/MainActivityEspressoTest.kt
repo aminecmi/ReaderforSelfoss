@@ -3,13 +3,13 @@ package apps.amine.bou.readerforselfoss
 import android.content.Intent
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import androidx.test.InstrumentationRegistry.getInstrumentation
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.times
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
-import androidx.test.rule.ActivityTestRule
-import androidx.test.runner.AndroidJUnit4
+import android.support.test.InstrumentationRegistry.getInstrumentation
+import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.Intents.intended
+import android.support.test.espresso.intent.Intents.times
+import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import android.support.test.rule.ActivityTestRule
+import android.support.test.runner.AndroidJUnit4
 import org.junit.After
 
 import org.junit.Before

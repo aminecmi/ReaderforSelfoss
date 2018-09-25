@@ -2,10 +2,10 @@
 package apps.amine.bou.readerforselfoss.utils.drawer
 
 import android.net.Uri
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.StringRes
-import androidx.recyclerview.widget.RecyclerView
+import android.support.annotation.ColorInt
+import android.support.annotation.ColorRes
+import android.support.annotation.StringRes
+import android.support.v7.widget.RecyclerView
 
 import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.holder.ImageHolder

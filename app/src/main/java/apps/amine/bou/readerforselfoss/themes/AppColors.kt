@@ -3,9 +3,12 @@ package apps.amine.bou.readerforselfoss.themes
 import android.app.Activity
 import android.content.Context
 import android.preference.PreferenceManager
+import android.support.annotation.ColorInt
+import android.support.v7.view.ContextThemeWrapper
 import android.util.TypedValue
-import androidx.annotation.ColorInt
 import apps.amine.bou.readerforselfoss.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
 class AppColors(a: Activity) {
 

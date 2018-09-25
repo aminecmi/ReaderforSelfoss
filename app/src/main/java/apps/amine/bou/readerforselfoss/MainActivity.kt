@@ -3,7 +3,7 @@ package apps.amine.bou.readerforselfoss
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.appcompat.app.AppCompatActivity
+import android.support.v7.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,7 +1,7 @@
 package apps.amine.bou.readerforselfoss
 
-import com.google.android.material.textfield.TextInputLayout
-import androidx.test.espresso.matcher.ViewMatchers
+import android.support.design.widget.TextInputLayout
+import android.support.test.espresso.matcher.ViewMatchers
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher
