@@ -114,7 +114,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var appColors: AppColors
     private var offset: Int = 0
     private var firstVisible: Int = 0
-    private var recyclerViewScrollListener: RecyclerView.OnScrollListener? = null
+    private lateinit var recyclerViewScrollListener: RecyclerView.OnScrollListener
     private lateinit var settings: SharedPreferences
 
     private var recyclerAdapter: RecyclerView.Adapter<*>? = null
@@ -209,8 +209,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
                 override fun getSwipeDirs(
-                    recyclerView: RecyclerView?,
-                    viewHolder: RecyclerView.ViewHolder?
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
                 ): Int =
                     if (elementsShown != UNREAD_SHOWN) {
                         0
@@ -805,22 +805,20 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleInfiniteScroll() {
-        if (recyclerViewScrollListener == null) {
-            recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(localRecycler: RecyclerView?, dx: Int, dy: Int) {
-                    if (localRecycler != null && dy > 0) {
-                        val manager = recyclerView.layoutManager
-                        val lastVisibleItem: Int = when (manager) {
-                            is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
-                                null
-                            ).last()
-                            is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
-                            else -> 0
-                        }
+        recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(localRecycler: RecyclerView, dx: Int, dy: Int) {
+                if (localRecycler != null && dy > 0) {
+                    val manager = recyclerView.layoutManager
+                    val lastVisibleItem: Int = when (manager) {
+                        is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
+                            null
+                        ).last()
+                        is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
+                        else -> 0
+                    }
 
-                        if (lastVisibleItem == (items.size - 1) && items.size < maxItemNumber()) {
-                            getElementsAccordingToTab(appendResults = true)
-                        }
+                    if (lastVisibleItem == (items.size - 1) && items.size < maxItemNumber()) {
+                        getElementsAccordingToTab(appendResults = true)
                     }
                 }
             }
