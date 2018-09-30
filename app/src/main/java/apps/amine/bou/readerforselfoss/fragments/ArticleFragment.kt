@@ -401,34 +401,41 @@ class ArticleFragment : Fragment() {
 
         rootView.webcontent.loadDataWithBaseURL(
             baseUrl,
-            """<style>
-                |img {
-                |  display: inline-block;
-                |  height: auto;
-                |  width: 100%;
-                |  max-width: 100%;
-                |}
-                |a {
-                |  color: $stringColor !important;
-                |}
-                |*:not(a) {
-                |  color: $stringTextColor;
-                |}
-                |* {
-                |  font-size: ${fontSize.toPx}px;
-                |  text-align: justify;
-                |  word-break: break-word;
-                |  overflow:hidden;
-                |}
-                |a, pre, code {
-                |  text-align: left;
-                |}
-                |pre, code {
-                |  white-space: pre-wrap;
-                |  width:100%;
-                |  background-color: $stringBackgroundColor;
-                |}</style>$c""".trimMargin(),
-            "text/html; charset=utf-8",
+            """<html>
+                |<head>
+                |   <style>
+                |      img {
+                |        display: inline-block;
+                |        height: auto;
+                |        width: 100%;
+                |        max-width: 100%;
+                |      }
+                |      a {
+                |        color: $stringColor !important;
+                |      }
+                |      *:not(a) {
+                |        color: $stringTextColor;
+                |      }
+                |      * {
+                |        font-size: ${fontSize.toPx}px;
+                |        text-align: justify;
+                |        word-break: break-word;
+                |        overflow:hidden;
+                |      }
+                |      a, pre, code {
+                |        text-align: left;
+                |      }
+                |      pre, code {
+                |        white-space: pre-wrap;
+                |        width:100%;
+                |        background-color: $stringBackgroundColor;
+                |      }
+                |   </style>
+                |</head>
+                |<body>
+                |   $c
+                |</body>""".trimMargin(),
+            "text/html",
             "utf-8",
             null
         )
