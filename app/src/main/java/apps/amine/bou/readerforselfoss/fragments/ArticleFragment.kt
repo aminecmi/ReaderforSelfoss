@@ -1,11 +1,9 @@
 package apps.amine.bou.readerforselfoss.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -14,7 +12,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
-import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -58,7 +55,6 @@ class ArticleFragment : Fragment() {
     private lateinit var contentSource: String
     private lateinit var contentImage: String
     private lateinit var contentTitle: String
-    private var showMalformedUrl: Boolean = false
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var fab: FloatingActionButton
     private lateinit var appColors: AppColors
@@ -97,7 +93,6 @@ class ArticleFragment : Fragment() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
         editor = prefs.edit()
         fontSize = prefs.getString("reader_font_size", "14").toInt()
-        showMalformedUrl = prefs.getBoolean("show_error_malformed_url", true)
 
         val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         val debugReadingItems = prefs.getBoolean("read_debug", false)
@@ -233,7 +228,13 @@ class ArticleFragment : Fragment() {
                         if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                             try {
                                 rootView.titleView.text = response.body()!!.title
-                                url = response.body()!!.url
+                                try {
+                                    // Note: Mercury may return relative urls... If it does the url val will not be changed.
+                                    URL(response.body()!!.url)
+                                    url = response.body()!!.url
+                                } catch (e: MalformedURLException) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
+                                }
                             } catch (e: Exception) {
                                 if (context != null) {
                                     ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
@@ -362,41 +363,7 @@ class ArticleFragment : Fragment() {
             val itemUrl = URL(url)
             baseUrl = itemUrl.protocol + "://" + itemUrl.host
         } catch (e: MalformedURLException) {
-            if (showMalformedUrl && context != null) {
-                val alertDialog = AlertDialog.Builder(context!!).create()
-                alertDialog.setTitle("Error")
-                alertDialog.setMessage("You are encountering a bug that I can't solve. Can you please contact me to solve the issue, please ?")
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_POSITIVE,
-                    "Send mail"
-                ) { dialog, _ ->
-
-                    // This won't be translated because it should only be temporary.
-                    val to = Config.feedbackEmail
-                    val subject= "[ReaderForSelfoss MalformedURLException]"
-                    val body= "Please specify the source, item and spout you are using for the url below : \n ${e.message}"
-                    val mailTo = "mailto:" + to + "?&subject=" + Uri.encode(subject) + "&body=" + Uri.encode(body)
-
-                    val emailIntent = Intent(Intent.ACTION_VIEW)
-                    emailIntent.data = Uri.parse(mailTo)
-                    startActivity(emailIntent)
-
-                    dialog.dismiss()
-                }
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_NEUTRAL,
-                    "Not now"
-                ) { dialog, _ -> dialog.dismiss() }
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE,
-                    "Don't show anymore."
-                ) { dialog, _ ->
-                    editor.putBoolean("show_error_malformed_url", false)
-                    editor.apply()
-                    dialog.dismiss()
-                }
-                alertDialog.show()
-            }
+            ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
         }
 
         rootView.webcontent.loadDataWithBaseURL(
