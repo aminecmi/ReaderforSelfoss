@@ -139,7 +139,7 @@ dependencies {
 
     // Themes
     implementation 'com.52inc:scoops:1.0.0'
-    implementation 'com.jrummyapps:colorpicker:2.1.7'
+    compile 'com.jrummyapps:colorpicker:2.1.7'
     implementation 'com.github.rubensousa:floatingtoolbar:1.5.1'
 
     // Pager
