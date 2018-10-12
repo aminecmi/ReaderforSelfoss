@@ -1,14 +1,12 @@
 package apps.amine.bou.readerforselfoss
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.preference.PreferenceManager
 import androidx.multidex.MultiDexApplication
 import android.widget.ImageView
 import apps.amine.bou.readerforselfoss.utils.Config
-import com.anupcowkur.reservoir.Reservoir
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ftinc.scoop.Scoop
@@ -49,8 +47,6 @@ class MyApp : MultiDexApplication() {
 
         initAmplify()
 
-        initCache()
-
         val prefs = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         if (prefs.getString("unique_id", "").isEmpty()) {
             val editor = prefs.edit()
@@ -78,14 +74,6 @@ class MyApp : MultiDexApplication() {
             .setPositiveFeedbackCollectors(GooglePlayStoreFeedbackCollector())
             .setCriticalFeedbackCollectors(DefaultEmailFeedbackCollector(Config.feedbackEmail))
             .applyAllDefaultRules()
-    }
-
-    private fun initCache() {
-        try {
-            Reservoir.init(this, 8192) //in bytes
-        } catch (e: IOException) {
-            //failure
-        }
     }
 
     private fun initDrawerImageLoader() {

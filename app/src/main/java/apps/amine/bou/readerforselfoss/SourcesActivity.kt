@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.adapters.SourcesListAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
-import apps.amine.bou.readerforselfoss.api.selfoss.Sources
+import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import com.ftinc.scoop.Scoop
@@ -61,18 +61,18 @@ class SourcesActivity : AppCompatActivity() {
             prefs.getBoolean("isSelfSignedCert", false),
             prefs.getBoolean("should_log_everything", false)
         )
-        var items: ArrayList<Sources> = ArrayList()
+        var items: ArrayList<Source> = ArrayList()
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = mLayoutManager
 
-        api.sources.enqueue(object : Callback<List<Sources>> {
+        api.sources.enqueue(object : Callback<List<Source>> {
             override fun onResponse(
-                call: Call<List<Sources>>,
-                response: Response<List<Sources>>
+                call: Call<List<Source>>,
+                response: Response<List<Source>>
             ) {
                 if (response.body() != null && response.body()!!.isNotEmpty()) {
-                    items = response.body() as ArrayList<Sources>
+                    items = response.body() as ArrayList<Source>
                 }
                 val mAdapter = SourcesListAdapter(this@SourcesActivity, items, api)
                 recyclerView.adapter = mAdapter
@@ -86,7 +86,7 @@ class SourcesActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<List<Sources>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Source>>, t: Throwable) {
                 Toast.makeText(
                     this@SourcesActivity,
                     R.string.cant_get_sources,

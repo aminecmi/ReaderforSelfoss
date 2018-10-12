@@ -42,7 +42,7 @@ data class Spout(
     @SerializedName("description") val description: String
 )
 
-data class Sources(
+data class Source(
     @SerializedName("id") val id: String,
     @SerializedName("title") val title: String,
     @SerializedName("tags") val tags: String,

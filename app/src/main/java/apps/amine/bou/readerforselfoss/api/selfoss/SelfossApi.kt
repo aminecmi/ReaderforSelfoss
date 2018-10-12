@@ -159,7 +159,7 @@ class SelfossApi(
     fun update(): Call<String> =
         service.update(userName, password)
 
-    val sources: Call<List<Sources>>
+    val sources: Call<List<Source>>
         get() = service.sources(userName, password)
 
     fun deleteSource(id: String): Call<SuccessResponse> =

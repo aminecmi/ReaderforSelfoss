@@ -23,15 +23,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import apps.amine.bou.readerforselfoss.adapters.ItemCardAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemListAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemsAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
-import apps.amine.bou.readerforselfoss.api.selfoss.Sources
+import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.Stats
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.api.selfoss.Tag
+import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
@@ -42,14 +45,13 @@ import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
+import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
+import apps.amine.bou.readerforselfoss.utils.persistence.toView
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.builders.footer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
-import com.anupcowkur.reservoir.Reservoir
-import com.anupcowkur.reservoir.ReservoirGetCallback
-import com.anupcowkur.reservoir.ReservoirPutCallback
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
@@ -65,9 +67,12 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_article.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.concurrent.thread
+
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val MENU_PREFERENCES = 12302
@@ -94,7 +99,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var itemsNumber: Int = 200
     private var elementsShown: Int = 0
     private var maybeTagFilter: Tag? = null
-    private var maybeSourceFilter: Sources? = null
+    private var maybeSourceFilter: Source? = null
     private var maybeSearchFilter: String? = null
     private var userIdentifier: String = ""
     private var displayAccountHeader: Boolean = false
@@ -126,7 +131,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var tagsBadge: Map<Long, Int>
 
-    data class DrawerData(val tags: List<Tag>?, val sources: List<Sources>?)
+    private lateinit var db: AppDatabase
+
+    data class DrawerData(val tags: List<Tag>?, val sources: List<Source>?)
 
     override fun onStart() {
         super.onStart()
@@ -146,6 +153,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (savedInstanceState == null) {
             Amplify.getSharedInstance().promptIfReady(promptView)
         }
+
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java!!, "selfoss-database"
+        ).build()
+
 
         customTabActivityHelper = CustomTabActivityHelper()
 
@@ -544,7 +557,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-            fun handleSources(maybeSources: List<Sources>?) {
+            fun handleSources(maybeSources: List<Source>?) {
                 if (maybeSources == null) {
                     if (loadedFromCache) {
                         drawer.addItem(
@@ -643,14 +656,18 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
 
                 if (!loadedFromCache) {
-                    Reservoir.putAsync(
-                        "drawerData", maybeDrawerData, object : ReservoirPutCallback {
-                            override fun onSuccess() {
-                            }
-
-                            override fun onFailure(p0: Exception?) {
-                            }
-                        })
+                    if (maybeDrawerData.tags != null) {
+                        thread {
+                            val tagEntities = maybeDrawerData.tags.map { it.toEntity() }
+                            db.drawerDataDao().insertAllTags(*tagEntities.toTypedArray())
+                        }
+                    }
+                    if (maybeDrawerData.sources != null) {
+                        thread {
+                            val sourceEntities = maybeDrawerData.sources.map { it.toEntity(this@HomeActivity) }
+                            db.drawerDataDao().insertAllSources(*sourceEntities.toTypedArray())
+                        }
+                    }
                 }
             } else {
                 if (!loadedFromCache) {
@@ -672,13 +689,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         fun drawerApiCalls(maybeDrawerData: DrawerData?) {
             var tags: List<Tag>? = null
-            var sources: List<Sources>?
+            var sources: List<Source>?
 
             fun sourcesApiCall() {
-                api.sources.enqueue(object : Callback<List<Sources>> {
+                api.sources.enqueue(object : Callback<List<Source>> {
                     override fun onResponse(
-                        call: Call<List<Sources>>?,
-                        response: Response<List<Sources>>
+                        call: Call<List<Source>>?,
+                        response: Response<List<Source>>
                     ) {
                         sources = response.body()
                         val apiDrawerData = DrawerData(tags, sources)
@@ -687,7 +704,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         }
                     }
 
-                    override fun onFailure(call: Call<List<Sources>>?, t: Throwable?) {
+                    override fun onFailure(call: Call<List<Source>>?, t: Throwable?) {
                     }
                 })
             }
@@ -713,18 +730,19 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             )
         )
 
-        val resultType = object : TypeToken<DrawerData>() {}.type
-        Reservoir.getAsync(
-            "drawerData", resultType, object : ReservoirGetCallback<DrawerData> {
-                override fun onSuccess(maybeDrawerData: DrawerData?) {
-                    handleDrawerData(maybeDrawerData, loadedFromCache = true)
-                    drawerApiCalls(maybeDrawerData)
+        db.drawerDataDao().tags().observeForever { tags ->
+            db.drawerDataDao().sources().observeForever { sources ->
+                var drawerData = DrawerData(null, null)
+                if (tags != null) {
+                    drawerData = drawerData.copy(tags = tags.map { it.toView() })
                 }
-
-                override fun onFailure(p0: Exception?) {
-                    drawerApiCalls(null)
+                if (sources != null) {
+                    drawerData = drawerData.copy(sources = sources.map { it.toView() })
                 }
-            })
+                handleDrawerData(drawerData, loadedFromCache = true)
+                drawerApiCalls(drawerData)
+            }
+        }
     }
 
     private fun reloadLayoutManager() {

@@ -95,7 +95,7 @@ internal interface SelfossService {
     fun sources(
         @Query("username") username: String,
         @Query("password") password: String
-    ): Call<List<Sources>>
+    ): Call<List<Source>>
 
     @DELETE("source/{id}")
     fun deleteSource(

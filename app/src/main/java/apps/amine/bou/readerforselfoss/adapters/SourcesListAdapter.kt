@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
-import apps.amine.bou.readerforselfoss.api.selfoss.Sources
+import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
@@ -23,7 +23,7 @@ import retrofit2.Response
 
 class SourcesListAdapter(
     private val app: Activity,
-    private val items: ArrayList<Sources>,
+    private val items: ArrayList<Source>,
     private val api: SelfossApi
 ) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
