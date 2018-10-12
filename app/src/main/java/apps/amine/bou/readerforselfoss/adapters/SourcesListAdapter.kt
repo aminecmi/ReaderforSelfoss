@@ -2,8 +2,8 @@ package apps.amine.bou.readerforselfoss.adapters
 
 import android.app.Activity
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -25,7 +25,7 @@ class SourcesListAdapter(
     private val app: Activity,
     private val items: ArrayList<Sources>,
     private val api: SelfossApi
-) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
 
@@ -59,7 +59,7 @@ class SourcesListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(internal val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(internal val mView: ConstraintLayout) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
 
         init {
             handleClickListeners()

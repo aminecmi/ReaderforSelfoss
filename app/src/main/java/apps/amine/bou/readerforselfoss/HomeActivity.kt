@@ -9,15 +9,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.core.view.MenuItemCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -114,10 +114,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var appColors: AppColors
     private var offset: Int = 0
     private var firstVisible: Int = 0
-    private lateinit var recyclerViewScrollListener: RecyclerView.OnScrollListener
+    private lateinit var recyclerViewScrollListener: androidx.recyclerview.widget.RecyclerView.OnScrollListener
     private lateinit var settings: SharedPreferences
 
-    private var recyclerAdapter: RecyclerView.Adapter<*>? = null
+    private var recyclerAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>? = null
 
     private var badgeNew: Int = -1
     private var badgeAll: Int = -1
@@ -209,8 +209,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
                 override fun getSwipeDirs(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder
+                    recyclerView: androidx.recyclerview.widget.RecyclerView,
+                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder
                 ): Int =
                     if (elementsShown != UNREAD_SHOWN) {
                         0
@@ -222,12 +222,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
 
                 override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
+                    recyclerView: androidx.recyclerview.widget.RecyclerView,
+                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                    target: androidx.recyclerview.widget.RecyclerView.ViewHolder
                 ): Boolean = false
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, swipeDir: Int) {
                     val position = viewHolder.adapterPosition
                     val i = items.elementAtOrNull(position)
 
@@ -729,37 +729,43 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun reloadLayoutManager() {
         val currentManager = recyclerView.layoutManager
-        val layoutManager: RecyclerView.LayoutManager
+        val layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager
 
         // This will only update the layout manager if settings changed
         when (currentManager) {
-            is StaggeredGridLayoutManager ->
+            is androidx.recyclerview.widget.StaggeredGridLayoutManager ->
                 if (!shouldBeCardView) {
-                    layoutManager = GridLayoutManager(this, calculateNoOfColumns())
+                    layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+                        this,
+                        calculateNoOfColumns()
+                    )
                     recyclerView.layoutManager = layoutManager
                 }
-            is GridLayoutManager ->
+            is androidx.recyclerview.widget.GridLayoutManager ->
                 if (shouldBeCardView) {
-                    layoutManager = StaggeredGridLayoutManager(
+                    layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
                         calculateNoOfColumns(),
-                        StaggeredGridLayoutManager.VERTICAL
+                        androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
                     )
                     layoutManager.gapStrategy =
-                            StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                            androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                     recyclerView.layoutManager = layoutManager
                 }
             else ->
                 if (currentManager == null) {
                     if (!shouldBeCardView) {
-                        layoutManager = GridLayoutManager(this, calculateNoOfColumns())
+                        layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+                            this,
+                            calculateNoOfColumns()
+                        )
                         recyclerView.layoutManager = layoutManager
                     } else {
-                        layoutManager = StaggeredGridLayoutManager(
+                        layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
                             calculateNoOfColumns(),
-                            StaggeredGridLayoutManager.VERTICAL
+                            androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
                         )
                         layoutManager.gapStrategy =
-                                StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                                androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                         recyclerView.layoutManager = layoutManager
                     }
                 } else {
@@ -775,13 +781,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 val layoutManager = recyclerView.adapter
 
                 when (layoutManager) {
-                    is StaggeredGridLayoutManager ->
+                    is androidx.recyclerview.widget.StaggeredGridLayoutManager ->
                         if (layoutManager.findFirstCompletelyVisibleItemPositions(null)[0] == 0) {
                             getElementsAccordingToTab()
                         } else {
                             layoutManager.scrollToPositionWithOffset(0, 0)
                         }
-                    is GridLayoutManager ->
+                    is androidx.recyclerview.widget.GridLayoutManager ->
                         if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
                             getElementsAccordingToTab()
                         } else {
@@ -805,15 +811,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleInfiniteScroll() {
-        recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(localRecycler: RecyclerView, dx: Int, dy: Int) {
+        recyclerViewScrollListener = object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(localRecycler: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 if (localRecycler != null && dy > 0) {
                     val manager = recyclerView.layoutManager
                     val lastVisibleItem: Int = when (manager) {
-                        is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
+                        is androidx.recyclerview.widget.StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
                             null
                         ).last()
-                        is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
+                        is androidx.recyclerview.widget.GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
                         else -> 0
                     }
 
@@ -964,9 +970,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (appendResults) {
             val oldManager = recyclerView.layoutManager
             firstVisible = when (oldManager) {
-                is StaggeredGridLayoutManager ->
+                is androidx.recyclerview.widget.StaggeredGridLayoutManager ->
                     oldManager.findFirstCompletelyVisibleItemPositions(null).last()
-                is GridLayoutManager ->
+                is androidx.recyclerview.widget.GridLayoutManager ->
                     oldManager.findFirstCompletelyVisibleItemPosition()
                 else -> 0
             }
@@ -1007,9 +1013,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         }
 
                 recyclerView.addItemDecoration(
-                    DividerItemDecoration(
+                    androidx.recyclerview.widget.DividerItemDecoration(
                         this@HomeActivity,
-                        DividerItemDecoration.VERTICAL
+                        androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
                     )
                 )
             }

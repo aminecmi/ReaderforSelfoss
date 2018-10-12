@@ -1,8 +1,8 @@
 /* From https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/drawerItems/CustomUrlPrimaryDrawerItem.java */
 package apps.amine.bou.readerforselfoss.utils.drawer
 
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import android.view.View
 import android.widget.TextView
 import apps.amine.bou.readerforselfoss.R

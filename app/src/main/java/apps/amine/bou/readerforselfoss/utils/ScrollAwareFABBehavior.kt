@@ -1,19 +1,19 @@
 package apps.amine.bou.readerforselfoss.utils
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.FloatingActionButton
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.AttributeSet
 import android.view.View
 
 class ScrollAwareFABBehavior(
     context: Context,
     attrs: AttributeSet
-) : CoordinatorLayout.Behavior<FloatingActionButton>() {
+) : androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior<FloatingActionButton>() {
 
 
     override fun onStartNestedScroll(
-        coordinatorLayout: CoordinatorLayout,
+        coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
         child: FloatingActionButton,
         directTargetChild: View,
         target: View,
@@ -23,7 +23,7 @@ class ScrollAwareFABBehavior(
     }
 
     override fun onNestedScroll(
-        coordinatorLayout: CoordinatorLayout,
+        coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
         child: FloatingActionButton,
         target: View,
         dxConsumed: Int,

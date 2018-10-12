@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsIntent
 import android.util.Patterns
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R

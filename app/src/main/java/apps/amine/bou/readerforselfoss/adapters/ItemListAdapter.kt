@@ -2,8 +2,8 @@ package apps.amine.bou.readerforselfoss.adapters
 
 import android.app.Activity
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -123,7 +123,7 @@ class ItemListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: ConstraintLayout) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
 
         init {
             handleClickListeners()

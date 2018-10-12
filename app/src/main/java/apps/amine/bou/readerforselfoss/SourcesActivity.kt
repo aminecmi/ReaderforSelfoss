@@ -5,8 +5,8 @@ import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.adapters.SourcesListAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -51,7 +51,7 @@ class SourcesActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val mLayoutManager = LinearLayoutManager(this)
+        val mLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 

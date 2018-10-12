@@ -3,8 +3,8 @@ package apps.amine.bou.readerforselfoss.themes
 import android.app.Activity
 import android.content.Context
 import android.preference.PreferenceManager
-import android.support.annotation.ColorInt
-import android.support.v7.view.ContextThemeWrapper
+import androidx.annotation.ColorInt
+import androidx.appcompat.view.ContextThemeWrapper
 import android.util.TypedValue
 import apps.amine.bou.readerforselfoss.R
 import android.view.LayoutInflater

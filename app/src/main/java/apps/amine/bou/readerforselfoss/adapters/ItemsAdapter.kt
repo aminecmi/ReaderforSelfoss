@@ -2,8 +2,8 @@ package apps.amine.bou.readerforselfoss.adapters
 
 import android.app.Activity
 import android.graphics.Color
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R
@@ -18,7 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapter<VH>() {
+abstract class ItemsAdapter<VH : androidx.recyclerview.widget.RecyclerView.ViewHolder?> : androidx.recyclerview.widget.RecyclerView.Adapter<VH>() {
     abstract var items: ArrayList<Item>
     abstract val api: SelfossApi
     abstract val debugReadingItems: Boolean
@@ -62,7 +62,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
             }
 
         val view = s.view
-        val tv: TextView = view.findViewById(android.support.design.R.id.snackbar_text)
+        val tv: TextView = view.findViewById(com.google.android.material.R.id.snackbar_text)
         tv.setTextColor(Color.WHITE)
         s.show()
     }

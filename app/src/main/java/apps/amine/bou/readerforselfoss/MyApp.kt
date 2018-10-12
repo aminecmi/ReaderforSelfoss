@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.preference.PreferenceManager
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import android.widget.ImageView
 import apps.amine.bou.readerforselfoss.utils.Config
 import com.anupcowkur.reservoir.Reservoir
