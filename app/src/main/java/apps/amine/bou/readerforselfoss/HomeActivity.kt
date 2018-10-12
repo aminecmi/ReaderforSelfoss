@@ -114,10 +114,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var appColors: AppColors
     private var offset: Int = 0
     private var firstVisible: Int = 0
-    private lateinit var recyclerViewScrollListener: androidx.recyclerview.widget.RecyclerView.OnScrollListener
+    private lateinit var recyclerViewScrollListener: RecyclerView.OnScrollListener
     private lateinit var settings: SharedPreferences
 
-    private var recyclerAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>? = null
+    private var recyclerAdapter: RecyclerView.Adapter<*>? = null
 
     private var badgeNew: Int = -1
     private var badgeAll: Int = -1
@@ -209,8 +209,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
                 override fun getSwipeDirs(
-                    recyclerView: androidx.recyclerview.widget.RecyclerView,
-                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
                 ): Int =
                     if (elementsShown != UNREAD_SHOWN) {
                         0
@@ -222,12 +222,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
 
                 override fun onMove(
-                    recyclerView: androidx.recyclerview.widget.RecyclerView,
-                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
-                    target: androidx.recyclerview.widget.RecyclerView.ViewHolder
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
                 ): Boolean = false
 
-                override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, swipeDir: Int) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     val position = viewHolder.adapterPosition
                     val i = items.elementAtOrNull(position)
 
@@ -729,43 +729,43 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun reloadLayoutManager() {
         val currentManager = recyclerView.layoutManager
-        val layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager
+        val layoutManager: RecyclerView.LayoutManager
 
         // This will only update the layout manager if settings changed
         when (currentManager) {
-            is androidx.recyclerview.widget.StaggeredGridLayoutManager ->
+            is StaggeredGridLayoutManager ->
                 if (!shouldBeCardView) {
-                    layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+                    layoutManager = GridLayoutManager(
                         this,
                         calculateNoOfColumns()
                     )
                     recyclerView.layoutManager = layoutManager
                 }
-            is androidx.recyclerview.widget.GridLayoutManager ->
+            is GridLayoutManager ->
                 if (shouldBeCardView) {
-                    layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
+                    layoutManager = StaggeredGridLayoutManager(
                         calculateNoOfColumns(),
-                        androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+                        StaggeredGridLayoutManager.VERTICAL
                     )
                     layoutManager.gapStrategy =
-                            androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                            StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                     recyclerView.layoutManager = layoutManager
                 }
             else ->
                 if (currentManager == null) {
                     if (!shouldBeCardView) {
-                        layoutManager = androidx.recyclerview.widget.GridLayoutManager(
+                        layoutManager = GridLayoutManager(
                             this,
                             calculateNoOfColumns()
                         )
                         recyclerView.layoutManager = layoutManager
                     } else {
-                        layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
+                        layoutManager = StaggeredGridLayoutManager(
                             calculateNoOfColumns(),
-                            androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+                            StaggeredGridLayoutManager.VERTICAL
                         )
                         layoutManager.gapStrategy =
-                                androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                                StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                         recyclerView.layoutManager = layoutManager
                     }
                 } else {
@@ -781,13 +781,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 val layoutManager = recyclerView.adapter
 
                 when (layoutManager) {
-                    is androidx.recyclerview.widget.StaggeredGridLayoutManager ->
+                    is StaggeredGridLayoutManager ->
                         if (layoutManager.findFirstCompletelyVisibleItemPositions(null)[0] == 0) {
                             getElementsAccordingToTab()
                         } else {
                             layoutManager.scrollToPositionWithOffset(0, 0)
                         }
-                    is androidx.recyclerview.widget.GridLayoutManager ->
+                    is GridLayoutManager ->
                         if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
                             getElementsAccordingToTab()
                         } else {
@@ -811,15 +811,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleInfiniteScroll() {
-        recyclerViewScrollListener = object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrolled(localRecycler: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+        recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(localRecycler: RecyclerView, dx: Int, dy: Int) {
                 if (localRecycler != null && dy > 0) {
                     val manager = recyclerView.layoutManager
                     val lastVisibleItem: Int = when (manager) {
-                        is androidx.recyclerview.widget.StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
+                        is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
                             null
                         ).last()
-                        is androidx.recyclerview.widget.GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
+                        is GridLayoutManager -> manager.findLastCompletelyVisibleItemPosition()
                         else -> 0
                     }
 
@@ -970,9 +970,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (appendResults) {
             val oldManager = recyclerView.layoutManager
             firstVisible = when (oldManager) {
-                is androidx.recyclerview.widget.StaggeredGridLayoutManager ->
+                is StaggeredGridLayoutManager ->
                     oldManager.findFirstCompletelyVisibleItemPositions(null).last()
-                is androidx.recyclerview.widget.GridLayoutManager ->
+                is GridLayoutManager ->
                     oldManager.findFirstCompletelyVisibleItemPosition()
                 else -> 0
             }
@@ -1013,9 +1013,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         }
 
                 recyclerView.addItemDecoration(
-                    androidx.recyclerview.widget.DividerItemDecoration(
+                    DividerItemDecoration(
                         this@HomeActivity,
-                        androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+                        DividerItemDecoration.VERTICAL
                     )
                 )
             }

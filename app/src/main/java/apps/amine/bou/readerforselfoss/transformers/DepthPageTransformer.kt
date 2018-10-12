@@ -3,7 +3,7 @@ package apps.amine.bou.readerforselfoss.transformers
 import androidx.viewpager.widget.ViewPager
 import android.view.View
 
-class DepthPageTransformer : androidx.viewpager.widget.ViewPager.PageTransformer {
+class DepthPageTransformer : ViewPager.PageTransformer {
 
     override fun transformPage(view: View, position: Float) {
         val pageWidth = view.width

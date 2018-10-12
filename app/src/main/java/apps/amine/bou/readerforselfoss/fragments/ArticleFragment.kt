@@ -45,7 +45,7 @@ import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
 
-class ArticleFragment : androidx.fragment.app.Fragment() {
+class ArticleFragment : Fragment() {
     private lateinit var pageNumber: Number
     private var fontSize: Int = 14
     private lateinit var allItems: ArrayList<Item>

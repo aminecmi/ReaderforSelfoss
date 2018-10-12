@@ -123,7 +123,7 @@ class ItemListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(val mView: ConstraintLayout) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
 
         init {
             handleClickListeners()

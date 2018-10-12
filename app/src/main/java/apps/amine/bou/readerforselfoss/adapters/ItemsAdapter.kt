@@ -18,7 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-abstract class ItemsAdapter<VH : androidx.recyclerview.widget.RecyclerView.ViewHolder?> : androidx.recyclerview.widget.RecyclerView.Adapter<VH>() {
+abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapter<VH>() {
     abstract var items: ArrayList<Item>
     abstract val api: SelfossApi
     abstract val debugReadingItems: Boolean

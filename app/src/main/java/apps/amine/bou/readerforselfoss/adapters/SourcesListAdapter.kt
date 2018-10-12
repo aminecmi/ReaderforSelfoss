@@ -25,7 +25,7 @@ class SourcesListAdapter(
     private val app: Activity,
     private val items: ArrayList<Sources>,
     private val api: SelfossApi
-) : androidx.recyclerview.widget.RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
 
@@ -59,7 +59,7 @@ class SourcesListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(internal val mView: ConstraintLayout) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(internal val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
 
         init {
             handleClickListeners()

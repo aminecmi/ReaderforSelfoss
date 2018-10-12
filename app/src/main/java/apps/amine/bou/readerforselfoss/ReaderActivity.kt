@@ -104,7 +104,7 @@ class ReaderActivity : AppCompatActivity() {
         (indicator as CircleIndicator).setViewPager(pager)
 
         pager.addOnPageChangeListener(
-            object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
+            object : ViewPager.SimpleOnPageChangeListener() {
 
                 override fun onPageSelected(position: Int) {
 
@@ -170,8 +170,8 @@ class ReaderActivity : AppCompatActivity() {
         oldInstanceState!!.clear()
     }
 
-    private inner class ScreenSlidePagerAdapter(fm: androidx.fragment.app.FragmentManager, val appColors: AppColors) :
-        androidx.fragment.app.FragmentStatePagerAdapter(fm) {
+    private inner class ScreenSlidePagerAdapter(fm: FragmentManager, val appColors: AppColors) :
+        FragmentStatePagerAdapter(fm) {
 
 
         override fun getCount(): Int {

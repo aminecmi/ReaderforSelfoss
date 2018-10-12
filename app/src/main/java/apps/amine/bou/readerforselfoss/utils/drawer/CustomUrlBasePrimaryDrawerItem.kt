@@ -15,7 +15,7 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerUIUtils
 import com.mikepenz.materialize.util.UIUtils
 
-abstract class CustomUrlBasePrimaryDrawerItem<T, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder> :
+abstract class CustomUrlBasePrimaryDrawerItem<T, VH : RecyclerView.ViewHolder> :
     BaseDrawerItem<T, VH>() {
     fun withIcon(url: String): T {
         this.icon = ImageHolder(url)

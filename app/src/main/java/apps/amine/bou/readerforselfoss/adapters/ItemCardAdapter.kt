@@ -53,7 +53,7 @@ class ItemCardAdapter(
         c.resources.getDimension(R.dimen.card_image_max_height).toInt()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(c).inflate(R.layout.card_item, parent, false) as androidx.cardview.widget.CardView
+        val v = LayoutInflater.from(c).inflate(R.layout.card_item, parent, false) as CardView
         return ViewHolder(v)
     }
 
@@ -102,7 +102,7 @@ class ItemCardAdapter(
         return items.size
     }
 
-    inner class ViewHolder(val mView: androidx.cardview.widget.CardView) : androidx.recyclerview.widget.RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val mView: CardView) : RecyclerView.ViewHolder(mView) {
         init {
             mView.setCardBackgroundColor(appColors.cardBackgroundColor)
             handleClickListeners()

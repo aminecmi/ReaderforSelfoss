@@ -51,7 +51,7 @@ class SourcesActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val mLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        val mLayoutManager = LinearLayoutManager(this)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
