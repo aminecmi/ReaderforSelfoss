@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Mostrar o reconto de artigos non lidos cunha insignia na barra inferior."</string>
   <string name="switch_unread_count_title">"Mostrar reconto de artigos non lidos"</string>
   <string name="display_all_counts_title">"Mostrar reconto de artigos lidos e favoritos"</string>
-    <string name="text_wrong_url">"Semella que intentas usar unha URL non válida. Asegúrate de que é correcta, e se o problema persiste, ponte en contacto conmigo (a través da ligazón de contacto na tenda). Por favor ten en conta que a aplicación precisa que uses Selfoss. Non podes acceder a canles RSS se non o tes."</string>
+  <string name="text_wrong_url">"Semella que intentas usar unha URL non válida. Asegúrate de que é correcta, e se o problema persiste, ponte en contacto conmigo (a través da ligazón de contacto na tenda). Por favor ten en conta que a aplicación precisa que uses Selfoss. Non podes acceder a canles RSS se non o tes."</string>
   <string name="pref_general_internal_browser_title">"Abrir ligazóns dentro da aplicación"</string>
   <string name="pref_general_internal_browser_on">"Os artigos abriranse dentro da aplicación"</string>
   <string name="pref_general_internal_browser_off">"Os artigos abriranse co teu navegador prederminado"</string>
@@ -82,7 +82,7 @@
   <string name="refresh_success_response">"O remoto foi actualizado, xa podes refrescar a lista de artigos"</string>
   <string name="refresh_failer_message">"A actualización non funcionou, proba de novo máis tarde ou comproba os teus rexistros de Selfoss."</string>
   <string name="refresh_in_progress">"Actualizazación en progreso"</string>
-    <string name="card_height_title">Tarxetas de altura completa</string>
+  <string name="card_height_title">Tarxetas de altura completa</string>
   <string name="card_height_on">A altura das tarxetas axustarase ao seu contido</string>
   <string name="card_height_off">A altura das tarxetas será fixa</string>
   <string name="source_code">Código fonte</string>
@@ -145,7 +145,7 @@
   <string name="gdpr_dialog_title">A aplicación non comparte ningún dato persoal seu.</string>
   <string name="crash_dialog_text">Algo foi mal. Pregámoslle que envíe o informe de erro ao desarrollador.</string>
   <string name="crash_dialog_comment">Podes engadir calquera información útil nos comentarios. Non inclúas datos persoais. Podes enviarme un correo coa Id de depuración pra que me poña en contacto contigo cando a incidencia se resolva.</string>
-    <string name="pref_acra_alwaysaccept">Enviar automáticamente informes de erros</string>
+  <string name="pref_acra_alwaysaccept">Enviar automáticamente informes de erros</string>
   <string name="pref_acra_alwaysaccept_enabled">Enviaranse automáticamente os informes de erros</string>
   <string name="pref_acra_alwaysaccept_disabled">Preguntarase cada vez pra enviar os informes de erros.</string>
   <string name="pref_debug_crash_reports">Informes de erros</string>
