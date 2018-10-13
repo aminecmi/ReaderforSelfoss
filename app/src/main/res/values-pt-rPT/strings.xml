@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Exibir a contagem não lida como um emblema para a barra inferior."</string>
   <string name="switch_unread_count_title">"Exibir a contagem não lida"</string>
   <string name="display_all_counts_title">"Exibir a contagem para o favorito e leitura"</string>
-    <string name="text_wrong_url">"Você parece estar tentando usar um URL inválido. Certifique-se de que está correto, e se o problema persistir, entre em contato comigo (através do link de contato da loja). Por favor, note que o aplicativo precisa que você esteja usando o Selfoss. Você não pode acessar feeds RSS sem ele."</string>
+  <string name="text_wrong_url">"Você parece estar tentando usar um URL inválido. Certifique-se de que está correto, e se o problema persistir, entre em contato comigo (através do link de contato da loja). Por favor, note que o aplicativo precisa que você esteja usando o Selfoss. Você não pode acessar feeds RSS sem ele."</string>
   <string name="pref_general_internal_browser_title">"Abrir links dentro do app"</string>
   <string name="pref_general_internal_browser_on">"Artigos serão aberto dentro do aplicativo"</string>
   <string name="pref_general_internal_browser_off">"Artigos serão aberto com o seu navegador padrão"</string>
@@ -82,7 +82,7 @@
   <string name="refresh_success_response">"O remoto é atualizado, você agora pode recarregar a lista de artigos"</string>
   <string name="refresh_failer_message">"A atualização não funcionar, tente novamente mais tarde ou verifique seus logs de selfoss."</string>
   <string name="refresh_in_progress">"Atualização em curso"</string>
-    <string name="card_height_title">Cartões de altura total</string>
+  <string name="card_height_title">Cartões de altura total</string>
   <string name="card_height_on">Altura de cartas irá ajustar ao seu conteúdo</string>
   <string name="card_height_off">Altura do cartão será corrigida</string>
   <string name="source_code">Código fonte</string>
@@ -145,7 +145,7 @@
   <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
   <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-    <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
