@@ -217,5 +217,3 @@ gradle-app.setting
 release/
 
 crowdin.properties
-
-publish-version.sh
