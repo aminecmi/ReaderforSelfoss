@@ -125,6 +125,9 @@ class SelfossApi(
     ): Call<List<Item>> =
         getItems("starred", tag, sourceId, search, itemsNumber, offset)
 
+    fun allItems(): Call<List<Item>> =
+        service.allItems(userName, password)
+
     private fun getItems(
         type: String,
         tag: String?,

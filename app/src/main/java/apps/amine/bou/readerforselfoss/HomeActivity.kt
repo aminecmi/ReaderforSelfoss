@@ -87,7 +87,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var items: ArrayList<Item> = ArrayList()
     private var allItems: ArrayList<Item> = ArrayList()
 
-    private var clickBehavior = false
     private var debugReadingItems = false
     private var shouldLogEverything = false
     private var internalBrowser = false
@@ -193,11 +192,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 dialog.dismiss()
             }
             alertDialog.show()
-        }
-
-        if (sharedPref.getString("acra.user.email", "").isNotEmpty()) {
-            sharedEditor.remove("acra.user.email")
-            sharedEditor.commit()
         }
     }
 
@@ -364,7 +358,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun handleSharedPrefs() {
         debugReadingItems = sharedPref.getBoolean("read_debug", false)
         shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
-        clickBehavior = sharedPref.getBoolean("tab_on_tap", false)
         internalBrowser = sharedPref.getBoolean("prefer_internal_browser", true)
         articleViewer = sharedPref.getBoolean("prefer_article_viewer", true)
         shouldBeCardView = sharedPref.getBoolean("card_view_active", false)
@@ -664,7 +657,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     if (maybeDrawerData.sources != null) {
                         thread {
                             val sourceEntities =
-                                maybeDrawerData.sources.map { it.toEntity(this@HomeActivity) }
+                                maybeDrawerData.sources.map { it.toEntity() }
                             db.drawerDataDao().insertAllSources(*sourceEntities.toTypedArray())
                         }
                     }
@@ -1013,7 +1006,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             items,
                             api,
                             customTabActivityHelper,
-                            clickBehavior,
                             internalBrowser,
                             articleViewer,
                             debugReadingItems,

@@ -78,11 +78,5 @@
         android:title="@string/pref_general_category_actions">
 
     </PreferenceCategory>
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="tab_on_tap"
-        android:summaryOff="@string/pref_switch_actions_tap_off"
-        android:summaryOn="@string/pref_switch_actions_tap_on"
-        android:title="@string/pref_switch_actions_tap_title" />
 
 </PreferenceScreen>

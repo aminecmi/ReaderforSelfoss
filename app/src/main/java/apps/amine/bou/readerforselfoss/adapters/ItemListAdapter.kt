@@ -40,7 +40,6 @@ class ItemListAdapter(
     override var items: ArrayList<Item>,
     override val api: SelfossApi,
     private val helper: CustomTabActivityHelper,
-    private val clickBehavior: Boolean,
     private val internalBrowser: Boolean,
     private val articleViewer: Boolean,
     override val debugReadingItems: Boolean,
@@ -194,37 +193,18 @@ class ItemListAdapter(
             val customTabsIntent = c.buildCustomTabsIntent()
             helper.bindCustomTabsService(app)
 
-
-            if (!clickBehavior) {
-                mView.setOnClickListener {
-                    c.openItemUrl(
-                        items,
-                        adapterPosition,
-                        items[adapterPosition].getLinkDecoded(),
-                        customTabsIntent,
-                        internalBrowser,
-                        articleViewer,
-                        app
-                    )
-                }
-                mView.setOnLongClickListener {
-                    actionBarShowHide()
-                    true
-                }
-            } else {
-                mView.setOnClickListener { actionBarShowHide() }
-                mView.setOnLongClickListener {
-                    c.openItemUrl(
-                        items,
-                        adapterPosition,
-                        items[adapterPosition].getLinkDecoded(),
-                        customTabsIntent,
-                        internalBrowser,
-                        articleViewer,
-                        app
-                    )
-                    true
-                }
+            mView.setOnClickListener { actionBarShowHide() }
+            mView.setOnLongClickListener {
+                c.openItemUrl(
+                    items,
+                    adapterPosition,
+                    items[adapterPosition].getLinkDecoded(),
+                    customTabsIntent,
+                    internalBrowser,
+                    articleViewer,
+                    app
+                )
+                true
             }
         }
 

@@ -152,17 +152,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
-            SwitchPreference cardViewActive = (SwitchPreference) findPreference("card_view_active");
-            final SwitchPreference tabOnTap = (SwitchPreference) findPreference("tab_on_tap");
-            tabOnTap.setEnabled(!cardViewActive.isChecked());
-            cardViewActive.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    boolean isEnabled = (Boolean) newValue;
-                    tabOnTap.setEnabled(!isEnabled);
-                    return true;
-                }
-            });
-
             EditTextPreference itemsNumber = (EditTextPreference) findPreference("prefer_api_items_number");
             itemsNumber.getEditText().setFilters(new InputFilter[]{
                     new InputFilter() {

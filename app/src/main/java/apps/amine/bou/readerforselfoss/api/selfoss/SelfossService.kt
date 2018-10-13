@@ -27,6 +27,12 @@ internal interface SelfossService {
         @Query("offset") offset: Int
     ): Call<List<Item>>
 
+    @GET("items")
+    fun allItems(
+        @Query("username") username: String,
+        @Query("password") password: String
+    ): Call<List<Item>>
+
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @POST("mark/{id}")
     fun markAsRead(
