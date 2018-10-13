@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Okunmamış sayıyı, alt çubuk için bir rozet olarak görüntüleyin."</string>
   <string name="switch_unread_count_title">"Okunmamış sayıyı görüntüle"</string>
   <string name="display_all_counts_title">"Favori ve okunan sayıları göster"</string>
-    <string name="text_wrong_url">"Geçersiz bir URL kullanmaya çalışıyormuş gibi görünüyorsunuz. Doğru olduğundan emin olun ve sorun devam ederse, bana ulaşın (mağaza iletişim bağlantısıyla). Uygulamanın, Selfoss'u kullanmanız gerektiğini lütfen unutmayın. RSS özet akışlarına olmadan erişemezsiniz."</string>
+  <string name="text_wrong_url">"Geçersiz bir URL kullanmaya çalışıyormuş gibi görünüyorsunuz. Doğru olduğundan emin olun ve sorun devam ederse, bana ulaşın (mağaza iletişim bağlantısıyla). Uygulamanın, Selfoss'u kullanmanız gerektiğini lütfen unutmayın. RSS özet akışlarına olmadan erişemezsiniz."</string>
   <string name="pref_general_internal_browser_title">"Uygulamadaki bağlantıları açın"</string>
   <string name="pref_general_internal_browser_on">"Makale, uygulama içinde açılacaktır"</string>
   <string name="pref_general_internal_browser_off">"Makaleler varsayılan tarayıcınızla açılır"</string>
@@ -82,7 +82,7 @@
   <string name="refresh_success_response">"Uzaktan güncelleştirilir, şimdi makaleler listesi yeniden yükleyebilirsiniz"</string>
   <string name="refresh_failer_message">"Güncelleme çalışmadı, daha sonra tekrar deneyin veya selfoss günlüklerinizi kontrol edin."</string>
   <string name="refresh_in_progress">"Yenileme devam ediyor"</string>
-    <string name="card_height_title">Tam boy kartlar</string>
+  <string name="card_height_title">Tam boy kartlar</string>
   <string name="card_height_on">Kartların yüksekliği içeriğine göre ayarlanır</string>
   <string name="card_height_off">Kart yüksekliği sabit olacak</string>
   <string name="source_code">Kaynak kodu</string>
@@ -145,7 +145,7 @@
   <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
   <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-    <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
