@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Display the unread count as a badge for the bottom bar."</string>
   <string name="switch_unread_count_title">"Display unread count"</string>
   <string name="display_all_counts_title">"Display count for favorite and read"</string>
-    <string name="text_wrong_url">"You seem to be trying to use an invalid URL. Make sure it is correct, and if the problem persists, contact me (via the store contact link). Please note that the app needs you to be using Selfoss. You can't access RSS feeds without it."</string>
+  <string name="text_wrong_url">"You seem to be trying to use an invalid URL. Make sure it is correct, and if the problem persists, contact me (via the store contact link). Please note that the app needs you to be using Selfoss. You can't access RSS feeds without it."</string>
   <string name="pref_general_internal_browser_title">"Open links inside the app"</string>
   <string name="pref_general_internal_browser_on">"Articles will open inside the app"</string>
   <string name="pref_general_internal_browser_off">"Articles will open with your default browser"</string>
@@ -82,7 +82,7 @@
   <string name="refresh_success_response">"The remote is updated, you can now reload the articles list"</string>
   <string name="refresh_failer_message">"The update didn't work, try again later, or check your selfoss logs."</string>
   <string name="refresh_in_progress">"Refresh in progress"</string>
-    <string name="card_height_title">Schede a piena altezza</string>
+  <string name="card_height_title">Schede a piena altezza</string>
   <string name="card_height_on">Cards height will adjust to its content</string>
   <string name="card_height_off">Card height will be fixed</string>
   <string name="source_code">Codice sorgente</string>
@@ -145,7 +145,7 @@
   <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
   <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-    <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
