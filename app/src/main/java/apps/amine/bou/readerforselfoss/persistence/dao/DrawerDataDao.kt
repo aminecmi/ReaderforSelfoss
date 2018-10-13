@@ -1,6 +1,5 @@
 package apps.amine.bou.readerforselfoss.persistence.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Delete
 import androidx.room.Dao
 import androidx.room.Insert

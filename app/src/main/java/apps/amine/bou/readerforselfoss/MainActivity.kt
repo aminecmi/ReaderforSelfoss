@@ -11,17 +11,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (PreferenceManager.getDefaultSharedPreferences(baseContext).getBoolean(
-                "firstStart",
-                true
-            )) {
-            val i = Intent(this@MainActivity, IntroActivity::class.java)
-            startActivity(i)
-        } else {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
+        val intent = Intent(this, LoginActivity::class.java)
 
+        startActivity(intent)
         finish()
     }
 }

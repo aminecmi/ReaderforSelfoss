@@ -45,7 +45,6 @@ class MainActivityEspressoTest {
         rule.launchActivity(intent)
 
         intended(hasComponent(MainActivity::class.java.name))
-        intended(hasComponent(IntroActivity::class.java.name))
         intended(hasComponent(LoginActivity::class.java.name), times(0))
     }
 
@@ -58,7 +57,6 @@ class MainActivityEspressoTest {
 
         intended(hasComponent(MainActivity::class.java.name))
         intended(hasComponent(LoginActivity::class.java.name))
-        intended(hasComponent(IntroActivity::class.java.name), times(0))
     }
 
     @After

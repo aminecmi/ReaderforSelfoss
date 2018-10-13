@@ -108,9 +108,6 @@ dependencies {
     //multidex
     implementation 'androidx.multidex:multidex:2.0.0'
 
-    // Intro
-    implementation 'agency.tango.android:material-intro-screen:0.0.5'
-
     // About
     implementation('com.mikepenz:aboutlibraries:6.2.0@aar') {
         transitive = true

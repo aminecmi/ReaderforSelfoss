@@ -86,14 +86,14 @@
                                 android:text="@string/nothing_here"
                                 android:textAlignment="center"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                                android:background="@color/transparent"
+                                android:background="@android:color/transparent"
                                 android:visibility="gone" />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/transparent"
+                                android:background="@android:color/transparent"
                                 android:clipToPadding="false"
                                 android:paddingBottom="60dp"
                                 android:scrollbars="vertical"
