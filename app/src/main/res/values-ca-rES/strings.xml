@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Mostra el recompte d'articles no llegits amb un distintiu a la barra inferior."</string>
   <string name="switch_unread_count_title">"Recompte d'articles no llegits"</string>
   <string name="display_all_counts_title">"Recompte d'articles llegits i preferits"</string>
-    <string name="text_wrong_url">"Sembla que esteu utilitzant un URL no vàlid. Assegureu-vos que és correcte, i si el problema persisteix, poseu-vos en contacte amb mi (a través de l'enllaç de contacte que hi ha a la Botiga). Tingueu en compte que per utilitzar aquesta aplicació cal que també utilitzeu Selfoss. Si no, no podreu accedir a canals RSS."</string>
+  <string name="text_wrong_url">"Sembla que esteu utilitzant un URL no vàlid. Assegureu-vos que és correcte, i si el problema persisteix, poseu-vos en contacte amb mi (a través de l'enllaç de contacte que hi ha a la Botiga). Tingueu en compte que per utilitzar aquesta aplicació cal que també utilitzeu Selfoss. Si no, no podreu accedir a canals RSS."</string>
   <string name="pref_general_internal_browser_title">"Obre els enllaços dins de l'aplicació"</string>
   <string name="pref_general_internal_browser_on">"Els articles s'obriran dins de l'aplicació"</string>
   <string name="pref_general_internal_browser_off">"Els articles s'obriran amb el navegador predeterminat"</string>
@@ -82,7 +82,7 @@
   <string name="refresh_success_response">"S'ha actualitzat el remot. Torneu a carregar la llista d'articles"</string>
   <string name="refresh_failer_message">"L'actualització no ha funcionat. Torneu a provar-ho més tard o consulteu els registres de Selfoss."</string>
   <string name="refresh_in_progress">"S'està actualitzant"</string>
-    <string name="card_height_title">Alçada completa de les targetes</string>
+  <string name="card_height_title">Alçada completa de les targetes</string>
   <string name="card_height_on">L\'alçada de les targetes s\'ajustarà al seu contingut</string>
   <string name="card_height_off">L\'alçada de les targetes serà fixa</string>
   <string name="source_code">Codi font</string>
@@ -145,7 +145,7 @@
   <string name="gdpr_dialog_title">Aquesta aplicació no comparteix cap dada personal vostra.</string>
   <string name="crash_dialog_text">Alguna cosa ha anat malament. Envieu l\'informe al desenvolupador.</string>
   <string name="crash_dialog_comment">Podeu afegir informació útil en la secció de comentaris. No incloeu cap dada personal en el vostre comentari. També em podeu enviar un correu electrònic amb l\'identificador de depuració i us ho faré saber quan el problema s\'hagi resolt.</string>
-    <string name="pref_acra_alwaysaccept">Envia informes d\'error automàtics</string>
+  <string name="pref_acra_alwaysaccept">Envia informes d\'error automàtics</string>
   <string name="pref_acra_alwaysaccept_enabled">S\'enviaran informes d\'error automàticament</string>
   <string name="pref_acra_alwaysaccept_disabled">Us preguntarem abans d\'enviar un informe d\'error.</string>
   <string name="pref_debug_crash_reports">Informes d\'error</string>
