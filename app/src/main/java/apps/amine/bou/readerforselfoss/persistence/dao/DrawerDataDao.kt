@@ -12,10 +12,10 @@ import apps.amine.bou.readerforselfoss.persistence.entities.TagEntity
 @Dao
 interface DrawerDataDao {
     @Query("SELECT * FROM tags")
-    fun tags(): LiveData<List<TagEntity>>
+    fun tags(): List<TagEntity>
 
     @Query("SELECT * FROM sources")
-    fun sources(): LiveData<List<SourceEntity>>
+    fun sources(): List<SourceEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllTags(vararg tags: TagEntity)

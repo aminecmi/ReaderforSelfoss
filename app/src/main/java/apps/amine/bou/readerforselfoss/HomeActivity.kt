@@ -107,7 +107,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var lastFetchDone: Boolean = false
     private var hiddenTags: List<String> = emptyList()
 
-
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
     private lateinit var tabStarredBadge: TextBadgeItem
@@ -127,7 +126,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var badgeNew: Int = -1
     private var badgeAll: Int = -1
     private var badgeFavs: Int = -1
-
 
     private lateinit var tagsBadge: Map<Long, Int>
 
@@ -387,7 +385,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun handleThemeBinding() {
         val scoop = Scoop.getInstance()
         scoop.bind(this, Toppings.PRIMARY.value, toolBar)
-        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
         }
     }
@@ -397,7 +395,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val scoop = Scoop.getInstance()
         scoop.update(Toppings.PRIMARY.value, appColors.colorPrimary)
 
-        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.update(Toppings.PRIMARY_DARK.value, appColors.colorPrimaryDark)
         }
     }
@@ -521,7 +519,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                     }
                 } else {
-                    val filteredHiddenTags: List<Tag> = maybeTags.filter { hiddenTags.contains(it.tag) }
+                    val filteredHiddenTags: List<Tag> =
+                        maybeTags.filter { hiddenTags.contains(it.tag) }
                     tagsBadge = filteredHiddenTags.map {
                         val gd = GradientDrawable()
                         val color = try {
@@ -664,7 +663,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
                     if (maybeDrawerData.sources != null) {
                         thread {
-                            val sourceEntities = maybeDrawerData.sources.map { it.toEntity(this@HomeActivity) }
+                            val sourceEntities =
+                                maybeDrawerData.sources.map { it.toEntity(this@HomeActivity) }
                             db.drawerDataDao().insertAllSources(*sourceEntities.toTypedArray())
                         }
                     }
@@ -730,18 +730,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             )
         )
 
-        db.drawerDataDao().tags().observeForever { tags ->
-            db.drawerDataDao().sources().observeForever { sources ->
-                var drawerData = DrawerData(null, null)
-                if (tags != null) {
-                    drawerData = drawerData.copy(tags = tags.map { it.toView() })
-                }
-                if (sources != null) {
-                    drawerData = drawerData.copy(sources = sources.map { it.toView() })
-                }
-                handleDrawerData(drawerData, loadedFromCache = true)
-                drawerApiCalls(drawerData)
-            }
+        thread {
+            var drawerData = DrawerData(db.drawerDataDao().tags().map { it.toView() },
+                                        db.drawerDataDao().sources().map { it.toView() })
+            handleDrawerData(drawerData, loadedFromCache = true)
+            drawerApiCalls(drawerData)
         }
     }
 
@@ -881,8 +874,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun filter(tags: String): Boolean {
-      val tagsList = tags.replace("\\s".toRegex(), "").split(",")
-      return tagsList.intersect(hiddenTags).isEmpty()
+        val tagsList = tags.replace("\\s".toRegex(), "").split(",")
+        return tagsList.intersect(hiddenTags).isEmpty()
     }
 
     private fun doCallTo(
@@ -896,7 +889,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 if (shouldUpdate) {
                     items = response.body() as ArrayList<Item>
                     items = items.filter {
-                      maybeTagFilter != null || filter(it.tags)
+                        maybeTagFilter != null || filter(it.tags)
                     } as ArrayList<Item>
 
                     if (allItems.isEmpty()) {
