@@ -64,7 +64,7 @@
   <string name="switch_unread_count">"Geef het aantal ongelezen artikelen weer in de balk onderaan"</string>
   <string name="switch_unread_count_title">"Geef aantal ongelezen weer"</string>
   <string name="display_all_counts_title">"Geef aantal weer bij favorieten en gelezen"</string>
-    <string name="text_wrong_url">"De gebruikte link lijkt onjuist. Controleer deze. Mocht het probleem blijven, neem dan contact met me op (via de contact link in de store). Om deze app te kunnen gebruiken heb je Selfoss nodig."</string>
+  <string name="text_wrong_url">"De gebruikte link lijkt onjuist. Controleer deze. Mocht het probleem blijven, neem dan contact met me op (via de contact link in de store). Om deze app te kunnen gebruiken heb je Selfoss nodig."</string>
   <string name="pref_general_internal_browser_title">"Links opnemen in interne browser"</string>
   <string name="pref_general_internal_browser_on">"Artikelen worden in de interne browser geopend"</string>
   <string name="pref_general_internal_browser_off">"Artikelen worden geopend in de standaard browser"</string>
@@ -82,7 +82,7 @@
   <string name="refresh_success_response">"Selfoss update uitgevoerd. Je kunt nu de artikellijst verversen"</string>
   <string name="refresh_failer_message">"Selfoss update mislukt. Probeer het later nog eens of controleer de logbestanden."</string>
   <string name="refresh_in_progress">"Bezig met verversen"</string>
-    <string name="card_height_title">Volledige hoogte kaarten</string>
+  <string name="card_height_title">Volledige hoogte kaarten</string>
   <string name="card_height_on">Hoogte aanpassen aan de hand van kaartinhoud</string>
   <string name="card_height_off">Vaste hoogte</string>
   <string name="source_code">Broncode</string>
@@ -145,7 +145,7 @@
   <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
   <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-    <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
