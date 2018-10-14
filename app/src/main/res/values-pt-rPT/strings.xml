@@ -19,7 +19,6 @@
   <string name="action_disconnect">"Desligar"</string>
   <string name="title_activity_settings">"Configurações"</string>
   <string name="pref_header_general">"Geral"</string>
-  <string name="pref_switch_actions_tap_title">"Toque em ação sobre os artigos"</string>
   <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Link"</string>
   <string name="add_source_hint_name">"Nome"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"Vai usar o navegador interno em vez do Visualizador de artigo"</string>
   <string name="pref_general_category_links">"Manipulação de ligações"</string>
   <string name="pref_general_category_displaying">"Mostrando"</string>
-  <string name="pref_general_category_actions">"Ações"</string>
   <string name="pref_switch_card_view_on">"Os artigos serão exibidos como cartões"</string>
   <string name="pref_switch_card_view_off">"Os artigos serão exibidos como lista"</string>
-  <string name="pref_switch_actions_tap_on">"Exibe a barra de ação sob o artigo"</string>
-  <string name="pref_switch_actions_tap_off">"Ao selecionar um artigo, ele será aberto no seu navegador selecionado"</string>
   <string name="menu_home_refresh">"Atualização remota"</string>
   <string name="refresh_success_response">"O remoto é atualizado, você agora pode recarregar a lista de artigos"</string>
   <string name="refresh_failer_message">"A atualização não funcionar, tente novamente mais tarde ou verifique seus logs de selfoss."</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">Etiquetas</string>
   <string name="drawer_item_sources">Fontes</string>
   <string name="drawer_action_edit">editar</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Não armazenar em cache dados sua gaveta</string>
   <string name="no_tags_loaded">Não tags carregado</string>
   <string name="no_sources_loaded">Não há fontes carregadas</string>
   <string name="drawer_loading">A carregar…</string>
@@ -153,4 +148,8 @@
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
