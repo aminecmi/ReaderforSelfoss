@@ -45,6 +45,7 @@ import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
+import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.persistence.toView
 import co.zsmb.materialdrawerkt.builders.accountHeader
@@ -68,6 +69,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_article.*
+import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -153,7 +155,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         db = Room.databaseBuilder(
             applicationContext,
-            AppDatabase::class.java!!, "selfoss-database"
+            AppDatabase::class.java, "selfoss-database"
         ).build()
 
 
@@ -817,7 +819,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun handleInfiniteScroll() {
         recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(localRecycler: RecyclerView, dx: Int, dy: Int) {
-                if (localRecycler != null && dy > 0) {
+                if (dy > 0) {
                     val manager = recyclerView.layoutManager
                     val lastVisibleItem: Int = when (manager) {
                         is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
@@ -1178,7 +1180,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 .toMap()
 
                         fun readAllDebug(e: Throwable) {
-                            // TODO: debug
+                            ACRA.getErrorReporter().maybeHandleSilentException(e, this@HomeActivity)
                         }
 
                         if (ids.isNotEmpty()) {

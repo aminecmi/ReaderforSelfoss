@@ -9,13 +9,13 @@ import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import com.google.gson.annotations.SerializedName
 
-private fun constructUrl(config: Config?, path: String, file: String): String {
-    val baseUriBuilder = Uri.parse(config!!.baseUrl).buildUpon()
-    baseUriBuilder.appendPath(path).appendPath(file)
-
+private fun constructUrl(config: Config?, path: String, file: String?): String {
     return if (file.isEmptyOrNullOrNullString()) {
         ""
     } else {
+        val baseUriBuilder = Uri.parse(config!!.baseUrl).buildUpon()
+        baseUriBuilder.appendPath(path).appendPath(file)
+
         baseUriBuilder.toString()
     }
 }
