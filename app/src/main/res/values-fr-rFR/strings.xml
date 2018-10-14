@@ -148,8 +148,8 @@
   <string name="acra_login">Activer les logs</string>
   <string name="drawer_item_hidden_tags">Tags Cachés</string>
   <string name="unmark">Marquer l\'article comme non lu</string>
-  <string name="pref_header_offline">Offline and cache</string>
-  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
-  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_header_offline">Hors ligne et cache</string>
+  <string name="pref_switch_items_caching_off">Les articles ne seront pas enregistrés et l\'application ne sera pas utilisable hors ligne.</string>
+  <string name="pref_switch_items_caching_on">Les articles seront enregistrés et l\'application ne sera utilisable hors ligne.</string>
   <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
