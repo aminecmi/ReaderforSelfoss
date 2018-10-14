@@ -1,3 +1,7 @@
+**1.7.x**
+
+- Closing #1. Initial article caching.
+
 **1.6.x**
 
 - Handling hidden tags.

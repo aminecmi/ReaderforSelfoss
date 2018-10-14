@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_VERSION="1.6"
+BASE_VERSION="1.7"
 TODAYS_VERSION="1"
 
 VERSION="${BASE_VERSION//./}$(date '+%y%m%j')$TODAYS_VERSION"
