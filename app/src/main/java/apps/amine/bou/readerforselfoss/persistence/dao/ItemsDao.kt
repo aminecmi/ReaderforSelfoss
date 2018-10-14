@@ -11,7 +11,7 @@ import androidx.room.Update
 
 @Dao
 interface ItemsDao {
-    @Query("SELECT * FROM items")
+    @Query("SELECT * FROM items order by id desc")
     fun items(): List<ItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
