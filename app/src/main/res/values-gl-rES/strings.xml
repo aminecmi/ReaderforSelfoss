@@ -19,7 +19,6 @@
   <string name="action_disconnect">"Desconectar"</string>
   <string name="title_activity_settings">"Axustes"</string>
   <string name="pref_header_general">"Xeral"</string>
-  <string name="pref_switch_actions_tap_title">"Dar un toque nos artigos"</string>
   <string name="add_source_hint_tags">"Etiqueta1, Etiqueta2, Etiqueta3"</string>
   <string name="add_source_hint_url">"Ligazón"</string>
   <string name="add_source_hint_name">"Nome"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"Usarase o navegador interno en lugar do visor de artigos"</string>
   <string name="pref_general_category_links">"Xestión de ligazóns"</string>
   <string name="pref_general_category_displaying">"Visualización"</string>
-  <string name="pref_general_category_actions">"Accións"</string>
   <string name="pref_switch_card_view_on">"Os artigos amosaranse coma tarxetas"</string>
   <string name="pref_switch_card_view_off">"Os artigos amosaranse coma unha lista"</string>
-  <string name="pref_switch_actions_tap_on">"Amosar a barra de acción debaixo do artigo"</string>
-  <string name="pref_switch_actions_tap_off">"Ao seleccionar un artigo, abrirase no navegador escollido"</string>
   <string name="menu_home_refresh">"Actualizar o remoto"</string>
   <string name="refresh_success_response">"O remoto foi actualizado, xa podes refrescar a lista de artigos"</string>
   <string name="refresh_failer_message">"A actualización non funcionou, proba de novo máis tarde ou comproba os teus rexistros de Selfoss."</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">Etiquetas</string>
   <string name="drawer_item_sources">Fontes</string>
   <string name="drawer_action_edit">editar</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Non se puideron gardar na memoria os datos do seu panel</string>
   <string name="no_tags_loaded">Non se cargou ningunha etiqueta</string>
   <string name="no_sources_loaded">Non se cargou ningunha fonte</string>
   <string name="drawer_loading">Cargando…</string>
@@ -153,4 +148,8 @@
   <string name="acra_login">Habilitar o rexistro</string>
   <string name="drawer_item_hidden_tags">Etiquetas ocultas</string>
   <string name="unmark">Marcar artículo como non lido</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
