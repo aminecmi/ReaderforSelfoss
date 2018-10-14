@@ -19,7 +19,7 @@
   <string name="action_disconnect">"Desconectar"</string>
   <string name="title_activity_settings">"Configurações"</string>
   <string name="pref_header_general">"Geral"</string>
-    <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
+  <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Link"</string>
   <string name="add_source_hint_name">"Nome"</string>
   <string name="add_source">"Adicionar uma fonte"</string>
@@ -63,7 +63,7 @@
   <string name="switch_unread_count">"Exibir a contagem de artigos não lidos como um badge na barra inferior."</string>
   <string name="switch_unread_count_title">"Exibir contagem de artigos não lidos"</string>
   <string name="display_all_counts_title">"Exibir contagem de lidos e favoritos"</string>
-    <string name="text_wrong_url">"Parece que você está tentando utilizar uma URL inválida. Certifique-se de que está correto, e se o problema persistir, entre em contato comigo (através do link de contato da loja). Por favor, note que o aplicativo precisa que você esteja usando o Selfoss. Você não pode acessar feeds RSS sem ele."</string>
+  <string name="text_wrong_url">"Parece que você está tentando utilizar uma URL inválida. Certifique-se de que está correto, e se o problema persistir, entre em contato comigo (através do link de contato da loja). Por favor, note que o aplicativo precisa que você esteja usando o Selfoss. Você não pode acessar feeds RSS sem ele."</string>
   <string name="pref_general_internal_browser_title">"Abrir links dentro do aplicativo"</string>
   <string name="pref_general_internal_browser_on">"Os artigos serão abertos dentro do aplicativo"</string>
   <string name="pref_general_internal_browser_off">"Os artigos serão abertos com seu navegador padrão"</string>
@@ -72,13 +72,13 @@
   <string name="prefer_article_viewer_off">"Utilizará o navegador em vez do visualizador de artigos"</string>
   <string name="pref_general_category_links">"Manipulação de links"</string>
   <string name="pref_general_category_displaying">"Mostrando"</string>
-    <string name="pref_switch_card_view_on">"Os artigos serão exibidos no formato de cards"</string>
+  <string name="pref_switch_card_view_on">"Os artigos serão exibidos no formato de cards"</string>
   <string name="pref_switch_card_view_off">"Os artigos serão exibidos em lista"</string>
-    <string name="menu_home_refresh">"Atualizar controle remoto"</string>
+  <string name="menu_home_refresh">"Atualizar controle remoto"</string>
   <string name="refresh_success_response">"O controle remoto foi atualizado, agora você pode recarregar a lista de artigos"</string>
   <string name="refresh_failer_message">"A atualização não funcionou, tente novamente mais tarde ou verifique seus logs do Selfoss."</string>
   <string name="refresh_in_progress">"Atualização em progresso"</string>
-    <string name="card_height_title">Cards com altura total</string>
+  <string name="card_height_title">Cards com altura total</string>
   <string name="card_height_on">Cards com altura ajustáveis de acordo com o conteúdo</string>
   <string name="card_height_off">Cards com altura de tamanho fixo</string>
   <string name="source_code">Código fonte</string>
@@ -90,7 +90,7 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Fontes</string>
   <string name="drawer_action_edit">editar</string>
-    <string name="no_tags_loaded">Nenhuma tag carregada</string>
+  <string name="no_tags_loaded">Nenhuma tag carregada</string>
   <string name="no_sources_loaded">Nenhuma fonte carregada</string>
   <string name="drawer_loading">Carregando …</string>
   <string name="menu_home_search">Procurar</string>
@@ -140,7 +140,7 @@
   <string name="gdpr_dialog_title">O app não compartilha dados pessoais sobre você.</string>
   <string name="crash_dialog_text">Algo deu errado. Por favor envie o relatório para o desenvolvedor.</string>
   <string name="crash_dialog_comment">Você pode adicionar informação útil no comentário abaixo. Não inclua quaisquer dados pessoais no seu comentário. Você pode enviar um e-mail com sua id de depuração, e eu vou mantê-lo informado quando o problema for resolvido.</string>
-    <string name="pref_acra_alwaysaccept">Envia relatórios de erros automaticamente</string>
+  <string name="pref_acra_alwaysaccept">Envia relatórios de erros automaticamente</string>
   <string name="pref_acra_alwaysaccept_enabled">Enviar relatórios de erro automaticamente</string>
   <string name="pref_acra_alwaysaccept_disabled">Perguntar sempre, ao enviar relatórios de erro.</string>
   <string name="pref_debug_crash_reports">Relatório de erro</string>
@@ -148,4 +148,8 @@
   <string name="acra_login">Ativar registro de erros</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>

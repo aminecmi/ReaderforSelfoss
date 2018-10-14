@@ -19,7 +19,7 @@
   <string name="action_disconnect">"Bağlantıyı kes"</string>
   <string name="title_activity_settings">"Ayarlar"</string>
   <string name="pref_header_general">"Genel"</string>
-    <string name="add_source_hint_tags">"Etiket1, etiket2, etiket3"</string>
+  <string name="add_source_hint_tags">"Etiket1, etiket2, etiket3"</string>
   <string name="add_source_hint_url">"Bağlantı"</string>
   <string name="add_source_hint_name">"İsim"</string>
   <string name="add_source">"Yeni Kaynak Ekle"</string>
@@ -63,7 +63,7 @@
   <string name="switch_unread_count">"Okunmamış sayıyı, alt çubuk için bir rozet olarak görüntüleyin."</string>
   <string name="switch_unread_count_title">"Okunmamış sayıyı görüntüle"</string>
   <string name="display_all_counts_title">"Favori ve okunan sayıları göster"</string>
-    <string name="text_wrong_url">"Geçersiz bir URL kullanmaya çalışıyormuş gibi görünüyorsunuz. Doğru olduğundan emin olun ve sorun devam ederse, bana ulaşın (mağaza iletişim bağlantısıyla). Uygulamanın, Selfoss'u kullanmanız gerektiğini lütfen unutmayın. RSS özet akışlarına olmadan erişemezsiniz."</string>
+  <string name="text_wrong_url">"Geçersiz bir URL kullanmaya çalışıyormuş gibi görünüyorsunuz. Doğru olduğundan emin olun ve sorun devam ederse, bana ulaşın (mağaza iletişim bağlantısıyla). Uygulamanın, Selfoss'u kullanmanız gerektiğini lütfen unutmayın. RSS özet akışlarına olmadan erişemezsiniz."</string>
   <string name="pref_general_internal_browser_title">"Uygulamadaki bağlantıları açın"</string>
   <string name="pref_general_internal_browser_on">"Makale, uygulama içinde açılacaktır"</string>
   <string name="pref_general_internal_browser_off">"Makaleler varsayılan tarayıcınızla açılır"</string>
@@ -72,13 +72,13 @@
   <string name="prefer_article_viewer_off">"Makale görüntüleyicisi yerine dahili tarayıcıyı kullanacak"</string>
   <string name="pref_general_category_links">"Bağlantı açma şekli"</string>
   <string name="pref_general_category_displaying">"Gösteriliyor"</string>
-    <string name="pref_switch_card_view_on">"Makaleler kart olarak gösterilecek"</string>
+  <string name="pref_switch_card_view_on">"Makaleler kart olarak gösterilecek"</string>
   <string name="pref_switch_card_view_off">"Makaleler liste olarak gösterilecek"</string>
-    <string name="menu_home_refresh">"Uzaktan güncelleştirme"</string>
+  <string name="menu_home_refresh">"Uzaktan güncelleştirme"</string>
   <string name="refresh_success_response">"Uzaktan güncelleştirilir, şimdi makaleler listesi yeniden yükleyebilirsiniz"</string>
   <string name="refresh_failer_message">"Güncelleme çalışmadı, daha sonra tekrar deneyin veya selfoss günlüklerinizi kontrol edin."</string>
   <string name="refresh_in_progress">"Yenileme devam ediyor"</string>
-    <string name="card_height_title">Tam boy kartlar</string>
+  <string name="card_height_title">Tam boy kartlar</string>
   <string name="card_height_on">Kartların yüksekliği içeriğine göre ayarlanır</string>
   <string name="card_height_off">Kart yüksekliği sabit olacak</string>
   <string name="source_code">Kaynak kodu</string>
@@ -90,7 +90,7 @@
   <string name="drawer_item_tags">Etiketler</string>
   <string name="drawer_item_sources">Kaynaklar</string>
   <string name="drawer_action_edit">düzenle</string>
-    <string name="no_tags_loaded">Yüklenen görüntü yok</string>
+  <string name="no_tags_loaded">Yüklenen görüntü yok</string>
   <string name="no_sources_loaded">Yüklenen kaynak yok</string>
   <string name="drawer_loading">Yükleniyor…</string>
   <string name="menu_home_search">Ara</string>
@@ -140,7 +140,7 @@
   <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
   <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-    <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
@@ -148,4 +148,8 @@
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>

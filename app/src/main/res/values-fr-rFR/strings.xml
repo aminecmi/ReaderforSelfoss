@@ -19,7 +19,7 @@
   <string name="action_disconnect">"Déconnecter"</string>
   <string name="title_activity_settings">"Paramètres"</string>
   <string name="pref_header_general">"Général"</string>
-    <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
+  <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Lien"</string>
   <string name="add_source_hint_name">"Nom"</string>
   <string name="add_source">"Ajouter une source"</string>
@@ -63,7 +63,7 @@
   <string name="switch_unread_count">"Afficher le nombre d'articles non lus sur la barre en bas de l'écran"</string>
   <string name="switch_unread_count_title">"Afficher le nombre de non lus"</string>
   <string name="display_all_counts_title">"Afficher le nombre de favoris et d'articles lus"</string>
-    <string name="text_wrong_url">"Vous semblez essayer de vous connecter avec une URL invalide. Assurez-vous que c'est la bonne, et si le problème persiste, contactez-moi via le lien du play store. Notez aussi que l'application ne peut fonctionner sans l'application web Selfoss. Vous ne pouvez pas utiliser l'application pour accéder directement aux flux RSS."</string>
+  <string name="text_wrong_url">"Vous semblez essayer de vous connecter avec une URL invalide. Assurez-vous que c'est la bonne, et si le problème persiste, contactez-moi via le lien du play store. Notez aussi que l'application ne peut fonctionner sans l'application web Selfoss. Vous ne pouvez pas utiliser l'application pour accéder directement aux flux RSS."</string>
   <string name="pref_general_internal_browser_title">"Ouvrir les liens dans l'application"</string>
   <string name="pref_general_internal_browser_on">"Les articles s'ouvriront dans l'application"</string>
   <string name="pref_general_internal_browser_off">"Les articles s'ouvriront dans votre naviguateur par défaut"</string>
@@ -72,13 +72,13 @@
   <string name="prefer_article_viewer_off">"Utiliser le naviguateur interne au lieu du visionneur d'articles"</string>
   <string name="pref_general_category_links">"Gestion des liens"</string>
   <string name="pref_general_category_displaying">"Affichage"</string>
-    <string name="pref_switch_card_view_on">"Les articles seront affichés en forme de carte"</string>
+  <string name="pref_switch_card_view_on">"Les articles seront affichés en forme de carte"</string>
   <string name="pref_switch_card_view_off">"Les articles seront affichés en liste"</string>
-    <string name="menu_home_refresh">"Mettre à jour"</string>
+  <string name="menu_home_refresh">"Mettre à jour"</string>
   <string name="refresh_success_response">"Mise à jour effectuée."</string>
   <string name="refresh_failer_message">"La mise à jour n'a pas fonctionné. Vérifiez vos logs selfoss."</string>
   <string name="refresh_in_progress">"Mise à jour en cours"</string>
-    <string name="card_height_title">Taille dynamique des cartes</string>
+  <string name="card_height_title">Taille dynamique des cartes</string>
   <string name="card_height_on">La taille de la carte s\'adaptera au contenu</string>
   <string name="card_height_off">La taille de la carte sera fixe</string>
   <string name="source_code">Code source</string>
@@ -90,7 +90,7 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Sources</string>
   <string name="drawer_action_edit">éditer</string>
-    <string name="no_tags_loaded">Pas de tags chargés</string>
+  <string name="no_tags_loaded">Pas de tags chargés</string>
   <string name="no_sources_loaded">Pas de sources chargés</string>
   <string name="drawer_loading">Chargement …</string>
   <string name="menu_home_search">Rechercher</string>
@@ -140,7 +140,7 @@
   <string name="gdpr_dialog_title">L\'application ne partage aucune de vos données.</string>
   <string name="crash_dialog_text">Quelque chose s\'est mal passé, S\'il vous plaît, envoyez le rapport au développeur.</string>
   <string name="crash_dialog_comment">Vous pouvez ajouter tous les détails utiles dans le champ de commentaire plus bas. N\'ajoutez aucune information personnelle. Vous pouvez m\'envoyer un email avec votre identifiant de debug, et je vous informerai à la correction du problème.</string>
-    <string name="pref_acra_alwaysaccept">Envoyer automatiquement les rapports d\'erreur</string>
+  <string name="pref_acra_alwaysaccept">Envoyer automatiquement les rapports d\'erreur</string>
   <string name="pref_acra_alwaysaccept_enabled">Enverra automatiquement les rapports d\'erreur</string>
   <string name="pref_acra_alwaysaccept_disabled">Demandera une confirmation à chaque incident.</string>
   <string name="pref_debug_crash_reports">Rapport d\'erreur</string>
@@ -148,4 +148,8 @@
   <string name="acra_login">Activer les logs</string>
   <string name="drawer_item_hidden_tags">Tags Cachés</string>
   <string name="unmark">Marquer l\'article comme non lu</string>
+  <string name="pref_header_offline">Hors ligne et cache</string>
+  <string name="pref_switch_items_caching_off">Les articles ne seront pas enregistrés et l\'application ne sera pas utilisable hors ligne.</string>
+  <string name="pref_switch_items_caching_on">Les articles seront enregistrés et l\'application ne sera utilisable hors ligne.</string>
+  <string name="pref_switch_items_caching">Sauvegarder les articles pour une utilisation hors ligne</string>
 </resources>

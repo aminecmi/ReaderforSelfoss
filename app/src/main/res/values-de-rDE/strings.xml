@@ -63,7 +63,7 @@
   <string name="switch_unread_count">"Zeige die Zahl ungelesener Artikel in der unteren Leiste."</string>
   <string name="switch_unread_count_title">"Zeige Anzahl ungelesener Artikel"</string>
   <string name="display_all_counts_title">"Zeige Anzahl der Favoriten und gelesenen Artikel"</string>
-    <string name="text_wrong_url">"Sie scheinen eine ungültige URL verwenden. Stellen Sie sicher, dass die URL richtig ist. Sollte das Problem weiterhin bestehen kontaktieren Sie mich (über den Playstore-Kontakt-Link). Bitte beachten Sie, dass Sie Selfoss benötigen um RSS-Feeds zu lesen."</string>
+  <string name="text_wrong_url">"Sie scheinen eine ungültige URL verwenden. Stellen Sie sicher, dass die URL richtig ist. Sollte das Problem weiterhin bestehen kontaktieren Sie mich (über den Playstore-Kontakt-Link). Bitte beachten Sie, dass Sie Selfoss benötigen um RSS-Feeds zu lesen."</string>
   <string name="pref_general_internal_browser_title">"Öffne Links innerhalb der App"</string>
   <string name="pref_general_internal_browser_on">"Artikel werden innerhalb der App geöffnet"</string>
   <string name="pref_general_internal_browser_off">"Artikel werden mit deinem Standard-Browser geöffnet"</string>
@@ -78,7 +78,7 @@
   <string name="refresh_success_response">"Selfoss wird aktualisiert, du kannst jetzt die Artikel laden"</string>
   <string name="refresh_failer_message">"Das Update hat nicht funktioniert, versuche es erneut oder überprüfe die Protokolle von Selfoss."</string>
   <string name="refresh_in_progress">"Aktualisierung läuft"</string>
-    <string name="card_height_title">Maximale Kartenhöhe</string>
+  <string name="card_height_title">Maximale Kartenhöhe</string>
   <string name="card_height_on">Kartenhöhe passt sich Inhalt an</string>
   <string name="card_height_off">Kartenhöhe ist fix</string>
   <string name="source_code">Quellcode</string>
@@ -140,7 +140,7 @@
   <string name="gdpr_dialog_title">The app does not share any personal data about you.</string>
   <string name="crash_dialog_text">Something went wrong. Please send the report to the developer.</string>
   <string name="crash_dialog_comment">You can add any helpful details in the comment bellow. Don\'t include any personal data in your comment. You could send me and email with your debug id, and I\'ll keep you posted when the issue is resolved.</string>
-    <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
+  <string name="pref_acra_alwaysaccept">Automatically send crash reports</string>
   <string name="pref_acra_alwaysaccept_enabled">Will send crash reports automatically</string>
   <string name="pref_acra_alwaysaccept_disabled">Will ask everytime when sending crash reports.</string>
   <string name="pref_debug_crash_reports">Crash reports</string>
@@ -148,4 +148,8 @@
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>

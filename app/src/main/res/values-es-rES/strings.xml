@@ -19,7 +19,7 @@
   <string name="action_disconnect">"Desconectar"</string>
   <string name="title_activity_settings">"Configuración"</string>
   <string name="pref_header_general">"General"</string>
-    <string name="add_source_hint_tags">"Etiqueta1, Etiqueta2, Etiqueta3"</string>
+  <string name="add_source_hint_tags">"Etiqueta1, Etiqueta2, Etiqueta3"</string>
   <string name="add_source_hint_url">"Enlace"</string>
   <string name="add_source_hint_name">"Nombre"</string>
   <string name="add_source">"Añadir una fuente"</string>
@@ -63,7 +63,7 @@
   <string name="switch_unread_count">"Mostrar el recuento no leído como una insignia de la barra inferior."</string>
   <string name="switch_unread_count_title">"Mostrar recuento no leído"</string>
   <string name="display_all_counts_title">"Mostrar recuento de favoritos y leídos"</string>
-    <string name="text_wrong_url">"Parece estar tratando de utilizar una dirección URL inválida. Asegúrese de que sea correcta y si el problema persiste, póngase en contacto conmigo (mediante el enlace de contacto de la tienda). Tenga en cuenta que la aplicación necesita utilizar Selfoss. No se puede acceder al contenido RSS sin él."</string>
+  <string name="text_wrong_url">"Parece estar tratando de utilizar una dirección URL inválida. Asegúrese de que sea correcta y si el problema persiste, póngase en contacto conmigo (mediante el enlace de contacto de la tienda). Tenga en cuenta que la aplicación necesita utilizar Selfoss. No se puede acceder al contenido RSS sin él."</string>
   <string name="pref_general_internal_browser_title">"Abrir enlaces dentro de la aplicación"</string>
   <string name="pref_general_internal_browser_on">"Los artículos se abrirán dentro de la aplicación"</string>
   <string name="pref_general_internal_browser_off">"Los artículos se abrirán con tu navegador predeterminado"</string>
@@ -72,13 +72,13 @@
   <string name="prefer_article_viewer_off">"Se utilizará el navegador interno en lugar del visor de artículo"</string>
   <string name="pref_general_category_links">"Control de enlaces"</string>
   <string name="pref_general_category_displaying">"Mostrando"</string>
-    <string name="pref_switch_card_view_on">"Los artículos se mostrarán como tarjetas"</string>
+  <string name="pref_switch_card_view_on">"Los artículos se mostrarán como tarjetas"</string>
   <string name="pref_switch_card_view_off">"Los artículos se mostrarán como una lista"</string>
-    <string name="menu_home_refresh">"Actualizar remoto"</string>
+  <string name="menu_home_refresh">"Actualizar remoto"</string>
   <string name="refresh_success_response">"Se actualizó el remoto, ahora puede recargar la lista de artículos"</string>
   <string name="refresh_failer_message">"La actualización no funcionó, inténtalo más tarde o compruebe los registros de selfoss."</string>
   <string name="refresh_in_progress">"Actualización en progreso"</string>
-    <string name="card_height_title">Tarjetas de altura completas</string>
+  <string name="card_height_title">Tarjetas de altura completas</string>
   <string name="card_height_on">Altura de tarjetas se ajustará a su contenido</string>
   <string name="card_height_off">Se fijará la altura de la tarjeta</string>
   <string name="source_code">Código fuente</string>
@@ -90,7 +90,7 @@
   <string name="drawer_item_tags">Etiquetas</string>
   <string name="drawer_item_sources">Fuentes</string>
   <string name="drawer_action_edit">editar</string>
-    <string name="no_tags_loaded">No hay etiquetas cargadas</string>
+  <string name="no_tags_loaded">No hay etiquetas cargadas</string>
   <string name="no_sources_loaded">No hay fuentes cargadas</string>
   <string name="drawer_loading">Cargando…</string>
   <string name="menu_home_search">Buscar</string>
@@ -140,7 +140,7 @@
   <string name="gdpr_dialog_title">La aplicación no comparte ningún dato personal sobre usted.</string>
   <string name="crash_dialog_text">Algo salió mal. Envié el informe al desarrollador.</string>
   <string name="crash_dialog_comment">Puede agregar cualquier información útil en el siguiente comentario. No incluya ningún dato personal en el comentario. Podría enviarme un correo electrónico con el id de depuración para ser notificado cuando el problema se resuelva.</string>
-    <string name="pref_acra_alwaysaccept">Enviar automáticamente informe de fallos</string>
+  <string name="pref_acra_alwaysaccept">Enviar automáticamente informe de fallos</string>
   <string name="pref_acra_alwaysaccept_enabled">Se enviaran automáticamente los informes de fallos</string>
   <string name="pref_acra_alwaysaccept_disabled">Le preguntará al enviar informes de fallos.</string>
   <string name="pref_debug_crash_reports">Informe de fallos</string>
@@ -148,4 +148,8 @@
   <string name="acra_login">Habilitar el registro</string>
   <string name="drawer_item_hidden_tags">Etiquetas ocultas</string>
   <string name="unmark">Marcar artículo como no leído</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
