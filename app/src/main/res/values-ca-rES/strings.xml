@@ -19,7 +19,6 @@
   <string name="action_disconnect">"Desconnecta't"</string>
   <string name="title_activity_settings">"Configuració"</string>
   <string name="pref_header_general">"General"</string>
-  <string name="pref_switch_actions_tap_title">"Fer un toc als articles"</string>
   <string name="add_source_hint_tags">"Etiqueta1, Etiqueta2, Etiqueta3"</string>
   <string name="add_source_hint_url">"Enllaç"</string>
   <string name="add_source_hint_name">"Nom"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"S'obrirà el navegador intern en lloc del visualitzador d'articles"</string>
   <string name="pref_general_category_links">"Gestió d'enllaços"</string>
   <string name="pref_general_category_displaying">"Visualització"</string>
-  <string name="pref_general_category_actions">"Accions"</string>
   <string name="pref_switch_card_view_on">"Els articles es mostraran com a targetes"</string>
   <string name="pref_switch_card_view_off">"Els articles es mostraran en forma de llista"</string>
-  <string name="pref_switch_actions_tap_on">"Mostra la barra d'acció sota l'article"</string>
-  <string name="pref_switch_actions_tap_off">"En seleccionar un article, s'obrirà al navegador seleccionat"</string>
   <string name="menu_home_refresh">"Actualitza l'accés remot"</string>
   <string name="refresh_success_response">"S'ha actualitzat el remot. Torneu a carregar la llista d'articles"</string>
   <string name="refresh_failer_message">"L'actualització no ha funcionat. Torneu a provar-ho més tard o consulteu els registres de Selfoss."</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">Etiquetes</string>
   <string name="drawer_item_sources">Fonts</string>
   <string name="drawer_action_edit">Edita</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">La informació del calaix no s\'ha pogut emmagatzemar a la memòria cau</string>
   <string name="no_tags_loaded">No s\'ha carregat cap etiqueta</string>
   <string name="no_sources_loaded">No s\'ha carregat cap font</string>
   <string name="drawer_loading">S\'està carregant…</string>
@@ -153,4 +148,8 @@
   <string name="acra_login">Habilita el registre</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
