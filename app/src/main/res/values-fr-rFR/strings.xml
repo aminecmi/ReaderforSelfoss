@@ -19,8 +19,7 @@
   <string name="action_disconnect">"Déconnecter"</string>
   <string name="title_activity_settings">"Paramètres"</string>
   <string name="pref_header_general">"Général"</string>
-  <string name="pref_switch_actions_tap_title">"Action du clic sur un article"</string>
-  <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
+    <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Lien"</string>
   <string name="add_source_hint_name">"Nom"</string>
   <string name="add_source">"Ajouter une source"</string>
@@ -73,12 +72,9 @@
   <string name="prefer_article_viewer_off">"Utiliser le naviguateur interne au lieu du visionneur d'articles"</string>
   <string name="pref_general_category_links">"Gestion des liens"</string>
   <string name="pref_general_category_displaying">"Affichage"</string>
-  <string name="pref_general_category_actions">"Actions"</string>
-  <string name="pref_switch_card_view_on">"Les articles seront affichés en forme de carte"</string>
+    <string name="pref_switch_card_view_on">"Les articles seront affichés en forme de carte"</string>
   <string name="pref_switch_card_view_off">"Les articles seront affichés en liste"</string>
-  <string name="pref_switch_actions_tap_on">"Afficher la barre d'action sous l'article"</string>
-  <string name="pref_switch_actions_tap_off">"Le clic sur un article l'ouvrira dans le navigateur sélectionné"</string>
-  <string name="menu_home_refresh">"Mettre à jour"</string>
+    <string name="menu_home_refresh">"Mettre à jour"</string>
   <string name="refresh_success_response">"Mise à jour effectuée."</string>
   <string name="refresh_failer_message">"La mise à jour n'a pas fonctionné. Vérifiez vos logs selfoss."</string>
   <string name="refresh_in_progress">"Mise à jour en cours"</string>
@@ -94,8 +90,7 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Sources</string>
   <string name="drawer_action_edit">éditer</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Impossible de mettre en cache les filtres pour le drawer</string>
-  <string name="no_tags_loaded">Pas de tags chargés</string>
+    <string name="no_tags_loaded">Pas de tags chargés</string>
   <string name="no_sources_loaded">Pas de sources chargés</string>
   <string name="drawer_loading">Chargement …</string>
   <string name="menu_home_search">Rechercher</string>

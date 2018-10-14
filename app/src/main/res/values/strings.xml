@@ -17,7 +17,6 @@
     <string name="action_disconnect">"Disconnect"</string>
     <string name="title_activity_settings">"Settings"</string>
     <string name="pref_header_general">"General"</string>
-    <string name="pref_switch_actions_tap_title">"Tap action on the articles"</string>
     <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
     <string name="add_source_hint_url">"Link"</string>
     <string name="add_source_hint_name">"Name"</string>
@@ -71,12 +70,8 @@
     <string name="prefer_article_viewer_off">"Will use the internal browser instead of the article viewer"</string>
     <string name="pref_general_category_links">"Link handling"</string>
     <string name="pref_general_category_displaying">"Displaying"</string>
-    <string name="pref_general_category_actions">"Actions"</string>
     <string name="pref_switch_card_view_on">"The articles will be displayed as cards"</string>
     <string name="pref_switch_card_view_off">"The articles will be displayed as a list"</string>
-    <string name="pref_switch_actions_tap_on">"Displays the action bar under the article"</string>
-    <string
-        name="pref_switch_actions_tap_off">"When selecting an article it will open in your selected browser"</string>
     <string name="menu_home_refresh">"Update remote"</string>
     <string name="refresh_success_response">"The remote is updated, you can now reload the articles list"</string>
     <string
@@ -94,7 +89,6 @@
     <string name="drawer_item_tags">Tags</string>
     <string name="drawer_item_sources">Sources</string>
     <string name="drawer_action_edit">edit</string>
-    <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
     <string name="no_tags_loaded">No tags loaded</string>
     <string name="no_sources_loaded">No sources loaded</string>
     <string name="drawer_loading">Loading …</string>

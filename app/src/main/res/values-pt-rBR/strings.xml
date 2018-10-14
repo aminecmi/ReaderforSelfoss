@@ -19,8 +19,7 @@
   <string name="action_disconnect">"Desconectar"</string>
   <string name="title_activity_settings">"Configurações"</string>
   <string name="pref_header_general">"Geral"</string>
-  <string name="pref_switch_actions_tap_title">"Ação de tocar nos artigos"</string>
-  <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
+    <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Link"</string>
   <string name="add_source_hint_name">"Nome"</string>
   <string name="add_source">"Adicionar uma fonte"</string>
@@ -73,12 +72,9 @@
   <string name="prefer_article_viewer_off">"Utilizará o navegador em vez do visualizador de artigos"</string>
   <string name="pref_general_category_links">"Manipulação de links"</string>
   <string name="pref_general_category_displaying">"Mostrando"</string>
-  <string name="pref_general_category_actions">"Ações"</string>
-  <string name="pref_switch_card_view_on">"Os artigos serão exibidos no formato de cards"</string>
+    <string name="pref_switch_card_view_on">"Os artigos serão exibidos no formato de cards"</string>
   <string name="pref_switch_card_view_off">"Os artigos serão exibidos em lista"</string>
-  <string name="pref_switch_actions_tap_on">"Exibe a barra de ação sob o artigo"</string>
-  <string name="pref_switch_actions_tap_off">"Ao selecionar um artigo, ele será aberto no seu navegador selecionado"</string>
-  <string name="menu_home_refresh">"Atualizar controle remoto"</string>
+    <string name="menu_home_refresh">"Atualizar controle remoto"</string>
   <string name="refresh_success_response">"O controle remoto foi atualizado, agora você pode recarregar a lista de artigos"</string>
   <string name="refresh_failer_message">"A atualização não funcionou, tente novamente mais tarde ou verifique seus logs do Selfoss."</string>
   <string name="refresh_in_progress">"Atualização em progresso"</string>
@@ -94,8 +90,7 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Fontes</string>
   <string name="drawer_action_edit">editar</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Não foi possível recuperar os dados em cache</string>
-  <string name="no_tags_loaded">Nenhuma tag carregada</string>
+    <string name="no_tags_loaded">Nenhuma tag carregada</string>
   <string name="no_sources_loaded">Nenhuma fonte carregada</string>
   <string name="drawer_loading">Carregando …</string>
   <string name="menu_home_search">Procurar</string>

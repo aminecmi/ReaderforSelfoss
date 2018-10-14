@@ -74,9 +74,5 @@
         android:dependency="display_unread_count"
         android:key="display_other_count"
         android:title="@string/display_all_counts_title" />
-    <PreferenceCategory
-        android:title="@string/pref_general_category_actions">
-
-    </PreferenceCategory>
 
 </PreferenceScreen>

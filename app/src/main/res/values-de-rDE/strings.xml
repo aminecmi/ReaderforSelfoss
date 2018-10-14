@@ -19,7 +19,6 @@
   <string name="action_disconnect">"Verbindung trennen"</string>
   <string name="title_activity_settings">"Einstellungen"</string>
   <string name="pref_header_general">"Allgemein"</string>
-  <string name="pref_switch_actions_tap_title">"Tap action on the articles"</string>
   <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Link"</string>
   <string name="add_source_hint_name">"Name"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"Der internen Browser wird anstelle des Artikel-Viewer verwendet"</string>
   <string name="pref_general_category_links">"Umgang mit Links"</string>
   <string name="pref_general_category_displaying">"Ansicht"</string>
-  <string name="pref_general_category_actions">"Aktionen"</string>
   <string name="pref_switch_card_view_on">"Artikel werden als Kacheln angezeigt"</string>
   <string name="pref_switch_card_view_off">"Artikel werden als Liste angezeigt"</string>
-  <string name="pref_switch_actions_tap_on">"Zeigt die Aktionsleiste unter dem Artikel"</string>
-  <string name="pref_switch_actions_tap_off">"Bei der Auswahl eines Artikels wird dieser im ausgewählten Browser geöffnet"</string>
   <string name="menu_home_refresh">"Remote-Aktualisierung"</string>
   <string name="refresh_success_response">"Selfoss wird aktualisiert, du kannst jetzt die Artikel laden"</string>
   <string name="refresh_failer_message">"Das Update hat nicht funktioniert, versuche es erneut oder überprüfe die Protokolle von Selfoss."</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Quellen</string>
   <string name="drawer_action_edit">bearbeiten</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Couldn\'t cache your drawer data</string>
   <string name="no_tags_loaded">No tags loaded</string>
   <string name="no_sources_loaded">Keine Quellen geladen</string>
   <string name="drawer_loading">Lade…</string>

@@ -19,8 +19,7 @@
   <string name="action_disconnect">"Bağlantıyı kes"</string>
   <string name="title_activity_settings">"Ayarlar"</string>
   <string name="pref_header_general">"Genel"</string>
-  <string name="pref_switch_actions_tap_title">"Makalelerdeki aksiyona dokun"</string>
-  <string name="add_source_hint_tags">"Etiket1, etiket2, etiket3"</string>
+    <string name="add_source_hint_tags">"Etiket1, etiket2, etiket3"</string>
   <string name="add_source_hint_url">"Bağlantı"</string>
   <string name="add_source_hint_name">"İsim"</string>
   <string name="add_source">"Yeni Kaynak Ekle"</string>
@@ -73,12 +72,9 @@
   <string name="prefer_article_viewer_off">"Makale görüntüleyicisi yerine dahili tarayıcıyı kullanacak"</string>
   <string name="pref_general_category_links">"Bağlantı açma şekli"</string>
   <string name="pref_general_category_displaying">"Gösteriliyor"</string>
-  <string name="pref_general_category_actions">"Eylemler"</string>
-  <string name="pref_switch_card_view_on">"Makaleler kart olarak gösterilecek"</string>
+    <string name="pref_switch_card_view_on">"Makaleler kart olarak gösterilecek"</string>
   <string name="pref_switch_card_view_off">"Makaleler liste olarak gösterilecek"</string>
-  <string name="pref_switch_actions_tap_on">"Makalenin altındaki eylem çubuğunu görüntüler"</string>
-  <string name="pref_switch_actions_tap_off">"Seçtiğiniz tarayıcısında bir makale seçtiğinde açılacaktır"</string>
-  <string name="menu_home_refresh">"Uzaktan güncelleştirme"</string>
+    <string name="menu_home_refresh">"Uzaktan güncelleştirme"</string>
   <string name="refresh_success_response">"Uzaktan güncelleştirilir, şimdi makaleler listesi yeniden yükleyebilirsiniz"</string>
   <string name="refresh_failer_message">"Güncelleme çalışmadı, daha sonra tekrar deneyin veya selfoss günlüklerinizi kontrol edin."</string>
   <string name="refresh_in_progress">"Yenileme devam ediyor"</string>
@@ -94,8 +90,7 @@
   <string name="drawer_item_tags">Etiketler</string>
   <string name="drawer_item_sources">Kaynaklar</string>
   <string name="drawer_action_edit">düzenle</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Çekmece verilerinizi önbelleğe olamaz</string>
-  <string name="no_tags_loaded">Yüklenen görüntü yok</string>
+    <string name="no_tags_loaded">Yüklenen görüntü yok</string>
   <string name="no_sources_loaded">Yüklenen kaynak yok</string>
   <string name="drawer_loading">Yükleniyor…</string>
   <string name="menu_home_search">Ara</string>
