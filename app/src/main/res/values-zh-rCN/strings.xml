@@ -19,7 +19,6 @@
   <string name="action_disconnect">"断开连接"</string>
   <string name="title_activity_settings">"设置"</string>
   <string name="pref_header_general">"常用"</string>
-  <string name="pref_switch_actions_tap_title">"点击要对文章进行的操作"</string>
   <string name="add_source_hint_tags">"标签1,标签2,标签3"</string>
   <string name="add_source_hint_url">"链接"</string>
   <string name="add_source_hint_name">"名称"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"将使用内部浏览器而不是文章查看器"</string>
   <string name="pref_general_category_links">"链接处理"</string>
   <string name="pref_general_category_displaying">"显示"</string>
-  <string name="pref_general_category_actions">"操作"</string>
   <string name="pref_switch_card_view_on">"这些文章将以卡片形式显示"</string>
   <string name="pref_switch_card_view_off">"这些文章将以列表形式显示"</string>
-  <string name="pref_switch_actions_tap_on">"在文章下方显示操作栏"</string>
-  <string name="pref_switch_actions_tap_off">"选择文章时，将会在你选择的浏览器中打开"</string>
   <string name="menu_home_refresh">"更新远程"</string>
   <string name="refresh_success_response">"远程已更新，您现在可以重新加载文章列表"</string>
   <string name="refresh_failer_message">"更新未执行，请稍后重试，或者查看 Selfoss 日志。"</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">标签</string>
   <string name="drawer_item_sources">来源</string>
   <string name="drawer_action_edit">编辑</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">无法缓存您的抽屉数据</string>
   <string name="no_tags_loaded">未加载标签</string>
   <string name="no_sources_loaded">未加载数据源</string>
   <string name="drawer_loading">正在载入…</string>
@@ -153,4 +148,8 @@
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
