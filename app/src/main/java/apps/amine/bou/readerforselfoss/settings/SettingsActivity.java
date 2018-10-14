@@ -135,6 +135,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || ArticleViewerPreferenceFragment.class.getName().equals(fragmentName)
+                || OfflinePreferenceFragment.class.getName().equals(fragmentName)
                 || DebugPreferenceFragment.class.getName().equals(fragmentName)
                 || LinksPreferenceFragment.class.getName().equals(fragmentName)
                 || ThemePreferenceFragment.class.getName().equals(fragmentName);
@@ -362,6 +363,27 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             inflater.inflate(R.menu.settings_theme, menu);
         }
     }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class OfflinePreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_offline);
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                getActivity().finish();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

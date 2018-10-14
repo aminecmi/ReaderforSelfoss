@@ -8,7 +8,9 @@ import apps.amine.bou.readerforselfoss.persistence.entities.ItemEntity
 import apps.amine.bou.readerforselfoss.persistence.entities.SourceEntity
 import apps.amine.bou.readerforselfoss.persistence.entities.TagEntity
 
-@Database(entities = [TagEntity::class, SourceEntity::class], version = 1)
+@Database(entities = [TagEntity::class, SourceEntity::class, ItemEntity::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun drawerDataDao(): DrawerDataDao
+
+    abstract fun itemsDao(): ItemsDao
 }
