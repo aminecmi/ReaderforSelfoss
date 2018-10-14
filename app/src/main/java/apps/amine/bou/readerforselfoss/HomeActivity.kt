@@ -107,6 +107,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var displayAccountHeader: Boolean = false
     private var infiniteScroll: Boolean = false
     private var lastFetchDone: Boolean = false
+    private var itemsCaching: Boolean = false
     private var hiddenTags: List<String> = emptyList()
 
     private lateinit var tabNewBadge: TextBadgeItem
@@ -178,24 +179,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
-    }
-
-    private fun handleGDPRDialog(GDPRShown: Boolean) {
-        val sharedEditor = sharedPref.edit()
-        if (!GDPRShown) {
-            val alertDialog = AlertDialog.Builder(this).create()
-            alertDialog.setTitle(getString(R.string.gdpr_dialog_title))
-            alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
-            alertDialog.setButton(
-                AlertDialog.BUTTON_NEUTRAL,
-                "OK"
-            ) { dialog, _ ->
-                sharedEditor.putBoolean("GDPR_shown", true)
-                sharedEditor.commit()
-                dialog.dismiss()
-            }
-            alertDialog.show()
-        }
     }
 
     private fun handleSwipeRefreshLayout() {
@@ -350,7 +333,31 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         getElementsAccordingToTab()
 
+
         handleGDPRDialog(sharedPref.getBoolean("GDPR_shown", false))
+    }
+
+    private fun getAndStoreAllItems() {
+        api.allItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                call: Call<List<Item>>,
+                response: Response<List<Item>>
+            ) {
+                thread {
+                    if (response.body() != null) {
+                        val apiItems = (response.body() as ArrayList<Item>).filter {
+                            maybeTagFilter != null || filter(it.tags)
+                        } as ArrayList<Item>
+                        db.itemsDao().deleteAllItems()
+                        db.itemsDao()
+                            .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+                    }
+                }
+            }
+        })
     }
 
     override fun onStop() {
@@ -371,6 +378,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         userIdentifier = sharedPref.getString("unique_id", "")
         displayAccountHeader = sharedPref.getBoolean("account_header_displaying", false)
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
+        itemsCaching = sharedPref.getBoolean("items_caching", false)
         hiddenTags = if (sharedPref.getString("hidden_tags", "").isNotEmpty()) {
             sharedPref.getString("hidden_tags", "").replace("\\s".toRegex(), "").split(",")
         } else {
@@ -729,8 +737,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         thread {
             var drawerData = DrawerData(db.drawerDataDao().tags().map { it.toView() },
                                         db.drawerDataDao().sources().map { it.toView() })
-            handleDrawerData(drawerData, loadedFromCache = true)
-            drawerApiCalls(drawerData)
+            runOnUiThread {
+                handleDrawerData(drawerData, loadedFromCache = true)
+                drawerApiCalls(drawerData)
+            }
         }
     }
 
@@ -854,6 +864,15 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         appendResults: Boolean = false,
         offsetOverride: Int? = null
     ) {
+        fun doGetAccordingToTab() {
+            when (elementsShown) {
+                UNREAD_SHOWN -> getUnRead(appendResults)
+                READ_SHOWN -> getRead(appendResults)
+                FAV_SHOWN -> getStarred(appendResults)
+                else -> getUnRead(appendResults)
+            }
+        }
+
         offset = if (appendResults && offsetOverride === null) {
             (offset + itemsNumber)
         } else {
@@ -861,12 +880,35 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
         firstVisible = if (appendResults) firstVisible else 0
 
-        when (elementsShown) {
-            UNREAD_SHOWN -> getUnRead(appendResults)
-            READ_SHOWN -> getRead(appendResults)
-            FAV_SHOWN -> getStarred(appendResults)
-            else -> getUnRead(appendResults)
+        if (itemsCaching) {
+
+            if (!swipeRefreshLayout.isRefreshing) {
+                swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
+            }
+
+            thread {
+                val dbItems = db.itemsDao().items().map { it.toView() }
+                runOnUiThread {
+                    if (dbItems.isNotEmpty()) {
+                        items = when (elementsShown) {
+                            UNREAD_SHOWN -> ArrayList(dbItems.filter { it.unread })
+                            READ_SHOWN -> ArrayList(dbItems.filter { !it.unread })
+                            FAV_SHOWN -> ArrayList(dbItems.filter { it.starred })
+                            else -> ArrayList(dbItems.filter { it.unread })
+                        }
+                        handleListResult()
+                        doGetAccordingToTab()
+                    } else {
+                        doGetAccordingToTab()
+                        getAndStoreAllItems()
+                    }
+                }
+            }
+
+        } else {
+            doGetAccordingToTab()
         }
+
     }
 
     private fun filter(tags: String): Boolean {
@@ -880,9 +922,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         call: (String?, Long?, String?) -> Call<List<Item>>
     ) {
         fun handleItemsResponse(response: Response<List<Item>>) {
-            val shouldUpdate = (response.body() != items)
+            val shouldUpdate = (response.body()?.toSet() != items.toSet())
             if (response.body() != null) {
                 if (shouldUpdate) {
+                    getAndStoreAllItems()
                     items = response.body() as ArrayList<Item>
                     items = items.filter {
                         maybeTagFilter != null || filter(it.tags)
@@ -902,9 +945,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     allItems = ArrayList()
                 }
             }
-            if (shouldUpdate) {
-                handleListResult(appendResults)
-            }
+
+            handleListResult(appendResults)
 
             if (!appendResults) mayBeEmpty()
             swipeRefreshLayout.isRefreshing = false
@@ -1269,8 +1311,26 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             else -> badgeNew // if !elementsShown then unread are fetched.
         }
 
-    fun updateItems(adapterItems: ArrayList<Item>) {
+    private fun updateItems(adapterItems: ArrayList<Item>) {
         items = adapterItems
+    }
+
+    private fun handleGDPRDialog(GDPRShown: Boolean) {
+        val sharedEditor = sharedPref.edit()
+        if (!GDPRShown) {
+            val alertDialog = AlertDialog.Builder(this).create()
+            alertDialog.setTitle(getString(R.string.gdpr_dialog_title))
+            alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
+            alertDialog.setButton(
+                AlertDialog.BUTTON_NEUTRAL,
+                "OK"
+            ) { dialog, _ ->
+                sharedEditor.putBoolean("GDPR_shown", true)
+                sharedEditor.commit()
+                dialog.dismiss()
+            }
+            alertDialog.show()
+        }
     }
 }
 

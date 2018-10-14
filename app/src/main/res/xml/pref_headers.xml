@@ -11,6 +11,12 @@
         android:icon="@drawable/ic_chrome_reader_mode_black_24"
         android:title="@string/pref_header_viewer"/>
 
+
+    <header
+        android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$OfflinePreferenceFragment"
+        android:icon="@drawable/ic_signal_wifi_statusbar_not_connected"
+        android:title="@string/pref_header_offline"/>
+
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$DebugPreferenceFragment"
         android:icon="@drawable/ic_bug_report"

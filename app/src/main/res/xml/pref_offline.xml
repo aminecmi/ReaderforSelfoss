@@ -1,0 +1,8 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="items_caching"
+        android:summaryOff="@string/pref_switch_items_caching_off"
+        android:summaryOn="@string/pref_switch_items_caching_on"
+        android:title="@string/pref_switch_items_caching" />
+</PreferenceScreen>
