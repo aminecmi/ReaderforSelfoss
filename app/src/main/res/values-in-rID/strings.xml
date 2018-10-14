@@ -19,7 +19,6 @@
   <string name="action_disconnect">"Putuskan sambungan"</string>
   <string name="title_activity_settings">"Pengaturan"</string>
   <string name="pref_header_general">"Umum"</string>
-  <string name="pref_switch_actions_tap_title">"Pilih tindakan pada artikel"</string>
   <string name="add_source_hint_tags">"Tag1, Tag2, Tag 3"</string>
   <string name="add_source_hint_url">"Tautan"</string>
   <string name="add_source_hint_name">"Nama"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"Gunakan peramban internal dan bukan penampil artikel"</string>
   <string name="pref_general_category_links">"Pengolahan tautan"</string>
   <string name="pref_general_category_displaying">"Tampilan"</string>
-  <string name="pref_general_category_actions">"Tindakan"</string>
   <string name="pref_switch_card_view_on">"Artikel ini akan ditampilkan dalam bentuk kartu"</string>
   <string name="pref_switch_card_view_off">"Artikel ini akan ditampilkan sebagai daftar"</string>
-  <string name="pref_switch_actions_tap_on">"Bilah tindakan ditampilkan di bawah artikel"</string>
-  <string name="pref_switch_actions_tap_off">"Saat memilih artikel akan terbuka di peramban pilihan Anda"</string>
   <string name="menu_home_refresh">"Pemutakhiran jarak jauh"</string>
   <string name="refresh_success_response">"Selfoss sedang diperbarui, kini Anda bisa menyegarkan daftar artikel"</string>
   <string name="refresh_failer_message">"Pembaruan tidak berhasil, coba lagi atau periksa log Selfoss."</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">Tag</string>
   <string name="drawer_item_sources">Sumber</string>
   <string name="drawer_action_edit">suntung</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">Data dalam tembolok tidak dapat diambil</string>
   <string name="no_tags_loaded">Tidak ada tag yang dimuat</string>
   <string name="no_sources_loaded">Tak ada sumber yang dimuat</string>
   <string name="drawer_loading">Memuat …</string>
@@ -153,4 +148,8 @@
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
