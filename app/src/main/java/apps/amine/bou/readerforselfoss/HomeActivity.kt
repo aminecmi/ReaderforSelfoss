@@ -35,6 +35,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Stats
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.api.selfoss.Tag
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
@@ -156,7 +157,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "selfoss-database"
-        ).build()
+        ).addMigrations(MIGRATION_1_2).build()
 
 
         customTabActivityHelper = CustomTabActivityHelper()
