@@ -19,7 +19,6 @@
   <string name="action_disconnect">"Verbinding verbreken"</string>
   <string name="title_activity_settings">"Instellingen"</string>
   <string name="pref_header_general">"Algemeen"</string>
-  <string name="pref_switch_actions_tap_title">"Actie bij tikken op artikelen"</string>
   <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
   <string name="add_source_hint_url">"Link"</string>
   <string name="add_source_hint_name">"Naam"</string>
@@ -73,11 +72,8 @@
   <string name="prefer_article_viewer_off">"Artikelen in interne browser weergeven in plaats van viewer"</string>
   <string name="pref_general_category_links">"Links"</string>
   <string name="pref_general_category_displaying">"Weergave"</string>
-  <string name="pref_general_category_actions">"Acties"</string>
   <string name="pref_switch_card_view_on">"De artikelen worden als kaarten weergegeven"</string>
   <string name="pref_switch_card_view_off">"De artikelen worden als lijst weergegeven"</string>
-  <string name="pref_switch_actions_tap_on">"Toon de actiebalk onder het artikel"</string>
-  <string name="pref_switch_actions_tap_off">"Wanneer je een artikel selecteert, wordt deze geopend in de geselecteerde browser"</string>
   <string name="menu_home_refresh">"Selfoss verversen"</string>
   <string name="refresh_success_response">"Selfoss update uitgevoerd. Je kunt nu de artikellijst verversen"</string>
   <string name="refresh_failer_message">"Selfoss update mislukt. Probeer het later nog eens of controleer de logbestanden."</string>
@@ -94,7 +90,6 @@
   <string name="drawer_item_tags">Tags</string>
   <string name="drawer_item_sources">Bronnen</string>
   <string name="drawer_action_edit">bewerken</string>
-  <string name="cache_drawer_error" tools:keep="@string/cache_drawer_error">De gegevens in uw opslagruimte kunnen niet in de cache worden opgeslagen</string>
   <string name="no_tags_loaded">Geen tags geladen</string>
   <string name="no_sources_loaded">Geen bronnen geladen</string>
   <string name="drawer_loading">Bezig met laden …</string>
@@ -153,4 +148,8 @@
   <string name="acra_login">Enable logging</string>
   <string name="drawer_item_hidden_tags">Hidden Tags</string>
   <string name="unmark">Mark item as unread</string>
+  <string name="pref_header_offline">Offline and cache</string>
+  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
+  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
+  <string name="pref_switch_items_caching">Save items for offline use</string>
 </resources>
