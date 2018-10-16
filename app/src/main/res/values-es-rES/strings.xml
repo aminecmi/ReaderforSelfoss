@@ -148,8 +148,8 @@
   <string name="acra_login">Habilitar el registro</string>
   <string name="drawer_item_hidden_tags">Etiquetas ocultas</string>
   <string name="unmark">Marcar artículo como no leído</string>
-  <string name="pref_header_offline">Offline and cache</string>
-  <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
-  <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
-  <string name="pref_switch_items_caching">Save items for offline use</string>
+  <string name="pref_header_offline">Sin conexión y caché</string>
+  <string name="pref_switch_items_caching_off">Los artículos no se guardarán en la memoria del dispositivo y la aplicación no se podrá utilizar sin conexión.</string>
+  <string name="pref_switch_items_caching_on">Los artículos se guardarán en la memoria del dispositivo y se utilizarán para el uso sin conexión.</string>
+  <string name="pref_switch_items_caching">Guardar elementos para uso sin conexión</string>
 </resources>
