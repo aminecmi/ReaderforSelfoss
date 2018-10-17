@@ -14,6 +14,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
@@ -38,6 +39,7 @@ class ItemCardAdapter(
     override val app: Activity,
     override var items: ArrayList<Item>,
     override val api: SelfossApi,
+    override val db: AppDatabase,
     private val helper: CustomTabActivityHelper,
     private val internalBrowser: Boolean,
     private val articleViewer: Boolean,

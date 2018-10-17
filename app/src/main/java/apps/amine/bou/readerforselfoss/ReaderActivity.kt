@@ -13,14 +13,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.room.Room
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.fragments.ArticleFragment
+import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toggleStar
 import com.ftinc.scoop.Scoop
@@ -30,6 +34,7 @@ import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.concurrent.thread
 
 class ReaderActivity : AppCompatActivity() {
 
@@ -41,6 +46,8 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var api: SelfossApi
 
     private lateinit var toolbarMenu: Menu
+
+    private lateinit var db: AppDatabase
 
     private fun showMenuItem(willAddToFavorite: Boolean) {
         toolbarMenu.findItem(R.id.save).isVisible = willAddToFavorite
@@ -59,6 +66,11 @@ class ReaderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_reader)
+
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "selfoss-database"
+        ).addMigrations(MIGRATION_1_2).build()
 
         val scoop = Scoop.getInstance()
         scoop.bind(this, Toppings.PRIMARY.value, toolBar)
@@ -89,7 +101,7 @@ class ReaderActivity : AppCompatActivity() {
 
         currentItem = intent.getIntExtra("currentItem", 0)
 
-        readItem(allItems[currentItem].id)
+        readItem(allItems[currentItem])
 
         pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager, AppColors(this@ReaderActivity))
         pager.currentItem = currentItem
@@ -113,15 +125,18 @@ class ReaderActivity : AppCompatActivity() {
                     } else {
                         canFavorite()
                     }
-                    readItem(allItems[pager.currentItem].id)
+                    readItem(allItems[pager.currentItem])
                 }
             }
         )
     }
 
-    fun readItem(id: String) {
+    fun readItem(item: Item) {
         if (markOnScroll) {
-            api.markItem(id).enqueue(
+            thread {
+                db.itemsDao().delete(item.toEntity())
+            }
+            api.markItem(item.id).enqueue(
                 object : Callback<SuccessResponse> {
                     override fun onResponse(
                         call: Call<SuccessResponse>,
@@ -145,6 +160,9 @@ class ReaderActivity : AppCompatActivity() {
                         call: Call<SuccessResponse>,
                         t: Throwable
                     ) {
+                        thread {
+                            db.itemsDao().insertAllItems(item.toEntity())
+                        }
                         if (debugReadingItems) {
                             ACRA.getErrorReporter().maybeHandleSilentException(t, this@ReaderActivity)
                         }

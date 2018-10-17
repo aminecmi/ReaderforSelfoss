@@ -10,17 +10,21 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.concurrent.thread
 
 abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapter<VH>() {
     abstract var items: ArrayList<Item>
     abstract val api: SelfossApi
+    abstract val db: AppDatabase
     abstract val debugReadingItems: Boolean
     abstract val userIdentifier: String
     abstract val app: Activity
@@ -42,6 +46,9 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
             )
             .setAction(R.string.undo_string) {
                 items.add(position, i)
+                thread {
+                    db.itemsDao().insertAllItems(i.toEntity())
+                }
                 notifyItemInserted(position)
                 updateItems(items)
 
@@ -54,6 +61,9 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
 
                     override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                         items.remove(i)
+                        thread {
+                            db.itemsDao().delete(i.toEntity())
+                        }
                         notifyItemRemoved(position)
                         updateItems(items)
                         doUnmark(i, position)
@@ -75,6 +85,12 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
         notifyItemRemoved(position)
         updateItems(items)
 
+        // TODO: Handle network status.
+        // IF offline, delete from cached articles, and add to some table that will replay the calls on network activation.
+
+        thread {
+            db.itemsDao().delete(i.toEntity())
+        }
 
         api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
             override fun onResponse(
@@ -93,6 +109,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                     ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
                     Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
                 }
+
                 doUnmark(i, position)
             }
 
@@ -110,6 +127,9 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                 notifyItemInserted(position)
                 updateItems(items)
 
+                thread {
+                    db.itemsDao().insertAllItems(i.toEntity())
+                }
             }
         })
     }
