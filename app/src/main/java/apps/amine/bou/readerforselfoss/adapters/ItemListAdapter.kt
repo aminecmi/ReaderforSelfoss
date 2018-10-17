@@ -49,7 +49,6 @@ class ItemListAdapter(
 ) : ItemsAdapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
     private val c: Context = app.baseContext
-    private val bars: ArrayList<Boolean> = ArrayList(Collections.nCopies(items.size + 1, false))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(c).inflate(
@@ -105,19 +104,6 @@ class ItemListAdapter(
         } else {
             c.bitmapCenterCrop(itm.getThumbnail(c), holder.mView.itemImage)
         }
-
-        // TODO: maybe handle this differently. It crashes when changing tab
-        try {
-            if (bars[position]) {
-                holder.mView.actionBar.visibility = View.VISIBLE
-            } else {
-                holder.mView.actionBar.visibility = View.GONE
-            }
-        } catch (e: IndexOutOfBoundsException) {
-            holder.mView.actionBar.visibility = View.GONE
-        }
-
-        holder.mView.favButton.isLiked = itm.starred
     }
 
     override fun getItemCount(): Int = items.size
@@ -125,76 +111,14 @@ class ItemListAdapter(
     inner class ViewHolder(val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
 
         init {
-            handleClickListeners()
             handleCustomTabActions()
-        }
-
-        private fun handleClickListeners() {
-
-            mView.favButton.setOnLikeListener(object : OnLikeListener {
-                override fun liked(likeButton: LikeButton) {
-                    val (id) = items[adapterPosition]
-                    api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                        }
-
-                        override fun onFailure(
-                            call: Call<SuccessResponse>,
-                            t: Throwable
-                        ) {
-                            mView.favButton.isLiked = false
-                            Toast.makeText(
-                                c,
-                                R.string.cant_mark_favortie,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
-                }
-
-                override fun unLiked(likeButton: LikeButton) {
-                    val (id) = items[adapterPosition]
-                    api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                        }
-
-                        override fun onFailure(
-                            call: Call<SuccessResponse>,
-                            t: Throwable
-                        ) {
-                            mView.favButton.isLiked = true
-                            Toast.makeText(
-                                c,
-                                R.string.cant_unmark_favortie,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
-                }
-            })
-
-            mView.shareBtn.setOnClickListener {
-                c.shareLink(items[adapterPosition].getLinkDecoded())
-            }
-
-            mView.browserBtn.setOnClickListener {
-                c.openInBrowserAsNewTask(items[adapterPosition])
-
-            }
         }
 
         private fun handleCustomTabActions() {
             val customTabsIntent = c.buildCustomTabsIntent()
             helper.bindCustomTabsService(app)
 
-            mView.setOnClickListener { actionBarShowHide() }
-            mView.setOnLongClickListener {
+            mView.setOnClickListener {
                 c.openItemUrl(
                     items,
                     adapterPosition,
@@ -204,16 +128,6 @@ class ItemListAdapter(
                     articleViewer,
                     app
                 )
-                true
-            }
-        }
-
-        private fun actionBarShowHide() {
-            bars[adapterPosition] = true
-            if (mView.actionBar.visibility == View.GONE) {
-                mView.actionBar.visibility = View.VISIBLE
-            } else {
-                mView.actionBar.visibility = View.GONE
             }
         }
     }

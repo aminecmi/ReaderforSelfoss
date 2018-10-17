@@ -11,7 +11,6 @@
         android:id="@+id/itemImage"
         android:layout_width="88dp"
         android:layout_height="88dp"
-        app:layout_constraintBottom_toBottomOf="@+id/actionBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,79 +39,16 @@
         android:id="@+id/sourceTitleAndDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:gravity="start"
         android:textAlignment="viewStart"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/actionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/itemImage"
         app:layout_constraintTop_toBottomOf="@+id/title"
         tools:text="Google Actualité Il y a 5h" />
-
-    <RelativeLayout
-        android:id="@+id/actionBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#BBBBBB"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible">
-
-        <com.like.LikeButton
-            android:id="@+id/favButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:elevation="5dp"
-            android:padding="4dp"
-            app:icon_size="22dp"
-            app:icon_type="heart" />
-
-        <ImageButton
-            android:id="@+id/shareBtn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@+id/favButton"
-            android:layout_toStartOf="@+id/favButton"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:backgroundTint="?android:attr/textColorPrimary"
-            android:elevation="5dp"
-            android:padding="4dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_share_black_24dp" />
-
-        <ImageButton
-            android:id="@+id/browserBtn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@+id/shareBtn"
-            android:layout_toStartOf="@+id/shareBtn"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:backgroundTint="?android:attr/textColorPrimary"
-            android:elevation="5dp"
-            android:padding="4dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_open_in_browser_black_24dp" />
-
-    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

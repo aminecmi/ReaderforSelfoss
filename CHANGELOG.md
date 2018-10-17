@@ -2,6 +2,8 @@
 
 - Closing #1. Initial article caching.
 
+- Closing #228 by removing the list action bar. Action buttons are exclusively on the card view from now on.
+
 **1.6.x**
 
 - Handling hidden tags.
