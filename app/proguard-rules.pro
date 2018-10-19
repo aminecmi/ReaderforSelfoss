@@ -30,22 +30,6 @@
     <fields>;
 }
 
-
-##Retrofit
-#-keep class com.google.gson.** { *; }
-#-keep class com.google.inject.** { *; }
-#-keep class org.apache.http.** { *; }
-#-keep class org.apache.james.mime4j.** { *; }
-#-keep class javax.inject.** { *; }
-#-keep class retrofit.** { *; }
-#-keepclassmembernames interface * {
-#    @retrofit.http.* <methods>;
-#}
-#-keep class retrofit.** { *; }
-#-keep class apps.amine.bou.readerforselfoss.api.selfoss.model.** { *; }
-#-keepclassmembernames interface * {
-#    @retrofit.http.* <methods>;
-#}
 -dontwarn okio.**
 -dontwarn retrofit2.Platform$Java8
 -keep class retrofit.** { *; }
@@ -76,3 +60,6 @@
 -dontwarn javax.annotation.**
 
 -keep class android.support.v7.widget.SearchView { *; }
+
+# maybe remove later ?
+-keep class * extends androidx.fragment.app.Fragment
