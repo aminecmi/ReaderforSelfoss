@@ -1,1 +1,14 @@
 include ':app'
+
+ext.isCiServer = !!System.getProperty("CI")
+
+buildCache {
+    local {
+        enabled = !isCiServer
+    }
+    remote(HttpBuildCache) {
+        // DO NOT COMMIT !!!!!
+        url = 'http://amine-bou.fr:8885/cache/'
+        push = isCiServer
+    }
+}
