@@ -16,6 +16,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.utils.LinkOnTouchListener
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.bitmapCenterCrop
@@ -65,6 +66,7 @@ class ItemCardAdapter(
 
         holder.mView.favButton.isLiked = itm.starred
         holder.mView.title.text = Html.fromHtml(itm.title)
+        holder.mView.title.setOnTouchListener(LinkOnTouchListener())
 
         holder.mView.title.setLinkTextColor(appColors.colorAccent)
 

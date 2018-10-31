@@ -33,7 +33,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/itemImage"
         app:layout_constraintTop_toTopOf="parent"
-        android:autoLink="web"
         tools:text="Titre" />
 
     <TextView

@@ -6,8 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.text.Spannable
+import android.text.style.ClickableSpan
 import androidx.browser.customtabs.CustomTabsIntent
 import android.util.Patterns
+import android.view.MotionEvent
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.ReaderActivity
@@ -145,4 +150,41 @@ fun Context.openInBrowserAsNewTask(i: Item) {
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     intent.data = Uri.parse(i.getLinkDecoded().toStringUriWithHttp())
     startActivity(intent)
+}
+
+class LinkOnTouchListener: View.OnTouchListener {
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        var ret = false
+        val widget: TextView = v as TextView
+        val text: CharSequence = widget.text
+        val stext = Spannable.Factory.getInstance().newSpannable(text)
+
+        val action = event!!.action
+
+        if (action == MotionEvent.ACTION_UP ||
+            action == MotionEvent.ACTION_DOWN) {
+            var x: Float = event.x
+            var y: Float = event.y
+
+            x -= widget.totalPaddingLeft
+            y -= widget.totalPaddingTop
+
+            x += widget.scrollX
+            y += widget.scrollY
+
+            val layout = widget.layout
+            val line = layout.getLineForVertical(y.toInt())
+            val off = layout.getOffsetForHorizontal(line, x)
+
+            val link = stext.getSpans(off, off, ClickableSpan::class.java)
+
+            if (link.isNotEmpty()) {
+                if (action == MotionEvent.ACTION_UP) {
+                    link[0].onClick(widget)
+                }
+                ret = true
+            }
+        }
+        return ret
+    }
 }

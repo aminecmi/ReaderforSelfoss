@@ -69,7 +69,6 @@
                 app:layout_constraintLeft_toRightOf="@+id/sourceImage"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/sourceImage"
-                android:autoLink="web"
                 tools:text="Titre" />
 
             <TextView
