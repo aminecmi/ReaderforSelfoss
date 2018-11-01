@@ -4,6 +4,8 @@
 
 - Closing #228 by removing the list action bar. Action buttons are exclusively on the card view from now on.
 
+- Closing #38. Only doing api calls on network available.
+
 **1.6.x**
 
 - Handling hidden tags.
