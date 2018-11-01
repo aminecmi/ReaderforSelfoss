@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 class SelfossApi(
     c: Context,
-    callingActivity: Activity,
+    callingActivity: Activity?,
     isWithSelfSignedCert: Boolean,
     shouldLog: Boolean
 ) {
@@ -91,7 +91,9 @@ class SelfossApi(
                     .build()
             service = retrofit.create(SelfossService::class.java)
         } catch (e: IllegalArgumentException) {
-            Config.logoutAndRedirect(c, callingActivity, config.settings.edit(), baseUrlFail = true)
+            if (callingActivity != null) {
+                Config.logoutAndRedirect(c, callingActivity, config.settings.edit(), baseUrlFail = true)
+            }
         }
     }
 

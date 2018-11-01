@@ -25,6 +25,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import apps.amine.bou.readerforselfoss.adapters.ItemCardAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemListAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemsAdapter
@@ -34,6 +38,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.Stats
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.api.selfoss.Tag
+import apps.amine.bou.readerforselfoss.background.LoadingWorker
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
@@ -75,6 +80,7 @@ import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -180,6 +186,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
+
+        handleRecurringTask()
     }
 
     private fun handleSwipeRefreshLayout() {
@@ -1387,6 +1395,25 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
             alertDialog.show()
         }
+    }
+
+    private fun handleRecurringTask() {
+        // TODO: add network type
+        val myConstraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .setRequiresStorageNotLow(true)
+            .build()
+
+        // TODO: make the time variable from the settings.
+        val backgroundWork =
+            PeriodicWorkRequestBuilder<LoadingWorker>(4, TimeUnit.HOURS)
+                .setConstraints(myConstraints)
+                .addTag("selfoss-loading")
+                .build()
+
+
+        WorkManager.getInstance().enqueue(backgroundWork)
+
     }
 }
 
