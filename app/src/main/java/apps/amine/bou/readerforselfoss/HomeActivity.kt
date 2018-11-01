@@ -47,6 +47,7 @@ import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.persistence.toView
 import co.zsmb.materialdrawerkt.builders.accountHeader
@@ -332,7 +333,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleBottomBarActions()
 
         getElementsAccordingToTab()
-
 
         handleGDPRDialog(sharedPref.getBoolean("GDPR_shown", false))
     }
@@ -817,11 +817,51 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             override fun onTabSelected(position: Int) {
                 offset = 0
                 lastFetchDone = false
-                when (position) {
-                    0 -> getUnRead()
-                    1 -> getRead()
-                    2 -> getStarred()
-                    else -> Unit
+
+                if (itemsCaching) {
+
+                    if (!swipeRefreshLayout.isRefreshing) {
+                        swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
+                    }
+
+                    thread {
+                        val dbItems = db.itemsDao().items().map { it.toView() }
+                        runOnUiThread {
+                            if (dbItems.isNotEmpty()) {
+                                items = when (position) {
+                                    0 -> ArrayList(dbItems.filter { it.unread })
+                                    1 -> ArrayList(dbItems.filter { !it.unread })
+                                    2 -> ArrayList(dbItems.filter { it.starred })
+                                    else -> ArrayList(dbItems.filter { it.unread })
+                                }
+                                handleListResult()
+                                when (position) {
+                                    0 -> getUnRead()
+                                    1 -> getRead()
+                                    2 -> getStarred()
+                                    else -> Unit
+                                }
+                            } else {
+                                if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout))) {
+                                    when (position) {
+                                        0 -> getUnRead()
+                                        1 -> getRead()
+                                        2 -> getStarred()
+                                        else -> Unit
+                                    }
+                                    getAndStoreAllItems()
+                                }
+                            }
+                        }
+                    }
+
+                } else {
+                    when (position) {
+                        0 -> getUnRead()
+                        1 -> getRead()
+                        2 -> getStarred()
+                        else -> Unit
+                    }
                 }
             }
         })
@@ -899,8 +939,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         handleListResult()
                         doGetAccordingToTab()
                     } else {
-                        doGetAccordingToTab()
-                        getAndStoreAllItems()
+                        if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout))) {
+                            doGetAccordingToTab()
+                            getAndStoreAllItems()
+                        }
                     }
                 }
             }
@@ -956,24 +998,28 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
         }
 
-        call(maybeTagFilter?.tag, maybeSourceFilter?.id?.toLong(), maybeSearchFilter)
-            .enqueue(object : Callback<List<Item>> {
-                override fun onResponse(
-                    call: Call<List<Item>>,
-                    response: Response<List<Item>>
-                ) {
-                    handleItemsResponse(response)
-                }
+        if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout))) {
+            call(maybeTagFilter?.tag, maybeSourceFilter?.id?.toLong(), maybeSearchFilter)
+                .enqueue(object : Callback<List<Item>> {
+                    override fun onResponse(
+                        call: Call<List<Item>>,
+                        response: Response<List<Item>>
+                    ) {
+                        handleItemsResponse(response)
+                    }
 
-                override fun onFailure(call: Call<List<Item>>, t: Throwable) {
-                    swipeRefreshLayout.isRefreshing = false
-                    Toast.makeText(
-                        this@HomeActivity,
-                        toastMessage,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            })
+                    override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                        swipeRefreshLayout.isRefreshing = false
+                        Toast.makeText(
+                            this@HomeActivity,
+                            toastMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        } else {
+            swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = false }
+        }
     }
 
     private fun getUnRead(appendResults: Boolean = false) {

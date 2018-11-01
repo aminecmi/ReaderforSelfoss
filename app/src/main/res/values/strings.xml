@@ -152,4 +152,5 @@
     <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
     <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
     <string name="pref_switch_items_caching">Save items for offline use</string>
+    <string name="no_network_connectivity">Not connected !</string>
 </resources>
