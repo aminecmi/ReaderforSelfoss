@@ -24,6 +24,7 @@ import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toggleStar
@@ -74,7 +75,7 @@ class ReaderActivity : AppCompatActivity() {
 
         val scoop = Scoop.getInstance()
         scoop.bind(this, Toppings.PRIMARY.value, toolBar)
-        if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
         }
 
@@ -103,7 +104,8 @@ class ReaderActivity : AppCompatActivity() {
 
         readItem(allItems[currentItem])
 
-        pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager, AppColors(this@ReaderActivity))
+        pager.adapter =
+                ScreenSlidePagerAdapter(supportFragmentManager, AppColors(this@ReaderActivity))
         pager.currentItem = currentItem
     }
 
@@ -132,7 +134,7 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     fun readItem(item: Item) {
-        if (markOnScroll) {
+        if (this@ReaderActivity.isNetworkAccessible(this@ReaderActivity.findViewById(R.id.reader_activity_view)) && markOnScroll) {
             thread {
                 db.itemsDao().delete(item.toEntity())
             }
@@ -164,7 +166,8 @@ class ReaderActivity : AppCompatActivity() {
                             db.itemsDao().insertAllItems(item.toEntity())
                         }
                         if (debugReadingItems) {
-                            ACRA.getErrorReporter().maybeHandleSilentException(t, this@ReaderActivity)
+                            ACRA.getErrorReporter()
+                                .maybeHandleSilentException(t, this@ReaderActivity)
                         }
                     }
                 }
@@ -191,7 +194,6 @@ class ReaderActivity : AppCompatActivity() {
     private inner class ScreenSlidePagerAdapter(fm: FragmentManager, val appColors: AppColors) :
         FragmentStatePagerAdapter(fm) {
 
-
         override fun getCount(): Int {
             return allItems.size
         }
@@ -203,7 +205,12 @@ class ReaderActivity : AppCompatActivity() {
         override fun startUpdate(container: ViewGroup) {
             super.startUpdate(container)
 
-            container.background = ColorDrawable(ContextCompat.getColor(this@ReaderActivity, appColors.colorBackground))
+            container.background = ColorDrawable(
+                ContextCompat.getColor(
+                    this@ReaderActivity,
+                    appColors.colorBackground
+                )
+            )
         }
     }
 
@@ -228,52 +235,56 @@ class ReaderActivity : AppCompatActivity() {
                 return true
             }
             R.id.save -> {
-                api.starrItem(allItems[pager.currentItem].id)
-                    .enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                            allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
-                            notifyAdapter()
-                            canRemoveFromFavorite()
-                        }
+                if (this@ReaderActivity.isNetworkAccessible(null)) {
+                    api.starrItem(allItems[pager.currentItem].id)
+                        .enqueue(object : Callback<SuccessResponse> {
+                            override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                            ) {
+                                allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+                                notifyAdapter()
+                                canRemoveFromFavorite()
+                            }
 
-                        override fun onFailure(
-                            call: Call<SuccessResponse>,
-                            t: Throwable
-                        ) {
-                            Toast.makeText(
-                                baseContext,
-                                R.string.cant_mark_favortie,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                            override fun onFailure(
+                                call: Call<SuccessResponse>,
+                                t: Throwable
+                            ) {
+                                Toast.makeText(
+                                    baseContext,
+                                    R.string.cant_mark_favortie,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                }
             }
             R.id.unsave -> {
-                api.unstarrItem(allItems[pager.currentItem].id)
-                    .enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                            allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
-                            notifyAdapter()
-                            canFavorite()
-                        }
+                if (this@ReaderActivity.isNetworkAccessible(null)) {
+                    api.unstarrItem(allItems[pager.currentItem].id)
+                        .enqueue(object : Callback<SuccessResponse> {
+                            override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                            ) {
+                                allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+                                notifyAdapter()
+                                canFavorite()
+                            }
 
-                        override fun onFailure(
-                            call: Call<SuccessResponse>,
-                            t: Throwable
-                        ) {
-                            Toast.makeText(
-                                baseContext,
-                                R.string.cant_unmark_favortie,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                            override fun onFailure(
+                                call: Call<SuccessResponse>,
+                                t: Throwable
+                            ) {
+                                Toast.makeText(
+                                    baseContext,
+                                    R.string.cant_unmark_favortie,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                }
             }
         }
         return super.onOptionsItemSelected(item)

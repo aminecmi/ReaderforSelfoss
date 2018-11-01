@@ -10,13 +10,15 @@ import apps.amine.bou.readerforselfoss.R
 import com.google.android.material.snackbar.Snackbar
 
 var snackBarShown = false
+var view: View? = null
 
 fun Context.isNetworkAccessible(v: View?): Boolean {
     val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
     val networkIsAccessible = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
-    if (v != null && !networkIsAccessible && !snackBarShown) {
+    if (v != null && !networkIsAccessible && (!snackBarShown || v != view)) {
+        view = v
         val s = Snackbar
             .make(
                 v,

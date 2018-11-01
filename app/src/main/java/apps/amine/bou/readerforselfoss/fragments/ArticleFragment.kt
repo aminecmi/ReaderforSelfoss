@@ -29,6 +29,7 @@ import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
@@ -135,35 +136,37 @@ class ArticleFragment : Fragment() {
                             false,
                             activity!!
                         )
-                        R.id.unread_action -> api.unmarkItem(allItems[pageNumber.toInt()].id).enqueue(
-                            object : Callback<SuccessResponse> {
-                                override fun onResponse(
-                                    call: Call<SuccessResponse>,
-                                    response: Response<SuccessResponse>
-                                ) {
-                                    if (!response.succeeded() && debugReadingItems) {
-                                        val message =
-                                            "message: ${response.message()} " +
-                                                    "response isSuccess: ${response.isSuccessful} " +
-                                                    "response code: ${response.code()} " +
-                                                    "response message: ${response.message()} " +
-                                                    "response errorBody: ${response.errorBody()?.string()} " +
-                                                    "body success: ${response.body()?.success} " +
-                                                    "body isSuccess: ${response.body()?.isSuccess}"
-                                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
+                        R.id.unread_action -> if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
+                            api.unmarkItem(allItems[pageNumber.toInt()].id).enqueue(
+                                object : Callback<SuccessResponse> {
+                                    override fun onResponse(
+                                        call: Call<SuccessResponse>,
+                                        response: Response<SuccessResponse>
+                                    ) {
+                                        if (!response.succeeded() && debugReadingItems) {
+                                            val message =
+                                                "message: ${response.message()} " +
+                                                        "response isSuccess: ${response.isSuccessful} " +
+                                                        "response code: ${response.code()} " +
+                                                        "response message: ${response.message()} " +
+                                                        "response errorBody: ${response.errorBody()?.string()} " +
+                                                        "body success: ${response.body()?.success} " +
+                                                        "body isSuccess: ${response.body()?.isSuccess}"
+                                            ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
+                                        }
                                     }
-                                }
 
-                                override fun onFailure(
-                                    call: Call<SuccessResponse>,
-                                    t: Throwable
-                                ) {
-                                    if (debugReadingItems) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
+                                    override fun onFailure(
+                                        call: Call<SuccessResponse>,
+                                        t: Throwable
+                                    ) {
+                                        if (debugReadingItems) {
+                                            ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
+                                        }
                                     }
                                 }
-                            }
-                        )
+                            )
+                        }
                         else -> Unit
                     }
                 }
@@ -212,96 +215,98 @@ class ArticleFragment : Fragment() {
         customTabsIntent: CustomTabsIntent,
         prefs: SharedPreferences
     ) {
-        rootView.progressBar.visibility = View.VISIBLE
-        val parser = MercuryApi(
-            prefs.getBoolean("should_log_everything", false)
-        )
+        if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
+            rootView.progressBar.visibility = View.VISIBLE
+            val parser = MercuryApi(
+                prefs.getBoolean("should_log_everything", false)
+            )
 
-        parser.parseUrl(url).enqueue(
-            object : Callback<ParsedContent> {
-                override fun onResponse(
-                    call: Call<ParsedContent>,
-                    response: Response<ParsedContent>
-                ) {
-                    // TODO: clean all the following after finding the mercury content issue
-                    try {
-                        if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
-                            try {
-                                rootView.titleView.text = response.body()!!.title
+            parser.parseUrl(url).enqueue(
+                object : Callback<ParsedContent> {
+                    override fun onResponse(
+                        call: Call<ParsedContent>,
+                        response: Response<ParsedContent>
+                    ) {
+                        // TODO: clean all the following after finding the mercury content issue
+                        try {
+                            if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 try {
-                                    // Note: Mercury may return relative urls... If it does the url val will not be changed.
-                                    URL(response.body()!!.url)
-                                    url = response.body()!!.url
-                                } catch (e: MalformedURLException) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
-                                }
-                            } catch (e: Exception) {
-                                if (context != null) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
-                                }
-                            }
-
-                            try {
-                                htmlToWebview(response.body()!!.content.orEmpty(), prefs)
-                            } catch (e: Exception) {
-                                if (context != null) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
-                                }
-                            }
-
-                            try {
-                                if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty() && context != null) {
-                                    rootView.imageView.visibility = View.VISIBLE
+                                    rootView.titleView.text = response.body()!!.title
                                     try {
-                                        Glide
-                                            .with(context!!)
-                                            .asBitmap()
-                                            .load(response.body()!!.lead_image_url)
-                                            .apply(RequestOptions.fitCenterTransform())
-                                            .into(rootView.imageView)
-                                    } catch (e: Exception) {
+                                        // Note: Mercury may return relative urls... If it does the url val will not be changed.
+                                        URL(response.body()!!.url)
+                                        url = response.body()!!.url
+                                    } catch (e: MalformedURLException) {
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
+                                    }
+                                } catch (e: Exception) {
+                                    if (context != null) {
                                         ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                     }
-                                } else {
-                                    rootView.imageView.visibility = View.GONE
                                 }
-                            } catch (e: Exception) {
-                                if (context != null) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
-                                }
-                            }
 
-                            try {
-                                rootView.nestedScrollView.scrollTo(0, 0)
+                                try {
+                                    htmlToWebview(response.body()!!.content.orEmpty(), prefs)
+                                } catch (e: Exception) {
+                                    if (context != null) {
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                    }
+                                }
 
-                                rootView.progressBar.visibility = View.GONE
-                            } catch (e: Exception) {
-                                if (context != null) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                try {
+                                    if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty() && context != null) {
+                                        rootView.imageView.visibility = View.VISIBLE
+                                        try {
+                                            Glide
+                                                .with(context!!)
+                                                .asBitmap()
+                                                .load(response.body()!!.lead_image_url)
+                                                .apply(RequestOptions.fitCenterTransform())
+                                                .into(rootView.imageView)
+                                        } catch (e: Exception) {
+                                            ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                        }
+                                    } else {
+                                        rootView.imageView.visibility = View.GONE
+                                    }
+                                } catch (e: Exception) {
+                                    if (context != null) {
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                    }
+                                }
+
+                                try {
+                                    rootView.nestedScrollView.scrollTo(0, 0)
+
+                                    rootView.progressBar.visibility = View.GONE
+                                } catch (e: Exception) {
+                                    if (context != null) {
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                    }
+                                }
+                            } else {
+                                try {
+                                    openInBrowserAfterFailing(customTabsIntent)
+                                } catch (e: Exception) {
+                                    if (context != null) {
+                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
+                                    }
                                 }
                             }
-                        } else {
-                            try {
-                                openInBrowserAfterFailing(customTabsIntent)
-                            } catch (e: Exception) {
-                                if (context != null) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
-                                }
+                        } catch (e: Exception) {
+                            if (context != null) {
+                                ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                             }
-                        }
-                    } catch (e: Exception) {
-                        if (context != null) {
-                            ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                         }
                     }
-                }
 
-                override fun onFailure(
-                    call: Call<ParsedContent>,
-                    t: Throwable
-                ) = openInBrowserAfterFailing(customTabsIntent)
-            }
-        )
+                    override fun onFailure(
+                        call: Call<ParsedContent>,
+                        t: Throwable
+                    ) = openInBrowserAfterFailing(customTabsIntent)
+                }
+            )
+        }
     }
 
     private fun htmlToWebview(c: String, prefs: SharedPreferences) {

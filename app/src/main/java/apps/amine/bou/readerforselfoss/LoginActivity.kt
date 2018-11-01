@@ -21,6 +21,7 @@ import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.android.synthetic.main.activity_login.*
@@ -196,45 +197,50 @@ class LoginActivity : AppCompatActivity() {
                 isWithSelfSignedCert,
                 isWithSelfSignedCert
             )
-            api.login().enqueue(object : Callback<SuccessResponse> {
-                private fun preferenceError(t: Throwable) {
-                    editor.remove("url")
-                    editor.remove("login")
-                    editor.remove("httpUserName")
-                    editor.remove("password")
-                    editor.remove("httpPassword")
-                    editor.apply()
-                    urlView.error = getString(R.string.wrong_infos)
-                    loginView.error = getString(R.string.wrong_infos)
-                    passwordView.error = getString(R.string.wrong_infos)
-                    httpLoginView.error = getString(R.string.wrong_infos)
-                    httpPasswordView.error = getString(R.string.wrong_infos)
-                    if (logErrors) {
-                        ACRA.getErrorReporter().maybeHandleSilentException(t, this@LoginActivity)
-                        Toast.makeText(
-                            this@LoginActivity,
-                            t.message,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    showProgress(false)
-                }
 
-                override fun onResponse(
-                    call: Call<SuccessResponse>,
-                    response: Response<SuccessResponse>
-                ) {
-                    if (response.body() != null && response.body()!!.isSuccess) {
-                        goToMain()
-                    } else {
-                        preferenceError(Exception("No response body..."))
+            if (this@LoginActivity.isNetworkAccessible(this@LoginActivity.findViewById(R.id.loginForm))) {
+                api.login().enqueue(object : Callback<SuccessResponse> {
+                    private fun preferenceError(t: Throwable) {
+                        editor.remove("url")
+                        editor.remove("login")
+                        editor.remove("httpUserName")
+                        editor.remove("password")
+                        editor.remove("httpPassword")
+                        editor.apply()
+                        urlView.error = getString(R.string.wrong_infos)
+                        loginView.error = getString(R.string.wrong_infos)
+                        passwordView.error = getString(R.string.wrong_infos)
+                        httpLoginView.error = getString(R.string.wrong_infos)
+                        httpPasswordView.error = getString(R.string.wrong_infos)
+                        if (logErrors) {
+                            ACRA.getErrorReporter().maybeHandleSilentException(t, this@LoginActivity)
+                            Toast.makeText(
+                                this@LoginActivity,
+                                t.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        showProgress(false)
                     }
-                }
 
-                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    preferenceError(t)
-                }
-            })
+                    override fun onResponse(
+                        call: Call<SuccessResponse>,
+                        response: Response<SuccessResponse>
+                    ) {
+                        if (response.body() != null && response.body()!!.isSuccess) {
+                            goToMain()
+                        } else {
+                            preferenceError(Exception("No response body..."))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                        preferenceError(t)
+                    }
+                })
+            } else {
+                showProgress(false)
+            }
         }
     }
 

@@ -13,6 +13,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import org.acra.ACRA
@@ -45,30 +46,32 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                 Snackbar.LENGTH_LONG
             )
             .setAction(R.string.undo_string) {
-                items.add(position, i)
-                thread {
-                    db.itemsDao().insertAllItems(i.toEntity())
-                }
-                notifyItemInserted(position)
-                updateItems(items)
-
-                api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
-                    override fun onResponse(
-                        call: Call<SuccessResponse>,
-                        response: Response<SuccessResponse>
-                    ) {
+                if (app.isNetworkAccessible(null)) {
+                    items.add(position, i)
+                    thread {
+                        db.itemsDao().insertAllItems(i.toEntity())
                     }
+                    notifyItemInserted(position)
+                    updateItems(items)
 
-                    override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                        items.remove(i)
-                        thread {
-                            db.itemsDao().delete(i.toEntity())
+                    api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
+                        override fun onResponse(
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
+                        ) {
                         }
-                        notifyItemRemoved(position)
-                        updateItems(items)
-                        doUnmark(i, position)
-                    }
-                })
+
+                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                            items.remove(i)
+                            thread {
+                                db.itemsDao().delete(i.toEntity())
+                            }
+                            notifyItemRemoved(position)
+                            updateItems(items)
+                            doUnmark(i, position)
+                        }
+                    })
+                }
             }
 
         val view = s.view
@@ -78,60 +81,61 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     }
 
     fun removeItemAtIndex(position: Int) {
+        if (app.isNetworkAccessible(null)) {
+            val i = items[position]
 
-        val i = items[position]
+            items.remove(i)
+            notifyItemRemoved(position)
+            updateItems(items)
 
-        items.remove(i)
-        notifyItemRemoved(position)
-        updateItems(items)
+            // TODO: Handle network status.
+            // IF offline, delete from cached articles, and add to some table that will replay the calls on network activation.
 
-        // TODO: Handle network status.
-        // IF offline, delete from cached articles, and add to some table that will replay the calls on network activation.
+            thread {
+                db.itemsDao().delete(i.toEntity())
+            }
 
-        thread {
-            db.itemsDao().delete(i.toEntity())
+            api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
+                override fun onResponse(
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
+                ) {
+                    if (!response.succeeded() && debugReadingItems) {
+                        val message =
+                            "message: ${response.message()} " +
+                                    "response isSuccess: ${response.isSuccessful} " +
+                                    "response code: ${response.code()} " +
+                                    "response message: ${response.message()} " +
+                                    "response errorBody: ${response.errorBody()?.string()} " +
+                                    "body success: ${response.body()?.success} " +
+                                    "body isSuccess: ${response.body()?.isSuccess}"
+                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
+                        Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
+                    }
+
+                    doUnmark(i, position)
+                }
+
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                    if (debugReadingItems) {
+                        ACRA.getErrorReporter().maybeHandleSilentException(t, app)
+                        Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
+                    }
+                    Toast.makeText(
+                        app,
+                        app.getString(R.string.cant_mark_read),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    items.add(i)
+                    notifyItemInserted(position)
+                    updateItems(items)
+
+                    thread {
+                        db.itemsDao().insertAllItems(i.toEntity())
+                    }
+                }
+            })
         }
-
-        api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
-            override fun onResponse(
-                call: Call<SuccessResponse>,
-                response: Response<SuccessResponse>
-            ) {
-                if (!response.succeeded() && debugReadingItems) {
-                    val message =
-                        "message: ${response.message()} " +
-                                "response isSuccess: ${response.isSuccessful} " +
-                                "response code: ${response.code()} " +
-                                "response message: ${response.message()} " +
-                                "response errorBody: ${response.errorBody()?.string()} " +
-                                "body success: ${response.body()?.success} " +
-                                "body isSuccess: ${response.body()?.isSuccess}"
-                    ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
-                    Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
-                }
-
-                doUnmark(i, position)
-            }
-
-            override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                if (debugReadingItems) {
-                    ACRA.getErrorReporter().maybeHandleSilentException(t, app)
-                    Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
-                }
-                Toast.makeText(
-                    app,
-                    app.getString(R.string.cant_mark_read),
-                    Toast.LENGTH_SHORT
-                ).show()
-                items.add(i)
-                notifyItemInserted(position)
-                updateItems(items)
-
-                thread {
-                    db.itemsDao().insertAllItems(i.toEntity())
-                }
-            }
-        })
     }
 
     fun addItemAtIndex(item: Item, position: Int) {

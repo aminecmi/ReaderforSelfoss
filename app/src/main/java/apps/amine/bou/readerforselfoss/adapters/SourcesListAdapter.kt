@@ -13,6 +13,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -70,33 +71,35 @@ class SourcesListAdapter(
             val deleteBtn: Button = mView.findViewById(R.id.deleteBtn)
 
             deleteBtn.setOnClickListener {
-                val (id) = items[adapterPosition]
-                api.deleteSource(id).enqueue(object : Callback<SuccessResponse> {
-                    override fun onResponse(
-                        call: Call<SuccessResponse>,
-                        response: Response<SuccessResponse>
-                    ) {
-                        if (response.body() != null && response.body()!!.isSuccess) {
-                            items.removeAt(adapterPosition)
-                            notifyItemRemoved(adapterPosition)
-                            notifyItemRangeChanged(adapterPosition, itemCount)
-                        } else {
+                if (c.isNetworkAccessible(null)) {
+                    val (id) = items[adapterPosition]
+                    api.deleteSource(id).enqueue(object : Callback<SuccessResponse> {
+                        override fun onResponse(
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
+                        ) {
+                            if (response.body() != null && response.body()!!.isSuccess) {
+                                items.removeAt(adapterPosition)
+                                notifyItemRemoved(adapterPosition)
+                                notifyItemRangeChanged(adapterPosition, itemCount)
+                            } else {
+                                Toast.makeText(
+                                    app,
+                                    R.string.can_delete_source,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
                             Toast.makeText(
                                 app,
                                 R.string.can_delete_source,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    }
-
-                    override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                        Toast.makeText(
-                            app,
-                            R.string.can_delete_source,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                    })
+                }
             }
         }
     }

@@ -21,6 +21,7 @@ import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.bitmapCenterCrop
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.openInBrowserAsNewTask
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
@@ -117,49 +118,53 @@ class ItemCardAdapter(
 
             mView.favButton.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {
-                    val (id) = items[adapterPosition]
-                    api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                        }
+                    if (c.isNetworkAccessible(null)) {
+                        val (id) = items[adapterPosition]
+                        api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
+                            override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                            ) {
+                            }
 
-                        override fun onFailure(
-                            call: Call<SuccessResponse>,
-                            t: Throwable
-                        ) {
-                            mView.favButton.isLiked = false
-                            Toast.makeText(
-                                c,
-                                R.string.cant_mark_favortie,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                            override fun onFailure(
+                                call: Call<SuccessResponse>,
+                                t: Throwable
+                            ) {
+                                mView.favButton.isLiked = false
+                                Toast.makeText(
+                                    c,
+                                    R.string.cant_mark_favortie,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                    }
                 }
 
                 override fun unLiked(likeButton: LikeButton) {
-                    val (id) = items[adapterPosition]
-                    api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
-                        override fun onResponse(
-                            call: Call<SuccessResponse>,
-                            response: Response<SuccessResponse>
-                        ) {
-                        }
+                    if (c.isNetworkAccessible(null)) {
+                        val (id) = items[adapterPosition]
+                        api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
+                            override fun onResponse(
+                                call: Call<SuccessResponse>,
+                                response: Response<SuccessResponse>
+                            ) {
+                            }
 
-                        override fun onFailure(
-                            call: Call<SuccessResponse>,
-                            t: Throwable
-                        ) {
-                            mView.favButton.isLiked = true
-                            Toast.makeText(
-                                c,
-                                R.string.cant_unmark_favortie,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                            override fun onFailure(
+                                call: Call<SuccessResponse>,
+                                t: Throwable
+                            ) {
+                                mView.favButton.isLiked = true
+                                Toast.makeText(
+                                    c,
+                                    R.string.cant_unmark_favortie,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                    }
                 }
             })
 

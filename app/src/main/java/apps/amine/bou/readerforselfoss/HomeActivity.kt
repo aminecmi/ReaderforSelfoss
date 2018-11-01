@@ -204,7 +204,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ): Int =
-                    if (elementsShown != UNREAD_SHOWN) {
+                    if (elementsShown != UNREAD_SHOWN || !this@HomeActivity.isNetworkAccessible(null)) {
                         0
                     } else {
                         super.getSwipeDirs(
@@ -696,36 +696,40 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             var sources: List<Source>?
 
             fun sourcesApiCall() {
-                api.sources.enqueue(object : Callback<List<Source>> {
-                    override fun onResponse(
-                        call: Call<List<Source>>?,
-                        response: Response<List<Source>>
-                    ) {
-                        sources = response.body()
-                        val apiDrawerData = DrawerData(tags, sources)
-                        if ((maybeDrawerData != null && maybeDrawerData != apiDrawerData) || maybeDrawerData == null) {
-                            handleDrawerData(apiDrawerData)
+                if (this@HomeActivity.isNetworkAccessible(null)) {
+                    api.sources.enqueue(object : Callback<List<Source>> {
+                        override fun onResponse(
+                            call: Call<List<Source>>?,
+                            response: Response<List<Source>>
+                        ) {
+                            sources = response.body()
+                            val apiDrawerData = DrawerData(tags, sources)
+                            if ((maybeDrawerData != null && maybeDrawerData != apiDrawerData) || maybeDrawerData == null) {
+                                handleDrawerData(apiDrawerData)
+                            }
                         }
+
+                        override fun onFailure(call: Call<List<Source>>?, t: Throwable?) {
+                        }
+                    })
+                }
+            }
+
+            if (this@HomeActivity.isNetworkAccessible(null)) {
+                api.tags.enqueue(object : Callback<List<Tag>> {
+                    override fun onResponse(
+                        call: Call<List<Tag>>,
+                        response: Response<List<Tag>>
+                    ) {
+                        tags = response.body()
+                        sourcesApiCall()
                     }
 
-                    override fun onFailure(call: Call<List<Source>>?, t: Throwable?) {
+                    override fun onFailure(call: Call<List<Tag>>?, t: Throwable?) {
+                        sourcesApiCall()
                     }
                 })
             }
-
-            api.tags.enqueue(object : Callback<List<Tag>> {
-                override fun onResponse(
-                    call: Call<List<Tag>>,
-                    response: Response<List<Tag>>
-                ) {
-                    tags = response.body()
-                    sourcesApiCall()
-                }
-
-                override fun onFailure(call: Call<List<Tag>>?, t: Throwable?) {
-                    sourcesApiCall()
-                }
-            })
         }
 
         drawer.addItem(
@@ -1128,7 +1132,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun reloadBadges() {
-        if (displayUnreadCount || displayAllCount) {
+        if (this@HomeActivity.isNetworkAccessible(null) && (displayUnreadCount || displayAllCount)) {
             api.stats.enqueue(object : Callback<Stats> {
                 override fun onResponse(call: Call<Stats>, response: Response<Stats>) {
                     if (response.body() != null) {
@@ -1234,33 +1238,37 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh -> {
-                needsConfirmation(R.string.menu_home_refresh, R.string.refresh_dialog_message) {
-                    api.update().enqueue(object : Callback<String> {
-                        override fun onResponse(
-                            call: Call<String>,
-                            response: Response<String>
-                        ) {
-                            Toast.makeText(
-                                this@HomeActivity,
-                                R.string.refresh_success_response, Toast.LENGTH_LONG
-                            )
-                                .show()
-                        }
+                if (this@HomeActivity.isNetworkAccessible(null)) {
+                    needsConfirmation(R.string.menu_home_refresh, R.string.refresh_dialog_message) {
+                        api.update().enqueue(object : Callback<String> {
+                            override fun onResponse(
+                                call: Call<String>,
+                                response: Response<String>
+                            ) {
+                                Toast.makeText(
+                                    this@HomeActivity,
+                                    R.string.refresh_success_response, Toast.LENGTH_LONG
+                                )
+                                    .show()
+                            }
 
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            Toast.makeText(
-                                this@HomeActivity,
-                                R.string.refresh_failer_message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
-                    Toast.makeText(this, R.string.refresh_in_progress, Toast.LENGTH_SHORT).show()
+                            override fun onFailure(call: Call<String>, t: Throwable) {
+                                Toast.makeText(
+                                    this@HomeActivity,
+                                    R.string.refresh_failer_message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                        Toast.makeText(this, R.string.refresh_in_progress, Toast.LENGTH_SHORT).show()
+                    }
+                    return true
+                } else {
+                    return false
                 }
-                return true
             }
             R.id.readAll -> {
-                if (elementsShown == UNREAD_SHOWN) {
+                if (elementsShown == UNREAD_SHOWN && this@HomeActivity.isNetworkAccessible(null)) {
                     needsConfirmation(R.string.readAll, R.string.markall_dialog_message) {
                         swipeRefreshLayout.isRefreshing = false
                         val ids = allItems.map { it.id }

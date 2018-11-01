@@ -13,6 +13,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
+import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_sources.*
 import retrofit2.Call
@@ -66,34 +67,36 @@ class SourcesActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = mLayoutManager
 
-        api.sources.enqueue(object : Callback<List<Source>> {
-            override fun onResponse(
-                call: Call<List<Source>>,
-                response: Response<List<Source>>
-            ) {
-                if (response.body() != null && response.body()!!.isNotEmpty()) {
-                    items = response.body() as ArrayList<Source>
+        if (this@SourcesActivity.isNetworkAccessible(this@SourcesActivity.findViewById(R.id.recyclerView))) {
+            api.sources.enqueue(object : Callback<List<Source>> {
+                override fun onResponse(
+                    call: Call<List<Source>>,
+                    response: Response<List<Source>>
+                ) {
+                    if (response.body() != null && response.body()!!.isNotEmpty()) {
+                        items = response.body() as ArrayList<Source>
+                    }
+                    val mAdapter = SourcesListAdapter(this@SourcesActivity, items, api)
+                    recyclerView.adapter = mAdapter
+                    mAdapter.notifyDataSetChanged()
+                    if (items.isEmpty()) {
+                        Toast.makeText(
+                            this@SourcesActivity,
+                            R.string.nothing_here,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-                val mAdapter = SourcesListAdapter(this@SourcesActivity, items, api)
-                recyclerView.adapter = mAdapter
-                mAdapter.notifyDataSetChanged()
-                if (items.isEmpty()) {
+
+                override fun onFailure(call: Call<List<Source>>, t: Throwable) {
                     Toast.makeText(
                         this@SourcesActivity,
-                        R.string.nothing_here,
+                        R.string.cant_get_sources,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
-
-            override fun onFailure(call: Call<List<Source>>, t: Throwable) {
-                Toast.makeText(
-                    this@SourcesActivity,
-                    R.string.cant_get_sources,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
+            })
+        }
 
         fab.setOnClickListener {
             startActivity(Intent(this@SourcesActivity, AddSourceActivity::class.java))
