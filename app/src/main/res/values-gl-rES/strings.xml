@@ -152,5 +152,5 @@
     <string name="pref_switch_items_caching_off">Os artigos non se gardaran na memoria do dispositivo e non se poderá utilizar a aplicación sen conexión.</string>
     <string name="pref_switch_items_caching_on">Os artigos gardaranse na memoria do dispositivo e estarán dispoñibles sen conexión.</string>
     <string name="pref_switch_items_caching">Gardar elementos para uso sen conexión</string>
-    <string name="no_network_connectivity">Not connected !</string>
+    <string name="no_network_connectivity">Non conectado!</string>
 </resources>
