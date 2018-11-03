@@ -15,10 +15,33 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.concurrent.thread
+import android.app.NotificationManager
+import android.app.NotificationChannel
+import android.util.Log
+import androidx.core.app.NotificationCompat
+import apps.amine.bou.readerforselfoss.R
 
 class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        //If on Oreo then notification required a notification channel.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = NotificationCompat.Builder(applicationContext, "default")
+            .setContentTitle("Loading")
+            .setContentText("Loading new items")
+            .setOngoing(true)
+            .setSmallIcon(R.mipmap.ic_launcher)
+
+        notificationManager.notify(1, notification.build())
+
         val settings = this.context.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this.context)
         val shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
@@ -36,6 +59,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
         )
         api.allItems().enqueue(object : Callback<List<Item>> {
             override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                notificationManager.cancel(1)
             }
 
             override fun onResponse(
@@ -49,6 +73,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                         db.itemsDao()
                             .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
                     }
+                    notificationManager.cancel(1)
                 }
             }
         })

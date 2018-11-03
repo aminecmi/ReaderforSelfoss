@@ -26,6 +26,7 @@ import android.widget.Toast
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -1412,7 +1413,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 .build()
 
 
-        WorkManager.getInstance().enqueue(backgroundWork)
+        WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.REPLACE, backgroundWork)
+
 
     }
 }
