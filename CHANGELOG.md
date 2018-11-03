@@ -1,5 +1,7 @@
 **1.7.x**
 
+- Closes #33. Background sync with settings.
+
 - Closing #1. Initial article caching.
 
 - Closing #228 by removing the list action bar. Action buttons are exclusively on the card view from now on.
