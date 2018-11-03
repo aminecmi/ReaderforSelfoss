@@ -192,8 +192,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
-
-        handleRecurringTask()
     }
 
     private fun handleSwipeRefreshLayout() {
@@ -349,6 +347,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         getElementsAccordingToTab()
 
         handleGDPRDialog(sharedPref.getBoolean("GDPR_shown", false))
+
+        handleRecurringTask()
     }
 
     private fun getAndStoreAllItems() {
@@ -1425,7 +1425,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     .build()
 
 
-            WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.KEEP, backgroundWork)
+            WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.REPLACE, backgroundWork)
         }
     }
 }

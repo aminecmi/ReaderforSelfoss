@@ -36,6 +36,8 @@ class Config(c: Context) {
 
         const val trackerUrl = "https://github.com/aminecmi/ReaderforSelfoss/issues"
 
+        const val syncChannelId = "sync-channel-id"
+
         fun logoutAndRedirect(
             c: Context,
             callingActivity: Activity,

@@ -1,8 +1,11 @@
 package apps.amine.bou.readerforselfoss
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.preference.PreferenceManager
 import androidx.multidex.MultiDexApplication
 import android.widget.ImageView
@@ -59,6 +62,18 @@ class MyApp : MultiDexApplication() {
         initTheme()
 
         tryToHandleBug()
+
+        handleNotificationChannels()
+    }
+
+    private fun handleNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.notification_channel_sync)
+            val importance = NotificationManager.IMPORTANCE_LOW
+            val mChannel = NotificationChannel(Config.syncChannelId, name, importance)
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
     }
 
     override fun attachBaseContext(base: Context?) {
