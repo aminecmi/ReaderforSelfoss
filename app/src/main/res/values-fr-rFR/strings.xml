@@ -153,4 +153,12 @@
     <string name="pref_switch_items_caching_on">Les articles seront enregistrés et l\'application sera utilisable hors ligne.</string>
     <string name="pref_switch_items_caching">Sauvegarder les articles pour une utilisation hors ligne</string>
     <string name="no_network_connectivity">Hors connexion !</string>
+    <string name="pref_switch_periodic_refresh">Synchroniser les articles</string>
+    <string name="pref_switch_periodic_refresh_off">Les articles ne seront pas synchronisés en arrière plan</string>
+    <string name="pref_switch_periodic_refresh_on">Articles seront périodiquement synchronisées</string>
+    <string name="pref_periodic_refresh_minutes_title"><![CDATA[Interval de synchronisation ( >= 15 minutes)]]></string>
+    <string name="pref_switch_refresh_when_charging">Synchroniser uniquement lorsque le téléphone est en charge</string>
+    <string name="loading_notification_title">Chargement ...</string>
+    <string name="loading_notification_text">Selfoss synchronise vos articles</string>
+    <string name="notification_channel_sync">Notification de synchronisation</string>
 </resources>
