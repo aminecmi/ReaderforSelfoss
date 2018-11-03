@@ -5,4 +5,28 @@
         android:summaryOff="@string/pref_switch_items_caching_off"
         android:summaryOn="@string/pref_switch_items_caching_on"
         android:title="@string/pref_switch_items_caching" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="periodic_refresh"
+        android:dependency="items_caching"
+        android:summaryOff="@string/pref_switch_periodic_refresh_off"
+        android:summaryOn="@string/pref_switch_periodic_refresh_on"
+        android:title="@string/pref_switch_periodic_refresh" />
+
+    <EditTextPreference
+        android:dependency="periodic_refresh"
+        android:defaultValue="360"
+        android:inputType="number"
+        android:key="periodic_refresh_minutes"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_periodic_refresh_minutes_title" />
+
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="refresh_when_charging"
+        android:dependency="items_caching"
+        android:title="@string/pref_switch_refresh_when_charging" />
 </PreferenceScreen>

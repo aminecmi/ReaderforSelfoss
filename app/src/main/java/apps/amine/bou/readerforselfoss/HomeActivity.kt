@@ -27,6 +27,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -117,6 +118,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var lastFetchDone: Boolean = false
     private var itemsCaching: Boolean = false
     private var hiddenTags: List<String> = emptyList()
+
+    private var periodicRefresh = false
+    private var refreshMinutes: Long = 360L
+    private var refreshWhenChargingOnly = false
 
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
@@ -392,6 +397,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             sharedPref.getString("hidden_tags", "").replace("\\s".toRegex(), "").split(",")
         } else {
             emptyList()
+        }
+        periodicRefresh = sharedPref.getBoolean("periodic_refresh", false)
+        refreshWhenChargingOnly = sharedPref.getBoolean("refresh_when_charging", false)
+        refreshMinutes = sharedPref.getString("periodic_refresh_minutes", "360").toLong()
+
+        if (refreshMinutes <= 15) {
+            refreshMinutes = 15
         }
     }
 
@@ -1399,23 +1411,22 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleRecurringTask() {
-        // TODO: add network type
-        val myConstraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(true)
-            .setRequiresStorageNotLow(true)
-            .build()
-
-        // TODO: make the time variable from the settings.
-        val backgroundWork =
-            PeriodicWorkRequestBuilder<LoadingWorker>(4, TimeUnit.HOURS)
-                .setConstraints(myConstraints)
-                .addTag("selfoss-loading")
+        if (periodicRefresh) {
+            val myConstraints = Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .setRequiresCharging(refreshWhenChargingOnly)
+                .setRequiresStorageNotLow(true)
                 .build()
 
+            val backgroundWork =
+                PeriodicWorkRequestBuilder<LoadingWorker>(refreshMinutes, TimeUnit.MINUTES)
+                    .setConstraints(myConstraints)
+                    .addTag("selfoss-loading")
+                    .build()
 
-        WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.REPLACE, backgroundWork)
 
-
+            WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.KEEP, backgroundWork)
+        }
     }
 }
 
