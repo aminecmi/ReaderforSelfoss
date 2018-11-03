@@ -1425,7 +1425,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     .build()
 
 
-            WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.REPLACE, backgroundWork)
+            WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.KEEP, backgroundWork)
         }
     }
 }
