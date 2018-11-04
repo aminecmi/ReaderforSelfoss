@@ -1,5 +1,7 @@
 **1.7.x**
 
+- Closes #179. Sync of read/unread/star/unstar items on background task or on app reload with network available.
+
 - Closes #33. Background sync with settings.
 
 - Closing #1. Initial article caching.

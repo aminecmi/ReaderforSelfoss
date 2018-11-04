@@ -29,6 +29,7 @@ import kotlin.concurrent.schedule
 import kotlin.concurrent.thread
 
 class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(context, params) {
+    lateinit var db: AppDatabase
 
     override fun doWork(): Result {
         if (context.isNetworkAccessible(null)) {
@@ -51,7 +52,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(this.context)
             val shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
 
-            val db = Room.databaseBuilder(
+            db = Room.databaseBuilder(
                 applicationContext,
                 AppDatabase::class.java, "selfoss-database"
             ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
