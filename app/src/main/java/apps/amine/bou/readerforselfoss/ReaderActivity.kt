@@ -19,7 +19,9 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.fragments.ArticleFragment
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
@@ -71,7 +73,7 @@ class ReaderActivity : AppCompatActivity() {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "selfoss-database"
-        ).addMigrations(MIGRATION_1_2).build()
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
 
         val scoop = Scoop.getInstance()
         scoop.bind(this, Toppings.PRIMARY.value, toolBar)
@@ -134,44 +136,50 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     fun readItem(item: Item) {
-        if (this@ReaderActivity.isNetworkAccessible(this@ReaderActivity.findViewById(R.id.reader_activity_view)) && markOnScroll) {
+        if (markOnScroll) {
             thread {
                 db.itemsDao().delete(item.toEntity())
             }
-            api.markItem(item.id).enqueue(
-                object : Callback<SuccessResponse> {
-                    override fun onResponse(
-                        call: Call<SuccessResponse>,
-                        response: Response<SuccessResponse>
-                    ) {
-                        if (!response.succeeded() && debugReadingItems) {
-                            val message =
-                                "message: ${response.message()} " +
-                                        "response isSuccess: ${response.isSuccessful} " +
-                                        "response code: ${response.code()} " +
-                                        "response message: ${response.message()} " +
-                                        "response errorBody: ${response.errorBody()?.string()} " +
-                                        "body success: ${response.body()?.success} " +
-                                        "body isSuccess: ${response.body()?.isSuccess}"
-                            ACRA.getErrorReporter()
-                                .maybeHandleSilentException(Exception(message), this@ReaderActivity)
+            if (this@ReaderActivity.isNetworkAccessible(this@ReaderActivity.findViewById(R.id.reader_activity_view))) {
+                api.markItem(item.id).enqueue(
+                    object : Callback<SuccessResponse> {
+                        override fun onResponse(
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
+                        ) {
+                            if (!response.succeeded() && debugReadingItems) {
+                                val message =
+                                    "message: ${response.message()} " +
+                                            "response isSuccess: ${response.isSuccessful} " +
+                                            "response code: ${response.code()} " +
+                                            "response message: ${response.message()} " +
+                                            "response errorBody: ${response.errorBody()?.string()} " +
+                                            "body success: ${response.body()?.success} " +
+                                            "body isSuccess: ${response.body()?.isSuccess}"
+                                ACRA.getErrorReporter()
+                                    .maybeHandleSilentException(Exception(message), this@ReaderActivity)
+                            }
                         }
-                    }
 
-                    override fun onFailure(
-                        call: Call<SuccessResponse>,
-                        t: Throwable
-                    ) {
-                        thread {
-                            db.itemsDao().insertAllItems(item.toEntity())
-                        }
-                        if (debugReadingItems) {
-                            ACRA.getErrorReporter()
-                                .maybeHandleSilentException(t, this@ReaderActivity)
+                        override fun onFailure(
+                            call: Call<SuccessResponse>,
+                            t: Throwable
+                        ) {
+                            thread {
+                                db.itemsDao().insertAllItems(item.toEntity())
+                            }
+                            if (debugReadingItems) {
+                                ACRA.getErrorReporter()
+                                    .maybeHandleSilentException(t, this@ReaderActivity)
+                            }
                         }
                     }
+                )
+            } else {
+                thread {
+                    db.actionsDao().insertAllActions(ActionEntity(item.id, true, false, false, false))
                 }
-            )
+            }
         }
     }
 
@@ -229,6 +237,19 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        fun afterSave() {
+            allItems[pager.currentItem] =
+                    allItems[pager.currentItem].toggleStar()
+            notifyAdapter()
+            canRemoveFromFavorite()
+        }
+
+        fun afterUnsave() {
+            allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+            notifyAdapter()
+            canFavorite()
+        }
+
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
@@ -242,9 +263,7 @@ class ReaderActivity : AppCompatActivity() {
                                 call: Call<SuccessResponse>,
                                 response: Response<SuccessResponse>
                             ) {
-                                allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
-                                notifyAdapter()
-                                canRemoveFromFavorite()
+                                afterSave()
                             }
 
                             override fun onFailure(
@@ -258,6 +277,11 @@ class ReaderActivity : AppCompatActivity() {
                                 ).show()
                             }
                         })
+                } else {
+                    thread {
+                        db.actionsDao().insertAllActions(ActionEntity(allItems[pager.currentItem].id, false, false, true, false))
+                        afterSave()
+                    }
                 }
             }
             R.id.unsave -> {
@@ -268,9 +292,7 @@ class ReaderActivity : AppCompatActivity() {
                                 call: Call<SuccessResponse>,
                                 response: Response<SuccessResponse>
                             ) {
-                                allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
-                                notifyAdapter()
-                                canFavorite()
+                                afterUnsave()
                             }
 
                             override fun onFailure(
@@ -284,6 +306,11 @@ class ReaderActivity : AppCompatActivity() {
                                 ).show()
                             }
                         })
+                } else {
+                    thread {
+                        db.actionsDao().insertAllActions(ActionEntity(allItems[pager.currentItem].id, false, false, false, true))
+                        afterUnsave()
+                    }
                 }
             }
         }

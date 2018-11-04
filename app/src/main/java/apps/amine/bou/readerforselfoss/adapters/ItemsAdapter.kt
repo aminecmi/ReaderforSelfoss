@@ -11,6 +11,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
@@ -46,14 +47,14 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                 Snackbar.LENGTH_LONG
             )
             .setAction(R.string.undo_string) {
-                if (app.isNetworkAccessible(null)) {
-                    items.add(position, i)
-                    thread {
-                        db.itemsDao().insertAllItems(i.toEntity())
-                    }
-                    notifyItemInserted(position)
-                    updateItems(items)
+                items.add(position, i)
+                thread {
+                    db.itemsDao().insertAllItems(i.toEntity())
+                }
+                notifyItemInserted(position)
+                updateItems(items)
 
+                if (app.isNetworkAccessible(null)) {
                     api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
                         override fun onResponse(
                             call: Call<SuccessResponse>,
@@ -71,6 +72,10 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                             doUnmark(i, position)
                         }
                     })
+                } else {
+                    thread {
+                        db.actionsDao().deleteReadActionForArticle(i.id)
+                    }
                 }
             }
 
@@ -81,20 +86,16 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     }
 
     fun removeItemAtIndex(position: Int) {
+        val i = items[position]
+        items.remove(i)
+        notifyItemRemoved(position)
+        updateItems(items)
+
+        thread {
+            db.itemsDao().delete(i.toEntity())
+        }
+
         if (app.isNetworkAccessible(null)) {
-            val i = items[position]
-
-            items.remove(i)
-            notifyItemRemoved(position)
-            updateItems(items)
-
-            // TODO: Handle network status.
-            // IF offline, delete from cached articles, and add to some table that will replay the calls on network activation.
-
-            thread {
-                db.itemsDao().delete(i.toEntity())
-            }
-
             api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
                 override fun onResponse(
                     call: Call<SuccessResponse>,
@@ -135,6 +136,11 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                     }
                 }
             })
+        } else {
+            thread {
+                db.actionsDao().insertAllActions(ActionEntity(i.id, true, false, false, false))
+                doUnmark(i, position)
+            }
         }
     }
 

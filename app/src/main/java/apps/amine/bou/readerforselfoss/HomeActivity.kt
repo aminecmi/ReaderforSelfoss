@@ -42,7 +42,9 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.api.selfoss.Tag
 import apps.amine.bou.readerforselfoss.background.LoadingWorker
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
@@ -171,7 +173,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "selfoss-database"
-        ).addMigrations(MIGRATION_1_2).build()
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
 
 
         customTabActivityHelper = CustomTabActivityHelper()
@@ -216,7 +218,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ): Int =
-                    if (elementsShown != UNREAD_SHOWN || !this@HomeActivity.isNetworkAccessible(null)) {
+                    if (elementsShown != UNREAD_SHOWN) {
                         0
                     } else {
                         super.getSwipeDirs(
@@ -349,6 +351,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleGDPRDialog(sharedPref.getBoolean("GDPR_shown", false))
 
         handleRecurringTask()
+
+        handleOfflineActions()
     }
 
     private fun getAndStoreAllItems() {
@@ -1289,7 +1293,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
             R.id.readAll -> {
-                if (elementsShown == UNREAD_SHOWN && this@HomeActivity.isNetworkAccessible(null)) {
+                if (elementsShown == UNREAD_SHOWN) {
                     needsConfirmation(R.string.readAll, R.string.markall_dialog_message) {
                         swipeRefreshLayout.isRefreshing = false
                         val ids = allItems.map { it.id }
@@ -1303,7 +1307,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             ACRA.getErrorReporter().maybeHandleSilentException(e, this@HomeActivity)
                         }
 
-                        if (ids.isNotEmpty()) {
+                        if (ids.isNotEmpty() && this@HomeActivity.isNetworkAccessible(null)) {
                             api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
                                 override fun onResponse(
                                     call: Call<SuccessResponse>,
@@ -1426,6 +1430,40 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
 
             WorkManager.getInstance().enqueueUniquePeriodicWork("selfoss-loading", ExistingPeriodicWorkPolicy.KEEP, backgroundWork)
+        }
+    }
+
+    private fun handleOfflineActions() {
+        fun <T>doAndReportOnFail(call: Call<T>, action: ActionEntity) {
+           call.enqueue(object: Callback<T> {
+               override fun onResponse(
+                   call: Call<T>,
+                   response: Response<T>
+               ) {
+                   thread {
+                       db.actionsDao().delete(action)
+                   }
+               }
+
+               override fun onFailure(call: Call<T>, t: Throwable) {
+                   ACRA.getErrorReporter().maybeHandleSilentException(t, this@HomeActivity)
+               }
+           })
+        }
+
+        if (this@HomeActivity.isNetworkAccessible(null)) {
+            thread {
+                val actions = db.actionsDao().actions()
+
+                actions.forEach { action ->
+                    when {
+                        action.read -> doAndReportOnFail(api.markItem(action.articleId), action)
+                        action.unread -> doAndReportOnFail(api.unmarkItem(action.articleId), action)
+                        action.starred -> doAndReportOnFail(api.starrItem(action.articleId), action)
+                        action.unstarred -> doAndReportOnFail(api.unstarrItem(action.articleId), action)
+                    }
+                }
+            }
         }
     }
 }

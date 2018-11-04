@@ -15,6 +15,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.LinkOnTouchListener
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
@@ -36,6 +37,7 @@ import kotlinx.android.synthetic.main.card_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.concurrent.thread
 
 class ItemCardAdapter(
     override val app: Activity,
@@ -118,8 +120,8 @@ class ItemCardAdapter(
 
             mView.favButton.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {
+                    val (id) = items[adapterPosition]
                     if (c.isNetworkAccessible(null)) {
-                        val (id) = items[adapterPosition]
                         api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
                                 call: Call<SuccessResponse>,
@@ -139,12 +141,16 @@ class ItemCardAdapter(
                                 ).show()
                             }
                         })
+                    } else {
+                        thread {
+                            db.actionsDao().insertAllActions(ActionEntity(id, false, false, true, false))
+                        }
                     }
                 }
 
                 override fun unLiked(likeButton: LikeButton) {
+                    val (id) = items[adapterPosition]
                     if (c.isNetworkAccessible(null)) {
-                        val (id) = items[adapterPosition]
                         api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
                                 call: Call<SuccessResponse>,
@@ -164,6 +170,10 @@ class ItemCardAdapter(
                                 ).show()
                             }
                         })
+                    } else {
+                        thread {
+                            db.actionsDao().insertAllActions(ActionEntity(id, false, false, false, true))
+                        }
                     }
                 }
             })

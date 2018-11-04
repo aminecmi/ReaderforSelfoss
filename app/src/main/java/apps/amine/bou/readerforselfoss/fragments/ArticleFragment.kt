@@ -17,12 +17,17 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
+import androidx.room.Room
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
+import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
@@ -45,6 +50,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
+import kotlin.concurrent.thread
 
 class ArticleFragment : Fragment() {
     private lateinit var pageNumber: Number
@@ -59,6 +65,7 @@ class ArticleFragment : Fragment() {
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var fab: FloatingActionButton
     private lateinit var appColors: AppColors
+    private lateinit var db: AppDatabase
 
     override fun onStop() {
         super.onStop()
@@ -72,6 +79,11 @@ class ArticleFragment : Fragment() {
 
         pageNumber = arguments!!.getInt(ARG_POSITION)
         allItems = arguments!!.getParcelableArrayList(ARG_ITEMS)
+
+        db = Room.databaseBuilder(
+            context!!,
+            AppDatabase::class.java, "selfoss-database"
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
     }
 
     private lateinit var rootView: ViewGroup
@@ -166,6 +178,10 @@ class ArticleFragment : Fragment() {
                                     }
                                 }
                             )
+                        } else {
+                            thread {
+                                db.actionsDao().insertAllActions(ActionEntity(allItems[pageNumber.toInt()].id, false, true, false, false))
+                            }
                         }
                         else -> Unit
                     }

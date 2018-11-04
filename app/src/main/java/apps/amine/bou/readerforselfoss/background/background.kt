@@ -14,6 +14,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import retrofit2.Call
@@ -46,7 +47,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
         val db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "selfoss-database"
-        ).addMigrations(MIGRATION_1_2).build()
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
 
         val api = SelfossApi(
             this.context,
