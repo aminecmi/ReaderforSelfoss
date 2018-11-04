@@ -23,10 +23,9 @@
         android:singleLine="true"
         android:title="@string/pref_periodic_refresh_minutes_title" />
 
-
     <SwitchPreference
         android:defaultValue="false"
         android:key="refresh_when_charging"
-        android:dependency="items_caching"
+        android:dependency="periodic_refresh"
         android:title="@string/pref_switch_refresh_when_charging" />
 </PreferenceScreen>
