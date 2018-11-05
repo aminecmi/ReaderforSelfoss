@@ -45,7 +45,7 @@ data class Spout(
 data class Source(
     @SerializedName("id") val id: String,
     @SerializedName("title") val title: String,
-    @SerializedName("tags") val tags: String,
+    @SerializedName("tags") val tags: SelfossTagType,
     @SerializedName("spout") val spout: String,
     @SerializedName("error") val error: String,
     @SerializedName("icon") val icon: String

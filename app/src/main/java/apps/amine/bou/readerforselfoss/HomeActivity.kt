@@ -735,6 +735,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         }
 
                         override fun onFailure(call: Call<List<Source>>?, t: Throwable?) {
+                            val apiDrawerData = DrawerData(tags, null)
+                            if ((maybeDrawerData != null && maybeDrawerData != apiDrawerData) || maybeDrawerData == null) {
+                                handleDrawerData(apiDrawerData)
+                            }
                         }
                     })
                 }

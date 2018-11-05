@@ -19,7 +19,7 @@ fun SourceEntity.toView(): Source =
         Source(
             this.id,
             this.title,
-            this.tags,
+            SelfossTagType(this.tags),
             this.spout,
             this.error,
             this.icon
@@ -29,7 +29,7 @@ fun Source.toEntity(): SourceEntity =
         SourceEntity(
             this.id,
             this.title,
-            this.tags,
+            this.tags.tags,
             this.spout,
             this.error,
             this.icon.orEmpty()
