@@ -66,6 +66,7 @@ class SelfossApi(
         val gson =
             GsonBuilder()
                 .registerTypeAdapter(Boolean::class.javaPrimitiveType, BooleanTypeAdapter())
+                .registerTypeAdapter(SelfossTagType::class.java, SelfossTagTypeTypeAdapter())
                 .setLenient()
                 .create()
 

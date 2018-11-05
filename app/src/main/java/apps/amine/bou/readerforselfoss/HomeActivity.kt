@@ -248,7 +248,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         badgeNew--
                         reloadBadgeContent()
 
-                        val tagHashes = i.tags.split(",").map { it.longHash() }
+                        val tagHashes = i.tags.tags.split(",").map { it.longHash() }
                         tagsBadge = tagsBadge.map {
                             if (tagHashes.contains(it.key)) {
                                 (it.key to (it.value - 1))
@@ -367,7 +367,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 thread {
                     if (response.body() != null) {
                         val apiItems = (response.body() as ArrayList<Item>).filter {
-                            maybeTagFilter != null || filter(it.tags)
+                            maybeTagFilter != null || filter(it.tags.tags)
                         } as ArrayList<Item>
                         db.itemsDao().deleteAllItems()
                         db.itemsDao()
@@ -999,7 +999,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     getAndStoreAllItems()
                     items = response.body() as ArrayList<Item>
                     items = items.filter {
-                        maybeTagFilter != null || filter(it.tags)
+                        maybeTagFilter != null || filter(it.tags.tags)
                     } as ArrayList<Item>
 
                     if (allItems.isEmpty()) {
@@ -1299,7 +1299,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         val ids = allItems.map { it.id }
                         val itemsByTag: Map<Long, Int> =
                             allItems.flattenTags()
-                                .groupBy { it.tags.longHash() }
+                                .groupBy { it.tags.tags.longHash() }
                                 .map { it.key to it.value.size }
                                 .toMap()
 

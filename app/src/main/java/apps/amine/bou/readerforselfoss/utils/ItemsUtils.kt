@@ -3,6 +3,7 @@ package apps.amine.bou.readerforselfoss.utils
 import android.content.Context
 import android.text.format.DateUtils
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import apps.amine.bou.readerforselfoss.api.selfoss.SelfossTagType
 import org.acra.ACRA
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -44,8 +45,8 @@ fun Item.toggleStar(): Item {
 fun List<Item>.flattenTags(): List<Item> =
     this.flatMap {
         val item = it
-        val tags: List<String> = it.tags.split(",")
-        tags.map {
-            item.copy(tags = it.trim())
+        val tags: List<String> = it.tags.tags.split(",")
+        tags.map { t ->
+            item.copy(tags = SelfossTagType(t.trim()))
         }
     }

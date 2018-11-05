@@ -71,7 +71,7 @@ data class Item(
     @SerializedName("icon") val icon: String,
     @SerializedName("link") val link: String,
     @SerializedName("sourcetitle") val sourcetitle: String,
-    @SerializedName("tags") val tags: String
+    @SerializedName("tags") val tags: SelfossTagType
 ) : Parcelable {
 
     var config: Config? = null
@@ -94,7 +94,7 @@ data class Item(
         icon = source.readString(),
         link = source.readString(),
         sourcetitle = source.readString(),
-        tags = source.readString()
+        tags = source.readParcelable(ClassLoader.getSystemClassLoader())
     )
 
     override fun describeContents() = 0
@@ -110,7 +110,7 @@ data class Item(
         dest.writeString(icon)
         dest.writeString(link)
         dest.writeString(sourcetitle)
-        dest.writeString(tags)
+        dest.writeParcelable(tags, flags)
     }
 
     fun getIcon(app: Context): String {
@@ -152,5 +152,28 @@ data class Item(
         }
 
         return stringUrl
+    }
+}
+
+data class SelfossTagType(val tags: String) : Parcelable {
+
+    companion object {
+        @JvmField val CREATOR: Parcelable.Creator<SelfossTagType> =
+            object : Parcelable.Creator<SelfossTagType> {
+                override fun createFromParcel(source: Parcel): SelfossTagType =
+                    SelfossTagType(source)
+
+                override fun newArray(size: Int): Array<SelfossTagType?> = arrayOfNulls(size)
+            }
+    }
+
+    constructor(source: Parcel) : this(
+        tags = source.readString()
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(tags)
     }
 }

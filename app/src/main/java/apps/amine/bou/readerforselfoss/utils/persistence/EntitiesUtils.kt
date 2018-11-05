@@ -1,6 +1,7 @@
 package apps.amine.bou.readerforselfoss.utils.persistence
 
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
+import apps.amine.bou.readerforselfoss.api.selfoss.SelfossTagType
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.Tag
 import apps.amine.bou.readerforselfoss.persistence.entities.ItemEntity
@@ -53,7 +54,7 @@ fun ItemEntity.toView(): Item =
             this.icon,
             this.link,
             this.sourcetitle,
-            this.tags
+            SelfossTagType(this.tags)
         )
 
 fun Item.toEntity(): ItemEntity =
@@ -68,5 +69,5 @@ fun Item.toEntity(): ItemEntity =
         this.icon,
         this.link,
         this.sourcetitle,
-        this.tags
+        this.tags.tags
     )
