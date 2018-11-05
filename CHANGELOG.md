@@ -1,5 +1,7 @@
 **1.7.x**
 
+- Closes #216. Issue with selfoss version 2.19.
+
 - Closes #179. Sync of read/unread/star/unstar items on background task or on app reload with network available.
 
 - Closes #33. Background sync with settings.
