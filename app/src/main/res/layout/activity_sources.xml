@@ -40,6 +40,5 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_behavior="apps.amine.bou.readerforselfoss.utils.ScrollAwareFABBehavior" />
+        android:layout_marginRight="16dp"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
