@@ -161,4 +161,8 @@
     <string name="loading_notification_title">Cargando...</string>
     <string name="loading_notification_text">Selfoss está sincronizando os teus ar tigos</string>
     <string name="notification_channel_sync">Notificación de sincronización</string>
+    <string name="new_items_channel_sync">New items notification</string>
+    <string name="new_items_notification_title">New items !</string>
+    <string name="new_items_notification_text">%1$d new items loaded.</string>
+    <string name="pref_switch_notify_new_items">Notify on new items synced.</string>
 </resources>
