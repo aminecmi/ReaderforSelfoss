@@ -161,4 +161,8 @@
     <string name="loading_notification_title">加载中...</string>
     <string name="loading_notification_text">Selfoss is syncing your articles</string>
     <string name="notification_channel_sync">同步通知</string>
+    <string name="new_items_channel_sync">New items notification</string>
+    <string name="new_items_notification_title">New items !</string>
+    <string name="new_items_notification_text">%1$d new items loaded.</string>
+    <string name="pref_switch_notify_new_items">Notify on new items synced.</string>
 </resources>

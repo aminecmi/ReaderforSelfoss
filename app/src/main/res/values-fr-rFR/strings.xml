@@ -161,4 +161,8 @@
     <string name="loading_notification_title">Chargement ...</string>
     <string name="loading_notification_text">Selfoss synchronise vos articles</string>
     <string name="notification_channel_sync">Notification de synchronisation</string>
+    <string name="new_items_channel_sync">Notification de nouveaux articles</string>
+    <string name="new_items_notification_title">Nouveaux articles !</string>
+    <string name="new_items_notification_text">%1$d nouveaux articles synchronisés.</string>
+    <string name="pref_switch_notify_new_items">Notification quand des nouveaux articles sont synchronisés.</string>
 </resources>
