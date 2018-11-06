@@ -68,11 +68,18 @@ class MyApp : MultiDexApplication() {
 
     private fun handleNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
             val name = getString(R.string.notification_channel_sync)
             val importance = NotificationManager.IMPORTANCE_LOW
             val mChannel = NotificationChannel(Config.syncChannelId, name, importance)
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+            val newItemsChannelname = getString(R.string.new_items_channel_sync)
+            val newItemsChannelimportance = NotificationManager.IMPORTANCE_DEFAULT
+            val newItemsChannelmChannel = NotificationChannel(Config.newItemsChannelId, newItemsChannelname, newItemsChannelimportance)
+
             notificationManager.createNotificationChannel(mChannel)
+            notificationManager.createNotificationChannel(newItemsChannelmChannel)
         }
     }
 

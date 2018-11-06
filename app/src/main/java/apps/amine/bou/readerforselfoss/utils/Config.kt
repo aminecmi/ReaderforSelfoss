@@ -38,6 +38,8 @@ class Config(c: Context) {
 
         const val syncChannelId = "sync-channel-id"
 
+        const val newItemsChannelId = "new-items-channel-id"
+
         fun logoutAndRedirect(
             c: Context,
             callingActivity: Activity,

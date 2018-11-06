@@ -2,9 +2,9 @@ package apps.amine.bou.readerforselfoss.background
 
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Handler
 import android.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
 import androidx.core.app.NotificationCompat.PRIORITY_LOW
 import androidx.room.Room
 import androidx.work.Worker
@@ -51,6 +51,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 this.context.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(this.context)
             val shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
+            val notifyNewItems = sharedPref.getBoolean("notify_new_items", false)
 
             db = Room.databaseBuilder(
                 applicationContext,
@@ -81,6 +82,20 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                             db.itemsDao().deleteAllItems()
                             db.itemsDao()
                                 .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+
+                            val newSize = apiItems.filter { it.unread }.size
+                            if (notifyNewItems && newSize > 0) {
+                                val newItemsNotification = NotificationCompat.Builder(applicationContext, Config.newItemsChannelId)
+                                    .setContentTitle(context.getString(R.string.new_items_notification_title))
+                                    .setContentText(context.getString(R.string.new_items_notification_text, newSize))
+                                    .setPriority(PRIORITY_DEFAULT)
+                                    .setChannelId(Config.newItemsChannelId)
+                                    .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
+
+                                Timer("", false).schedule(4000) {
+                                    notificationManager.notify(2, newItemsNotification.build())
+                                }
+                            }
                         }
                         Timer("", false).schedule(4000) {
                             notificationManager.cancel(1)

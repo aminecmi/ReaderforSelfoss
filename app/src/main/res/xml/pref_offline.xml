@@ -28,4 +28,10 @@
         android:key="refresh_when_charging"
         android:dependency="periodic_refresh"
         android:title="@string/pref_switch_refresh_when_charging" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="notify_new_items"
+        android:dependency="periodic_refresh"
+        android:title="@string/pref_switch_notify_new_items" />
 </PreferenceScreen>
