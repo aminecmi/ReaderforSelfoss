@@ -1,5 +1,7 @@
 **1.7.x**
 
+- Start of #238. "Add a quick shortcut to open the app on offline mode ?"
+
 - Closes #216. Issue with selfoss version 2.19.
 
 - Closes #179. Sync of read/unread/star/unstar items on background task or on app reload with network available.
