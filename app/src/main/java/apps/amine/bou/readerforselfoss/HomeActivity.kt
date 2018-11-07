@@ -145,6 +145,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var badgeAll: Int = -1
     private var badgeFavs: Int = -1
 
+    private var fromTabShortcut: Boolean = false
+
     private lateinit var tagsBadge: Map<Long, Int>
 
     private lateinit var db: AppDatabase
@@ -160,6 +162,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         appColors = AppColors(this@HomeActivity)
 
         super.onCreate(savedInstanceState)
+
+        fromTabShortcut =  intent.getIntExtra("shortcutTab", -1) != -1
+
+        elementsShown = intent.getIntExtra("shortcutTab", UNREAD_SHOWN)
 
         setContentView(R.layout.activity_home)
 
@@ -318,6 +324,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         bottomBar.setMode(BottomNavigationBar.MODE_SHIFTING)
         bottomBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
+
+        if (fromTabShortcut) {
+            bottomBar.selectTab(elementsShown - 1)
+        }
     }
 
     override fun onResume() {
