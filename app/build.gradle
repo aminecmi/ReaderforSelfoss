@@ -75,7 +75,6 @@ android {
             buildConfigField "String", "LOGIN_URL", appLoginUrl
             buildConfigField "String", "LOGIN_USERNAME", appLoginUsername
             buildConfigField "String", "LOGIN_PASSWORD", appLoginPassword
-            applicationIdSuffix ".dev"
         }
     }
     flavorDimensions "build"

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="new"
+        android:enabled="true"
+        android:icon="@drawable/ic_fiber_new_black_24dp"
+        android:shortcutShortLabel="@string/tab_new">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="apps.amine.bou.readerforselfoss"
+            android:targetClass="apps.amine.bou.readerforselfoss.HomeActivity">
+            <extra
+                android:name="shortcutTab"
+                android:value="1" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="read"
+        android:enabled="true"
+        android:icon="@drawable/ic_archive_black_24dp"
+        android:shortcutShortLabel="@string/tab_read">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="apps.amine.bou.readerforselfoss"
+            android:targetClass="apps.amine.bou.readerforselfoss.HomeActivity">
+            <extra
+                android:name="shortcutTab"
+                android:value="2" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="favs"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:shortcutShortLabel="@string/tab_favs">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="apps.amine.bou.readerforselfoss"
+            android:targetClass="apps.amine.bou.readerforselfoss.HomeActivity">
+            <extra
+                android:name="shortcutTab"
+                android:value="3" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="offline"
+        android:enabled="true"
+        android:icon="@drawable/ic_signal_wifi_statusbar_not_connected"
+        android:shortcutShortLabel="@string/shortcut_offline">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="apps.amine.bou.readerforselfoss"
+            android:targetClass="apps.amine.bou.readerforselfoss.HomeActivity">
+            <extra
+                android:name="startOffline"
+                android:value="true" />
+        </intent>
+    </shortcut>
+</shortcuts>
