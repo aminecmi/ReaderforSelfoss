@@ -1,7 +1,9 @@
 package apps.amine.bou.readerforselfoss.background
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
@@ -9,6 +11,7 @@ import androidx.core.app.NotificationCompat.PRIORITY_LOW
 import androidx.room.Room
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import apps.amine.bou.readerforselfoss.MainActivity
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -85,11 +88,19 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
 
                             val newSize = apiItems.filter { it.unread }.size
                             if (notifyNewItems && newSize > 0) {
+
+                                val intent = Intent(context, MainActivity::class.java).apply {
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                }
+                                val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
                                 val newItemsNotification = NotificationCompat.Builder(applicationContext, Config.newItemsChannelId)
                                     .setContentTitle(context.getString(R.string.new_items_notification_title))
                                     .setContentText(context.getString(R.string.new_items_notification_text, newSize))
                                     .setPriority(PRIORITY_DEFAULT)
                                     .setChannelId(Config.newItemsChannelId)
+                                    .setContentIntent(pendingIntent)
+                                    .setAutoCancel(true)
                                     .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
 
                                 Timer("", false).schedule(4000) {
