@@ -1,5 +1,7 @@
 **1.7.x**
 
+- Closing #220.
+
 - Start of #238. "Add a quick shortcut to open the app on offline mode ?"
 
 - Closes #216. Issue with selfoss version 2.19.
