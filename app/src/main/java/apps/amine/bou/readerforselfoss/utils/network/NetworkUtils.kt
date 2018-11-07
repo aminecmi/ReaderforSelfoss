@@ -11,15 +11,16 @@ import com.google.android.material.snackbar.Snackbar
 
 var snackBarShown = false
 var view: View? = null
+lateinit var s: Snackbar
 
-fun Context.isNetworkAccessible(v: View?): Boolean {
+fun Context.isNetworkAccessible(v: View?, overrideOffline: Boolean = false): Boolean {
     val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
     val networkIsAccessible = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
-    if (v != null && !networkIsAccessible && (!snackBarShown || v != view)) {
+    if (v != null && (!networkIsAccessible || overrideOffline) && (!snackBarShown || v != view)) {
         view = v
-        val s = Snackbar
+        s = Snackbar
             .make(
                 v,
                 R.string.no_network_connectivity,
@@ -37,5 +38,8 @@ fun Context.isNetworkAccessible(v: View?): Boolean {
         s.show()
         snackBarShown = true
     }
-    return networkIsAccessible
+    if (snackBarShown && networkIsAccessible && !overrideOffline) {
+        s.dismiss()
+    }
+    return if(overrideOffline) overrideOffline else networkIsAccessible
 }

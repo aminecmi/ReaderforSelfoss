@@ -146,6 +146,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var badgeFavs: Int = -1
 
     private var fromTabShortcut: Boolean = false
+    private var offlineShortcut: Boolean = false
 
     private lateinit var tagsBadge: Map<Long, Int>
 
@@ -164,8 +165,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
 
         fromTabShortcut =  intent.getIntExtra("shortcutTab", -1) != -1
+        offlineShortcut =  intent.getBooleanExtra("startOffline", false)
 
-        elementsShown = intent.getIntExtra("shortcutTab", UNREAD_SHOWN)
+        if (fromTabShortcut) {
+            elementsShown = intent.getIntExtra("shortcutTab", UNREAD_SHOWN)
+        }
 
         setContentView(R.layout.activity_home)
 
@@ -209,6 +213,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             R.color.refresh_progress_3
         )
         swipeRefreshLayout.setOnRefreshListener {
+            offlineShortcut = false
             allItems = ArrayList()
             lastFetchDone = false
             handleDrawerItems()
@@ -731,7 +736,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             var sources: List<Source>?
 
             fun sourcesApiCall() {
-                if (this@HomeActivity.isNetworkAccessible(null)) {
+                if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
                     api.sources.enqueue(object : Callback<List<Source>> {
                         override fun onResponse(
                             call: Call<List<Source>>?,
@@ -754,7 +759,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-            if (this@HomeActivity.isNetworkAccessible(null)) {
+            if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
                 api.tags.enqueue(object : Callback<List<Tag>> {
                     override fun onResponse(
                         call: Call<List<Tag>>,
@@ -885,7 +890,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                     else -> Unit
                                 }
                             } else {
-                                if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout))) {
+                                if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout), offlineShortcut)) {
                                     when (position) {
                                         0 -> getUnRead()
                                         1 -> getRead()
@@ -982,7 +987,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         handleListResult()
                         doGetAccordingToTab()
                     } else {
-                        if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout))) {
+                        if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout), offlineShortcut)) {
                             doGetAccordingToTab()
                             getAndStoreAllItems()
                         }
@@ -1041,7 +1046,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
         }
 
-        if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout))) {
+        if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout), offlineShortcut)) {
             call(maybeTagFilter?.tag, maybeSourceFilter?.id?.toLong(), maybeSearchFilter)
                 .enqueue(object : Callback<List<Item>> {
                     override fun onResponse(
@@ -1171,7 +1176,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun reloadBadges() {
-        if (this@HomeActivity.isNetworkAccessible(null) && (displayUnreadCount || displayAllCount)) {
+        if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut) && (displayUnreadCount || displayAllCount)) {
             api.stats.enqueue(object : Callback<Stats> {
                 override fun onResponse(call: Call<Stats>, response: Response<Stats>) {
                     if (response.body() != null) {
@@ -1277,7 +1282,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh -> {
-                if (this@HomeActivity.isNetworkAccessible(null)) {
+                if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
                     needsConfirmation(R.string.menu_home_refresh, R.string.refresh_dialog_message) {
                         api.update().enqueue(object : Callback<String> {
                             override fun onResponse(
@@ -1321,7 +1326,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             ACRA.getErrorReporter().maybeHandleSilentException(e, this@HomeActivity)
                         }
 
-                        if (ids.isNotEmpty() && this@HomeActivity.isNetworkAccessible(null)) {
+                        if (ids.isNotEmpty() && this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
                             api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
                                 override fun onResponse(
                                     call: Call<SuccessResponse>,
@@ -1465,7 +1470,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
            })
         }
 
-        if (this@HomeActivity.isNetworkAccessible(null)) {
+        if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
             thread {
                 val actions = db.actionsDao().actions()
 
