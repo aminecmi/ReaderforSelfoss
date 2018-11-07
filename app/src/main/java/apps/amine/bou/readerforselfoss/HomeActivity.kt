@@ -643,14 +643,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             false
                         }
                 )
-                drawer.addItem(DividerDrawerItem())
-                drawer.addItem(
-                    SecondaryDrawerItem()
-                        .withName(getString(R.string.drawer_item_tags))
-                        .withIdentifier(DRAWER_ID_TAGS)
-                        .withSelectable(false)
-                )
-                handleTags(maybeDrawerData.tags)
                 if (hiddenTags.isNotEmpty()) {
                     drawer.addItem(DividerDrawerItem())
                     drawer.addItem(
@@ -661,6 +653,14 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     )
                     handleHiddenTags(maybeDrawerData.tags)
                 }
+                drawer.addItem(DividerDrawerItem())
+                drawer.addItem(
+                    SecondaryDrawerItem()
+                        .withName(getString(R.string.drawer_item_tags))
+                        .withIdentifier(DRAWER_ID_TAGS)
+                        .withSelectable(false)
+                )
+                handleTags(maybeDrawerData.tags)
                 drawer.addItem(DividerDrawerItem())
                 drawer.addItem(
                     SecondaryDrawerItem()
