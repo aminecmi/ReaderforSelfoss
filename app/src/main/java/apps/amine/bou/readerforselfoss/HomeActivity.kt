@@ -195,6 +195,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             this,
             this@HomeActivity,
             settings.getBoolean("isSelfSignedCert", false),
+            sharedPref.getString("api_timeout", "-1").toLong(),
             shouldLogEverything
         )
         items = ArrayList()

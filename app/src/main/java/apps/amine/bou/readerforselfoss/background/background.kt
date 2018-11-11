@@ -53,7 +53,6 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
             val settings =
                 this.context.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(this.context)
-            val shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
             val notifyNewItems = sharedPref.getBoolean("notify_new_items", false)
 
             db = Room.databaseBuilder(
@@ -65,7 +64,8 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 this.context,
                 null,
                 settings.getBoolean("isSelfSignedCert", false),
-                shouldLogEverything
+                sharedPref.getString("api_timeout", "-1").toLong(),
+                sharedPref.getBoolean("should_log_everything", false)
             )
 
             api.allItems().enqueue(object : Callback<List<Item>> {

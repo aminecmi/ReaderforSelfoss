@@ -32,4 +32,9 @@
         android:icon="@drawable/ic_info_black_24"
         android:title="@string/pref_header_links"/>
 
+    <header
+        android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$ExperimentalPreferenceFragment"
+        android:icon="@drawable/ic_action_lab"
+        android:title="@string/pref_header_experimental"/>
+
 </preference-headers>

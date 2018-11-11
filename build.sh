@@ -5,7 +5,9 @@ TODAYS_VERSION="1"
 
 VERSION="${BASE_VERSION//./}$(date '+%y%m%j')$TODAYS_VERSION"
 
-./version.sh ${VERSION} $1
+PARAMS_EXCEPT_PUBLISH=$(echo $1 | sed 's/\-\-publish//')
+
+./version.sh ${VERSION} ${PARAMS_EXCEPT_PUBLISH}
 
 if [[ "$@" == *'--publish'* ]]
 then

@@ -114,6 +114,7 @@ class ArticleFragment : Fragment() {
             context!!,
             activity!!,
             settings.getBoolean("isSelfSignedCert", false),
+            prefs.getString("api_timeout", "-1").toLong(),
             prefs.getBoolean("should_log_everything", false)
         )
 

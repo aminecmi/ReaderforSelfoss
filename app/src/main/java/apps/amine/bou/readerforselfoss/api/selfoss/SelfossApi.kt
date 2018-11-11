@@ -18,11 +18,13 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 
 class SelfossApi(
     c: Context,
     callingActivity: Activity?,
     isWithSelfSignedCert: Boolean,
+    timeout: Long,
     shouldLog: Boolean
 ) {
 
@@ -38,16 +40,25 @@ class SelfossApi(
             this
         }
 
+    fun OkHttpClient.Builder.maybeWithSettingsTimeout(timeout: Long): OkHttpClient.Builder =
+        if (timeout != -1L) {
+            this.readTimeout(timeout, TimeUnit.SECONDS)
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+        } else {
+            this
+        }
+
     fun Credentials.createAuthenticator(): DispatchingAuthenticator =
         DispatchingAuthenticator.Builder()
             .with("digest", DigestAuthenticator(this))
             .with("basic", BasicAuthenticator(this))
             .build()
 
-    fun DispatchingAuthenticator.getHttpClien(isWithSelfSignedCert: Boolean): OkHttpClient.Builder {
+    fun DispatchingAuthenticator.getHttpClien(isWithSelfSignedCert: Boolean, timeout: Long): OkHttpClient.Builder {
         val authCache = ConcurrentHashMap<String, CachingAuthenticator>()
         return OkHttpClient
             .Builder()
+            .maybeWithSettingsTimeout(timeout)
             .maybeWithSelfSigned(isWithSelfSignedCert)
             .authenticator(CachingAuthenticatorDecorator(this, authCache))
             .addInterceptor(AuthenticationCacheInterceptor(authCache))
@@ -78,7 +89,7 @@ class SelfossApi(
             HttpLoggingInterceptor.Level.NONE
         }
 
-        val httpClient = authenticator.getHttpClien(isWithSelfSignedCert)
+        val httpClient = authenticator.getHttpClien(isWithSelfSignedCert, timeout)
 
         httpClient.addInterceptor(logging)
 
