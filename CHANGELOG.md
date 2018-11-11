@@ -1,5 +1,7 @@
 **1.7.x**
 
+- Added experimental issue to set a default timeout. Should work for #238.
+
 - Closing #220.
 
 - Start of #238. "Add a quick shortcut to open the app on offline mode ?"
