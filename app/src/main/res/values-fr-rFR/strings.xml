@@ -166,4 +166,6 @@
     <string name="new_items_notification_text">%1$d nouveaux articles synchronisés.</string>
     <string name="pref_switch_notify_new_items">Notification quand des nouveaux articles sont synchronisés.</string>
     <string name="shortcut_offline">Hors ligne</string>
+    <string name="pref_api_timeout">Api Timeout</string>
+    <string name="pref_header_experimental">Experimental</string>
 </resources>

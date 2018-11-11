@@ -166,4 +166,6 @@
     <string name="new_items_notification_text">%1$d new items loaded.</string>
     <string name="pref_switch_notify_new_items">Notify on new items synced.</string>
     <string name="shortcut_offline">Offline</string>
+    <string name="pref_api_timeout">Api Timeout</string>
+    <string name="pref_header_experimental">Experimental</string>
 </resources>
