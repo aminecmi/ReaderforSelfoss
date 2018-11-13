@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git fetch --tags -p
+
 BASE_VERSION="1.7"
 LAST_TAG=$(git tag -l | sort -V | tail -1)
 
