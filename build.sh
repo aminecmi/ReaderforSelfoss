@@ -21,7 +21,7 @@ VERSION="${INITIAL_VERSION}${TODAYS_VERSION}"
 
 PARAMS_EXCEPT_PUBLISH=$(echo $1 | sed 's/\-\-publish//')
 
-./version.sh ${VERSION} ${PARAMS_EXCEPT_PUBLISH}
+./version.sh ${VERSION} ${PARAMS_EXCEPT_PUBLISH} &
 
 if [[ "$@" == *'--publish'* ]]
 then
