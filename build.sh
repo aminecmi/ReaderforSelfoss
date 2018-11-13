@@ -1,17 +1,33 @@
 #!/bin/bash
 
 BASE_VERSION="1.7"
-TODAYS_VERSION="1"
+LAST_TAG=$(git tag -l | sort -V | tail -1)
 
-VERSION="${BASE_VERSION//./}$(date '+%y%m%j')$TODAYS_VERSION"
+INITIAL_VERSION="${BASE_VERSION//./}$(date '+%y%m%j')"
 
-PARAMS_EXCEPT_PUBLISH=$(echo $1 | sed 's/\-\-publish//')
+LAST_DAY_VERSION=$(echo $LAST_TAG | sed "s/v${INITIAL_VERSION}//")
+LAST_DAY_VERSION_LENGTH=$(echo "${#LAST_DAY_VERSION}")
+
+if [[ "$LAST_DAY_VERSION_LENGTH" == "1" ]]
+then
+    TODAYS_VERSION=$(( $LAST_DAY_VERSION + 1 ))
+else
+    TODAYS_VERSION="1"
+fi
+
+VERSION="${INITIAL_VERSION}${TODAYS_VERSION}"
+
+PARAMS_EXCEPT_PUBLISH_LOCAL=$(echo $1 | sed 's/\-\-publish\-local//')
+PARAMS_EXCEPT_PUBLISH=$(echo $PARAMS_EXCEPT_PUBLISH_LOCAL | sed 's/\-\-publish//')
 
 ./version.sh ${VERSION} ${PARAMS_EXCEPT_PUBLISH}
 
-if [[ "$@" == *'--publish'* ]]
+if [[ "$@" == *'--publish-local'* ]]
+then
+    ./publish-version-local.sh ${VERSION}
+elif [[ "$@" == *'--publish'* ]]
 then
     ./publish-version.sh ${VERSION}
 else
-    echo "Did not publish. If you wanted to do so, call the script with \"--publish\"."
+    echo "Did not publish. If you wanted to do so, call the script with \"--publish\" or \"--publish-local\"."
 fi
