@@ -166,6 +166,6 @@
     <string name="new_items_notification_text">%1$d artículos cargados.</string>
     <string name="pref_switch_notify_new_items">Notificarme cuando se sincronicen nuevos artículos.</string>
     <string name="shortcut_offline">Sin conexión</string>
-    <string name="pref_api_timeout">Api Timeout</string>
+    <string name="pref_api_timeout">Se acabó el tiempo de espera de la API</string>
     <string name="pref_header_experimental">Experimental</string>
 </resources>
