@@ -22,10 +22,7 @@ PARAMS_EXCEPT_PUBLISH=$(echo $PARAMS_EXCEPT_PUBLISH_LOCAL | sed 's/\-\-publish//
 
 ./version.sh ${VERSION} ${PARAMS_EXCEPT_PUBLISH}
 
-if [[ "$@" == *'--publish-local'* ]]
-then
-    ./publish-version-local.sh ${VERSION}
-elif [[ "$@" == *'--publish'* ]]
+if [[ "$@" == *'--publish'* ]]
 then
     ./publish-version.sh ${VERSION}
 else
