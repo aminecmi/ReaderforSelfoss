@@ -17,8 +17,7 @@ fi
 
 VERSION="${INITIAL_VERSION}${TODAYS_VERSION}"
 
-PARAMS_EXCEPT_PUBLISH_LOCAL=$(echo $1 | sed 's/\-\-publish\-local//')
-PARAMS_EXCEPT_PUBLISH=$(echo $PARAMS_EXCEPT_PUBLISH_LOCAL | sed 's/\-\-publish//')
+PARAMS_EXCEPT_PUBLISH=$(echo $1 | sed 's/\-\-publish//')
 
 ./version.sh ${VERSION} ${PARAMS_EXCEPT_PUBLISH}
 
