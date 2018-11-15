@@ -10,8 +10,8 @@ ext {
 }
 
 def gitVersion() {
-    def process = "git describe --abbrev=0 --tags".execute()
-    return process.text.substring(1).replaceAll("\\.", "").trim()
+    def process = "git for-each-ref refs/tags --sort=-taggerdate --format='%(refname:short)' --count=1".execute()
+    return process.text.replaceAll("'", "").substring(1).replaceAll("\\.", "").trim()
 }
 
 def versionCodeFromGit() {
