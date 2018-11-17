@@ -25,11 +25,12 @@ fun String.toStringUriWithHttp(): String =
         this
     }
 
-fun Context.shareLink(itemUrl: String) {
+fun Context.shareLink(itemUrl: String, itemTitle: String) {
     val sendIntent = Intent()
     sendIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     sendIntent.action = Intent.ACTION_SEND
     sendIntent.putExtra(Intent.EXTRA_TEXT, itemUrl.toStringUriWithHttp())
+    sendIntent.putExtra(Intent.EXTRA_SUBJECT, itemTitle)
     sendIntent.type = "text/plain"
     startActivity(
         Intent.createChooser(

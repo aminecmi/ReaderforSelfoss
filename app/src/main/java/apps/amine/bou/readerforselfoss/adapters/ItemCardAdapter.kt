@@ -179,7 +179,8 @@ class ItemCardAdapter(
             })
 
             mView.shareBtn.setOnClickListener {
-                c.shareLink(items[adapterPosition].getLinkDecoded())
+                val item = items[adapterPosition]
+                c.shareLink(item.getLinkDecoded(), item.title)
             }
 
             mView.browserBtn.setOnClickListener {

@@ -139,7 +139,7 @@ class ArticleFragment : Fragment() {
                 override fun onItemClick(item: MenuItem) {
                     when (item.itemId) {
                         R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
-                        R.id.share_action -> activity!!.shareLink(url)
+                        R.id.share_action -> activity!!.shareLink(url, contentTitle)
                         R.id.open_action -> activity!!.openItemUrl(
                             allItems,
                             pageNumber.toInt(),
