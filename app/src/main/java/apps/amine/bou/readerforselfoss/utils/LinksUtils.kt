@@ -19,6 +19,7 @@ import apps.amine.bou.readerforselfoss.ReaderActivity
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import okhttp3.HttpUrl
+import org.acra.ACRA
 
 fun Context.buildCustomTabsIntent(): CustomTabsIntent {
 
@@ -134,7 +135,7 @@ private fun openInBrowser(linkDecoded: String, app: Activity) {
 fun String.isUrlValid(): Boolean =
     HttpUrl.parse(this) != null && Patterns.WEB_URL.matcher(this).matches()
 
-fun String.isBaseUrlValid(): Boolean {
+fun String.isBaseUrlValid(logErrors: Boolean): Boolean {
     val baseUrl = HttpUrl.parse(this)
     var existsAndEndsWithSlash = false
     if (baseUrl != null) {
@@ -142,7 +143,11 @@ fun String.isBaseUrlValid(): Boolean {
         existsAndEndsWithSlash = "" == pathSegments[pathSegments.size - 1]
     }
 
-    return Patterns.WEB_URL.matcher(this).matches() && existsAndEndsWithSlash
+    val isValid = Patterns.WEB_URL.matcher(this).matches() && existsAndEndsWithSlash
+    if (!isValid && logErrors) {
+        ACRA.getErrorReporter().doHandleSilentException(java.lang.Exception("Patterns.WEB_URL.matcher(this).matches() == ${Patterns.WEB_URL.matcher(this).matches()} && existsAndEndsWithSlash == $existsAndEndsWithSlash && baseUrl.pathSegments() == ${baseUrl?.pathSegments()}"))
+    }
+    return isValid
 }
 
 fun Context.openInBrowserAsNewTask(i: Item) {

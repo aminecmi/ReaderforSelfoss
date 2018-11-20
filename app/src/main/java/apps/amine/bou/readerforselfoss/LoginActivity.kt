@@ -145,7 +145,7 @@ class LoginActivity : AppCompatActivity() {
         var cancel = false
         var focusView: View? = null
 
-        if (!url.isBaseUrlValid()) {
+        if (!url.isBaseUrlValid(logErrors)) {
             urlView.error = getString(R.string.login_url_problem)
             focusView = urlView
             cancel = true

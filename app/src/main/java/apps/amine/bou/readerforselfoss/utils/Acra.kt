@@ -10,3 +10,7 @@ fun ErrorReporter.maybeHandleSilentException(throwable: Throwable, ctx: Context)
         this.handleSilentException(throwable)
     }
 }
+
+fun ErrorReporter.doHandleSilentException(throwable: Throwable) {
+    this.handleSilentException(throwable)
+}

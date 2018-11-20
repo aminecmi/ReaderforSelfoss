@@ -1,16 +1,8 @@
 buildscript {
 }
 
-ext {
-    configuration = [
-            buildDate: new Date()
-    ]
-    // This will make me able to build multiple times a day. May break thinks. I may forget it.
-    todaysBuilds = "1"
-}
-
 def gitVersion() {
-    def process = "git for-each-ref refs/tags --sort=-authordate --format='%(refname:short)' --count=1".execute()
+    def process = "git for-each-ref refs/tags --sort=-taggerdate --format='%(refname:short)' --count=1".execute()
     return process.text.replaceAll("'", "").substring(1).replaceAll("\\.", "").trim()
 }
 
