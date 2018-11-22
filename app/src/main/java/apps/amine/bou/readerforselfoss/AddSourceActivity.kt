@@ -109,7 +109,7 @@ class AddSourceActivity : AppCompatActivity() {
         super.onResume()
         val config = Config(this)
 
-        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid(false)) {
+        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid(false, this@AddSourceActivity)) {
             mustLoginToAddSource()
         } else {
             handleSpoutsSpinner(spoutsSpinner, api, progress, formContainer)

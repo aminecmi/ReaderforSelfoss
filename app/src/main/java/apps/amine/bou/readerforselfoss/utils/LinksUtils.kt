@@ -135,7 +135,7 @@ private fun openInBrowser(linkDecoded: String, app: Activity) {
 fun String.isUrlValid(): Boolean =
     HttpUrl.parse(this) != null && Patterns.WEB_URL.matcher(this).matches()
 
-fun String.isBaseUrlValid(logErrors: Boolean): Boolean {
+fun String.isBaseUrlValid(logErrors: Boolean, ctx: Context): Boolean {
     val baseUrl = HttpUrl.parse(this)
     var existsAndEndsWithSlash = false
     if (baseUrl != null) {
@@ -145,7 +145,7 @@ fun String.isBaseUrlValid(logErrors: Boolean): Boolean {
 
     val isValid = Patterns.WEB_URL.matcher(this).matches() && existsAndEndsWithSlash
     if (!isValid && logErrors) {
-        ACRA.getErrorReporter().doHandleSilentException(java.lang.Exception("Patterns.WEB_URL.matcher(this).matches() == ${Patterns.WEB_URL.matcher(this).matches()} && existsAndEndsWithSlash == $existsAndEndsWithSlash && baseUrl.pathSegments() == ${baseUrl?.pathSegments()}"))
+        ACRA.getErrorReporter().doHandleSilentException(java.lang.Exception("Patterns.WEB_URL.matcher(this).matches() == ${Patterns.WEB_URL.matcher(this).matches()} && existsAndEndsWithSlash == $existsAndEndsWithSlash && baseUrl.pathSegments() == ${baseUrl?.pathSegments()}"), ctx)
     }
     return isValid
 }

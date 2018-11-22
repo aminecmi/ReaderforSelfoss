@@ -54,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
 
         handleBaseUrlFail()
 
-
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         userIdentifier = settings.getString("unique_id", "")
         logErrors = settings.getBoolean("login_debug", false)
@@ -145,7 +144,7 @@ class LoginActivity : AppCompatActivity() {
         var cancel = false
         var focusView: View? = null
 
-        if (!url.isBaseUrlValid(logErrors)) {
+        if (!url.isBaseUrlValid(logErrors, this@LoginActivity)) {
             urlView.error = getString(R.string.login_url_problem)
             focusView = urlView
             cancel = true
