@@ -28,10 +28,8 @@ import java.io.IOException
 import java.util.UUID.randomUUID
 
 
-@AcraHttpSender(uri = "http://amine-bou.fr:5984/acra-selfoss/_design/acra-storage/_update/report",
-                basicAuthLogin = "selfoss",
-                basicAuthPassword = "selfoss",
-                httpMethod = HttpSender.Method.PUT)
+@AcraHttpSender(uri = "http://37.187.110.167/amine/acra/simplest-acra.php",
+                httpMethod = HttpSender.Method.POST)
 @AcraDialog(resText = R.string.crash_dialog_text,
             resCommentPrompt = R.string.crash_dialog_comment,
             resTheme = android.R.style.Theme_DeviceDefault_Dialog)
