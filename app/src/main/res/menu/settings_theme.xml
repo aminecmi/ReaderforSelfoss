@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/clear"
-        android:icon="@drawable/ic_history"
+        android:icon="@drawable/ic_history_white_24dp"
         android:title="@string/drawer_action_clear"
         app:showAsAction="ifRoom" />
 </menu>

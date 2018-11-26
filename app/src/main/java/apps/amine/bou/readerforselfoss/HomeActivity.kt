@@ -18,17 +18,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import apps.amine.bou.readerforselfoss.adapters.ItemCardAdapter
@@ -69,7 +65,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
 import com.ftinc.scoop.Scoop
 import com.github.stkent.amplify.tracking.Amplify
-import com.google.gson.reflect.TypeToken
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -79,7 +74,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_article.*
 import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
@@ -304,19 +298,19 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         val tabNew =
             BottomNavigationItem(
-                R.drawable.ic_fiber_new_black_24dp,
+                R.drawable.ic_tab_fiber_new_black_24dp,
                 getString(R.string.tab_new)
             ).setActiveColor(appColors.colorAccent)
                 .setBadgeItem(tabNewBadge)
         val tabArchive =
             BottomNavigationItem(
-                R.drawable.ic_archive_black_24dp,
+                R.drawable.ic_tab_archive_black_24dp,
                 getString(R.string.tab_read)
             ).setActiveColor(appColors.colorAccentDark)
                 .setBadgeItem(tabArchiveBadge)
         val tabStarred =
             BottomNavigationItem(
-                R.drawable.ic_favorite_black_24dp,
+                R.drawable.ic_tab_favorite_black_24dp,
                 getString(R.string.tab_favs)
             ).setActiveColorResource(R.color.pink)
                 .setBadgeItem(tabStarredBadge)
@@ -478,7 +472,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             footer {
                 primaryItem(R.string.drawer_report_bug) {
-                    icon = R.drawable.ic_bug_report
+                    icon = R.drawable.ic_bug_report_black_24dp
                     iconTintingEnabled = true
                     onClick { _ ->
                         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Config.trackerUrl))
@@ -488,7 +482,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
 
                 primaryItem(R.string.title_activity_settings) {
-                    icon = R.drawable.ic_settings
+                    icon = R.drawable.ic_settings_black_24dp
                     iconTintingEnabled = true
                     onClick { _ ->
                         startActivityForResult(
@@ -680,7 +674,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     PrimaryDrawerItem()
                         .withName(R.string.action_about)
                         .withSelectable(false)
-                        .withIcon(R.drawable.ic_info_outline)
+                        .withIcon(R.drawable.ic_info_outline_white_24dp)
                         .withIconTintingEnabled(true)
                         .withOnDrawerItemClickListener { _, _, _ ->
                             LibsBuilder()

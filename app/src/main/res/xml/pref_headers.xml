@@ -3,38 +3,64 @@
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/pref_header_general"/>
-
+        android:title="@string/pref_header_general">
+        <extra
+            android:name="iconDark"
+            android:value="ic_settings_white_24dp"/>
+    </header>
 
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$ArticleViewerPreferenceFragment"
-        android:icon="@drawable/ic_chrome_reader_mode_black_24"
-        android:title="@string/pref_header_viewer"/>
-
+        android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
+        android:title="@string/pref_header_viewer">
+        <extra
+            android:name="iconDark"
+            android:value="ic_chrome_reader_mode_white_24dp"/>
+    </header>
 
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$OfflinePreferenceFragment"
-        android:icon="@drawable/ic_signal_wifi_statusbar_not_connected"
-        android:title="@string/pref_header_offline"/>
+        android:icon="@drawable/ic_signal_wifi_off_black_24dp"
+        android:title="@string/pref_header_offline">
+        <extra
+            android:name="iconDark"
+            android:value="ic_signal_wifi_off_white_24dp"/>
+    </header>
 
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$DebugPreferenceFragment"
-        android:icon="@drawable/ic_bug_report"
-        android:title="@string/pref_header_debug"/>
+        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:title="@string/pref_header_debug">
+        <extra
+            android:name="iconDark"
+            android:value="ic_bug_report_white_24dp"/>
+    </header>
 
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$ThemePreferenceFragment"
         android:icon="@drawable/ic_color_lens_black_24dp"
-        android:title="@string/pref_header_theme"/>
+        android:title="@string/pref_header_theme">
+        <extra
+            android:name="iconDark"
+            android:value="ic_color_lens_white_24dp"/>
+    </header>
 
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$LinksPreferenceFragment"
-        android:icon="@drawable/ic_info_black_24"
-        android:title="@string/pref_header_links"/>
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_header_links">
+        <extra
+            android:name="iconDark"
+            android:value="ic_info_white_24dp"/>
+    </header>
 
     <header
         android:fragment="apps.amine.bou.readerforselfoss.settings.SettingsActivity$ExperimentalPreferenceFragment"
-        android:icon="@drawable/ic_action_lab"
-        android:title="@string/pref_header_experimental"/>
+        android:icon="@drawable/ic_widgets_black_24dp"
+        android:title="@string/pref_header_experimental">
+        <extra
+            android:name="iconDark"
+            android:value="ic_widgets_white_24dp"/>
+    </header>
 
 </preference-headers>

@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="new"
         android:enabled="true"
-        android:icon="@drawable/ic_fiber_new_black_24dp"
+        android:icon="@drawable/ic_tab_fiber_new_black_24dp"
         android:shortcutShortLabel="@string/tab_new">
         <intent
             android:action="android.intent.action.VIEW"
@@ -17,7 +17,7 @@
     <shortcut
         android:shortcutId="read"
         android:enabled="true"
-        android:icon="@drawable/ic_archive_black_24dp"
+        android:icon="@drawable/ic_tab_archive_black_24dp"
         android:shortcutShortLabel="@string/tab_read">
         <intent
             android:action="android.intent.action.VIEW"
@@ -31,7 +31,7 @@
     <shortcut
         android:shortcutId="favs"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite_black_24dp"
+        android:icon="@drawable/ic_tab_favorite_black_24dp"
         android:shortcutShortLabel="@string/tab_favs">
         <intent
             android:action="android.intent.action.VIEW"
@@ -45,7 +45,7 @@
     <shortcut
         android:shortcutId="offline"
         android:enabled="true"
-        android:icon="@drawable/ic_signal_wifi_statusbar_not_connected"
+        android:icon="@drawable/ic_signal_wifi_off_black_24dp"
         android:shortcutShortLabel="@string/shortcut_offline">
         <intent
             android:action="android.intent.action.VIEW"

@@ -4,19 +4,19 @@
 
     <item
         android:id="@+id/unread_action"
-        android:icon="@drawable/ic_fiber_new"
+        android:icon="@drawable/ic_fiber_new_white_24dp"
         android:title="@string/unmark"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/more_action"
-        android:icon="@drawable/ic_chrome_reader_mode"
+        android:icon="@drawable/ic_chrome_reader_mode_white_24dp"
         android:title="@string/reader_action_more"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/open_action"
-        android:icon="@drawable/ic_open_in_browser"
+        android:icon="@drawable/ic_open_in_browser_white_24dp"
         android:iconTint="@color/white"
         android:title="@string/reader_action_open"
         app:showAsAction="ifRoom" />
