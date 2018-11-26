@@ -18,7 +18,11 @@ Also, the last APK built from source is available [here](https://jenkins.amine-b
 
 ## Want to help ?
 
-Check the [Contribution guide](https://github.com/aminecmi/ReaderforSelfoss/blob/master/.github/CONTRIBUTING.md)
+1. **You'll have to have a Selfoss instance running.** You'll find everything you need to install it [here](https://selfoss.aditu.de/).
+
+2. Check the [Contribution guide](https://github.com/aminecmi/ReaderforSelfoss/blob/master/.github/CONTRIBUTING.md).
+
+3. Build the project by following [these steps](https://github.com/aminecmi/ReaderforSelfoss/blob/master/.github/CONTRIBUTING.md#build-the-project) (you should have read them after the contribution guide)
 
 ## Useful links
 
