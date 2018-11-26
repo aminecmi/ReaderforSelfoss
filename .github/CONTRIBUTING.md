@@ -41,6 +41,12 @@ Always check if the web version of your instance is working.
 * Remember that PR review can take time.
 
 
+# Install Selfoss (if you don't have an instance)
+
+I won't provide any selfoss instance url. If you want to help, but to not have one, you'll have to install one, and use it.
+
+All the details to need are [here](https://selfoss.aditu.de/)
+
 # Build the project
 
 You can directly import this project into IntellIJ/Android Studio.
