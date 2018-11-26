@@ -45,7 +45,7 @@ Always check if the web version of your instance is working.
 
 I won't provide any selfoss instance url. If you want to help, but to not have one, you'll have to install one, and use it.
 
-All the details to need are [here](https://selfoss.aditu.de/)
+All the details to need are [here](https://selfoss.aditu.de/).
 
 # Build the project
 
