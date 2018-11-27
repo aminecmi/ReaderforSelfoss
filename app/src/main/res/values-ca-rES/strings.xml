@@ -108,7 +108,7 @@
     <string name="self_signed_cert_warning">Per raons de seguretat, els certificats autosignats no seran compatibles per defecte. En activar aquesta opció, sereu responsable de qualsevol problema de seguretat que es pugui produir.</string>
     <string name="pref_selfoss_category">API de Selfoss</string>
     <string name="pref_api_items_number_title">Nombre d\'elements carregats</string>
-    <string name="pref_hidden_tags">Hidden Tags</string>
+    <string name="pref_hidden_tags">Etiquetes ocultes</string>
     <string name="read_debug_title">Voleu llegir els articles que apareixen com a no llegits?</string>
     <string name="read_debug_off">No es registraran quan es marquen elements com a llegits</string>
     <string name="read_debug_on">Les crides de l\'API es registraran en marcar un article com a llegit</string>
@@ -146,26 +146,26 @@
     <string name="pref_debug_crash_reports">Informes d\'error</string>
     <string name="pref_debug_debug_logs">Registre de depuració (s\'enviarà automàticament)</string>
     <string name="acra_login">Habilita el registre</string>
-    <string name="drawer_item_hidden_tags">Hidden Tags</string>
-    <string name="unmark">Mark item as unread</string>
-    <string name="pref_header_offline">Offline and cache</string>
-    <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
-    <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
-    <string name="pref_switch_items_caching">Save items for offline use</string>
-    <string name="no_network_connectivity">Not connected !</string>
-    <string name="pref_switch_periodic_refresh">Sync articles</string>
-    <string name="pref_switch_periodic_refresh_off">Articles will not be synced in the background</string>
-    <string name="pref_switch_periodic_refresh_on">Articles will periodically be synced</string>
-    <string name="pref_periodic_refresh_minutes_title"><![CDATA[Sync interval ( >= 15 minutes)]]></string>
-    <string name="pref_switch_refresh_when_charging">Only refresh when phone is charging</string>
-    <string name="loading_notification_title">Loading ...</string>
-    <string name="loading_notification_text">Selfoss is syncing your articles</string>
-    <string name="notification_channel_sync">Sync notification</string>
-    <string name="new_items_channel_sync">New items notification</string>
-    <string name="new_items_notification_title">New items !</string>
-    <string name="new_items_notification_text">%1$d new items loaded.</string>
-    <string name="pref_switch_notify_new_items">Notify on new items synced.</string>
-    <string name="shortcut_offline">Offline</string>
-    <string name="pref_api_timeout">Api Timeout</string>
+    <string name="drawer_item_hidden_tags">Etiquetes ocultes</string>
+    <string name="unmark">Marca com no llegit</string>
+    <string name="pref_header_offline">Sense connexió i memòria clau</string>
+    <string name="pref_switch_items_caching_off">Els articles no es guardaran a la memòria del dispositiu i l\'aplicació no es podrà utilitzar sense connexió.</string>
+    <string name="pref_switch_items_caching_on">Els articles es guardaran a la memòria del dispositiu i es podran utilitzar sense connexió.</string>
+    <string name="pref_switch_items_caching">Guarda els elements per utilitzar-los sense connexió</string>
+    <string name="no_network_connectivity">Sense connexió!</string>
+    <string name="pref_switch_periodic_refresh">Sincronitza els articles</string>
+    <string name="pref_switch_periodic_refresh_off">Els articles no se sincronitzaran en segon pla</string>
+    <string name="pref_switch_periodic_refresh_on">Els articles se sincronitzaran periòdicament</string>
+    <string name="pref_periodic_refresh_minutes_title"><![CDATA[Interval de sincronització ( >= 15 minuts)]]></string>
+    <string name="pref_switch_refresh_when_charging">Sincronitza només quan el telèfon s\'està carregant</string>
+    <string name="loading_notification_title">S\'està carregant...</string>
+    <string name="loading_notification_text">Selfoss està sincronitzant els articles</string>
+    <string name="notification_channel_sync">Notificació de sincronització</string>
+    <string name="new_items_channel_sync">Notificació d\'elements nous</string>
+    <string name="new_items_notification_title">Nous articles!</string>
+    <string name="new_items_notification_text">S\'han carregat %1$d articles nous.</string>
+    <string name="pref_switch_notify_new_items">Avisa\'m quan se sincronitzin articles nous.</string>
+    <string name="shortcut_offline">Sense connexió</string>
+    <string name="pref_api_timeout">S\'ha acabat el temps d\'espera de l\'API</string>
     <string name="pref_header_experimental">Experimental</string>
 </resources>
