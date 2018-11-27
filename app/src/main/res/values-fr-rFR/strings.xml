@@ -166,6 +166,8 @@
     <string name="new_items_notification_text">%1$d nouveaux articles synchronisés.</string>
     <string name="pref_switch_notify_new_items">Notification quand des nouveaux articles sont synchronisés.</string>
     <string name="shortcut_offline">Hors ligne</string>
-    <string name="pref_api_timeout">Api Timeout</string>
-    <string name="pref_header_experimental">Experimental</string>
+    <string name="pref_api_timeout">Timeout de l\'api</string>
+    <string name="pref_header_experimental">Expérimental</string>
+    <string name="webview_dialog_issue_message">Pas de Webview disponible. Désactivation du lecteur d\'article pour éviter les futures erreurs. Les articles seront lu via votre navigateur à l\'avenir.</string>
+    <string name="webview_dialog_issue_title">Problème de Webview</string>
 </resources>
