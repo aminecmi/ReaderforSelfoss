@@ -7,7 +7,7 @@
         android:title="@string/pref_switch_actions_pager_scroll" />
 
     <EditTextPreference
-        android:defaultValue="14"
+        android:defaultValue="16"
         android:inputType="number"
         android:key="reader_font_size"
         android:selectAllOnFocus="true"

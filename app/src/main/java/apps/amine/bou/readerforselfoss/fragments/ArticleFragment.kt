@@ -41,7 +41,6 @@ import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.succeeded
-import apps.amine.bou.readerforselfoss.utils.toPx
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
@@ -56,7 +55,7 @@ import kotlin.concurrent.thread
 
 class ArticleFragment : Fragment() {
     private lateinit var pageNumber: Number
-    private var fontSize: Int = 14
+    private var fontSize: Int = 16
     private lateinit var allItems: ArrayList<Item>
     private var mCustomTabActivityHelper: CustomTabActivityHelper? = null;
     private lateinit var url: String
@@ -110,7 +109,7 @@ class ArticleFragment : Fragment() {
 
             val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
-            fontSize = prefs.getString("reader_font_size", "14").toInt()
+            fontSize = prefs.getString("reader_font_size", "16").toInt()
 
             val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
             val debugReadingItems = prefs.getBoolean("read_debug", false)
@@ -427,7 +426,7 @@ class ArticleFragment : Fragment() {
                 |        color: $stringTextColor;
                 |      }
                 |      * {
-                |        font-size: ${fontSize.toPx}px;
+                |        font-size: ${fontSize}px;
                 |        text-align: justify;
                 |        word-break: break-word;
                 |        overflow:hidden;
