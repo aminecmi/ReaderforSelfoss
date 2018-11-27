@@ -168,4 +168,6 @@
     <string name="shortcut_offline">Hors ligne</string>
     <string name="pref_api_timeout">Api Timeout</string>
     <string name="pref_header_experimental">Experimental</string>
+    <string name="webview_dialog_issue_message">Webview not available. Disabeling the article viewer to avoide any future crashes. Will load articles inside of your browser from now on.</string>
+    <string name="webview_dialog_issue_title">Webview issue</string>
 </resources>
