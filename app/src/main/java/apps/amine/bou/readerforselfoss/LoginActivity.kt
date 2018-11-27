@@ -163,7 +163,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        if (isWithLogin || isWithHTTPLogin) {
+        if (isWithLogin) {
             if (TextUtils.isEmpty(password)) {
                 passwordView.error = getString(R.string.error_invalid_password)
                 focusView = passwordView
@@ -173,6 +173,20 @@ class LoginActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(login)) {
                 loginView.error = getString(R.string.error_field_required)
                 focusView = loginView
+                cancel = true
+            }
+        }
+
+        if (isWithHTTPLogin) {
+            if (TextUtils.isEmpty(httpPassword)) {
+                httpPasswordView.error = getString(R.string.error_invalid_password)
+                focusView = httpPasswordView
+                cancel = true
+            }
+
+            if (TextUtils.isEmpty(httpLogin)) {
+                httpLoginView.error = getString(R.string.error_field_required)
+                focusView = httpLoginView
                 cancel = true
             }
         }
