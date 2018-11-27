@@ -99,7 +99,6 @@ class ArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         try {
-            throw InflateException("toto")
             rootView = inflater
                 .inflate(R.layout.fragment_article, container, false) as ViewGroup
 
