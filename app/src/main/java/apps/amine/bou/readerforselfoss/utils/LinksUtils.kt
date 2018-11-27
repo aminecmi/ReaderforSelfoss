@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss.utils
 
 import android.app.Activity
 import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -129,7 +130,11 @@ fun Context.openItemUrl(
 private fun openInBrowser(linkDecoded: String, app: Activity) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse(linkDecoded)
-    app.startActivity(intent)
+    try {
+        app.startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(app.baseContext, e.message, Toast.LENGTH_LONG).show()
+    }
 }
 
 fun String.isUrlValid(): Boolean =

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.view.InflateException
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
+import androidx.appcompat.app.AlertDialog
 import androidx.room.Room
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
@@ -56,7 +58,7 @@ class ArticleFragment : Fragment() {
     private lateinit var pageNumber: Number
     private var fontSize: Int = 14
     private lateinit var allItems: ArrayList<Item>
-    private lateinit var mCustomTabActivityHelper: CustomTabActivityHelper
+    private var mCustomTabActivityHelper: CustomTabActivityHelper? = null;
     private lateinit var url: String
     private lateinit var contentText: String
     private lateinit var contentSource: String
@@ -69,7 +71,9 @@ class ArticleFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        mCustomTabActivityHelper.unbindCustomTabsService(activity)
+        if (mCustomTabActivityHelper != null) {
+            mCustomTabActivityHelper!!.unbindCustomTabsService(activity)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +90,7 @@ class ArticleFragment : Fragment() {
         ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
     }
 
-    private lateinit var rootView: ViewGroup
+    private var rootView: ViewGroup? = null
 
 
     override fun onCreateView(
@@ -94,136 +98,154 @@ class ArticleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater
-            .inflate(R.layout.fragment_article, container, false) as ViewGroup
+        try {
+            throw InflateException("toto")
+            rootView = inflater
+                .inflate(R.layout.fragment_article, container, false) as ViewGroup
 
-        url = allItems[pageNumber.toInt()].getLinkDecoded()
-        contentText = allItems[pageNumber.toInt()].content
-        contentTitle = allItems[pageNumber.toInt()].title
-        contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
-        contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
+            url = allItems[pageNumber.toInt()].getLinkDecoded()
+            contentText = allItems[pageNumber.toInt()].content
+            contentTitle = allItems[pageNumber.toInt()].title
+            contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
+            contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-        editor = prefs.edit()
-        fontSize = prefs.getString("reader_font_size", "14").toInt()
+            val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+            editor = prefs.edit()
+            fontSize = prefs.getString("reader_font_size", "14").toInt()
 
-        val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-        val debugReadingItems = prefs.getBoolean("read_debug", false)
+            val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+            val debugReadingItems = prefs.getBoolean("read_debug", false)
 
-        val api = SelfossApi(
-            context!!,
-            activity!!,
-            settings.getBoolean("isSelfSignedCert", false),
-            prefs.getString("api_timeout", "-1").toLong(),
-            prefs.getBoolean("should_log_everything", false)
-        )
+            val api = SelfossApi(
+                context!!,
+                activity!!,
+                settings.getBoolean("isSelfSignedCert", false),
+                prefs.getString("api_timeout", "-1").toLong(),
+                prefs.getBoolean("should_log_everything", false)
+            )
 
-        fab = rootView.fab
+            fab = rootView!!.fab
 
-        fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
+            fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
 
-        fab.rippleColor = appColors.colorAccentDark
+            fab.rippleColor = appColors.colorAccentDark
 
-        val floatingToolbar: FloatingToolbar = rootView.floatingToolbar
-        floatingToolbar.attachFab(fab)
+            val floatingToolbar: FloatingToolbar = rootView!!.floatingToolbar
+            floatingToolbar.attachFab(fab)
 
-        floatingToolbar.background = ColorDrawable(appColors.colorAccent)
+            floatingToolbar.background = ColorDrawable(appColors.colorAccent)
 
-        val customTabsIntent = activity!!.buildCustomTabsIntent()
-        mCustomTabActivityHelper = CustomTabActivityHelper()
-        mCustomTabActivityHelper.bindCustomTabsService(activity)
+            val customTabsIntent = activity!!.buildCustomTabsIntent()
+            mCustomTabActivityHelper = CustomTabActivityHelper()
+            mCustomTabActivityHelper!!.bindCustomTabsService(activity)
 
 
-        floatingToolbar.setClickListener(
-            object : FloatingToolbar.ItemClickListener {
-                override fun onItemClick(item: MenuItem) {
-                    when (item.itemId) {
-                        R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
-                        R.id.share_action -> activity!!.shareLink(url, contentTitle)
-                        R.id.open_action -> activity!!.openItemUrl(
-                            allItems,
-                            pageNumber.toInt(),
-                            url,
-                            customTabsIntent,
-                            false,
-                            false,
-                            activity!!
-                        )
-                        R.id.unread_action -> if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
-                            api.unmarkItem(allItems[pageNumber.toInt()].id).enqueue(
-                                object : Callback<SuccessResponse> {
-                                    override fun onResponse(
-                                        call: Call<SuccessResponse>,
-                                        response: Response<SuccessResponse>
-                                    ) {
-                                        if (!response.succeeded() && debugReadingItems) {
-                                            val message =
-                                                "message: ${response.message()} " +
-                                                        "response isSuccess: ${response.isSuccessful} " +
-                                                        "response code: ${response.code()} " +
-                                                        "response message: ${response.message()} " +
-                                                        "response errorBody: ${response.errorBody()?.string()} " +
-                                                        "body success: ${response.body()?.success} " +
-                                                        "body isSuccess: ${response.body()?.isSuccess}"
-                                            ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
-                                        }
-                                    }
-
-                                    override fun onFailure(
-                                        call: Call<SuccessResponse>,
-                                        t: Throwable
-                                    ) {
-                                        if (debugReadingItems) {
-                                            ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
-                                        }
-                                    }
-                                }
+            floatingToolbar.setClickListener(
+                object : FloatingToolbar.ItemClickListener {
+                    override fun onItemClick(item: MenuItem) {
+                        when (item.itemId) {
+                            R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
+                            R.id.share_action -> activity!!.shareLink(url, contentTitle)
+                            R.id.open_action -> activity!!.openItemUrl(
+                                allItems,
+                                pageNumber.toInt(),
+                                url,
+                                customTabsIntent,
+                                false,
+                                false,
+                                activity!!
                             )
-                        } else {
-                            thread {
-                                db.actionsDao().insertAllActions(ActionEntity(allItems[pageNumber.toInt()].id, false, true, false, false))
+                            R.id.unread_action -> if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
+                                api.unmarkItem(allItems[pageNumber.toInt()].id).enqueue(
+                                    object : Callback<SuccessResponse> {
+                                        override fun onResponse(
+                                            call: Call<SuccessResponse>,
+                                            response: Response<SuccessResponse>
+                                        ) {
+                                            if (!response.succeeded() && debugReadingItems) {
+                                                val message =
+                                                    "message: ${response.message()} " +
+                                                            "response isSuccess: ${response.isSuccessful} " +
+                                                            "response code: ${response.code()} " +
+                                                            "response message: ${response.message()} " +
+                                                            "response errorBody: ${response.errorBody()?.string()} " +
+                                                            "body success: ${response.body()?.success} " +
+                                                            "body isSuccess: ${response.body()?.isSuccess}"
+                                                ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
+                                            }
+                                        }
+
+                                        override fun onFailure(
+                                            call: Call<SuccessResponse>,
+                                            t: Throwable
+                                        ) {
+                                            if (debugReadingItems) {
+                                                ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
+                                            }
+                                        }
+                                    }
+                                )
+                            } else {
+                                thread {
+                                    db.actionsDao().insertAllActions(ActionEntity(allItems[pageNumber.toInt()].id, false, true, false, false))
+                                }
                             }
+                            else -> Unit
                         }
-                        else -> Unit
+                    }
+
+                    override fun onItemLongClick(item: MenuItem?) {
                     }
                 }
+            )
 
-                override fun onItemLongClick(item: MenuItem?) {
-                }
-            }
-        )
+            rootView!!.source.text = contentSource
 
-        rootView.source.text = contentSource
-
-        if (contentText.isEmptyOrNullOrNullString()) {
-            getContentFromMercury(customTabsIntent, prefs)
-        } else {
-            rootView.titleView.text = contentTitle
-
-            htmlToWebview(contentText, prefs)
-
-            if (!contentImage.isEmptyOrNullOrNullString() && context != null) {
-                rootView.imageView.visibility = View.VISIBLE
-                Glide
-                    .with(context!!)
-                    .asBitmap()
-                    .load(contentImage)
-                    .apply(RequestOptions.fitCenterTransform())
-                    .into(rootView.imageView)
+            if (contentText.isEmptyOrNullOrNullString()) {
+                getContentFromMercury(customTabsIntent, prefs)
             } else {
-                rootView.imageView.visibility = View.GONE
-            }
-        }
+                rootView!!.titleView.text = contentTitle
 
-        rootView.nestedScrollView.setOnScrollChangeListener(
-            NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-                if (scrollY > oldScrollY) {
-                    fab.hide()
+                htmlToWebview(contentText, prefs)
+
+                if (!contentImage.isEmptyOrNullOrNullString() && context != null) {
+                    rootView!!.imageView.visibility = View.VISIBLE
+                    Glide
+                        .with(context!!)
+                        .asBitmap()
+                        .load(contentImage)
+                        .apply(RequestOptions.fitCenterTransform())
+                        .into(rootView!!.imageView)
                 } else {
-                    if (floatingToolbar.isShowing) floatingToolbar.hide() else fab.show()
+                    rootView!!.imageView.visibility = View.GONE
                 }
             }
-        )
+
+            rootView!!.nestedScrollView.setOnScrollChangeListener(
+                NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+                    if (scrollY > oldScrollY) {
+                        fab.hide()
+                    } else {
+                        if (floatingToolbar.isShowing) floatingToolbar.hide() else fab.show()
+                    }
+                }
+            )
+
+        } catch (e: InflateException) {
+            AlertDialog.Builder(context!!)
+                .setMessage(context!!.getString(R.string.webview_dialog_issue_message))
+                .setTitle(context!!.getString(R.string.webview_dialog_issue_title))
+                .setPositiveButton(android.R.string.ok
+                ) { dialog, which ->
+                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(context!!)
+                    val editor = sharedPref.edit()
+                    editor.putBoolean("prefer_article_viewer", false)
+                    editor.commit()
+                    activity!!.finish()
+                }
+                .create()
+                .show()
+        }
 
         return rootView
     }
@@ -233,7 +255,7 @@ class ArticleFragment : Fragment() {
         prefs: SharedPreferences
     ) {
         if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
-            rootView.progressBar.visibility = View.VISIBLE
+            rootView!!.progressBar.visibility = View.VISIBLE
             val parser = MercuryApi(
                 prefs.getBoolean("should_log_everything", false)
             )
@@ -248,7 +270,7 @@ class ArticleFragment : Fragment() {
                         try {
                             if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 try {
-                                    rootView.titleView.text = response.body()!!.title
+                                    rootView!!.titleView.text = response.body()!!.title
                                     try {
                                         // Note: Mercury may return relative urls... If it does the url val will not be changed.
                                         URL(response.body()!!.url)
@@ -272,19 +294,19 @@ class ArticleFragment : Fragment() {
 
                                 try {
                                     if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty() && context != null) {
-                                        rootView.imageView.visibility = View.VISIBLE
+                                        rootView!!.imageView.visibility = View.VISIBLE
                                         try {
                                             Glide
                                                 .with(context!!)
                                                 .asBitmap()
                                                 .load(response.body()!!.lead_image_url)
                                                 .apply(RequestOptions.fitCenterTransform())
-                                                .into(rootView.imageView)
+                                                .into(rootView!!.imageView)
                                         } catch (e: Exception) {
                                             ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                         }
                                     } else {
-                                        rootView.imageView.visibility = View.GONE
+                                        rootView!!.imageView.visibility = View.GONE
                                     }
                                 } catch (e: Exception) {
                                     if (context != null) {
@@ -293,9 +315,9 @@ class ArticleFragment : Fragment() {
                                 }
 
                                 try {
-                                    rootView.nestedScrollView.scrollTo(0, 0)
+                                    rootView!!.nestedScrollView.scrollTo(0, 0)
 
-                                    rootView.progressBar.visibility = View.GONE
+                                    rootView!!.progressBar.visibility = View.GONE
                                 } catch (e: Exception) {
                                     if (context != null) {
                                         ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
@@ -329,10 +351,10 @@ class ArticleFragment : Fragment() {
     private fun htmlToWebview(c: String, prefs: SharedPreferences) {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
-        rootView.webcontent.visibility = View.VISIBLE
+        rootView!!.webcontent.visibility = View.VISIBLE
         val (textColor, backgroundColor) = if (appColors.isDarkTheme) {
             if (context != null) {
-                rootView.webcontent.setBackgroundColor(
+                rootView!!.webcontent.setBackgroundColor(
                     ContextCompat.getColor(
                         context!!,
                         R.color.dark_webview
@@ -344,7 +366,7 @@ class ArticleFragment : Fragment() {
             }
         } else {
             if (context != null) {
-                rootView.webcontent.setBackgroundColor(
+                rootView!!.webcontent.setBackgroundColor(
                     ContextCompat.getColor(
                         context!!,
                         R.color.light_webview
@@ -368,15 +390,15 @@ class ArticleFragment : Fragment() {
             "#FFFFFF"
         }
 
-        rootView.webcontent.settings.useWideViewPort = true
-        rootView.webcontent.settings.loadWithOverviewMode = true
-        rootView.webcontent.settings.javaScriptEnabled = false
+        rootView!!.webcontent.settings.useWideViewPort = true
+        rootView!!.webcontent.settings.loadWithOverviewMode = true
+        rootView!!.webcontent.settings.javaScriptEnabled = false
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            rootView.webcontent.settings.layoutAlgorithm =
+            rootView!!.webcontent.settings.layoutAlgorithm =
                     WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
         } else {
-            rootView.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+            rootView!!.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         }
 
         var baseUrl: String? = null
@@ -388,7 +410,7 @@ class ArticleFragment : Fragment() {
             ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
         }
 
-        rootView.webcontent.loadDataWithBaseURL(
+        rootView!!.webcontent.loadDataWithBaseURL(
             baseUrl,
             """<html>
                 |<head>
@@ -431,7 +453,7 @@ class ArticleFragment : Fragment() {
     }
 
     private fun openInBrowserAfterFailing(customTabsIntent: CustomTabsIntent) {
-        rootView.progressBar.visibility = View.GONE
+        rootView!!.progressBar.visibility = View.GONE
         activity!!.openItemUrl(
             allItems,
             pageNumber.toInt(),
