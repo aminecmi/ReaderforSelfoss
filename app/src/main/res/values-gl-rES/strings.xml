@@ -168,6 +168,6 @@
     <string name="shortcut_offline">Sen conexión</string>
     <string name="pref_api_timeout">Acabouse o tempo de espera da API</string>
     <string name="pref_header_experimental">Experimental</string>
-    <string name="webview_dialog_issue_message">Webview not available. Disabling the article viewer to avoid any future crashes. Will load articles inside of your browser from now on.</string>
-    <string name="webview_dialog_issue_title">Webview issue</string>
+    <string name="webview_dialog_issue_message">Visor web non dispoñible. Desactivando o visor de artigos pra evitar futuros problemas. Cargaranse os artigos dende o navegador de agora en adiante.</string>
+    <string name="webview_dialog_issue_title">Problema co visor web</string>
 </resources>
