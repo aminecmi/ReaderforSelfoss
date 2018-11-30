@@ -2,7 +2,7 @@ buildscript {
 }
 
 def gitVersion() {
-    def process = "git for-each-ref refs/tags --sort=-authordate --format='%(refname:short)' --count=1".execute()
+    def process = "git describe --contains $(git rev-parse HEAD)".execute()
     return process.text.replaceAll("'", "").substring(1).replaceAll("\\.", "").trim()
 }
 
