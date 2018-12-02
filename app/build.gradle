@@ -2,7 +2,15 @@ buildscript {
 }
 
 def gitVersion() {
-    def process = 'git describe --contains HEAD'.execute()
+    def process
+    def maybeTagOfCurrentCommit = 'git describe --contains HEAD'.execute()
+    if (maybeTagOfCurrentCommit.text.isEmpty()) {
+        println "No tag on current commit. Will take the latest one."
+        process = "git for-each-ref refs/tags --sort=-authordate --format='%(refname:short)' --count=1".execute()
+    } else {
+        println "Tag found on current commit"
+        process = 'git describe --contains HEAD'.execute()
+    }
     return process.text.replaceAll("'", "").substring(1).replaceAll("\\.", "").trim()
 }
 
