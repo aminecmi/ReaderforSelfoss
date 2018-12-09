@@ -148,11 +148,7 @@ fun String.isBaseUrlValid(logErrors: Boolean, ctx: Context): Boolean {
         existsAndEndsWithSlash = "" == pathSegments[pathSegments.size - 1]
     }
 
-    val isValid = Patterns.WEB_URL.matcher(this).matches() && existsAndEndsWithSlash
-    if (!isValid && logErrors) {
-        ACRA.getErrorReporter().doHandleSilentException(java.lang.Exception("Patterns.WEB_URL.matcher(this).matches() == ${Patterns.WEB_URL.matcher(this).matches()} && existsAndEndsWithSlash == $existsAndEndsWithSlash && baseUrl.pathSegments() == ${baseUrl?.pathSegments()}"), ctx)
-    }
-    return isValid
+    return Patterns.WEB_URL.matcher(this).matches() && existsAndEndsWithSlash
 }
 
 fun Context.openInBrowserAsNewTask(i: Item) {

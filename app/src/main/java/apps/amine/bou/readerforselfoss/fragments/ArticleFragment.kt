@@ -274,7 +274,7 @@ class ArticleFragment : Fragment() {
                                         URL(response.body()!!.url)
                                         url = response.body()!!.url
                                     } catch (e: MalformedURLException) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
+                                        // Mercury returned a relative url. We do nothing.
                                     }
                                 } catch (e: Exception) {
                                     if (context != null) {
