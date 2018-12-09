@@ -1,5 +1,6 @@
 package apps.amine.bou.readerforselfoss
 
+import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.room.Room
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -51,6 +53,11 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var toolbarMenu: Menu
 
     private lateinit var db: AppDatabase
+    private lateinit var prefs: SharedPreferences
+
+    private var activeAlignment: Int = 1
+    val JUSTIFY = 1
+    val ALIGN_LEFT = 2
 
     private fun showMenuItem(willAddToFavorite: Boolean) {
         toolbarMenu.findItem(R.id.save).isVisible = willAddToFavorite
@@ -64,6 +71,8 @@ class ReaderActivity : AppCompatActivity() {
     private fun canRemoveFromFavorite() {
         showMenuItem(false)
     }
+
+    private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +94,13 @@ class ReaderActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        editor = prefs.edit()
 
         debugReadingItems = prefs.getBoolean("read_debug", false)
         userIdentifier = prefs.getString("unique_id", "")
         markOnScroll = prefs.getBoolean("mark_on_scroll", false)
+        activeAlignment = prefs.getInt("text_align", JUSTIFY)
 
         api = SelfossApi(
             this,
@@ -223,6 +234,11 @@ class ReaderActivity : AppCompatActivity() {
         }
     }
 
+    fun alignmentMenu(showJustify: Boolean) {
+        toolbarMenu.findItem(R.id.align_left).isVisible = !showJustify
+        toolbarMenu.findItem(R.id.align_justify).isVisible = showJustify
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.reader_menu, menu)
@@ -232,6 +248,11 @@ class ReaderActivity : AppCompatActivity() {
             canRemoveFromFavorite()
         } else {
             canFavorite()
+        }
+        if (activeAlignment == JUSTIFY) {
+            alignmentMenu(false)
+        } else {
+            alignmentMenu(true)
         }
 
         return true
@@ -314,8 +335,27 @@ class ReaderActivity : AppCompatActivity() {
                     }
                 }
             }
+            R.id.align_left -> {
+                editor.putInt("text_align", ALIGN_LEFT)
+                editor.apply()
+                alignmentMenu(true)
+                refreshFragment()
+            }
+            R.id.align_justify -> {
+                editor.putInt("text_align", JUSTIFY)
+                editor.apply()
+                alignmentMenu(false)
+                refreshFragment()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun refreshFragment() {
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 
     companion object {

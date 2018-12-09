@@ -2,6 +2,18 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/align_left"
+        android:icon="@drawable/ic_format_align_left"
+        android:visible="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/reader_text_align_left" />
+
+    <item android:id="@+id/align_justify"
+        android:icon="@drawable/ic_format_align_justify"
+        android:visible="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/reader_text_align_justify" />
+
     <item
         android:id="@+id/unsave"
         android:icon="@drawable/heart_on"

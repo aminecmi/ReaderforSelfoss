@@ -67,6 +67,7 @@ class ArticleFragment : Fragment() {
     private lateinit var fab: FloatingActionButton
     private lateinit var appColors: AppColors
     private lateinit var db: AppDatabase
+    private lateinit var textAlignment: String
 
     override fun onStop() {
         super.onStop()
@@ -91,6 +92,7 @@ class ArticleFragment : Fragment() {
 
     private var rootView: ViewGroup? = null
 
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,9 +109,10 @@ class ArticleFragment : Fragment() {
             contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
             contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
 
-            val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+            prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
             fontSize = prefs.getString("reader_font_size", "16").toInt()
+            refreshAlignment()
 
             val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
             val debugReadingItems = prefs.getBoolean("read_debug", false)
@@ -204,7 +207,7 @@ class ArticleFragment : Fragment() {
             } else {
                 rootView!!.titleView.text = contentTitle
 
-                htmlToWebview(contentText, prefs)
+                htmlToWebview()
 
                 if (!contentImage.isEmptyOrNullOrNullString() && context != null) {
                     rootView!!.imageView.visibility = View.VISIBLE
@@ -248,6 +251,14 @@ class ArticleFragment : Fragment() {
         return rootView
     }
 
+    private fun refreshAlignment() {
+        textAlignment = when (prefs.getInt("text_align", 1)) {
+            1 -> "justify"
+            2 -> "left"
+            else -> "justify"
+        }
+    }
+
     private fun getContentFromMercury(
         customTabsIntent: CustomTabsIntent,
         prefs: SharedPreferences
@@ -283,7 +294,8 @@ class ArticleFragment : Fragment() {
                                 }
 
                                 try {
-                                    htmlToWebview(response.body()!!.content.orEmpty(), prefs)
+                                    contentText = response.body()!!.content.orEmpty()
+                                    htmlToWebview()
                                 } catch (e: Exception) {
                                     if (context != null) {
                                         ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
@@ -346,7 +358,7 @@ class ArticleFragment : Fragment() {
         }
     }
 
-    private fun htmlToWebview(c: String, prefs: SharedPreferences) {
+    private fun htmlToWebview() {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
         rootView!!.webcontent.visibility = View.VISIBLE
@@ -428,12 +440,12 @@ class ArticleFragment : Fragment() {
                 |      }
                 |      * {
                 |        font-size: ${fontSize}px;
-                |        text-align: justify;
+                |        text-align: $textAlignment;
                 |        word-break: break-word;
                 |        overflow:hidden;
                 |      }
                 |      a, pre, code {
-                |        text-align: left;
+                |        text-align: $textAlignment;
                 |      }
                 |      pre, code {
                 |        white-space: pre-wrap;
@@ -443,7 +455,7 @@ class ArticleFragment : Fragment() {
                 |   </style>
                 |</head>
                 |<body>
-                |   $c
+                |   $contentText
                 |</body>""".trimMargin(),
             "text/html",
             "utf-8",
