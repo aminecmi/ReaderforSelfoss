@@ -170,4 +170,6 @@
     <string name="pref_header_experimental">Experimental</string>
     <string name="webview_dialog_issue_message">Visor web non dispoñible. Desactivando o visor de artigos pra evitar futuros problemas. Cargaranse os artigos dende o navegador de agora en adiante.</string>
     <string name="webview_dialog_issue_title">Problema co visor web</string>
+    <string name="reader_text_align_left">Aliñar á esquerda</string>
+    <string name="reader_text_align_justify">Xustificado</string>
 </resources>

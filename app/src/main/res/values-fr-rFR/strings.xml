@@ -170,4 +170,6 @@
     <string name="pref_header_experimental">Expérimental</string>
     <string name="webview_dialog_issue_message">Pas de Webview disponible. Désactivation du lecteur d\'article pour éviter les futures erreurs. Les articles seront lu via votre navigateur à l\'avenir.</string>
     <string name="webview_dialog_issue_title">Problème de Webview</string>
+    <string name="reader_text_align_left">Aligner à gauche</string>
+    <string name="reader_text_align_justify">Justifier le texte</string>
 </resources>

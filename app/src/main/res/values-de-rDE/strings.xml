@@ -170,4 +170,6 @@
     <string name="pref_header_experimental">Experimentell</string>
     <string name="webview_dialog_issue_message">Webview not available. Disabling the article viewer to avoid any future crashes. Will load articles inside of your browser from now on.</string>
     <string name="webview_dialog_issue_title">Webview issue</string>
+    <string name="reader_text_align_left">Align left</string>
+    <string name="reader_text_align_justify">Justify</string>
 </resources>
