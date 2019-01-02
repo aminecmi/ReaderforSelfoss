@@ -531,12 +531,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         gd.shape = GradientDrawable.RECTANGLE
                         gd.setSize(30, 30)
                         gd.cornerRadius = 30F
-                        drawer.addItem(
+                        var drawerItem =
                             PrimaryDrawerItem()
                                 .withName(it.tag)
                                 .withIdentifier(it.tag.longHash())
                                 .withIcon(gd)
-                                .withBadge("${it.unread}")
                                 .withBadgeStyle(
                                     BadgeStyle().withTextColor(Color.WHITE)
                                         .withColor(appColors.colorAccent)
@@ -547,6 +546,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                     getElementsAccordingToTab()
                                     false
                                 }
+                        if (it.unread > 0) {
+                            drawerItem = drawerItem.withBadge("${it.unread}")
+                        }
+                        drawer.addItem(
+                            drawerItem
                         )
 
                         (it.tag.longHash() to it.unread)
