@@ -3,6 +3,8 @@ package apps.amine.bou.readerforselfoss.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.content.res.TypedArray
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.room.Room
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
@@ -45,6 +48,7 @@ import apps.amine.bou.readerforselfoss.utils.succeeded
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
+import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.view.*
 import org.acra.ACRA
 import retrofit2.Call
@@ -97,6 +101,9 @@ class ArticleFragment : Fragment() {
 
     private lateinit var prefs: SharedPreferences
 
+    private lateinit var typeface: Typeface
+    private var resId: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -105,6 +112,9 @@ class ArticleFragment : Fragment() {
         try {
             rootView = inflater
                 .inflate(R.layout.fragment_article, container, false) as ViewGroup
+
+            resId = context!!.resources.getIdentifier("aguafina_script", "font", context!!.packageName)
+            typeface = ResourcesCompat.getFont(context!!, resId)!!
 
             url = allItems[pageNumber.toInt()].getLinkDecoded()
             contentText = allItems[pageNumber.toInt()].content
@@ -204,11 +214,13 @@ class ArticleFragment : Fragment() {
             )
 
             rootView!!.source.text = contentSource
+            rootView!!.source.typeface = typeface
 
             if (contentText.isEmptyOrNullOrNullString()) {
                 getContentFromMercury(customTabsIntent, prefs)
             } else {
                 rootView!!.titleView.text = contentTitle
+                rootView!!.titleView.typeface = typeface
 
                 htmlToWebview()
 
@@ -283,6 +295,7 @@ class ArticleFragment : Fragment() {
                             if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 try {
                                     rootView!!.titleView.text = response.body()!!.title
+                                    rootView!!.titleView.typeface = typeface
                                     try {
                                         // Note: Mercury may return relative urls... If it does the url val will not be changed.
                                         URL(response.body()!!.url)
@@ -364,6 +377,11 @@ class ArticleFragment : Fragment() {
     private fun htmlToWebview() {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
+        val attrs: IntArray = intArrayOf(android.R.attr.fontFamily)
+        val a: TypedArray = context!!.obtainStyledAttributes(resId, attrs)
+
+
+        rootView!!.webcontent.settings.standardFontFamily = a.getString(0)
         rootView!!.webcontent.visibility = View.VISIBLE
         val (textColor, backgroundColor) = if (appColors.isDarkTheme) {
             if (context != null) {

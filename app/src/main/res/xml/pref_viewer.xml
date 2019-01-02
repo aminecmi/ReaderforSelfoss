@@ -13,4 +13,12 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_content_reader_font_size" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/preloaded_fonts"
+        android:entryValues="@array/preloaded_fonts"
+        android:key="list_preference_1"
+        android:title="List preference" />
+
+
 </PreferenceScreen>
