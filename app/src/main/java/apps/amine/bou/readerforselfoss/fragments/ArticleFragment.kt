@@ -34,6 +34,7 @@ import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
+import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
@@ -68,6 +69,7 @@ class ArticleFragment : Fragment() {
     private lateinit var appColors: AppColors
     private lateinit var db: AppDatabase
     private lateinit var textAlignment: String
+    private lateinit var config: Config
 
     override fun onStop() {
         super.onStop()
@@ -78,6 +80,7 @@ class ArticleFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appColors = AppColors(activity!!)
+        config = Config(activity!!)
 
         super.onCreate(savedInstanceState)
 
@@ -214,7 +217,7 @@ class ArticleFragment : Fragment() {
                     Glide
                         .with(context!!)
                         .asBitmap()
-                        .load(contentImage)
+                        .loadMaybeBasicAuth(config, contentImage)
                         .apply(RequestOptions.fitCenterTransform())
                         .into(rootView!!.imageView)
                 } else {
@@ -309,7 +312,7 @@ class ArticleFragment : Fragment() {
                                             Glide
                                                 .with(context!!)
                                                 .asBitmap()
-                                                .load(response.body()!!.lead_image_url)
+                                                .loadMaybeBasicAuth(config, response.body()!!.lead_image_url.orEmpty())
                                                 .apply(RequestOptions.fitCenterTransform())
                                                 .into(rootView!!.imageView)
                                         } catch (e: Exception) {

@@ -10,6 +10,7 @@ import android.preference.PreferenceManager
 import androidx.multidex.MultiDexApplication
 import android.widget.ImageView
 import apps.amine.bou.readerforselfoss.utils.Config
+import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ftinc.scoop.Scoop
@@ -42,10 +43,11 @@ import java.util.UUID.randomUUID
     ReportField.USER_APP_START_DATE, ReportField.USER_COMMENT, ReportField.USER_CRASH_DATE, ReportField.USER_EMAIL, ReportField.CUSTOM_DATA],
           buildConfigClass = BuildConfig::class)
 class MyApp : MultiDexApplication() {
+    private lateinit var config: Config
 
     override fun onCreate() {
         super.onCreate()
-
+        config = Config(baseContext)
         initAmplify()
 
         val prefs = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
@@ -105,7 +107,7 @@ class MyApp : MultiDexApplication() {
                 tag: String?
             ) {
                 Glide.with(imageView?.context)
-                    .load(uri)
+                    .loadMaybeBasicAuth(config, uri.toString())
                     .apply(RequestOptions.fitCenterTransform().placeholder(placeholder))
                     .into(imageView)
             }

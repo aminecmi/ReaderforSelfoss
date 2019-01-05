@@ -20,6 +20,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.LinkOnTouchListener
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
@@ -52,6 +53,7 @@ class ItemListAdapter(
     override val debugReadingItems: Boolean,
     override val userIdentifier: String,
     override val appColors: AppColors,
+    override val config: Config,
     override val updateItems: (ArrayList<Item>) -> Unit
 ) : ItemsAdapter<ItemListAdapter.ViewHolder>() {
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
@@ -108,10 +110,10 @@ class ItemListAdapter(
 
                 holder.mView.itemImage.setImageDrawable(drawable)
             } else {
-                c.circularBitmapDrawable(itm.getIcon(c), holder.mView.itemImage)
+                c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.itemImage)
             }
         } else {
-            c.bitmapCenterCrop(itm.getThumbnail(c), holder.mView.itemImage)
+            c.bitmapCenterCrop(config, itm.getThumbnail(c), holder.mView.itemImage)
         }
     }
 

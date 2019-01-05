@@ -17,6 +17,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.LinkOnTouchListener
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
@@ -51,6 +52,7 @@ class ItemCardAdapter(
     override val appColors: AppColors,
     override val debugReadingItems: Boolean,
     override val userIdentifier: String,
+    override val config: Config,
     override val updateItems: (ArrayList<Item>) -> Unit
 ) : ItemsAdapter<ItemCardAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
@@ -86,7 +88,7 @@ class ItemCardAdapter(
             holder.mView.itemImage.setImageDrawable(null)
         } else {
             holder.mView.itemImage.visibility = View.VISIBLE
-            c.bitmapCenterCrop(itm.getThumbnail(c), holder.mView.itemImage)
+            c.bitmapCenterCrop(config, itm.getThumbnail(c), holder.mView.itemImage)
         }
 
         if (itm.getIcon(c).isEmpty()) {
@@ -99,7 +101,7 @@ class ItemCardAdapter(
                     .build(itm.sourcetitle.toTextDrawableString(c), color)
             holder.mView.sourceImage.setImageDrawable(drawable)
         } else {
-            c.circularBitmapDrawable(itm.getIcon(c), holder.mView.sourceImage)
+            c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.sourceImage)
         }
 
         holder.mView.favButton.isLiked = itm.starred

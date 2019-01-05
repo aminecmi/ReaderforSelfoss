@@ -12,6 +12,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
@@ -29,6 +30,7 @@ class SourcesListAdapter(
 ) : RecyclerView.Adapter<SourcesListAdapter.ViewHolder>() {
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
+    private lateinit var config: Config
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(c).inflate(
@@ -41,6 +43,7 @@ class SourcesListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val itm = items[position]
+        config = Config(c)
 
         if (itm.getIcon(c).isEmpty()) {
             val color = generator.getColor(itm.title)
@@ -52,7 +55,7 @@ class SourcesListAdapter(
                     .build(itm.title.toTextDrawableString(c), color)
             holder.mView.itemImage.setImageDrawable(drawable)
         } else {
-            c.circularBitmapDrawable(itm.getIcon(c), holder.mView.itemImage)
+            c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.itemImage)
         }
 
         holder.mView.sourceTitle.text = itm.title

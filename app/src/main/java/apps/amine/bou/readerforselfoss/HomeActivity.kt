@@ -152,6 +152,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var db: AppDatabase
 
+    private lateinit var config: Config
+
     data class DrawerData(val tags: List<Tag>?, val sources: List<Source>?)
 
     override fun onStart() {
@@ -161,6 +163,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appColors = AppColors(this@HomeActivity)
+        config = Config(this@HomeActivity)
 
         super.onCreate(savedInstanceState)
 
@@ -1144,7 +1147,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             fullHeightCards,
                             appColors,
                             debugReadingItems,
-                            userIdentifier
+                            userIdentifier,
+                            config
                         ) {
                             updateItems(it)
                         }
@@ -1160,7 +1164,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             articleViewer,
                             debugReadingItems,
                             userIdentifier,
-                            appColors
+                            appColors,
+                            config
                         ) {
                             updateItems(it)
                         }

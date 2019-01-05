@@ -13,6 +13,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.themes.AppColors
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
@@ -31,6 +32,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     abstract val userIdentifier: String
     abstract val app: Activity
     abstract val appColors: AppColors
+    abstract val config: Config
     abstract val updateItems: (ArrayList<Item>) -> Unit
 
     fun updateAllItems(newItems: ArrayList<Item>) {
