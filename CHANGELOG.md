@@ -1,5 +1,13 @@
 **1.7.x**
 
+- Hiding tags with 0 articles
+
+- Fixed issue with basic auth and images loading
+
+- Added the ability to justify or left align the reader text
+
+- Fixed #251
+
 - Added experimental issue to set a default timeout. Should work for #238.
 
 - Closing #220.
