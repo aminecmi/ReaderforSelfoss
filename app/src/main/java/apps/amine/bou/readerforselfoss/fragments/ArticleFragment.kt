@@ -75,6 +75,14 @@ class ArticleFragment : Fragment() {
     private lateinit var textAlignment: String
     private lateinit var config: Config
 
+    private var rootView: ViewGroup? = null
+
+    private lateinit var prefs: SharedPreferences
+
+    private var typeface: Typeface? = null
+    private var resId: Int = 0
+    private var font = ""
+
     override fun onStop() {
         super.onStop()
         if (mCustomTabActivityHelper != null) {
@@ -97,13 +105,6 @@ class ArticleFragment : Fragment() {
         ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
     }
 
-    private var rootView: ViewGroup? = null
-
-    private lateinit var prefs: SharedPreferences
-
-    private lateinit var typeface: Typeface
-    private var resId: Int = 0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -112,9 +113,6 @@ class ArticleFragment : Fragment() {
         try {
             rootView = inflater
                 .inflate(R.layout.fragment_article, container, false) as ViewGroup
-
-            resId = context!!.resources.getIdentifier("aguafina_script", "font", context!!.packageName)
-            typeface = ResourcesCompat.getFont(context!!, resId)!!
 
             url = allItems[pageNumber.toInt()].getLinkDecoded()
             contentText = allItems[pageNumber.toInt()].content
@@ -125,6 +123,13 @@ class ArticleFragment : Fragment() {
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
             fontSize = prefs.getString("reader_font_size", "16").toInt()
+
+            font = prefs.getString("reader_font", "")
+            if (font.isNotEmpty()) {
+                resId = context!!.resources.getIdentifier(font, "font", context!!.packageName)
+                typeface = ResourcesCompat.getFont(context!!, resId)!!
+            }
+
             refreshAlignment()
 
             val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
@@ -214,13 +219,17 @@ class ArticleFragment : Fragment() {
             )
 
             rootView!!.source.text = contentSource
-            rootView!!.source.typeface = typeface
+            if (typeface != null) {
+                rootView!!.source.typeface = typeface
+            }
 
             if (contentText.isEmptyOrNullOrNullString()) {
                 getContentFromMercury(customTabsIntent, prefs)
             } else {
                 rootView!!.titleView.text = contentTitle
-                rootView!!.titleView.typeface = typeface
+                if (typeface != null) {
+                    rootView!!.titleView.typeface = typeface
+                }
 
                 htmlToWebview()
 
@@ -295,7 +304,9 @@ class ArticleFragment : Fragment() {
                             if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 try {
                                     rootView!!.titleView.text = response.body()!!.title
-                                    rootView!!.titleView.typeface = typeface
+                                    if (typeface != null) {
+                                        rootView!!.titleView.typeface = typeface
+                                    }
                                     try {
                                         // Note: Mercury may return relative urls... If it does the url val will not be changed.
                                         URL(response.body()!!.url)
@@ -441,6 +452,24 @@ class ArticleFragment : Fragment() {
             ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
         }
 
+        val fontName =  when (font) {
+            getString(R.string.open_sans_font_id) -> "Open Sans"
+            getString(R.string.roboto_font_id) -> "Roboto"
+            else -> ""
+        }
+
+        val fontLinkAndStyle = if (font.isNotEmpty()) {
+            """<link href="https://fonts.googleapis.com/css?family=${fontName.replace(" ", "+")}" rel="stylesheet">
+                |<style>
+                |   * {
+                |       font-family: '$fontName';
+                |   }
+                |</style>
+            """.trimMargin()
+        } else {
+            ""
+        }
+
         rootView!!.webcontent.loadDataWithBaseURL(
             baseUrl,
             """<html>
@@ -474,6 +503,7 @@ class ArticleFragment : Fragment() {
                 |        background-color: $stringBackgroundColor;
                 |      }
                 |   </style>
+                |   $fontLinkAndStyle
                 |</head>
                 |<body>
                 |   $contentText
