@@ -172,4 +172,7 @@
     <string name="webview_dialog_issue_title">Webview issue</string>
     <string name="reader_text_align_left">Align left</string>
     <string name="reader_text_align_justify">Justify</string>
+    <string name="settings_reader_font">Reader font</string>
+    <string name="open_sans_font_id" translatable="false">open_sans</string>
+    <string name="roboto_font_id" translatable="false">roboto</string>
 </resources>

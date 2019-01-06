@@ -3,6 +3,8 @@ package apps.amine.bou.readerforselfoss.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.content.res.TypedArray
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.room.Room
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
@@ -45,6 +48,7 @@ import apps.amine.bou.readerforselfoss.utils.succeeded
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
+import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.view.*
 import org.acra.ACRA
 import retrofit2.Call
@@ -71,6 +75,14 @@ class ArticleFragment : Fragment() {
     private lateinit var textAlignment: String
     private lateinit var config: Config
 
+    private var rootView: ViewGroup? = null
+
+    private lateinit var prefs: SharedPreferences
+
+    private var typeface: Typeface? = null
+    private var resId: Int = 0
+    private var font = ""
+
     override fun onStop() {
         super.onStop()
         if (mCustomTabActivityHelper != null) {
@@ -93,10 +105,6 @@ class ArticleFragment : Fragment() {
         ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
     }
 
-    private var rootView: ViewGroup? = null
-
-    private lateinit var prefs: SharedPreferences
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -115,6 +123,13 @@ class ArticleFragment : Fragment() {
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
             fontSize = prefs.getString("reader_font_size", "16").toInt()
+
+            font = prefs.getString("reader_font", "")
+            if (font.isNotEmpty()) {
+                resId = context!!.resources.getIdentifier(font, "font", context!!.packageName)
+                typeface = ResourcesCompat.getFont(context!!, resId)!!
+            }
+
             refreshAlignment()
 
             val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
@@ -204,11 +219,17 @@ class ArticleFragment : Fragment() {
             )
 
             rootView!!.source.text = contentSource
+            if (typeface != null) {
+                rootView!!.source.typeface = typeface
+            }
 
             if (contentText.isEmptyOrNullOrNullString()) {
                 getContentFromMercury(customTabsIntent, prefs)
             } else {
                 rootView!!.titleView.text = contentTitle
+                if (typeface != null) {
+                    rootView!!.titleView.typeface = typeface
+                }
 
                 htmlToWebview()
 
@@ -283,6 +304,9 @@ class ArticleFragment : Fragment() {
                             if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 try {
                                     rootView!!.titleView.text = response.body()!!.title
+                                    if (typeface != null) {
+                                        rootView!!.titleView.typeface = typeface
+                                    }
                                     try {
                                         // Note: Mercury may return relative urls... If it does the url val will not be changed.
                                         URL(response.body()!!.url)
@@ -364,6 +388,11 @@ class ArticleFragment : Fragment() {
     private fun htmlToWebview() {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
+        val attrs: IntArray = intArrayOf(android.R.attr.fontFamily)
+        val a: TypedArray = context!!.obtainStyledAttributes(resId, attrs)
+
+
+        rootView!!.webcontent.settings.standardFontFamily = a.getString(0)
         rootView!!.webcontent.visibility = View.VISIBLE
         val (textColor, backgroundColor) = if (appColors.isDarkTheme) {
             if (context != null) {
@@ -423,6 +452,24 @@ class ArticleFragment : Fragment() {
             ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
         }
 
+        val fontName =  when (font) {
+            getString(R.string.open_sans_font_id) -> "Open Sans"
+            getString(R.string.roboto_font_id) -> "Roboto"
+            else -> ""
+        }
+
+        val fontLinkAndStyle = if (font.isNotEmpty()) {
+            """<link href="https://fonts.googleapis.com/css?family=${fontName.replace(" ", "+")}" rel="stylesheet">
+                |<style>
+                |   * {
+                |       font-family: '$fontName';
+                |   }
+                |</style>
+            """.trimMargin()
+        } else {
+            ""
+        }
+
         rootView!!.webcontent.loadDataWithBaseURL(
             baseUrl,
             """<html>
@@ -446,6 +493,7 @@ class ArticleFragment : Fragment() {
                 |        text-align: $textAlignment;
                 |        word-break: break-word;
                 |        overflow:hidden;
+                |        line-height: 1.5em;
                 |      }
                 |      a, pre, code {
                 |        text-align: $textAlignment;
@@ -456,6 +504,7 @@ class ArticleFragment : Fragment() {
                 |        background-color: $stringBackgroundColor;
                 |      }
                 |   </style>
+                |   $fontLinkAndStyle
                 |</head>
                 |<body>
                 |   $contentText

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts_values" translatable="false">
+        <item>Systems</item>
+        <item>Open Sans</item>
+        <item>Roboto</item>
+    </array>
+</resources>
