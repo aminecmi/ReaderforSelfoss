@@ -19,6 +19,4 @@
         android:entryValues="@array/preloaded_fonts_keys"
         android:key="reader_font"
         android:title="@string/settings_reader_font" />
-
-
 </PreferenceScreen>

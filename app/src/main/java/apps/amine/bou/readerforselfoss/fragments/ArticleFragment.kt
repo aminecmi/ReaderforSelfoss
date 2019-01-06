@@ -493,6 +493,7 @@ class ArticleFragment : Fragment() {
                 |        text-align: $textAlignment;
                 |        word-break: break-word;
                 |        overflow:hidden;
+                |        line-height: 1.5em;
                 |      }
                 |      a, pre, code {
                 |        text-align: $textAlignment;
