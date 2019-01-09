@@ -6,7 +6,7 @@
         android:id="@+id/login_debug"
         android:checkable="true"
         android:checked="false"
-        android:icon="@drawable/ic_bug_report"
+        android:icon="@drawable/ic_bug_report_black_24dp"
         android:title="@string/login_menu_debug"
         app:showAsAction="never" />
 

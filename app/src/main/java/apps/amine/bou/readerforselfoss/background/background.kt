@@ -46,7 +46,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 .setOngoing(true)
                 .setPriority(PRIORITY_LOW)
                 .setChannelId(Config.syncChannelId)
-                .setSmallIcon(R.drawable.ic_cloud_download)
+                .setSmallIcon(R.drawable.ic_stat_cloud_download_black_24dp)
 
             notificationManager.notify(1, notification.build())
 
@@ -101,7 +101,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                                     .setChannelId(Config.newItemsChannelId)
                                     .setContentIntent(pendingIntent)
                                     .setAutoCancel(true)
-                                    .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
+                                    .setSmallIcon(R.drawable.ic_tab_fiber_new_black_24dp)
 
                                 Timer("", false).schedule(4000) {
                                     notificationManager.notify(2, newItemsNotification.build())

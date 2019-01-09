@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -124,6 +126,27 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
+
+        AppColors appColors = new AppColors(this);
+        if (appColors != null && appColors.isDarkTheme()) {
+            for (Header header : target) {
+                tryLoadIconDark(header);
+            }
+        }
+    }
+
+    private void tryLoadIconDark(Header header){
+        try{
+            if (header.fragmentArguments != null) {
+                String iconDark = header.fragmentArguments.getString("iconDark");
+                int iconDarkId = getResources().getIdentifier(iconDark, "drawable", getPackageName());
+                if (iconDarkId != 0) {
+                    header.iconRes = iconDarkId;
+                }
+            }
+        } catch (Exception e) {
+            Log.e("SettingsActivity", "Can not load dark icon", e);
+        }
     }
 
     /**
