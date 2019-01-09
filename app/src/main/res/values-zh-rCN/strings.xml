@@ -36,6 +36,7 @@
     <string name="tab_favs">"收藏夹"</string>
     <string name="action_about">"关于我们"</string>
     <string name="marked_as_read">"已读"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"撤销"</string>
     <string name="addStringNoUrl">"登录以添加数据源。"</string>
     <string name="cant_get_sources">"无法获取数据列表。"</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">卡片高度将被固定</string>
     <string name="source_code">源代码</string>
     <string name="cant_mark_read">无法将文章标记为已读</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">加载标记时出错..。</string>
     <string name="drawer_error_loading_sources">加载源时出错..。</string>
     <string name="drawer_item_filters">搜索条件</string>
