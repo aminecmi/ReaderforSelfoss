@@ -36,6 +36,7 @@
     <string name="tab_favs">"Favoriler"</string>
     <string name="action_about">"Hakkında"</string>
     <string name="marked_as_read">"Öğeleri oku"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Geri al"</string>
     <string name="addStringNoUrl">"Kaynakları eklemek için giriş yapın."</string>
     <string name="cant_get_sources">"Kaynakları listesi alınamıyor."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Kart yüksekliği sabit olacak</string>
     <string name="source_code">Kaynak kodu</string>
     <string name="cant_mark_read">Makale favori olarak işaretlenemez</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">Etiketler yükleme hatası…</string>
     <string name="drawer_error_loading_sources">Kaynaklar yüklenirken hata oluştu…</string>
     <string name="drawer_item_filters">Filtreler</string>
