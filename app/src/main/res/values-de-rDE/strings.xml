@@ -36,6 +36,7 @@
     <string name="tab_favs">"Favoriten"</string>
     <string name="action_about">"Über"</string>
     <string name="marked_as_read">"Artikel gelesen"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Rückgängig"</string>
     <string name="addStringNoUrl">"Melde dich an um Quellen hinzuzufügen."</string>
     <string name="cant_get_sources">"Quellen können nicht abgerufen werden."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Kartenhöhe ist fix</string>
     <string name="source_code">Quellcode</string>
     <string name="cant_mark_read">Artikel kann nicht als gelesen markiert werden</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">Fehler beim Laden der Tags…</string>
     <string name="drawer_error_loading_sources">Fehler beim Laden der Quellen…</string>
     <string name="drawer_item_filters">Filter</string>
