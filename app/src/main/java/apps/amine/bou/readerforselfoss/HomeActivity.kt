@@ -227,7 +227,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ): Int =
-                    if (elementsShown != UNREAD_SHOWN) {
+                    if (elementsShown != UNREAD_SHOWN && elementsShown != READ_SHOWN) {
                         0
                     } else {
                         super.getSwipeDirs(
@@ -250,8 +250,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         val adapter = recyclerView.adapter
 
                         when (adapter) {
-                            is ItemCardAdapter -> adapter.removeItemAtIndex(position)
-                            is ItemListAdapter -> adapter.removeItemAtIndex(position)
+                            is ItemCardAdapter -> adapter.handleItemAtIndex(position)
+                            is ItemListAdapter -> adapter.handleItemAtIndex(position)
                         }
 
                         badgeNew--

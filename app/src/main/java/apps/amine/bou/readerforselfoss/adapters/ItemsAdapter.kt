@@ -41,7 +41,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
         updateItems(items)
     }
 
-    private fun doUnmark(i: Item, position: Int) {
+    private fun unmarkSnackbar(i: Item, position: Int) {
         val s = Snackbar
             .make(
                 app.findViewById(R.id.coordLayout),
@@ -71,12 +71,11 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                             }
                             notifyItemRemoved(position)
                             updateItems(items)
-                            doUnmark(i, position)
                         }
                     })
                 } else {
                     thread {
-                        db.actionsDao().deleteReadActionForArticle(i.id)
+                        db.actionsDao().insertAllActions(ActionEntity(i.id, false, true, false, false))
                     }
                 }
             }
@@ -87,7 +86,62 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
         s.show()
     }
 
-    fun removeItemAtIndex(position: Int) {
+    private fun markSnackbar(i: Item, position: Int) {
+        val s = Snackbar
+            .make(
+                app.findViewById(R.id.coordLayout),
+                R.string.marked_as_unread,
+                Snackbar.LENGTH_LONG
+            )
+            .setAction(R.string.undo_string) {
+                items.add(position, i)
+                thread {
+                    db.itemsDao().delete(i.toEntity())
+                }
+                notifyItemInserted(position)
+                updateItems(items)
+
+                if (app.isNetworkAccessible(null)) {
+                    api.markItem(i.id).enqueue(object : Callback<SuccessResponse> {
+                        override fun onResponse(
+                            call: Call<SuccessResponse>,
+                            response: Response<SuccessResponse>
+                        ) {
+                        }
+
+                        override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                            items.remove(i)
+                            thread {
+                                db.itemsDao().insertAllItems(i.toEntity())
+                            }
+                            notifyItemRemoved(position)
+                            updateItems(items)
+                        }
+                    })
+                } else {
+                    thread {
+                        db.actionsDao().insertAllActions(ActionEntity(i.id, true, false, false, false))
+                    }
+                }
+            }
+
+        val view = s.view
+        val tv: TextView = view.findViewById(com.google.android.material.R.id.snackbar_text)
+        tv.setTextColor(Color.WHITE)
+        s.show()
+    }
+
+    fun handleItemAtIndex(position: Int) {
+        val i = items[position]
+
+        if (i.unread) {
+            readItemAtIndex(position)
+        } else {
+            unreadItemAtIndex(position)
+        }
+    }
+
+    private fun readItemAtIndex(position: Int) {
         val i = items[position]
         items.remove(i)
         notifyItemRemoved(position)
@@ -105,7 +159,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                 ) {
                     if (!response.succeeded() && debugReadingItems) {
                         val message =
-                            "message: ${response.message()} " +
+                            "MARK message: ${response.message()} " +
                                     "response isSuccess: ${response.isSuccessful} " +
                                     "response code: ${response.code()} " +
                                     "response message: ${response.message()} " +
@@ -116,7 +170,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                         Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
                     }
 
-                    doUnmark(i, position)
+                    unmarkSnackbar(i, position)
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
@@ -129,7 +183,7 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                         app.getString(R.string.cant_mark_read),
                         Toast.LENGTH_SHORT
                     ).show()
-                    items.add(i)
+                    items.add(position, i)
                     notifyItemInserted(position)
                     updateItems(items)
 
@@ -141,7 +195,64 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
         } else {
             thread {
                 db.actionsDao().insertAllActions(ActionEntity(i.id, true, false, false, false))
-                doUnmark(i, position)
+            }
+        }
+    }
+
+    private fun unreadItemAtIndex(position: Int) {
+        val i = items[position]
+        items.remove(i)
+        notifyItemRemoved(position)
+        updateItems(items)
+
+        thread {
+            db.itemsDao().insertAllItems(i.toEntity())
+        }
+
+        if (app.isNetworkAccessible(null)) {
+            api.unmarkItem(i.id).enqueue(object : Callback<SuccessResponse> {
+                override fun onResponse(
+                    call: Call<SuccessResponse>,
+                    response: Response<SuccessResponse>
+                ) {
+                    if (!response.succeeded() && debugReadingItems) {
+                        val message =
+                            "UNMARK message: ${response.message()} " +
+                                    "response isSuccess: ${response.isSuccessful} " +
+                                    "response code: ${response.code()} " +
+                                    "response message: ${response.message()} " +
+                                    "response errorBody: ${response.errorBody()?.string()} " +
+                                    "body success: ${response.body()?.success} " +
+                                    "body isSuccess: ${response.body()?.isSuccess}"
+                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
+                        Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
+                    }
+
+                    markSnackbar(i, position)
+                }
+
+                override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
+                    if (debugReadingItems) {
+                        ACRA.getErrorReporter().maybeHandleSilentException(t, app)
+                        Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
+                    }
+                    Toast.makeText(
+                        app,
+                        app.getString(R.string.cant_mark_unread),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    items.add(i)
+                    notifyItemInserted(position)
+                    updateItems(items)
+
+                    thread {
+                        db.itemsDao().delete(i.toEntity())
+                    }
+                }
+            })
+        } else {
+            thread {
+                db.actionsDao().insertAllActions(ActionEntity(i.id, false, true, false, false))
             }
         }
     }
