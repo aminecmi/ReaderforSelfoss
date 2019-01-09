@@ -36,6 +36,7 @@
     <string name="tab_favs">"즐겨찾기"</string>
     <string name="action_about">"정보"</string>
     <string name="marked_as_read">"항목 읽기"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"실행 취소"</string>
     <string name="addStringNoUrl">"로그인 소스를 추가 해야 합니다."</string>
     <string name="cant_get_sources">"소스 리스트를 얻을 수 없습니다."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Card height will be fixed</string>
     <string name="source_code">Source code</string>
     <string name="cant_mark_read">Can\'t mark article as read</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">Error loading tags…</string>
     <string name="drawer_error_loading_sources">Error loading sources…</string>
     <string name="drawer_item_filters">Filters</string>
