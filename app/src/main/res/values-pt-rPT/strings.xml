@@ -36,6 +36,7 @@
     <string name="tab_favs">"Favoritos"</string>
     <string name="action_about">"Sobre"</string>
     <string name="marked_as_read">"Item lido"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Desfazer"</string>
     <string name="addStringNoUrl">"Logar para adicionar fontes."</string>
     <string name="cant_get_sources">"Não é possível obter a lista de fontes."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Altura do cartão será corrigida</string>
     <string name="source_code">Código fonte</string>
     <string name="cant_mark_read">Não pode marcar o artigo como lido</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">Erro ao carregar etiquetas…</string>
     <string name="drawer_error_loading_sources">Erro ao carregar fontes…</string>
     <string name="drawer_item_filters">Filtros</string>

@@ -36,6 +36,7 @@
     <string name="tab_favs">"Favorit"</string>
     <string name="action_about">"Tentang"</string>
     <string name="marked_as_read">"Membaca item"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Urung"</string>
     <string name="addStringNoUrl">"Masuk untuk menambah sumber."</string>
     <string name="cant_get_sources">"Tidak bisa mendapatkan daftar sumber."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Ukuran kartu akan tetap</string>
     <string name="source_code">Kode sumber</string>
     <string name="cant_mark_read">Tidak dapat menandai artikel sebagai telah dibaca</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">Kesalahan saat memuat tag…</string>
     <string name="drawer_error_loading_sources">Kesalahan saat memuat sumber…</string>
     <string name="drawer_item_filters">Filter</string>

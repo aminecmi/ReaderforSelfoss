@@ -36,6 +36,7 @@
     <string name="tab_favs">"Preferits"</string>
     <string name="action_about">"Quant a"</string>
     <string name="marked_as_read">"Element llegit"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Desfés"</string>
     <string name="addStringNoUrl">"Inicieu la sessió per afegir fonts."</string>
     <string name="cant_get_sources">"No es pot obtenir la llista de fonts."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">L\'alçada de les targetes serà fixa</string>
     <string name="source_code">Codi font</string>
     <string name="cant_mark_read">No es pot marcar l\'article com a llegit</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">S\'ha produït un error en carregar les etiquetes</string>
     <string name="drawer_error_loading_sources">S\'ha produït un error en carregar les fonts</string>
     <string name="drawer_item_filters">Filtres</string>

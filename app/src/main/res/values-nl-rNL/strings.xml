@@ -36,6 +36,7 @@
     <string name="tab_favs">"Favorieten"</string>
     <string name="action_about">"Over"</string>
     <string name="marked_as_read">"Artikel gelezen"</string>
+    <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Ongedaan maken"</string>
     <string name="addStringNoUrl">"Login om bronnen toe te voegen"</string>
     <string name="cant_get_sources">"Kan de lijst met bronnen niet ophalen"</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Vaste hoogte</string>
     <string name="source_code">Broncode</string>
     <string name="cant_mark_read">Impossible de marquer l\'article comme lu</string>
+    <string name="cant_mark_unread">Can\'t mark article as unread</string>
     <string name="drawer_error_loading_tags">Fout bij het laden van tags…</string>
     <string name="drawer_error_loading_sources">Fout bij laden van bronnen…</string>
     <string name="drawer_item_filters">Filters</string>

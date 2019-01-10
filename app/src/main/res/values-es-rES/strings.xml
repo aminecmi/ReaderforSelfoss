@@ -36,6 +36,7 @@
     <string name="tab_favs">"Favoritos"</string>
     <string name="action_about">"Acerca de"</string>
     <string name="marked_as_read">"Artículo leído"</string>
+    <string name="marked_as_unread">"Artículo no leído"</string>
     <string name="undo_string">"Deshacer"</string>
     <string name="addStringNoUrl">"Iniciar sesión para añadir fuentes."</string>
     <string name="cant_get_sources">"No se puede obtener la lista de fuentes."</string>
@@ -83,6 +84,7 @@
     <string name="card_height_off">Se fijará la altura de la tarjeta</string>
     <string name="source_code">Código fuente</string>
     <string name="cant_mark_read">No puede marcar el artículo como leído</string>
+    <string name="cant_mark_unread">No se puede marcar el artículo como no leído</string>
     <string name="drawer_error_loading_tags">Error al cargar etiquetas…</string>
     <string name="drawer_error_loading_sources">Error al cargar fuentes…</string>
     <string name="drawer_item_filters">Filtros</string>
