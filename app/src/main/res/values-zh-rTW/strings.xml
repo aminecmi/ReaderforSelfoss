@@ -36,7 +36,7 @@
     <string name="tab_favs">"收藏夹"</string>
     <string name="action_about">"关于我们"</string>
     <string name="marked_as_read">"已读"</string>
-    <string name="marked_as_unread">"Item unread"</string>
+    <string name="marked_as_unread">"未讀項目"</string>
     <string name="undo_string">"撤销"</string>
     <string name="addStringNoUrl">"登录以添加数据源。"</string>
     <string name="cant_get_sources">"无法获取数据列表。"</string>
