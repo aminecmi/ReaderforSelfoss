@@ -132,13 +132,15 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     }
 
     fun handleItemAtIndex(position: Int) {
-        val i = items[position]
-
-        if (i.unread) {
+        if (unreadItemStatusAtIndex(position)) {
             readItemAtIndex(position)
         } else {
             unreadItemAtIndex(position)
         }
+    }
+
+    fun unreadItemStatusAtIndex(position: Int): Boolean {
+        return items[position].unread
     }
 
     private fun readItemAtIndex(position: Int) {

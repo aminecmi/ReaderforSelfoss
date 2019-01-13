@@ -247,14 +247,18 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     val i = items.elementAtOrNull(position)
 
                     if (i != null) {
-                        val adapter = recyclerView.adapter
+                        val adapter = recyclerView.adapter as ItemsAdapter<*>
 
-                        when (adapter) {
-                            is ItemCardAdapter -> adapter.handleItemAtIndex(position)
-                            is ItemListAdapter -> adapter.handleItemAtIndex(position)
+                        val wasItemUnread = adapter.unreadItemStatusAtIndex(position)
+
+                        adapter.handleItemAtIndex(position)
+
+                        if (wasItemUnread) {
+                            badgeNew--
+                        } else {
+                            badgeNew++
                         }
 
-                        badgeNew--
                         reloadBadgeContent()
 
                         val tagHashes = i.tags.tags.split(",").map { it.longHash() }
