@@ -1352,16 +1352,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                         ).show()
                                         tabNewBadge.removeBadge()
 
-
-                                        tagsBadge = itemsByTag.map {
-                                            (it.key to ((tagsBadge[it.key] ?: it.value) - it.value))
-                                        }.toMap()
-
-                                        tagsBadge = tagsBadge.map {
-                                            (it.key to 0)
-                                        }.toMap()
-
-                                        reloadTagsBadges()
+                                        handleDrawerItems()
 
                                         getElementsAccordingToTab()
                                     } else {
