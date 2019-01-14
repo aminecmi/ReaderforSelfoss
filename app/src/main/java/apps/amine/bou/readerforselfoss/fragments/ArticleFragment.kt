@@ -127,7 +127,11 @@ class ArticleFragment : Fragment() {
             font = prefs.getString("reader_font", "")
             if (font.isNotEmpty()) {
                 resId = context!!.resources.getIdentifier(font, "font", context!!.packageName)
-                typeface = ResourcesCompat.getFont(context!!, resId)!!
+                try {
+                    typeface = ResourcesCompat.getFont(context!!, resId)!!
+                } catch (e: java.lang.Exception) {
+                    ACRA.getErrorReporter().maybeHandleSilentException(Throwable("Font loading issue: ${e.message}"), context!!)
+                }
             }
 
             refreshAlignment()
