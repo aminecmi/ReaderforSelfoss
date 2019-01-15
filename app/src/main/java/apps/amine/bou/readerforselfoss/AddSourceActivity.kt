@@ -1,5 +1,6 @@
 package apps.amine.bou.readerforselfoss
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -85,10 +86,12 @@ class AddSourceActivity : AppCompatActivity() {
 
         try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+            val settings =
+                getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
             api = SelfossApi(
                 this,
                 this@AddSourceActivity,
-                prefs.getBoolean("isSelfSignedCert", false),
+                settings.getBoolean("isSelfSignedCert", false),
                 prefs.getString("api_timeout", "-1").toLong(),
                 prefs.getBoolean("should_log_everything", false)
             )

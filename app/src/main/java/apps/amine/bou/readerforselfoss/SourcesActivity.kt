@@ -1,5 +1,6 @@
 package apps.amine.bou.readerforselfoss
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
@@ -13,6 +14,7 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_sources.*
@@ -54,12 +56,14 @@ class SourcesActivity : AppCompatActivity() {
         super.onResume()
         val mLayoutManager = LinearLayoutManager(this)
 
+        val settings =
+            getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         val api = SelfossApi(
             this,
             this@SourcesActivity,
-            prefs.getBoolean("isSelfSignedCert", false),
+            settings.getBoolean("isSelfSignedCert", false),
             prefs.getString("api_timeout", "-1").toLong(),
             prefs.getBoolean("should_log_everything", false)
         )

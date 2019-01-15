@@ -1,5 +1,6 @@
 package apps.amine.bou.readerforselfoss
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -27,6 +28,7 @@ import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
+import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
@@ -94,6 +96,9 @@ class ReaderActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val settings =
+            getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         editor = prefs.edit()
 
@@ -105,7 +110,7 @@ class ReaderActivity : AppCompatActivity() {
         api = SelfossApi(
             this,
             this@ReaderActivity,
-            prefs.getBoolean("isSelfSignedCert", false),
+            settings.getBoolean("isSelfSignedCert", false),
             prefs.getString("api_timeout", "-1").toLong(),
             prefs.getBoolean("should_log_everything", false)
         )
