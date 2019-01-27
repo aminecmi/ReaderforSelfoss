@@ -519,7 +519,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                     }
                 } else {
-                    val filteredTags = maybeTags.filterNot { hiddenTags.contains(it.tag) }
+                    val filteredTags = maybeTags
+                        .filterNot { hiddenTags.contains(it.tag) }
+                        .sortedBy { it.unread == 0 }
                     tagsBadge = filteredTags.map {
                         val gd = GradientDrawable()
                         val color = try {
