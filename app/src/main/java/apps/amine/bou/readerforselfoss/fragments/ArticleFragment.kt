@@ -130,7 +130,7 @@ class ArticleFragment : Fragment() {
                 typeface = try {
                     ResourcesCompat.getFont(context!!, resId)!!
                 } catch (e: java.lang.Exception) {
-                    ACRA.getErrorReporter().maybeHandleSilentException(Throwable("Font loading issue: ${e.message}"), context!!)
+                    // ACRA.getErrorReporter().maybeHandleSilentException(Throwable("Font loading issue: ${e.message}"), context!!)
                     // Just to be sure
                     null
                 }
