@@ -12,7 +12,10 @@ import com.burgstaller.okhttp.digest.CachingAuthenticator
 import com.burgstaller.okhttp.digest.Credentials
 import com.burgstaller.okhttp.digest.DigestAuthenticator
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -62,6 +65,17 @@ class SelfossApi(
             .maybeWithSelfSigned(isWithSelfSignedCert)
             .authenticator(CachingAuthenticatorDecorator(this, authCache))
             .addInterceptor(AuthenticationCacheInterceptor(authCache))
+            .addInterceptor(object: Interceptor {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    val request: Request = chain.request()
+                    val response: Response = chain.proceed(request)
+
+                    if (response.code() == 408) {
+                        return response
+                    }
+                    return response
+                }
+            })
     }
 
     init {
