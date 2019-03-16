@@ -1,12 +1,10 @@
 # ReaderForSelfoss
 
-[![Build Status](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/badge/icon)](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
 
 It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfoss.aditu.de/)
 
 <a href="https://f-droid.org/packages/apps.amine.bou.readerforselfoss"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
-
-Also, the last APK built from source is available [here](https://jenkins.amine-bou.fr/job/ReaderForSelfoss/lastSuccessfulBuild/artifact/SignApksBuilder-out/selfoss-key/selfoss/app-githubConfig-release-unsigned.apk/app-githubConfig-release.apk).
 
 ## Want to help ?
 
