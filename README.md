@@ -1,4 +1,4 @@
-# ReaderForSelfoss
+# ReaderForSelfoss **(Only available from F-Droid)**
 
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/readerforselfoss/localized.svg)](https://crowdin.com/project/readerforselfoss)
 
