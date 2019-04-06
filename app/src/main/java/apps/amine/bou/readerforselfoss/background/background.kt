@@ -130,7 +130,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 }
             }
         }
-        return Result.SUCCESS
+        return Result.success()
     }
 
     private fun <T> doAndReportOnFail(call: Call<T>, action: ActionEntity) {

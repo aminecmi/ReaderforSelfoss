@@ -64,7 +64,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
 import com.ftinc.scoop.Scoop
-import com.github.stkent.amplify.tracking.Amplify
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -173,9 +172,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleThemeBinding()
 
         setSupportActionBar(toolBar)
-        if (savedInstanceState == null) {
-            Amplify.getSharedInstance().promptIfReady(promptView)
-        }
 
         db = Room.databaseBuilder(
             applicationContext,

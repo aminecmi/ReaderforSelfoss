@@ -14,9 +14,6 @@ import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ftinc.scoop.Scoop
-import com.github.stkent.amplify.feedback.DefaultEmailFeedbackCollector
-import com.github.stkent.amplify.feedback.GooglePlayStoreFeedbackCollector
-import com.github.stkent.amplify.tracking.Amplify
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import org.acra.ACRA
@@ -25,7 +22,6 @@ import org.acra.annotation.AcraCore
 import org.acra.annotation.AcraDialog
 import org.acra.annotation.AcraHttpSender
 import org.acra.sender.HttpSender
-import java.io.IOException
 import java.util.UUID.randomUUID
 
 
@@ -48,7 +44,6 @@ class MyApp : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         config = Config(baseContext)
-        initAmplify()
 
         val prefs = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         if (prefs.getString("unique_id", "").isEmpty()) {
@@ -89,13 +84,6 @@ class MyApp : MultiDexApplication() {
         ACRA.init(this)
         ACRA.getErrorReporter().putCustomData("unique_id", prefs.getString("unique_id", ""))
 
-    }
-
-    private fun initAmplify() {
-        Amplify.initSharedInstance(this)
-            .setPositiveFeedbackCollectors(GooglePlayStoreFeedbackCollector())
-            .setCriticalFeedbackCollectors(DefaultEmailFeedbackCollector(Config.feedbackEmail))
-            .applyAllDefaultRules()
     }
 
     private fun initDrawerImageLoader() {
