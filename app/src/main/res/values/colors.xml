@@ -13,11 +13,11 @@
     <color name="background_grey">#FFe4e4e4</color>
 
     <color name="dark_webview">#FF303030</color>
-    <color name="dark_webview_text">@color/md_white_1000</color>
-    <color name="light_webview">@color/md_grey_50</color>
-    <color name="light_webview_text">@color/md_grey_900</color>
+    <color name="dark_webview_text">#FFFFFF</color>
+    <color name="light_webview">#FAFAFA</color>
+    <color name="light_webview_text">#212121</color>
 
     <color name="cardBackgroundColor">#FFFFFFFF</color>
-    <color name="materialDrawerHeaderSelectionText">@color/md_grey_900</color>
+    <color name="materialDrawerHeaderSelectionText">#212121</color>
     <color name="darkBackground">#FF303030</color>
 </resources>

@@ -48,7 +48,6 @@ import apps.amine.bou.readerforselfoss.utils.succeeded
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
-import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article.view.*
 import org.acra.ACRA
 import retrofit2.Call
