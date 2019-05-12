@@ -499,6 +499,13 @@ class ArticleFragment : Fragment() {
                 |        word-break: break-word;
                 |        overflow:hidden;
                 |        line-height: 1.5em;
+                |        background-color: $stringBackgroundColor;
+                |      }
+                |      body, html {
+                |        background-color: $stringBackgroundColor !important;
+                |        border-color: $stringBackgroundColor  !important;
+                |        padding: 0 !important;
+                |        margin: 0 !important;
                 |      }
                 |      a, pre, code {
                 |        text-align: $textAlignment;
