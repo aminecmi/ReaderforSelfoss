@@ -4,24 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.core.view.MenuItemCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
+import androidx.recyclerview.widget.*
 import androidx.room.Room
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -30,12 +27,7 @@ import androidx.work.WorkManager
 import apps.amine.bou.readerforselfoss.adapters.ItemCardAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemListAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemsAdapter
-import apps.amine.bou.readerforselfoss.api.selfoss.Item
-import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
-import apps.amine.bou.readerforselfoss.api.selfoss.Source
-import apps.amine.bou.readerforselfoss.api.selfoss.Stats
-import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
-import apps.amine.bou.readerforselfoss.api.selfoss.Tag
+import apps.amine.bou.readerforselfoss.api.selfoss.*
 import apps.amine.bou.readerforselfoss.background.LoadingWorker
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
@@ -48,7 +40,6 @@ import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.bottombar.maybeShow
 import apps.amine.bou.readerforselfoss.utils.bottombar.removeBadge
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
-import apps.amine.bou.readerforselfoss.utils.drawer.CustomUrlPrimaryDrawerItem
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
 import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
@@ -63,6 +54,7 @@ import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
+import com.bumptech.glide.Glide
 import com.ftinc.scoop.Scoop
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
@@ -619,18 +611,24 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
                 } else {
                     for (tag in maybeSources) {
-                        drawer.addItem(
-                            CustomUrlPrimaryDrawerItem()
+                        val item = PrimaryDrawerItem()
                                 .withName(tag.title)
                                 .withIdentifier(tag.id.toLong())
-                                .withIcon(tag.getIcon(this@HomeActivity))
                                 .withOnDrawerItemClickListener { _, _, _ ->
                                     allItems = ArrayList()
                                     maybeSourceFilter = tag
                                     getElementsAccordingToTab()
                                     false
                                 }
-                        )
+                        if (tag.getIcon(this@HomeActivity).isNotBlank()) {
+                            thread {
+                                item.withIcon(BitmapDrawable(resources, Glide.with(this@HomeActivity).asBitmap().load(tag.getIcon(this@HomeActivity)).submit(100, 100).get()))
+                            }
+                        } else {
+                            item.withIcon(R.mipmap.ic_launcher_round)
+                        }
+                        drawer.addItem(item)
+
                     }
                 }
             }

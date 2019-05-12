@@ -118,7 +118,7 @@ dependencies {
     implementation 'com.burgstaller:okhttp-digest:1.12'
 
     // Material-ish things
-    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.5'
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
@@ -131,17 +131,17 @@ dependencies {
 
     // Themes
     implementation 'com.52inc:scoops:1.0.0'
-    implementation 'com.jaredrummler:colorpicker:1.0.2'
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
     implementation 'com.github.rubensousa:floatingtoolbar:1.5.1'
 
     // Pager
     implementation 'me.relex:circleindicator:2.0.0@aar'
 
-    implementation 'androidx.core:core-ktx:1.0.0'
+    implementation 'androidx.core:core-ktx:1.1.0-beta01'
 
     // Crash
-    implementation 'ch.acra:acra-http:5.2.1'
-    implementation 'ch.acra:acra-dialog:5.2.1'
+    implementation 'ch.acra:acra-http:5.3.0'
+    implementation 'ch.acra:acra-dialog:5.3.0'
 
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
