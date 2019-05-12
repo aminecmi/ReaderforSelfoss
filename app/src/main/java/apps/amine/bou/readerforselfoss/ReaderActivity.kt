@@ -211,7 +211,7 @@ class ReaderActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(oldInstanceState: Bundle?) {
+    override fun onSaveInstanceState(oldInstanceState: Bundle) {
         super.onSaveInstanceState(oldInstanceState)
         oldInstanceState!!.clear()
     }

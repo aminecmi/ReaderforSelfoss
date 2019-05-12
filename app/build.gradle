@@ -85,23 +85,23 @@ android {
 
 dependencies {
     // Testing
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
     // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0-beta01'
     // Espresso-intents for validation and stubbing of Intents
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0-beta02'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0-beta01'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Android Support
     implementation "androidx.appcompat:appcompat:$androidx_version"
-    implementation "com.google.android.material:material:$android_version"
-    implementation "androidx.recyclerview:recyclerview:$android_version"
+    implementation "com.google.android.material:material:1.1.0-alpha06"
+    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha05"
     implementation "androidx.legacy:legacy-support-v4:$android_version"
-    implementation "androidx.vectordrawable:vectordrawable:$android_version"
+    implementation "androidx.vectordrawable:vectordrawable:1.1.0-beta01"
     implementation "androidx.browser:browser:$android_version"
     implementation "androidx.cardview:cardview:$android_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
 
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -127,7 +127,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
 
     // Drawer
-    implementation 'co.zsmb:materialdrawer-kt:2.0.1'
+    implementation 'co.zsmb:materialdrawer-kt:2.0.2'
 
     // Themes
     implementation 'com.52inc:scoops:1.0.0'
