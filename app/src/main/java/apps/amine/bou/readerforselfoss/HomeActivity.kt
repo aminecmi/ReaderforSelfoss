@@ -622,7 +622,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 }
                         if (tag.getIcon(this@HomeActivity).isNotBlank()) {
                             thread {
-                                item.withIcon(BitmapDrawable(resources, Glide.with(this@HomeActivity).asBitmap().load(tag.getIcon(this@HomeActivity)).submit(100, 100).get()))
+                                try {
+                                    item.withIcon(BitmapDrawable(resources, Glide.with(this@HomeActivity).asBitmap().load(tag.getIcon(this@HomeActivity)).submit(100, 100).get()))
+                                } catch (e: Exception) {
+                                    ACRA.getErrorReporter().maybeHandleSilentException(e, this@HomeActivity)
+                                }
                             }
                         } else {
                             item.withIcon(R.mipmap.ic_launcher_round)

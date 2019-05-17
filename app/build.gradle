@@ -107,7 +107,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // About
-    implementation('com.mikepenz:aboutlibraries:6.2.0@aar') {
+    implementation('com.mikepenz:aboutlibraries:6.0.0@aar') {
         transitive = true
     }
 
@@ -127,7 +127,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
 
     // Drawer
-    implementation 'co.zsmb:materialdrawer-kt:2.0.2'
+    implementation 'co.zsmb:materialdrawer-kt:2.0.1'
 
     // Themes
     implementation 'com.52inc:scoops:1.0.0'
