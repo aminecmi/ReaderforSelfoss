@@ -629,7 +629,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 }
                             }
                         } else {
-                            item.withIcon(R.mipmap.ic_launcher_round)
+                            item.withIcon(R.mipmap.ic_launcher)
                         }
                         drawer.addItem(item)
 
