@@ -2,6 +2,7 @@ package apps.amine.bou.readerforselfoss.api.selfoss
 
 import android.app.Activity
 import android.content.Context
+import apps.amine.bou.readerforselfoss.interceptors.ApiLoggingInterceptor
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.getUnsafeHttpClient
 import com.burgstaller.okhttp.AuthenticationCacheInterceptor
@@ -95,12 +96,14 @@ class SelfossApi(
                 .setLenient()
                 .create()
 
-        val logging = HttpLoggingInterceptor()
+        HttpLoggingInterceptor()
+        val logging = ApiLoggingInterceptor()
+
 
         logging.level = if (shouldLog) {
-            HttpLoggingInterceptor.Level.BODY
+            ApiLoggingInterceptor.Level.BODY
         } else {
-            HttpLoggingInterceptor.Level.NONE
+            ApiLoggingInterceptor.Level.NONE
         }
 
         val httpClient = authenticator.getHttpClien(isWithSelfSignedCert, timeout)

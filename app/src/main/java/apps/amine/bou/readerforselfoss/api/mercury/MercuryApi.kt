@@ -1,8 +1,8 @@
 package apps.amine.bou.readerforselfoss.api.mercury
 
+import apps.amine.bou.readerforselfoss.interceptors.ApiLoggingInterceptor
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,11 +12,11 @@ class MercuryApi(shouldLog: Boolean) {
 
     init {
 
-        val interceptor = HttpLoggingInterceptor()
+        val interceptor = ApiLoggingInterceptor()
         interceptor.level = if (shouldLog) {
-            HttpLoggingInterceptor.Level.BODY
+            ApiLoggingInterceptor.Level.BODY
         } else {
-            HttpLoggingInterceptor.Level.NONE
+            ApiLoggingInterceptor.Level.NONE
         }
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
