@@ -1,6 +1,10 @@
 package apps.amine.bou.readerforselfoss.interceptors
 
-
+import java.io.EOFException
+import java.io.IOException
+import java.net.SocketTimeoutException
+import java.nio.charset.Charset
+import java.util.concurrent.TimeUnit
 import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -8,11 +12,6 @@ import okhttp3.internal.http.HttpHeaders
 import okhttp3.internal.platform.Platform
 import okhttp3.internal.platform.Platform.INFO
 import okio.Buffer
-import java.io.EOFException
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.nio.charset.Charset
-import java.util.concurrent.TimeUnit
 
 class ApiLoggingInterceptor constructor(private val logger: Logger = Logger.DEFAULT) : Interceptor {
 
@@ -22,7 +21,6 @@ class ApiLoggingInterceptor constructor(private val logger: Logger = Logger.DEFA
             if (value == null) throw NullPointerException("level == null. Use Level.NONE instead.")
             field = value
         }
-
 
     enum class Level {
         /** No logs.  */
@@ -110,10 +108,10 @@ class ApiLoggingInterceptor constructor(private val logger: Logger = Logger.DEFA
         val hasRequestBody = requestBody != null
 
         val connection = chain.connection()
-        var requestStartMessage = ("--> "
-                + request.method()
-                + ' '.toString() + request.url()
-                + if (connection != null) " " + connection.protocol() else "")
+        var requestStartMessage = ("--> " +
+                request.method() +
+                ' '.toString() + request.url() +
+                if (connection != null) " " + connection.protocol() else "")
         if (!logHeaders && hasRequestBody) {
             requestStartMessage += " (" + requestBody!!.contentLength() + "-byte body)"
         }
@@ -161,11 +159,11 @@ class ApiLoggingInterceptor constructor(private val logger: Logger = Logger.DEFA
                 logger.log("")
                 if (isPlaintext(buffer)) {
                     logger.log(buffer.readString(charset!!))
-                    logger.log("--> END " + request.method()
-                            + " (" + requestBody.contentLength() + "-byte body)")
+                    logger.log("--> END " + request.method() +
+                            " (" + requestBody.contentLength() + "-byte body)")
                 } else {
-                    logger.log("--> END " + request.method() + " (binary "
-                            + requestBody.contentLength() + "-byte body omitted)")
+                    logger.log("--> END " + request.method() + " (binary " +
+                            requestBody.contentLength() + "-byte body omitted)")
                 }
             }
         }
@@ -186,11 +184,11 @@ class ApiLoggingInterceptor constructor(private val logger: Logger = Logger.DEFA
         val responseBody = response.body()
         val contentLength = responseBody!!.contentLength()
         val bodySize = if (contentLength != -1L) "$contentLength-byte" else "unknown-length"
-        logger.log("<-- "
-                + response.code()
-                + (if (response.message().isEmpty()) "" else ' ' + response.message())
-                + ' '.toString() + response.request().url()
-                + " (" + tookMs + "ms" + (if (!logHeaders) ", $bodySize body" else "") + ')'.toString())
+        logger.log("<-- " +
+                response.code() +
+                (if (response.message().isEmpty()) "" else ' ' + response.message()) +
+                ' '.toString() + response.request().url() +
+                " (" + tookMs + "ms" + (if (!logHeaders) ", $bodySize body" else "") + ')'.toString())
 
         if (logHeaders) {
             val headers = response.headers()
@@ -264,7 +262,6 @@ class ApiLoggingInterceptor constructor(private val logger: Logger = Logger.DEFA
             } catch (e: EOFException) {
                 return false // Truncated UTF-8 sequence.
             }
-
         }
     }
 }
