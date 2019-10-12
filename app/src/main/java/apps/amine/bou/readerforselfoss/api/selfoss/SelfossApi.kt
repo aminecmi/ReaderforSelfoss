@@ -12,14 +12,12 @@ import com.burgstaller.okhttp.digest.CachingAuthenticator
 import com.burgstaller.okhttp.digest.Credentials
 import com.burgstaller.okhttp.digest.DigestAuthenticator
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.SocketTimeoutException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
@@ -97,15 +95,38 @@ class SelfossApi(
 
         val logging = HttpLoggingInterceptor()
 
+
         logging.level = if (shouldLog) {
             HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
-
         val httpClient = authenticator.getHttpClien(isWithSelfSignedCert, timeout)
 
-        httpClient.addInterceptor(logging)
+        val timeoutCode = 504
+        httpClient
+                .addInterceptor { chain ->
+                    val res = chain.proceed(chain.request())
+                    if (res.code() == timeoutCode) {
+                        throw SocketTimeoutException("timeout")
+                    }
+                    res
+                }
+                .addInterceptor(logging)
+                .addInterceptor { chain ->
+                    val request = chain.request()
+                    try {
+                        chain.proceed(request)
+                    } catch (e: SocketTimeoutException) {
+                        Response.Builder()
+                                .code(timeoutCode)
+                                .protocol(Protocol.HTTP_2)
+                                .body(ResponseBody.create(MediaType.parse("text/plain"), ""))
+                                .message("")
+                                .request(request)
+                                .build()
+                    }
+                }
 
         try {
             val retrofit =
