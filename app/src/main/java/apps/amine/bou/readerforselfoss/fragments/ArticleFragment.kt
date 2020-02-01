@@ -39,7 +39,6 @@ import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
@@ -49,7 +48,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -138,14 +136,12 @@ class ArticleFragment : Fragment() {
             refreshAlignment()
 
             val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-            val debugReadingItems = prefs.getBoolean("read_debug", false)
 
             val api = SelfossApi(
                 context!!,
                 activity!!,
                 settings.getBoolean("isSelfSignedCert", false),
-                prefs.getString("api_timeout", "-1").toLong(),
-                prefs.getBoolean("should_log_everything", false)
+                prefs.getString("api_timeout", "-1").toLong()
             )
 
             fab = rootView!!.fab
@@ -186,26 +182,12 @@ class ArticleFragment : Fragment() {
                                             call: Call<SuccessResponse>,
                                             response: Response<SuccessResponse>
                                         ) {
-                                            if (!response.succeeded() && debugReadingItems) {
-                                                val message =
-                                                    "message: ${response.message()} " +
-                                                            "response isSuccess: ${response.isSuccessful} " +
-                                                            "response code: ${response.code()} " +
-                                                            "response message: ${response.message()} " +
-                                                            "response errorBody: ${response.errorBody()?.string()} " +
-                                                            "body success: ${response.body()?.success} " +
-                                                            "body isSuccess: ${response.body()?.isSuccess}"
-                                                ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), activity!!)
-                                            }
                                         }
 
                                         override fun onFailure(
                                             call: Call<SuccessResponse>,
                                             t: Throwable
                                         ) {
-                                            if (debugReadingItems) {
-                                                ACRA.getErrorReporter().maybeHandleSilentException(t, activity!!)
-                                            }
                                         }
                                     }
                                 )
@@ -294,9 +276,7 @@ class ArticleFragment : Fragment() {
     ) {
         if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
             rootView!!.progressBar.visibility = View.VISIBLE
-            val parser = MercuryApi(
-                prefs.getBoolean("should_log_everything", false)
-            )
+            val parser = MercuryApi()
 
             parser.parseUrl(url).enqueue(
                 object : Callback<ParsedContent> {
@@ -320,18 +300,12 @@ class ArticleFragment : Fragment() {
                                         // Mercury returned a relative url. We do nothing.
                                     }
                                 } catch (e: Exception) {
-                                    if (context != null) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
-                                    }
                                 }
 
                                 try {
                                     contentText = response.body()!!.content.orEmpty()
                                     htmlToWebview()
                                 } catch (e: Exception) {
-                                    if (context != null) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
-                                    }
                                 }
 
                                 try {
@@ -345,14 +319,12 @@ class ArticleFragment : Fragment() {
                                                 .apply(RequestOptions.fitCenterTransform())
                                                 .into(rootView!!.imageView)
                                         } catch (e: Exception) {
-                                            ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                         }
                                     } else {
                                         rootView!!.imageView.visibility = View.GONE
                                     }
                                 } catch (e: Exception) {
                                     if (context != null) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                     }
                                 }
 
@@ -362,7 +334,6 @@ class ArticleFragment : Fragment() {
                                     rootView!!.progressBar.visibility = View.GONE
                                 } catch (e: Exception) {
                                     if (context != null) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                     }
                                 }
                             } else {
@@ -370,13 +341,11 @@ class ArticleFragment : Fragment() {
                                     openInBrowserAfterFailing(customTabsIntent)
                                 } catch (e: Exception) {
                                     if (context != null) {
-                                        ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                                     }
                                 }
                             }
                         } catch (e: Exception) {
                             if (context != null) {
-                                ACRA.getErrorReporter().maybeHandleSilentException(e, context!!)
                             }
                         }
                     }
@@ -454,7 +423,6 @@ class ArticleFragment : Fragment() {
             val itemUrl = URL(url)
             baseUrl = itemUrl.protocol + "://" + itemUrl.host
         } catch (e: MalformedURLException) {
-            ACRA.getErrorReporter().maybeHandleSilentException(e, activity!!)
         }
 
         val fontName =  when (font) {

@@ -50,7 +50,6 @@ class ItemListAdapter(
     private val helper: CustomTabActivityHelper,
     private val internalBrowser: Boolean,
     private val articleViewer: Boolean,
-    override val debugReadingItems: Boolean,
     override val userIdentifier: String,
     override val appColors: AppColors,
     override val config: Config,

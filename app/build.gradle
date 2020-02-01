@@ -139,10 +139,6 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.1.0-beta01'
 
-    // Crash
-    implementation 'ch.acra:acra-http:5.3.0'
-    implementation 'ch.acra:acra-dialog:5.3.0'
-
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 

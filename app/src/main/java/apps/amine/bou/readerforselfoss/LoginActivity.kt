@@ -20,12 +20,10 @@ import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import kotlinx.android.synthetic.main.activity_login.*
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var settings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var userIdentifier: String
-    private var logErrors: Boolean = false
     private lateinit var appColors: AppColors
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +53,6 @@ class LoginActivity : AppCompatActivity() {
 
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
         userIdentifier = settings.getString("unique_id", "")
-        logErrors = settings.getBoolean("login_debug", false)
 
         editor = settings.edit()
 
@@ -144,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
         var cancel = false
         var focusView: View? = null
 
-        if (!url.isBaseUrlValid(logErrors, this@LoginActivity)) {
+        if (!url.isBaseUrlValid(this@LoginActivity)) {
             urlView.error = getString(R.string.login_url_problem)
             focusView = urlView
             cancel = true
@@ -208,8 +204,7 @@ class LoginActivity : AppCompatActivity() {
                 this,
                 this@LoginActivity,
                 isWithSelfSignedCert,
-                -1L,
-                isWithSelfSignedCert
+                -1L
             )
 
             if (this@LoginActivity.isNetworkAccessible(this@LoginActivity.findViewById(R.id.loginForm))) {
@@ -226,14 +221,6 @@ class LoginActivity : AppCompatActivity() {
                         passwordView.error = getString(R.string.wrong_infos)
                         httpLoginView.error = getString(R.string.wrong_infos)
                         httpPasswordView.error = getString(R.string.wrong_infos)
-                        if (logErrors) {
-                            ACRA.getErrorReporter().maybeHandleSilentException(t, this@LoginActivity)
-                            Toast.makeText(
-                                this@LoginActivity,
-                                t.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
                         showProgress(false)
                     }
 
@@ -290,29 +277,20 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.login_menu, menu)
-        menu.findItem(R.id.login_debug).isChecked = logErrors
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.about -> {
                 LibsBuilder()
                     .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
                     .withAboutVersionShown(true)
                     .start(this)
-                return true
+                true
             }
-            R.id.login_debug -> {
-                val newState = !item.isChecked
-                item.isChecked = newState
-                logErrors = newState
-                editor.putBoolean("login_debug", newState)
-                editor.apply()
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

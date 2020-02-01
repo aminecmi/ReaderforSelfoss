@@ -92,8 +92,7 @@ class AddSourceActivity : AppCompatActivity() {
                 this,
                 this@AddSourceActivity,
                 settings.getBoolean("isSelfSignedCert", false),
-                prefs.getString("api_timeout", "-1").toLong(),
-                prefs.getBoolean("should_log_everything", false)
+                prefs.getString("api_timeout", "-1").toLong()
             )
         } catch (e: IllegalArgumentException) {
             mustLoginToAddSource()
@@ -112,7 +111,7 @@ class AddSourceActivity : AppCompatActivity() {
         super.onResume()
         val config = Config(this)
 
-        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid(false, this@AddSourceActivity)) {
+        if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid(this@AddSourceActivity)) {
             mustLoginToAddSource()
         } else {
             handleSpoutsSpinner(spoutsSpinner, api, progress, formContainer)

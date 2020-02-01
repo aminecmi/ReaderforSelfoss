@@ -42,7 +42,6 @@ import apps.amine.bou.readerforselfoss.utils.bottombar.removeBadge
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.flattenTags
 import apps.amine.bou.readerforselfoss.utils.longHash
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.persistence.toView
@@ -65,7 +64,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import kotlinx.android.synthetic.main.activity_home.*
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -86,8 +84,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var items: ArrayList<Item> = ArrayList()
     private var allItems: ArrayList<Item> = ArrayList()
 
-    private var debugReadingItems = false
-    private var shouldLogEverything = false
     private var internalBrowser = false
     private var articleViewer = false
     private var shouldBeCardView = false
@@ -180,8 +176,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             this,
             this@HomeActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            sharedPref.getString("api_timeout", "-1").toLong(),
-            shouldLogEverything
+            sharedPref.getString("api_timeout", "-1").toLong()
         )
         items = ArrayList()
         allItems = ArrayList()
@@ -353,8 +348,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         getElementsAccordingToTab()
 
-        handleGDPRDialog(sharedPref.getBoolean("GDPR_shown", false))
-
         handleRecurringTask()
 
         handleOfflineActions()
@@ -389,8 +382,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleSharedPrefs() {
-        debugReadingItems = sharedPref.getBoolean("read_debug", false)
-        shouldLogEverything = sharedPref.getBoolean("should_log_everything", false)
         internalBrowser = sharedPref.getBoolean("prefer_internal_browser", true)
         articleViewer = sharedPref.getBoolean("prefer_article_viewer", true)
         shouldBeCardView = sharedPref.getBoolean("card_view_active", false)
@@ -625,7 +616,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 try {
                                     item.withIcon(BitmapDrawable(resources, Glide.with(this@HomeActivity).asBitmap().load(tag.getIcon(this@HomeActivity)).submit(100, 100).get()))
                                 } catch (e: Exception) {
-                                    ACRA.getErrorReporter().maybeHandleSilentException(e, this@HomeActivity)
                                 }
                             }
                         } else {
@@ -1144,7 +1134,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             articleViewer,
                             fullHeightCards,
                             appColors,
-                            debugReadingItems,
                             userIdentifier,
                             config
                         ) {
@@ -1160,7 +1149,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             customTabActivityHelper,
                             internalBrowser,
                             articleViewer,
-                            debugReadingItems,
                             userIdentifier,
                             appColors,
                             config
@@ -1334,10 +1322,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                 .map { it.key to it.value.size }
                                 .toMap()
 
-                        fun readAllDebug(e: Throwable) {
-                            ACRA.getErrorReporter().maybeHandleSilentException(e, this@HomeActivity)
-                        }
-
                         if (ids.isNotEmpty() && this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
                             api.readAll(ids).enqueue(object : Callback<SuccessResponse> {
                                 override fun onResponse(
@@ -1362,14 +1346,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                             Toast.LENGTH_SHORT
                                         ).show()
 
-                                        if (debugReadingItems) {
-                                            readAllDebug(
-                                                Throwable(
-                                                    "Got response, but : response.body() (${response.body()}) != null && response.body()!!.isSuccess (${response.body()?.isSuccess})." +
-                                                            "Request url was (${call.request().url()}), ids were $ids"
-                                                )
-                                            )
-                                        }
+
                                     }
 
                                     swipeRefreshLayout.isRefreshing = false
@@ -1382,10 +1359,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     swipeRefreshLayout.isRefreshing = false
-
-                                    if (debugReadingItems) {
-                                        readAllDebug(t)
-                                    }
                                 }
                             })
                             items = ArrayList()
@@ -1422,24 +1395,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         items = adapterItems
     }
 
-    private fun handleGDPRDialog(GDPRShown: Boolean) {
-        val sharedEditor = sharedPref.edit()
-        if (!GDPRShown) {
-            val alertDialog = AlertDialog.Builder(this).create()
-            alertDialog.setTitle(getString(R.string.gdpr_dialog_title))
-            alertDialog.setMessage(getString(R.string.gdpr_dialog_message))
-            alertDialog.setButton(
-                AlertDialog.BUTTON_NEUTRAL,
-                "OK"
-            ) { dialog, _ ->
-                sharedEditor.putBoolean("GDPR_shown", true)
-                sharedEditor.commit()
-                dialog.dismiss()
-            }
-            alertDialog.show()
-        }
-    }
-
     private fun handleRecurringTask() {
         if (periodicRefresh) {
             val myConstraints = Constraints.Builder()
@@ -1472,7 +1427,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                }
 
                override fun onFailure(call: Call<T>, t: Throwable) {
-                   ACRA.getErrorReporter().maybeHandleSilentException(t, this@HomeActivity)
                }
            })
         }

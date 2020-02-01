@@ -14,11 +14,9 @@ import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +26,6 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
     abstract var items: ArrayList<Item>
     abstract val api: SelfossApi
     abstract val db: AppDatabase
-    abstract val debugReadingItems: Boolean
     abstract val userIdentifier: String
     abstract val app: Activity
     abstract val appColors: AppColors
@@ -159,27 +156,11 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    if (!response.succeeded() && debugReadingItems) {
-                        val message =
-                            "MARK message: ${response.message()} " +
-                                    "response isSuccess: ${response.isSuccessful} " +
-                                    "response code: ${response.code()} " +
-                                    "response message: ${response.message()} " +
-                                    "response errorBody: ${response.errorBody()?.string()} " +
-                                    "body success: ${response.body()?.success} " +
-                                    "body isSuccess: ${response.body()?.isSuccess}"
-                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
-                        Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
-                    }
 
                     unmarkSnackbar(i, position)
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    if (debugReadingItems) {
-                        ACRA.getErrorReporter().maybeHandleSilentException(t, app)
-                        Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
-                    }
                     Toast.makeText(
                         app,
                         app.getString(R.string.cant_mark_read),
@@ -217,27 +198,11 @@ abstract class ItemsAdapter<VH : RecyclerView.ViewHolder?> : RecyclerView.Adapte
                     call: Call<SuccessResponse>,
                     response: Response<SuccessResponse>
                 ) {
-                    if (!response.succeeded() && debugReadingItems) {
-                        val message =
-                            "UNMARK message: ${response.message()} " +
-                                    "response isSuccess: ${response.isSuccessful} " +
-                                    "response code: ${response.code()} " +
-                                    "response message: ${response.message()} " +
-                                    "response errorBody: ${response.errorBody()?.string()} " +
-                                    "body success: ${response.body()?.success} " +
-                                    "body isSuccess: ${response.body()?.isSuccess}"
-                        ACRA.getErrorReporter().maybeHandleSilentException(Exception(message), app)
-                        Toast.makeText(app.baseContext, message, Toast.LENGTH_LONG).show()
-                    }
 
                     markSnackbar(i, position)
                 }
 
                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
-                    if (debugReadingItems) {
-                        ACRA.getErrorReporter().maybeHandleSilentException(t, app)
-                        Toast.makeText(app.baseContext, t.message, Toast.LENGTH_LONG).show()
-                    }
                     Toast.makeText(
                         app,
                         app.getString(R.string.cant_mark_unread),

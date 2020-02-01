@@ -29,7 +29,6 @@ import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
 import apps.amine.bou.readerforselfoss.utils.Config
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
@@ -37,7 +36,6 @@ import apps.amine.bou.readerforselfoss.utils.toggleStar
 import com.ftinc.scoop.Scoop
 import kotlinx.android.synthetic.main.activity_reader.*
 import me.relex.circleindicator.CircleIndicator
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +44,6 @@ import kotlin.concurrent.thread
 class ReaderActivity : AppCompatActivity() {
 
     private var markOnScroll: Boolean = false
-    private var debugReadingItems: Boolean = false
     private var currentItem: Int = 0
     private lateinit var userIdentifier: String
 
@@ -102,7 +99,6 @@ class ReaderActivity : AppCompatActivity() {
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         editor = prefs.edit()
 
-        debugReadingItems = prefs.getBoolean("read_debug", false)
         userIdentifier = prefs.getString("unique_id", "")
         markOnScroll = prefs.getBoolean("mark_on_scroll", false)
         activeAlignment = prefs.getInt("text_align", JUSTIFY)
@@ -111,8 +107,7 @@ class ReaderActivity : AppCompatActivity() {
             this,
             this@ReaderActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            prefs.getString("api_timeout", "-1").toLong(),
-            prefs.getBoolean("should_log_everything", false)
+            prefs.getString("api_timeout", "-1").toLong()
         )
 
         if (allItems.isEmpty()) {
@@ -164,18 +159,6 @@ class ReaderActivity : AppCompatActivity() {
                             call: Call<SuccessResponse>,
                             response: Response<SuccessResponse>
                         ) {
-                            if (!response.succeeded() && debugReadingItems) {
-                                val message =
-                                    "message: ${response.message()} " +
-                                            "response isSuccess: ${response.isSuccessful} " +
-                                            "response code: ${response.code()} " +
-                                            "response message: ${response.message()} " +
-                                            "response errorBody: ${response.errorBody()?.string()} " +
-                                            "body success: ${response.body()?.success} " +
-                                            "body isSuccess: ${response.body()?.isSuccess}"
-                                ACRA.getErrorReporter()
-                                    .maybeHandleSilentException(Exception(message), this@ReaderActivity)
-                            }
                         }
 
                         override fun onFailure(
@@ -184,10 +167,6 @@ class ReaderActivity : AppCompatActivity() {
                         ) {
                             thread {
                                 db.itemsDao().insertAllItems(item.toEntity())
-                            }
-                            if (debugReadingItems) {
-                                ACRA.getErrorReporter()
-                                    .maybeHandleSilentException(t, this@ReaderActivity)
                             }
                         }
                     }

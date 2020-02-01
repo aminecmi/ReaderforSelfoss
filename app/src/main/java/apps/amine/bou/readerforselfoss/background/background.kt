@@ -20,10 +20,8 @@ import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
 import apps.amine.bou.readerforselfoss.utils.Config
-import apps.amine.bou.readerforselfoss.utils.maybeHandleSilentException
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
-import org.acra.ACRA
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,8 +62,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 this.context,
                 null,
                 settings.getBoolean("isSelfSignedCert", false),
-                sharedPref.getString("api_timeout", "-1").toLong(),
-                sharedPref.getBoolean("should_log_everything", false)
+                sharedPref.getString("api_timeout", "-1").toLong()
             )
 
             api.allItems().enqueue(object : Callback<List<Item>> {
@@ -145,7 +142,6 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
-                ACRA.getErrorReporter().maybeHandleSilentException(t, context)
             }
         })
     }

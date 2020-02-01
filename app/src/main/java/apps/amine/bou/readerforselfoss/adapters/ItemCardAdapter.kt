@@ -50,7 +50,6 @@ class ItemCardAdapter(
     private val articleViewer: Boolean,
     private val fullHeightCards: Boolean,
     override val appColors: AppColors,
-    override val debugReadingItems: Boolean,
     override val userIdentifier: String,
     override val config: Config,
     override val updateItems: (ArrayList<Item>) -> Unit

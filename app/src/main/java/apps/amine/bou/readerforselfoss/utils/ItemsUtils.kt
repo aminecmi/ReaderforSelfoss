@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.format.DateUtils
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossTagType
-import org.acra.ACRA
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,7 +14,6 @@ fun String.toTextDrawableString(c: Context): String {
         try {
             textDrawable.append(s[0])
         } catch (e: StringIndexOutOfBoundsException) {
-            ACRA.getErrorReporter().maybeHandleSilentException(e, c)
         }
     }
     return textDrawable.toString()

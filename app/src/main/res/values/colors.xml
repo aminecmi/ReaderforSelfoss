@@ -14,7 +14,7 @@
 
     <color name="dark_webview">#FF303030</color>
     <color name="dark_webview_text">#FFFFFF</color>
-    <color name="light_webview">#FAFAFA</color>
+    <color name="light_webview">#FFFFFF</color>
     <color name="light_webview_text">#212121</color>
 
     <color name="cardBackgroundColor">#FFFFFFFF</color>

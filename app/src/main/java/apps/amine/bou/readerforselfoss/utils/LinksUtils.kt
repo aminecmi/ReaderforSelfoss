@@ -20,7 +20,6 @@ import apps.amine.bou.readerforselfoss.ReaderActivity
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import okhttp3.HttpUrl
-import org.acra.ACRA
 
 fun Context.buildCustomTabsIntent(): CustomTabsIntent {
 
@@ -140,7 +139,7 @@ private fun openInBrowser(linkDecoded: String, app: Activity) {
 fun String.isUrlValid(): Boolean =
     HttpUrl.parse(this) != null && Patterns.WEB_URL.matcher(this).matches()
 
-fun String.isBaseUrlValid(logErrors: Boolean, ctx: Context): Boolean {
+fun String.isBaseUrlValid(ctx: Context): Boolean {
     val baseUrl = HttpUrl.parse(this)
     var existsAndEndsWithSlash = false
     if (baseUrl != null) {

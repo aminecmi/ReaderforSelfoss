@@ -64,8 +64,7 @@ class SourcesActivity : AppCompatActivity() {
             this,
             this@SourcesActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            prefs.getString("api_timeout", "-1").toLong(),
-            prefs.getBoolean("should_log_everything", false)
+            prefs.getString("api_timeout", "-1").toLong()
         )
         var items: ArrayList<Source> = ArrayList()
 

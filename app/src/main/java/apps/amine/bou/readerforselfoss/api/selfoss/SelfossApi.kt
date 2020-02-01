@@ -25,8 +25,7 @@ class SelfossApi(
     c: Context,
     callingActivity: Activity?,
     isWithSelfSignedCert: Boolean,
-    timeout: Long,
-    shouldLog: Boolean
+    timeout: Long
 ) {
 
     private lateinit var service: SelfossService
@@ -96,11 +95,7 @@ class SelfossApi(
         val logging = HttpLoggingInterceptor()
 
 
-        logging.level = if (shouldLog) {
-            HttpLoggingInterceptor.Level.BODY
-        } else {
-            HttpLoggingInterceptor.Level.NONE
-        }
+        logging.level = HttpLoggingInterceptor.Level.NONE
         val httpClient = authenticator.getHttpClien(isWithSelfSignedCert, timeout)
 
         val timeoutCode = 504

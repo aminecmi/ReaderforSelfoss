@@ -160,7 +160,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || ArticleViewerPreferenceFragment.class.getName().equals(fragmentName)
                 || OfflinePreferenceFragment.class.getName().equals(fragmentName)
                 || ExperimentalPreferenceFragment.class.getName().equals(fragmentName)
-                || DebugPreferenceFragment.class.getName().equals(fragmentName)
                 || LinksPreferenceFragment.class.getName().equals(fragmentName)
                 || ThemePreferenceFragment.class.getName().equals(fragmentName);
     }
@@ -245,48 +244,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         }
                     }
             });
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DebugPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_debug);
-            setHasOptionsMenu(true);
-
-            SharedPreferences pref = getActivity().getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE);
-            final String id = pref.getString("unique_id", "...");
-
-            final Preference identifier = findPreference("debug_identifier");
-            final ClipboardManager clipboard = (ClipboardManager)
-                    getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-
-            identifier.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    if (clipboard != null) {
-                        ClipData clip = ClipData.newPlainText("Selfoss unique id", id);
-                        clipboard.setPrimaryClip(clip);
-
-                        Toast.makeText(getActivity(), R.string.unique_id_to_clipboard, Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-            identifier.setTitle(id);
         }
 
         @Override
