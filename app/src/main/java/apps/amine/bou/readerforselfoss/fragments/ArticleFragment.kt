@@ -376,7 +376,7 @@ class ArticleFragment : Fragment() {
                         R.color.dark_webview
                     )
                 )
-                Pair(ContextCompat.getColor(context!!, R.color.dark_webview_text), ContextCompat.getColor(context!!, R.color.light_webview_text))
+                Pair(ContextCompat.getColor(context!!, R.color.dark_webview_text), ContextCompat.getColor(context!!, R.color.dark_webview))
             } else {
                 Pair(null, null)
             }
@@ -388,7 +388,7 @@ class ArticleFragment : Fragment() {
                         R.color.light_webview
                     )
                 )
-                Pair(ContextCompat.getColor(context!!, R.color.light_webview_text), ContextCompat.getColor(context!!, R.color.dark_webview_text))
+                Pair(ContextCompat.getColor(context!!, R.color.light_webview_text), ContextCompat.getColor(context!!, R.color.light_webview))
             } else {
                 Pair(null, null)
             }
