@@ -105,7 +105,7 @@
     <string name="self_signed_cert_warning">出于安全考虑, 默认情况下不支持自签名证书。如果激活此项, 您遇到的任何安全问题我将概不负责。</string>
     <string name="pref_selfoss_category">塞尔福斯 Api</string>
     <string name="pref_api_items_number_title">已加载项目编号</string>
-    <string name="pref_hidden_tags">隐藏段落</string>
+    <string name="pref_hidden_tags">隐藏标签</string>
     <string name="summary_debug_identifier">除错标识符</string>
     <string name="unique_id_to_clipboard">复制到你的剪贴板的标识符</string>
     <string name="display_header_drawer_summary">在侧边栏中显示带有 Selfoss 链接地址的页眉。</string>
@@ -124,13 +124,13 @@
     <string name="pref_content_reader_font_size">文章阅读器内容字体大小</string>
     <string name="pref_header_viewer">文章查看器</string>
     <string name="refresh_dialog_message">这将刷新您的 Selfoss 实例。</string>
-    <string name="markall_dialog_message">這會使全部項目標示為已讀</string>
+    <string name="markall_dialog_message">这将标记所有项目为已读。</string>
     <string name="pref_switch_actions_pager_scroll">滑动时标为已读</string>
     <string name="pref_switch_actions_pager_scroll_off">滑动时不标记文章为已读</string>
-    <string name="pref_acra_alwaysaccept">自动发送錯誤报告</string>
+    <string name="pref_acra_alwaysaccept">自动发送崩溃报告</string>
     <string name="pref_acra_alwaysaccept_enabled">允许自动发送故障报告</string>
     <string name="pref_acra_alwaysaccept_disabled">每次发送崩溃报告时都会询问。</string>
-    <string name="pref_debug_crash_reports">错误报告</string>
+    <string name="pref_debug_crash_reports">崩溃报告</string>
     <string name="pref_debug_debug_logs">调试日志(这些日志将在没有对话框的情况下发送)</string>
     <string name="acra_login">启用日志记录</string>
     <string name="drawer_item_hidden_tags">隐藏标签</string>
@@ -139,7 +139,7 @@
     <string name="pref_switch_items_caching_off">文章不会被保存到设备内存，应用程序在离线时将无法阅读它们</string>
     <string name="pref_switch_items_caching_on">文章将被保存到设备内存并可在离线时使用</string>
     <string name="pref_switch_items_caching">保存项目以便离线使用</string>
-    <string name="no_network_connectivity">未连接</string>
+    <string name="no_network_connectivity">未连接！</string>
     <string name="pref_switch_periodic_refresh">同步文章</string>
     <string name="pref_switch_periodic_refresh_off">文章将不会在后台同步</string>
     <string name="pref_switch_periodic_refresh_on">将定期同步文章</string>
@@ -158,6 +158,6 @@
     <string name="webview_dialog_issue_message">Webview不可用。禁用文章查看器以避免将来发生崩溃。从现在起将在浏览器内加载文章。</string>
     <string name="webview_dialog_issue_title">Webview问题</string>
     <string name="reader_text_align_left">左对齐</string>
-    <string name="reader_text_align_justify">Justify</string>
-    <string name="settings_reader_font">Reader font</string>
+    <string name="reader_text_align_justify">左右对齐</string>
+    <string name="settings_reader_font">阅读器字体</string>
 </resources>
