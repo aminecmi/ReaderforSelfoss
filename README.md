@@ -6,6 +6,11 @@ It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfo
 
 <a href="https://f-droid.org/packages/apps.amine.bou.readerforselfoss"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
 
+
+## Like my app ? 
+
+[Buy me coffe](https://www.buymeacoffee.com/aminecmi)
+
 ## Want to help ?
 
 1. **You'll have to have a Selfoss instance running.** You'll find everything you need to install it [here](https://selfoss.aditu.de/).
