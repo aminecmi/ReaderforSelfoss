@@ -9,7 +9,7 @@ It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfo
 
 ## Like my app ? 
 
-[Buy me coffe](https://www.buymeacoffee.com/aminecmi)
+<a href="https://www.buymeacoffee.com/aminecmi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ## Want to help ?
 
