@@ -6,6 +6,9 @@ It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfo
 
 <a href="https://f-droid.org/packages/apps.amine.bou.readerforselfoss"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
 
+## Screen captures
+
+<img src="res//fr-card.png?raw=true" alt="card view" width="400"/> <img src="res//fr-list.png?raw=true" alt="list view" width="400"/>
 
 ## Like my app ? 
 
