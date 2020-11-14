@@ -4,13 +4,21 @@
 
 It's an RSS Reader for Android, that **only** works with [Selfoss](https://selfoss.aditu.de/)
 
+**The project is not dead at all.** 
+
+I still want to work on it, but for the last few months, I didn't have that much time to do so. 
+
+If you are a developer, don't hesitate to help with PRs.
+
+If you are a user, you can still create new issues. I'll fix them when I can.
+
 <a href="https://f-droid.org/packages/apps.amine.bou.readerforselfoss"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
 
 ## Screen captures
 
 <img src="res//fr-card.png?raw=true" alt="card view" width="400"/> <img src="res//fr-list.png?raw=true" alt="list view" width="400"/>
 
-## Like my app ? 
+## Like my app ?
 
 <a href="https://www.buymeacoffee.com/aminecmi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
