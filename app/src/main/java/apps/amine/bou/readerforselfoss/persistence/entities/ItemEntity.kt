@@ -20,7 +20,7 @@ data class ItemEntity(
     @ColumnInfo(name = "starred")
     var starred: Boolean,
     @ColumnInfo(name = "thumbnail")
-    val thumbnail: String,
+    val thumbnail: String?,
     @ColumnInfo(name = "icon")
     val icon: String,
     @ColumnInfo(name = "link")
