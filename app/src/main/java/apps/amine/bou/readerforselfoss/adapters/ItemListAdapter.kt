@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import android.text.Html
 import android.text.Spannable
 import android.text.style.ClickableSpan
 import android.util.TypedValue
