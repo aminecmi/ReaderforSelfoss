@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.Html
 
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
@@ -125,6 +126,10 @@ data class Item(
             config = Config(app)
         }
         return constructUrl(config, "thumbnails", thumbnail)
+    }
+
+    fun getTitleDecoded(): String {
+        return Html.fromHtml(title).toString()
     }
 
     // TODO: maybe find a better way to handle these kind of urls
