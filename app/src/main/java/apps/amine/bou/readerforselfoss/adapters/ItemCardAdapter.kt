@@ -69,7 +69,7 @@ class ItemCardAdapter(
 
 
         holder.mView.favButton.isLiked = itm.starred
-        holder.mView.title.text = Html.fromHtml(itm.title)
+        holder.mView.title.text = itm.getTitleDecoded()
         holder.mView.title.setOnTouchListener(LinkOnTouchListener())
 
         holder.mView.title.setLinkTextColor(appColors.colorAccent)
@@ -181,7 +181,7 @@ class ItemCardAdapter(
 
             mView.shareBtn.setOnClickListener {
                 val item = items[adapterPosition]
-                c.shareLink(item.getLinkDecoded(), item.title)
+                c.shareLink(item.getLinkDecoded(), item.getTitleDecoded())
             }
 
             mView.browserBtn.setOnClickListener {

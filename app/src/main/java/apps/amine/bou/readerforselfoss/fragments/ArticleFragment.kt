@@ -113,7 +113,7 @@ class ArticleFragment : Fragment() {
 
             url = allItems[pageNumber.toInt()].getLinkDecoded()
             contentText = allItems[pageNumber.toInt()].content
-            contentTitle = allItems[pageNumber.toInt()].title
+            contentTitle = allItems[pageNumber.toInt()].getTitleDecoded()
             contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
             contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
 

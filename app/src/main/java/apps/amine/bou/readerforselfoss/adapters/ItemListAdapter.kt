@@ -71,7 +71,7 @@ class ItemListAdapter(
         val itm = items[position]
 
 
-        holder.mView.title.text = Html.fromHtml(itm.title)
+        holder.mView.title.text = itm.getTitleDecoded()
 
         holder.mView.title.setOnTouchListener(LinkOnTouchListener())
 

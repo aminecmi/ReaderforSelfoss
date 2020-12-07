@@ -61,7 +61,7 @@ fun Item.toEntity(): ItemEntity =
     ItemEntity(
         this.id,
         this.datetime,
-        this.title,
+        this.getTitleDecoded(),
         this.content,
         this.unread,
         this.starred,
