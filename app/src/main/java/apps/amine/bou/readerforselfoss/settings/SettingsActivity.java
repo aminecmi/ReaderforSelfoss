@@ -390,7 +390,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+            super.onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
