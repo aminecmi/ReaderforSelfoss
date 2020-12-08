@@ -79,23 +79,6 @@ class ItemListAdapter(
         holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
 
         if (itm.getThumbnail(c).isEmpty()) {
-            val sizeInInt = 46
-            val sizeInDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
-                    .displayMetrics
-            ).toInt()
-
-            val marginInInt = 16
-            val marginInDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, marginInInt.toFloat(), c.resources
-                    .displayMetrics
-            ).toInt()
-
-            val params = holder.mView.itemImage.layoutParams as ViewGroup.MarginLayoutParams
-            params.height = sizeInDp
-            params.width = sizeInDp
-            params.setMargins(marginInDp, 0, 0, 0)
-            holder.mView.itemImage.layoutParams = params
 
             if (itm.getIcon(c).isEmpty()) {
                 val color = generator.getColor(itm.sourcetitle)
