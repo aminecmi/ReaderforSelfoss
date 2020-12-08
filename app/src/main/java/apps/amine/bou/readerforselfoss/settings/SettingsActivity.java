@@ -301,7 +301,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 editor.remove("color_accent_dark");
                 editor.remove("dark_theme");
                 editor.apply();
-                getActivity().finish();
+                getActivity().recreate();
             }
             return super.onOptionsItemSelected(item);
         }
