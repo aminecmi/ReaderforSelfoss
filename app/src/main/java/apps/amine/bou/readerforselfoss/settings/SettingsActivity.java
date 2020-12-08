@@ -195,16 +195,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             });
 
         }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -244,16 +234,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         }
                     }
             });
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -298,16 +278,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
         }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -322,10 +292,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            } else if (id == R.id.clear) {
+            if (id == R.id.clear) {
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = pref.edit();
                 editor.remove("color_primary");
@@ -334,7 +301,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 editor.remove("color_accent_dark");
                 editor.remove("dark_theme");
                 editor.apply();
-                getActivity().finish();
+                getActivity().recreate();
             }
             return super.onOptionsItemSelected(item);
         }
@@ -353,16 +320,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_offline);
             setHasOptionsMenu(true);
         }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -373,16 +330,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_experimental);
             setHasOptionsMenu(true);
         }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                getActivity().finish();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
     }
 
 
@@ -390,7 +337,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+            super.onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
