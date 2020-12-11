@@ -9,16 +9,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.InflateException
+import android.view.*
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebSettings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
@@ -44,6 +40,7 @@ import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.succeeded
+import android.webkit.WebView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
@@ -410,6 +407,14 @@ class ArticleFragment : Fragment() {
         rootView!!.webcontent.settings.loadWithOverviewMode = true
         rootView!!.webcontent.settings.javaScriptEnabled = false
 
+        val gestureDetector = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                return performClick()
+            }
+        })
+
+        rootView!!.webcontent.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event)}
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             rootView!!.webcontent.settings.layoutAlgorithm =
                     WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
@@ -523,6 +528,15 @@ class ArticleFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    fun performClick(): Boolean {
+        if (rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
+                rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+            //TODO: Add a way to show the image in full screen
+            return true
+        }
+        return false
     }
 
 
