@@ -69,7 +69,7 @@ data class Item(
     @SerializedName("unread") val unread: Boolean,
     @SerializedName("starred") var starred: Boolean,
     @SerializedName("thumbnail") val thumbnail: String?,
-    @SerializedName("icon") val icon: String,
+    @SerializedName("icon") val icon: String?,
     @SerializedName("link") val link: String,
     @SerializedName("sourcetitle") val sourcetitle: String,
     @SerializedName("tags") val tags: SelfossTagType

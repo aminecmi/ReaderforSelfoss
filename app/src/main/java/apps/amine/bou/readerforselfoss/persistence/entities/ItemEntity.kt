@@ -22,7 +22,7 @@ data class ItemEntity(
     @ColumnInfo(name = "thumbnail")
     val thumbnail: String?,
     @ColumnInfo(name = "icon")
-    val icon: String,
+    val icon: String?,
     @ColumnInfo(name = "link")
     val link: String,
     @ColumnInfo(name = "sourcetitle")
