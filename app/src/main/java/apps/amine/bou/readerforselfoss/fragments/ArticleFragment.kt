@@ -533,7 +533,12 @@ class ArticleFragment : Fragment() {
     fun performClick(): Boolean {
         if (rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
                 rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-            //TODO: Add a way to show the image in full screen
+            //TODO: Transfer all images in the webpage to the Image fragment
+            var allImages = ArrayList<String>()
+            allImages.add(rootView!!.webcontent.hitTestResult.extra.toString())
+            val position : Int = 0
+
+            fragmentManager!!.beginTransaction().replace(R.id.reader_activity_view, ImageFragment.newInstance(position, allImages)).addToBackStack(null).commit()
             return true
         }
         return false
