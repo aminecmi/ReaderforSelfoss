@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import apps.amine.bou.readerforselfoss.R
-import apps.amine.bou.readerforselfoss.api.selfoss.Item
-import kotlinx.android.synthetic.main.fragment_article.*
-import kotlinx.android.synthetic.main.fragment_article.view.*
-import retrofit2.http.Url
+import kotlinx.android.synthetic.main.fragment_article.view.webcontent
+import kotlinx.android.synthetic.main.fragment_image.view.*
 
 class ImageFragment : Fragment() {
 
@@ -28,6 +26,10 @@ class ImageFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity as AppCompatActivity).supportActionBar?.hide()
         val view : View = inflater.inflate(R.layout.fragment_image, container, false)
+
+        view.backButton.setOnClickListener() {
+            fragmentManager!!.popBackStackImmediate()
+        }
 
         view.webcontent.visibility = View.VISIBLE
         view.webcontent.settings.setLoadWithOverviewMode(true)
