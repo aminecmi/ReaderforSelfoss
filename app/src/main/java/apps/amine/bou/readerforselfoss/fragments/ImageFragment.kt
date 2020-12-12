@@ -28,6 +28,8 @@ class ImageFragment : Fragment() {
         val view : View = inflater.inflate(R.layout.fragment_image, container, false)
 
         view.webcontent.visibility = View.VISIBLE
+        view.webcontent.settings.setLoadWithOverviewMode(true)
+        view.webcontent.settings.setUseWideViewPort(true)
         view.webcontent.loadUrl(allImages[0])
 
         return view
