@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">"Reader for Selfoss"</string>
-    <string name="title_activity_login">"Log in"</string>
-    <string name="prompt_password">"Password"</string>
+    <string name="title_activity_login">"පිවිසෙන්න"</string>
+    <string name="prompt_password">"මුර පදය"</string>
     <string name="prompt_http_password">"HTTP Password"</string>
     <string name="action_sign_in">"Go"</string>
     <string name="error_invalid_password">"Password not long enough"</string>
@@ -11,18 +11,18 @@
     <string name="withLoginSwitch">"Login required ?"</string>
     <string name="withHttpLoginSwitch">"HTTP Login required ?"</string>
     <string name="login_url_problem">"Oops. You may need to add a \"/\" at the end of the url."</string>
-    <string name="prompt_login">"Username"</string>
+    <string name="prompt_login">"පරිශීලක නාමය"</string>
     <string name="prompt_http_login">"HTTP Username"</string>
     <string name="label_share">"Share"</string>
     <string name="readAll">"Read all"</string>
     <string name="action_disconnect">"Disconnect"</string>
-    <string name="title_activity_settings">"Settings"</string>
+    <string name="title_activity_settings">"සැකසුම්"</string>
     <string name="pref_header_general">"General"</string>
     <string name="add_source_hint_tags">"Tag1, Tag2, Tag3"</string>
     <string name="add_source_hint_url">"Link"</string>
-    <string name="add_source_hint_name">"Name"</string>
+    <string name="add_source_hint_name">"නම"</string>
     <string name="add_source">"Add a source"</string>
-    <string name="add_source_save">"Save"</string>
+    <string name="add_source_save">"සුරකින්න"</string>
     <string name="wrong_infos">"Check your details again."</string>
     <string name="all_posts_not_read">"All posts weren't read"</string>
     <string name="all_posts_read">"All posts were read"</string>
@@ -31,9 +31,9 @@
     <string name="cant_get_read">"Can't get read articles"</string>
     <string name="nothing_here">"Nothing here"</string>
     <string name="tab_new">"New"</string>
-    <string name="tab_read">"All"</string>
+    <string name="tab_read">"සියල්ල"</string>
     <string name="tab_favs">"Favorites"</string>
-    <string name="action_about">"About"</string>
+    <string name="action_about">"මේ ගැන"</string>
     <string name="marked_as_read">"Item read"</string>
     <string name="marked_as_unread">"Item unread"</string>
     <string name="undo_string">"Undo"</string>
