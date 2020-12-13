@@ -34,6 +34,9 @@ class ImageFragment : Fragment() {
         view.webcontent.visibility = View.VISIBLE
         view.webcontent.settings.setLoadWithOverviewMode(true)
         view.webcontent.settings.setUseWideViewPort(true)
+        view.webcontent.settings.setSupportZoom(true)
+        view.webcontent.settings.setBuiltInZoomControls(true)
+        view.webcontent.settings.setDisplayZoomControls(false)
         view.webcontent.loadUrl(allImages[0])
 
         return view
