@@ -539,7 +539,7 @@ class ArticleFragment : Fragment() {
             val position : Int = 0
 
             fragmentManager!!.beginTransaction().replace(R.id.reader_activity_view, ImageFragment.newInstance(position, allImages)).addToBackStack(null).commit()
-            return true
+            return false
         }
         return false
     }
