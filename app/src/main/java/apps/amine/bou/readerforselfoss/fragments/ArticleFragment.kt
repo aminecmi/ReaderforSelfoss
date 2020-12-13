@@ -1,11 +1,13 @@
 package apps.amine.bou.readerforselfoss.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -41,6 +43,7 @@ import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
@@ -406,6 +409,15 @@ class ArticleFragment : Fragment() {
         rootView!!.webcontent.settings.useWideViewPort = true
         rootView!!.webcontent.settings.loadWithOverviewMode = true
         rootView!!.webcontent.settings.javaScriptEnabled = false
+
+        rootView!!.webcontent.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url : String): Boolean {
+                if (rootView!!.webcontent.hitTestResult.type != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                    rootView!!.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                }
+                return true
+            }
+        }
 
         val gestureDetector = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapUp(e: MotionEvent?): Boolean {
