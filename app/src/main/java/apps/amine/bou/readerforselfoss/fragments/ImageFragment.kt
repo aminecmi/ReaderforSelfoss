@@ -1,14 +1,11 @@
 package apps.amine.bou.readerforselfoss.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import apps.amine.bou.readerforselfoss.R
 import kotlinx.android.synthetic.main.fragment_article.view.webcontent
-import kotlinx.android.synthetic.main.fragment_image.view.*
 
 class ImageFragment : Fragment() {
 
@@ -17,6 +14,7 @@ class ImageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         position = arguments!!.getInt("position")
         allImages = arguments!!.getStringArrayList("allImages")
@@ -24,12 +22,8 @@ class ImageFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        (activity as AppCompatActivity).supportActionBar?.hide()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
         val view : View = inflater.inflate(R.layout.fragment_image, container, false)
-
-        view.backButton.setOnClickListener() {
-            fragmentManager!!.popBackStackImmediate()
-        }
 
         view.webcontent.visibility = View.VISIBLE
         view.webcontent.settings.setLoadWithOverviewMode(true)
@@ -42,8 +36,12 @@ class ImageFragment : Fragment() {
         return view
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+                menu.clear()
+    }
+
     override fun onDestroy() {
-        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
         super.onDestroy()
     }
 
