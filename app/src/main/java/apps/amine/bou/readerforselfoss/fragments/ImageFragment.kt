@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import apps.amine.bou.readerforselfoss.R
 import kotlinx.android.synthetic.main.fragment_article.view.webcontent
+import kotlin.math.abs
 
 class ImageFragment : Fragment() {
 
@@ -31,6 +32,28 @@ class ImageFragment : Fragment() {
         view.webcontent.settings.setSupportZoom(true)
         view.webcontent.settings.setBuiltInZoomControls(true)
         view.webcontent.settings.setDisplayZoomControls(false)
+
+        val gestureDetector = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+                val SWIPE_MIN_DISTANCE = 120
+                val SWIPE_MAX_OFF_PATH = 250
+                val SWIPE_THRESHOLD_VELOCITY = 200
+                if (abs(e1!!.y - e2!!.y) > SWIPE_MAX_OFF_PATH)
+                    return false
+                if (e1.x - e2.x > SWIPE_MIN_DISTANCE
+                        && abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    changeImage(1)
+                }
+                else if (e2.x - e1.x > SWIPE_MIN_DISTANCE
+                        && abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    changeImage(-1)
+                }
+
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        })
+        view.webcontent.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event)}
+
         view.webcontent.loadUrl(allImages[position])
 
         return view
@@ -43,6 +66,16 @@ class ImageFragment : Fragment() {
     override fun onDestroy() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
         super.onDestroy()
+    }
+
+    fun changeImage(change : Int) {
+        position += change
+        if (position < 0 || position >= allImages.size) {
+            position -= change
+        }
+        else {
+            view!!.webcontent.loadUrl(allImages[position])
+        }
     }
 
     companion object {
