@@ -102,6 +102,7 @@ dependencies {
     implementation "androidx.browser:browser:$android_version"
     implementation "androidx.cardview:cardview:$android_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
+    implementation 'org.jsoup:jsoup:1.13.1'
 
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'

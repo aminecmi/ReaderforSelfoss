@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Html
+import org.jsoup.Jsoup
 
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
@@ -126,6 +127,15 @@ data class Item(
             config = Config(app)
         }
         return constructUrl(config, "thumbnails", thumbnail)
+    }
+
+    fun getImages() : ArrayList<String> {
+        var allImages = ArrayList<String>()
+
+        for ( image in Jsoup.parse(content).getElementsByTag("img")) {
+            allImages.add(image.attr("src"))
+        }
+        return allImages
     }
 
     fun getTitleDecoded(): String {

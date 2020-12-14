@@ -53,6 +53,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
 class ArticleFragment : Fragment() {
@@ -65,6 +66,7 @@ class ArticleFragment : Fragment() {
     private lateinit var contentSource: String
     private lateinit var contentImage: String
     private lateinit var contentTitle: String
+    private lateinit var allImages : ArrayList<String>
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var fab: FloatingActionButton
     private lateinit var appColors: AppColors
@@ -116,6 +118,7 @@ class ArticleFragment : Fragment() {
             contentTitle = allItems[pageNumber.toInt()].getTitleDecoded()
             contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
             contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
+            allImages = allItems[pageNumber.toInt()].getImages()
 
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
@@ -545,10 +548,9 @@ class ArticleFragment : Fragment() {
     fun performClick(): Boolean {
         if (rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
                 rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-            //TODO: Transfer all images in the webpage to the Image fragment
-            var allImages = ArrayList<String>()
-            allImages.add(rootView!!.webcontent.hitTestResult.extra.toString())
-            val position : Int = 0
+
+            val position : Int = allImages.indexOf(rootView!!.webcontent.hitTestResult.extra)
+
 
             fragmentManager!!.beginTransaction().replace(R.id.reader_activity_view, ImageFragment.newInstance(position, allImages)).addToBackStack(null).commit()
             return false

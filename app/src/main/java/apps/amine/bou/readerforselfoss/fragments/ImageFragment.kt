@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.fragment_article.view.webcontent
 
 class ImageFragment : Fragment() {
 
-    private lateinit var position: Number
+    private var position: Int = 0
     private lateinit var allImages: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class ImageFragment : Fragment() {
         view.webcontent.settings.setSupportZoom(true)
         view.webcontent.settings.setBuiltInZoomControls(true)
         view.webcontent.settings.setDisplayZoomControls(false)
-        view.webcontent.loadUrl(allImages[0])
+        view.webcontent.loadUrl(allImages[position])
 
         return view
     }
