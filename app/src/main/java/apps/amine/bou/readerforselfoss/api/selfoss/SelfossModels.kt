@@ -5,10 +5,15 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Html
+import android.util.Log
+import android.webkit.URLUtil
 import org.jsoup.Jsoup
 
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.annotations.SerializedName
 
 private fun constructUrl(config: Config?, path: String, file: String?): String {
@@ -136,6 +141,30 @@ data class Item(
             allImages.add(image.attr("src"))
         }
         return allImages
+    }
+
+    fun preloadImages(context: Context) : Boolean {
+        val imageUrls = this.getImages()
+        Log.d("Carica", "Caricando immagini")
+
+        val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+
+
+        try {
+            for (url in imageUrls) {
+                Log.d("Carica", url)
+                if ( URLUtil.isValidUrl(url)) {
+                    val image = Glide.with(context).asBitmap()
+                            .apply(glideOptions)
+                            .load(url).submit().get()
+                }
+                Log.d("Carica", "Immagine presa")
+            }
+        } catch (e : Error) {
+            return false
+        }
+
+        return true
     }
 
     fun getTitleDecoded(): String {

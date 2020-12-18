@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -12,12 +13,12 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.*
+import android.webkit.*
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import android.webkit.WebSettings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.room.Room
@@ -36,15 +37,15 @@ import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
+import apps.amine.bou.readerforselfoss.utils.glide.getBitmapInputStream
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
 import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.succeeded
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
@@ -53,6 +54,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.concurrent.ExecutionException
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -419,6 +421,30 @@ class ArticleFragment : Fragment() {
                     rootView!!.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 }
                 return true
+            }
+
+            override fun shouldInterceptRequest(view: WebView?, url: String): WebResourceResponse? {
+                val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+                if (url.toLowerCase().contains(".jpg") || url.toLowerCase().contains(".jpeg")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.JPEG))
+                    }catch ( e : ExecutionException) {}
+                }
+                else if (url.toLowerCase().contains(".png")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.PNG))
+                    }catch ( e : ExecutionException) {}
+                }
+                else if (url.toLowerCase().contains(".webp")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.WEBP))
+                    }catch ( e : ExecutionException) {}
+                }
+
+                return super.shouldInterceptRequest(view, url)
             }
         }
 

@@ -1,11 +1,20 @@
 package apps.amine.bou.readerforselfoss.fragments
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.*
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import apps.amine.bou.readerforselfoss.R
+import apps.amine.bou.readerforselfoss.utils.glide.getBitmapInputStream
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_article.view.webcontent
+import java.util.concurrent.ExecutionException
 import kotlin.math.abs
 
 class ImageFragment : Fragment() {
@@ -32,6 +41,32 @@ class ImageFragment : Fragment() {
         view.webcontent.settings.setSupportZoom(true)
         view.webcontent.settings.setBuiltInZoomControls(true)
         view.webcontent.settings.setDisplayZoomControls(false)
+
+        view.webcontent.webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(view: WebView?, url: String): WebResourceResponse? {
+                val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+                if (url.toLowerCase().contains(".jpg") || url.toLowerCase().contains(".jpeg")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.JPEG))
+                    }catch ( e : ExecutionException) {}
+                }
+                else if (url.toLowerCase().contains(".png")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.PNG))
+                    }catch ( e : ExecutionException) {}
+                }
+                else if (url.toLowerCase().contains(".webp")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.WEBP))
+                    }catch ( e : ExecutionException) {}
+                }
+
+                return super.shouldInterceptRequest(view, url)
+            }
+        }
 
         val gestureDetector = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
