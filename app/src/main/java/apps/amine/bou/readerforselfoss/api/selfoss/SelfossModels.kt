@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Html
-import android.util.Log
 import android.webkit.URLUtil
 import org.jsoup.Jsoup
 
@@ -145,20 +144,17 @@ data class Item(
 
     fun preloadImages(context: Context) : Boolean {
         val imageUrls = this.getImages()
-        Log.d("Carica", "Caricando immagini")
 
         val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
 
 
         try {
             for (url in imageUrls) {
-                Log.d("Carica", url)
                 if ( URLUtil.isValidUrl(url)) {
                     val image = Glide.with(context).asBitmap()
                             .apply(glideOptions)
                             .load(url).submit().get()
                 }
-                Log.d("Carica", "Immagine presa")
             }
         } catch (e : Error) {
             return false
