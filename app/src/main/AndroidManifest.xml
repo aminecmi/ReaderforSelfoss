@@ -62,6 +62,9 @@
         <activity
             android:name=".ReaderActivity">
         </activity>
+        <activity
+            android:name=".ImageActivity">
+        </activity>
 
         <meta-data
             android:name="apps.amine.bou.readerforselfoss.utils.glide.SelfSignedGlideModule"

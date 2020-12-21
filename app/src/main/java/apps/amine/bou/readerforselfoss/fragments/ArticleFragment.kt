@@ -22,6 +22,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.room.Room
+import apps.amine.bou.readerforselfoss.ImageActivity
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
@@ -577,8 +578,10 @@ class ArticleFragment : Fragment() {
 
             val position : Int = allImages.indexOf(rootView!!.webcontent.hitTestResult.extra)
 
-
-            fragmentManager!!.beginTransaction().replace(R.id.reader_activity_view, ImageFragment.newInstance(position, allImages)).addToBackStack(null).commit()
+            val intent = Intent(activity, ImageActivity::class.java)
+            intent.putExtra("allImages", allImages)
+            intent.putExtra("position", position)
+            startActivity(intent)
             return false
         }
         return false
