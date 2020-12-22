@@ -1,28 +1,28 @@
 package apps.amine.bou.readerforselfoss.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.InflateException
+import android.view.*
+import android.webkit.*
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.webkit.WebSettings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.room.Room
+import apps.amine.bou.readerforselfoss.ImageActivity
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.mercury.MercuryApi
 import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
@@ -39,6 +39,7 @@ import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
 import apps.amine.bou.readerforselfoss.utils.customtabs.CustomTabActivityHelper
 import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
+import apps.amine.bou.readerforselfoss.utils.glide.getBitmapInputStream
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.openItemUrl
@@ -46,6 +47,7 @@ import apps.amine.bou.readerforselfoss.utils.shareLink
 import apps.amine.bou.readerforselfoss.utils.sourceAndDateText
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import kotlinx.android.synthetic.main.fragment_article.view.*
@@ -54,6 +56,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.concurrent.ExecutionException
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
 class ArticleFragment : Fragment() {
@@ -66,6 +70,7 @@ class ArticleFragment : Fragment() {
     private lateinit var contentSource: String
     private lateinit var contentImage: String
     private lateinit var contentTitle: String
+    private lateinit var allImages : ArrayList<String>
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var fab: FloatingActionButton
     private lateinit var appColors: AppColors
@@ -117,6 +122,7 @@ class ArticleFragment : Fragment() {
             contentTitle = allItems[pageNumber.toInt()].getTitleDecoded()
             contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
             contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
+            allImages = allItems[pageNumber.toInt()].getImages()
 
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
@@ -411,6 +417,47 @@ class ArticleFragment : Fragment() {
         rootView!!.webcontent.settings.loadWithOverviewMode = true
         rootView!!.webcontent.settings.javaScriptEnabled = false
 
+        rootView!!.webcontent.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url : String): Boolean {
+                if (rootView!!.webcontent.hitTestResult.type != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                    rootView!!.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                }
+                return true
+            }
+
+            override fun shouldInterceptRequest(view: WebView?, url: String): WebResourceResponse? {
+                val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+                if (url.toLowerCase().contains(".jpg") || url.toLowerCase().contains(".jpeg")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.JPEG))
+                    }catch ( e : ExecutionException) {}
+                }
+                else if (url.toLowerCase().contains(".png")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.PNG))
+                    }catch ( e : ExecutionException) {}
+                }
+                else if (url.toLowerCase().contains(".webp")) {
+                    try {
+                        val image = Glide.with(view).asBitmap().apply(glideOptions).load(url).submit().get()
+                        return WebResourceResponse("image/jpg", "UTF-8", getBitmapInputStream(image, Bitmap.CompressFormat.WEBP))
+                    }catch ( e : ExecutionException) {}
+                }
+
+                return super.shouldInterceptRequest(view, url)
+            }
+        }
+
+        val gestureDetector = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                return performClick()
+            }
+        })
+
+        rootView!!.webcontent.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event)}
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             rootView!!.webcontent.settings.layoutAlgorithm =
                     WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
@@ -524,6 +571,21 @@ class ArticleFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    fun performClick(): Boolean {
+        if (rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
+                rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+
+            val position : Int = allImages.indexOf(rootView!!.webcontent.hitTestResult.extra)
+
+            val intent = Intent(activity, ImageActivity::class.java)
+            intent.putExtra("allImages", allImages)
+            intent.putExtra("position", position)
+            startActivity(intent)
+            return false
+        }
+        return false
     }
 
 

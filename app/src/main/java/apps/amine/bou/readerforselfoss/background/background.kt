@@ -105,6 +105,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                                     notificationManager.notify(2, newItemsNotification.build())
                                 }
                             }
+                            apiItems.map {it.preloadImages(context)}
                         }
                         Timer("", false).schedule(4000) {
                             notificationManager.cancel(1)

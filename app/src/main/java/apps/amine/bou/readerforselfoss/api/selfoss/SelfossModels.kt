@@ -5,9 +5,14 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Html
+import android.webkit.URLUtil
+import org.jsoup.Jsoup
 
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.annotations.SerializedName
 
 private fun constructUrl(config: Config?, path: String, file: String?): String {
@@ -126,6 +131,36 @@ data class Item(
             config = Config(app)
         }
         return constructUrl(config, "thumbnails", thumbnail)
+    }
+
+    fun getImages() : ArrayList<String> {
+        var allImages = ArrayList<String>()
+
+        for ( image in Jsoup.parse(content).getElementsByTag("img")) {
+            allImages.add(image.attr("src"))
+        }
+        return allImages
+    }
+
+    fun preloadImages(context: Context) : Boolean {
+        val imageUrls = this.getImages()
+
+        val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+
+
+        try {
+            for (url in imageUrls) {
+                if ( URLUtil.isValidUrl(url)) {
+                    val image = Glide.with(context).asBitmap()
+                            .apply(glideOptions)
+                            .load(url).submit().get()
+                }
+            }
+        } catch (e : Error) {
+            return false
+        }
+
+        return true
     }
 
     fun getTitleDecoded(): String {

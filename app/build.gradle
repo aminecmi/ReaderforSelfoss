@@ -138,6 +138,9 @@ dependencies {
     // Pager
     implementation 'me.relex:circleindicator:2.0.0@aar'
 
+    //PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
     implementation 'androidx.core:core-ktx:1.1.0-beta01'
 
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
