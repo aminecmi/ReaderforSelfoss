@@ -33,6 +33,7 @@ import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_3_4
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.buildCustomTabsIntent
@@ -104,7 +105,7 @@ class ArticleFragment : Fragment() {
         db = Room.databaseBuilder(
             context!!,
             AppDatabase::class.java, "selfoss-database"
-        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
     }
 
     override fun onCreateView(
