@@ -26,6 +26,16 @@
 
 - Closing #38. Only doing api calls on network available.
 
+- Closing #298 and #287. Issues with Listview rendering
+
+- Closing #290. Fixing back button issue in Settings
+
+- Closing #300. Fixing issues when displaying some special characters.
+
+- Closing #310. Some feeds don't have icons nor thumbnails.
+
+- Closing #178. Expending images on tap.
+
 **1.6.x**
 
 - Handling hidden tags.
