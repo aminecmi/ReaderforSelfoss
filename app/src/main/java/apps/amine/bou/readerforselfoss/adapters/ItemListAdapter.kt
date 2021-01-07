@@ -81,13 +81,13 @@ class ItemListAdapter(
         if (itm.getThumbnail(c).isEmpty()) {
 
             if (itm.getIcon(c).isEmpty()) {
-                val color = generator.getColor(itm.sourcetitle)
+                val color = generator.getColor(itm.getSourceTitle())
 
                 val drawable =
                     TextDrawable
                         .builder()
                         .round()
-                        .build(itm.sourcetitle.toTextDrawableString(c), color)
+                        .build(itm.getSourceTitle().toTextDrawableString(c), color)
 
                 holder.mView.itemImage.setImageDrawable(drawable)
             } else {

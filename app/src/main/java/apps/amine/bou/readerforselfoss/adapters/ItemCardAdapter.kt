@@ -90,13 +90,13 @@ class ItemCardAdapter(
         }
 
         if (itm.getIcon(c).isEmpty()) {
-            val color = generator.getColor(itm.sourcetitle)
+            val color = generator.getColor(itm.getSourceTitle())
 
             val drawable =
                 TextDrawable
                     .builder()
                     .round()
-                    .build(itm.sourcetitle.toTextDrawableString(c), color)
+                    .build(itm.getSourceTitle().toTextDrawableString(c), color)
             holder.mView.sourceImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.sourceImage)

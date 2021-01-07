@@ -604,7 +604,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 } else {
                     for (tag in maybeSources) {
                         val item = PrimaryDrawerItem()
-                                .withName(tag.title)
+                                .withName(tag.getTitleDecoded())
                                 .withIdentifier(tag.id.toLong())
                                 .withOnDrawerItemClickListener { _, _, _ ->
                                     allItems = ArrayList()

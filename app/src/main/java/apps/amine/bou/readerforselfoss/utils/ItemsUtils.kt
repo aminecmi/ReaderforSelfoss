@@ -32,7 +32,7 @@ fun Item.sourceAndDateText(): String {
         ""
     }
 
-    return this.sourcetitle + formattedDate
+    return this.getSourceTitle() + formattedDate
 }
 
 fun Item.toggleStar(): Item {
