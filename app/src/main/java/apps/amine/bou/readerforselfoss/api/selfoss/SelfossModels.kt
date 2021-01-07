@@ -64,6 +64,10 @@ data class Source(
         }
         return constructUrl(config, "favicons", icon)
     }
+
+    fun getTitleDecoded(): String {
+        return Html.fromHtml(title).toString()
+    }
 }
 
 data class Item(
@@ -165,6 +169,10 @@ data class Item(
 
     fun getTitleDecoded(): String {
         return Html.fromHtml(title).toString()
+    }
+
+    fun getSourceTitle(): String {
+        return Html.fromHtml(sourcetitle).toString()
     }
 
     // TODO: maybe find a better way to handle these kind of urls

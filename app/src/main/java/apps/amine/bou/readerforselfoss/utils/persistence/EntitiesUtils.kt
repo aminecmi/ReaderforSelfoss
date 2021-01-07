@@ -28,7 +28,7 @@ fun SourceEntity.toView(): Source =
 fun Source.toEntity(): SourceEntity =
         SourceEntity(
             this.id,
-            this.title,
+            this.getTitleDecoded(),
             this.tags.tags,
             this.spout,
             this.error,
@@ -68,6 +68,6 @@ fun Item.toEntity(): ItemEntity =
         this.thumbnail,
         this.icon,
         this.link,
-        this.sourcetitle,
+        this.getSourceTitle(),
         this.tags.tags
     )

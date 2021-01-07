@@ -46,19 +46,19 @@ class SourcesListAdapter(
         config = Config(c)
 
         if (itm.getIcon(c).isEmpty()) {
-            val color = generator.getColor(itm.title)
+            val color = generator.getColor(itm.getTitleDecoded())
 
             val drawable =
                 TextDrawable
                     .builder()
                     .round()
-                    .build(itm.title.toTextDrawableString(c), color)
+                    .build(itm.getTitleDecoded().toTextDrawableString(c), color)
             holder.mView.itemImage.setImageDrawable(drawable)
         } else {
             c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.itemImage)
         }
 
-        holder.mView.sourceTitle.text = itm.title
+        holder.mView.sourceTitle.text = itm.getTitleDecoded()
     }
 
     override fun getItemCount(): Int = items.size
