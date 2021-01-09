@@ -177,7 +177,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             this,
             this@HomeActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            sharedPref.getString("api_timeout", "-1").toLong()
+            sharedPref.getString("api_timeout", "-1")!!.toLong()
         )
         items = ArrayList()
         allItems = ArrayList()
@@ -389,19 +389,19 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         displayUnreadCount = sharedPref.getBoolean("display_unread_count", true)
         displayAllCount = sharedPref.getBoolean("display_other_count", false)
         fullHeightCards = sharedPref.getBoolean("full_height_cards", false)
-        itemsNumber = sharedPref.getString("prefer_api_items_number", "200").toInt()
-        userIdentifier = sharedPref.getString("unique_id", "")
+        itemsNumber = sharedPref.getString("prefer_api_items_number", "200")!!.toInt()
+        userIdentifier = sharedPref.getString("unique_id", "")!!
         displayAccountHeader = sharedPref.getBoolean("account_header_displaying", false)
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
         itemsCaching = sharedPref.getBoolean("items_caching", false)
-        hiddenTags = if (sharedPref.getString("hidden_tags", "").isNotEmpty()) {
-            sharedPref.getString("hidden_tags", "").replace("\\s".toRegex(), "").split(",")
+        hiddenTags = if (sharedPref.getString("hidden_tags", "")!!.isNotEmpty()) {
+            sharedPref.getString("hidden_tags", "")!!.replace("\\s".toRegex(), "").split(",")
         } else {
             emptyList()
         }
         periodicRefresh = sharedPref.getBoolean("periodic_refresh", false)
         refreshWhenChargingOnly = sharedPref.getBoolean("refresh_when_charging", false)
-        refreshMinutes = sharedPref.getString("periodic_refresh_minutes", "360").toLong()
+        refreshMinutes = sharedPref.getString("periodic_refresh_minutes", "360")!!.toLong()
 
         if (refreshMinutes <= 15) {
             refreshMinutes = 15
@@ -450,7 +450,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (displayAccountHeader) {
                 accountHeader {
                     background = R.drawable.bg
-                    profile(settings.getString("url", "")) {
+                    profile(settings.getString("url", "")!!) {
                         iconDrawable = resources.getDrawable(R.mipmap.ic_launcher)
                     }
                     selectionListEnabledForSingleProfile = false
@@ -684,13 +684,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         .withIconTintingEnabled(true)
                         .withOnDrawerItemClickListener { _, _, _ ->
                             LibsBuilder()
-                                .withActivityStyle(
-                                    if (appColors.isDarkTheme) {
-                                        Libs.ActivityStyle.DARK
-                                    } else {
-                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
-                                    }
-                                )
                                 .withAboutIconShown(true)
                                 .withAboutVersionShown(true)
                                 .start(this@HomeActivity)

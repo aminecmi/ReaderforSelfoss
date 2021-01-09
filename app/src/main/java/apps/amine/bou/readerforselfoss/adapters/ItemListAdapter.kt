@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -72,11 +73,21 @@ class ItemListAdapter(
 
         holder.mView.title.text = itm.getTitleDecoded()
 
+        holder.mView.title.setTextColor(ContextCompat.getColor(
+                c,
+                appColors.textColor
+        ))
+
         holder.mView.title.setOnTouchListener(LinkOnTouchListener())
 
         holder.mView.title.setLinkTextColor(appColors.colorAccent)
 
         holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
+
+        holder.mView.sourceTitleAndDate.setTextColor(ContextCompat.getColor(
+                c,
+                appColors.textColor
+        ))
 
         if (itm.getThumbnail(c).isEmpty()) {
 

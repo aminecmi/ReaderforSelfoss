@@ -94,17 +94,17 @@ data class Item(
     }
 
     constructor(source: Parcel) : this(
-        id = source.readString(),
-        datetime = source.readString(),
-        title = source.readString(),
-        content = source.readString(),
+        id = source.readString().orEmpty(),
+        datetime = source.readString().orEmpty(),
+        title = source.readString().orEmpty(),
+        content = source.readString().orEmpty(),
         unread = 0.toByte() != source.readByte(),
         starred = 0.toByte() != source.readByte(),
         thumbnail = source.readString(),
         icon = source.readString(),
-        link = source.readString(),
-        sourcetitle = source.readString(),
-        tags = source.readParcelable(ClassLoader.getSystemClassLoader())
+        link = source.readString().orEmpty(),
+        sourcetitle = source.readString().orEmpty(),
+        tags = if (source.readParcelable<SelfossTagType>(ClassLoader.getSystemClassLoader()) != null) source.readParcelable(ClassLoader.getSystemClassLoader())!! else SelfossTagType("")
     )
 
     override fun describeContents() = 0
@@ -216,7 +216,7 @@ data class SelfossTagType(val tags: String) : Parcelable {
     }
 
     constructor(source: Parcel) : this(
-        tags = source.readString()
+        tags = source.readString().orEmpty()
     )
 
     override fun describeContents() = 0

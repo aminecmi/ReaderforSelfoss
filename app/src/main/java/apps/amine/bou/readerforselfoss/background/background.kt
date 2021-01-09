@@ -63,7 +63,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 this.context,
                 null,
                 settings.getBoolean("isSelfSignedCert", false),
-                sharedPref.getString("api_timeout", "-1").toLong()
+                sharedPref.getString("api_timeout", "-1")!!.toLong()
             )
 
             api.allItems().enqueue(object : Callback<List<Item>> {

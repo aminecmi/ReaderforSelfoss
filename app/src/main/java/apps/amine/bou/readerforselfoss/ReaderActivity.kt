@@ -100,7 +100,7 @@ class ReaderActivity : AppCompatActivity() {
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         editor = prefs.edit()
 
-        userIdentifier = prefs.getString("unique_id", "")
+        userIdentifier = prefs.getString("unique_id", "")!!
         markOnScroll = prefs.getBoolean("mark_on_scroll", false)
         activeAlignment = prefs.getInt("text_align", JUSTIFY)
 
@@ -108,7 +108,7 @@ class ReaderActivity : AppCompatActivity() {
             this,
             this@ReaderActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            prefs.getString("api_timeout", "-1").toLong()
+            prefs.getString("api_timeout", "-1")!!.toLong()
         )
 
         if (allItems.isEmpty()) {

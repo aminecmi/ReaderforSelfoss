@@ -24,11 +24,11 @@ def versionNameFromGit() {
     return gitVersion()
 }
 
-apply plugin: 'kotlin-kapt'
-
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
@@ -37,12 +37,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
     defaultConfig {
         applicationId "apps.amine.bou.readerforselfoss"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode versionCodeFromGit()
         versionName versionNameFromGit()
 
@@ -85,23 +85,23 @@ android {
 
 dependencies {
     // Testing
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
-    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0-alpha02'
+    androidTestImplementation 'androidx.test:runner:1.3.1-alpha02'
     // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0-alpha02'
     // Espresso-intents for validation and stubbing of Intents
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0-alpha02'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Android Support
-    implementation "androidx.appcompat:appcompat:$androidx_version"
-    implementation "com.google.android.material:material:1.1.0-alpha06"
-    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha05"
+    implementation "androidx.appcompat:appcompat:1.3.0-alpha02"
+    implementation 'com.google.android.material:material:1.3.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-beta01'
     implementation "androidx.legacy:legacy-support-v4:$android_version"
-    implementation "androidx.vectordrawable:vectordrawable:1.1.0-beta01"
-    implementation "androidx.browser:browser:$android_version"
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0-alpha02'
+    implementation "androidx.browser:browser:1.3.0"
     implementation "androidx.cardview:cardview:$android_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0-alpha1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0-alpha2'
     implementation 'org.jsoup:jsoup:1.13.1'
 
     //multidex
@@ -141,13 +141,13 @@ dependencies {
     //PhotoView
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
-    implementation 'androidx.core:core-ktx:1.1.0-beta01'
+    implementation 'androidx.core:core-ktx:1.5.0-alpha05'
 
-    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.3.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.3.0-rc01"
 
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:2.3.0-alpha04"
+    kapt "androidx.room:room-compiler:2.3.0-alpha04"
 
     implementation "android.arch.work:work-runtime-ktx:$work_version"
 }

@@ -100,7 +100,7 @@ class ArticleFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         pageNumber = arguments!!.getInt(ARG_POSITION)
-        allItems = arguments!!.getParcelableArrayList(ARG_ITEMS)
+        allItems = arguments!!.getParcelableArrayList<Item>(ARG_ITEMS) as ArrayList<Item>
 
         db = Room.databaseBuilder(
             context!!,
@@ -126,9 +126,9 @@ class ArticleFragment : Fragment() {
 
             prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             editor = prefs.edit()
-            fontSize = prefs.getString("reader_font_size", "16").toInt()
+            fontSize = prefs.getString("reader_font_size", "16")!!.toInt()
 
-            font = prefs.getString("reader_font", "")
+            font = prefs.getString("reader_font", "")!!
             if (font.isNotEmpty()) {
                 resId = context!!.resources.getIdentifier(font, "font", context!!.packageName)
                 typeface = try {
@@ -148,7 +148,7 @@ class ArticleFragment : Fragment() {
                 context!!,
                 activity!!,
                 settings.getBoolean("isSelfSignedCert", false),
-                prefs.getString("api_timeout", "-1").toLong()
+                prefs.getString("api_timeout", "-1")!!.toLong()
             )
 
             fab = rootView!!.fab
