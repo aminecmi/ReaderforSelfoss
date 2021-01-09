@@ -21,7 +21,7 @@ class ImageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        allImages = intent.getStringArrayListExtra("allImages")
+        allImages = intent.getStringArrayListExtra("allImages") as ArrayList<String>
         position = intent.getIntExtra("position", 0)
 
         pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager)
