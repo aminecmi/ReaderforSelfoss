@@ -129,6 +129,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                             val apiItems = (response.body() as ArrayList<Item>)
                             db.itemsDao()
                                     .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+                            apiItems.map { it.preloadImages(context) }
                         }
                         Timer("", false).schedule(4000) {
                             notificationManager.cancel(1)
