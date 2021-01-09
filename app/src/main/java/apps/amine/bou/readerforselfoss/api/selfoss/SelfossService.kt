@@ -28,6 +28,13 @@ internal interface SelfossService {
     ): Call<List<Item>>
 
     @GET("items")
+    fun allTypeItems(
+            @Query("type") type: String,
+            @Query("username") username: String,
+            @Query("password") password: String
+    ) : Call<List<Item>>
+
+    @GET("items")
     fun allItems(
         @Query("username") username: String,
         @Query("password") password: String

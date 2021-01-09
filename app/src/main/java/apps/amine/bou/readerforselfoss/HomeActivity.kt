@@ -357,7 +357,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun getAndStoreAllItems() {
-        api.allItems().enqueue(object : Callback<List<Item>> {
+        api.allNewItems().enqueue(object : Callback<List<Item>> {
             override fun onFailure(call: Call<List<Item>>, t: Throwable) {
             }
 
@@ -373,6 +373,46 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         db.itemsDao().deleteAllItems()
                         db.itemsDao()
                             .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+                    }
+                }
+            }
+        })
+
+        api.allReadItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+            ) {
+                thread {
+                    if (response.body() != null) {
+                        val apiItems = (response.body() as ArrayList<Item>).filter {
+                            maybeTagFilter != null || filter(it.tags.tags)
+                        } as ArrayList<Item>
+                        db.itemsDao()
+                                .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+                    }
+                }
+            }
+        })
+
+        api.allStarredItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+            ) {
+                thread {
+                    if (response.body() != null) {
+                        val apiItems = (response.body() as ArrayList<Item>).filter {
+                            maybeTagFilter != null || filter(it.tags.tags)
+                        } as ArrayList<Item>
+                        db.itemsDao()
+                                .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
                     }
                 }
             }

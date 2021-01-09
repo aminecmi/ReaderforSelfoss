@@ -66,7 +66,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                 sharedPref.getString("api_timeout", "-1")!!.toLong()
             )
 
-            api.allItems().enqueue(object : Callback<List<Item>> {
+            api.allNewItems().enqueue(object : Callback<List<Item>> {
                 override fun onFailure(call: Call<List<Item>>, t: Throwable) {
                     Timer("", false).schedule(4000) {
                         notificationManager.cancel(1)
@@ -105,7 +105,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                                     notificationManager.notify(2, newItemsNotification.build())
                                 }
                             }
-                            apiItems.map {it.preloadImages(context)}
+                            apiItems.map { it.preloadImages(context) }
                         }
                         Timer("", false).schedule(4000) {
                             notificationManager.cancel(1)
@@ -113,6 +113,55 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                     }
                 }
             })
+            api.allReadItems().enqueue(object : Callback<List<Item>> {
+                override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                    Timer("", false).schedule(4000) {
+                        notificationManager.cancel(1)
+                    }
+                }
+
+                override fun onResponse(
+                        call: Call<List<Item>>,
+                        response: Response<List<Item>>
+                ) {
+                    thread {
+                        if (response.body() != null) {
+                            val apiItems = (response.body() as ArrayList<Item>)
+                            db.itemsDao()
+                                    .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+                        }
+                        Timer("", false).schedule(4000) {
+                            notificationManager.cancel(1)
+                        }
+                    }
+                }
+            })
+            api.allStarredItems().enqueue(object : Callback<List<Item>> {
+                override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                    Timer("", false).schedule(4000) {
+                        notificationManager.cancel(1)
+                    }
+                }
+
+                override fun onResponse(
+                        call: Call<List<Item>>,
+                        response: Response<List<Item>>
+                ) {
+                    thread {
+                        if (response.body() != null) {
+                            val apiItems = (response.body() as ArrayList<Item>)
+                            db.itemsDao()
+                                    .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+
+                            apiItems.map { it.preloadImages(context) }
+                        }
+                        Timer("", false).schedule(4000) {
+                            notificationManager.cancel(1)
+                        }
+                    }
+                }
+            })
+
             thread {
                 val actions = db.actionsDao().actions()
 
