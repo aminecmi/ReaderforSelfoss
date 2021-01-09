@@ -141,7 +141,14 @@ data class Item(
         var allImages = ArrayList<String>()
 
         for ( image in Jsoup.parse(content).getElementsByTag("img")) {
-            allImages.add(image.attr("src"))
+            val url = image.attr("src")
+            if (url.toLowerCase().contains(".jpg") ||
+                    url.toLowerCase().contains(".jpeg") ||
+                    url.toLowerCase().contains(".png") ||
+                    url.toLowerCase().contains(".webp"))
+            {
+                allImages.add(url)
+            }
         }
         return allImages
     }
