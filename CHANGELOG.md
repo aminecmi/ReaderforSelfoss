@@ -36,6 +36,12 @@
 
 - Closing #178. Expending images on tap.
 
+- Closing #323. Old issue with textview not having the right color.
+
+- Closing #324. Svg images loading crashes the app.
+
+- Closing #322. App crashed because of svg images.
+
 **1.6.x**
 
 - Handling hidden tags.
