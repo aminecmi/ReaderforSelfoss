@@ -164,7 +164,17 @@ data class Item(
                 if ( URLUtil.isValidUrl(url)) {
                     val image = Glide.with(context).asBitmap()
                             .apply(glideOptions)
-                            .load(url).submit().get()
+                            .load(url).submit()
+
+                    var counter = 0
+                    while (!image.isDone) {
+                        if (counter > 30) {
+                            image.cancel(true)
+                            break
+                        }
+                        Thread.sleep(10)
+                        counter += 1
+                    }
                 }
             }
         } catch (e : Error) {
