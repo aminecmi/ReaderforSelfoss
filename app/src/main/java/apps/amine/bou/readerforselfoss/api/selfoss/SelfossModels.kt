@@ -156,7 +156,7 @@ data class Item(
     fun preloadImages(context: Context) : Boolean {
         val imageUrls = this.getImages()
 
-        val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+        val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).timeout(10000)
 
 
         try {
@@ -164,7 +164,7 @@ data class Item(
                 if ( URLUtil.isValidUrl(url)) {
                     val image = Glide.with(context).asBitmap()
                             .apply(glideOptions)
-                            .load(url).submit().get()
+                            .load(url).submit()
                 }
             }
         } catch (e : Error) {
