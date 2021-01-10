@@ -62,6 +62,8 @@
 
 - Fixes #215, #208.
 
+- Fixes #328.
+
 **1.5.7.x**
 
 - Added confirmation to the mark as read and update menues.
