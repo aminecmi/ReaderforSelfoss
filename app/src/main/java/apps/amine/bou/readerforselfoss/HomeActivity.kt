@@ -365,16 +365,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 call: Call<List<Item>>,
                 response: Response<List<Item>>
             ) {
-                thread {
-                    if (response.body() != null) {
-                        val apiItems = (response.body() as ArrayList<Item>).filter {
-                            maybeTagFilter != null || filter(it.tags.tags)
-                        } as ArrayList<Item>
-                        db.itemsDao().deleteAllItems()
-                        db.itemsDao()
-                            .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-                    }
-                }
+                enqueueArticles(response, true)
             }
         })
 
@@ -386,15 +377,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     call: Call<List<Item>>,
                     response: Response<List<Item>>
             ) {
-                thread {
-                    if (response.body() != null) {
-                        val apiItems = (response.body() as ArrayList<Item>).filter {
-                            maybeTagFilter != null || filter(it.tags.tags)
-                        } as ArrayList<Item>
-                        db.itemsDao()
-                                .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-                    }
-                }
+                enqueueArticles(response, false)
             }
         })
 
@@ -406,17 +389,24 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     call: Call<List<Item>>,
                     response: Response<List<Item>>
             ) {
-                thread {
-                    if (response.body() != null) {
-                        val apiItems = (response.body() as ArrayList<Item>).filter {
-                            maybeTagFilter != null || filter(it.tags.tags)
-                        } as ArrayList<Item>
-                        db.itemsDao()
-                                .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-                    }
-                }
+                enqueueArticles(response, false)
             }
         })
+    }
+
+    private fun enqueueArticles(response: Response<List<Item>>, clearDatabase: Boolean) {
+        thread {
+            if (response.body() != null) {
+                val apiItems = (response.body() as ArrayList<Item>).filter {
+                    maybeTagFilter != null || filter(it.tags.tags)
+                } as ArrayList<Item>
+                if (clearDatabase) {
+                    db.itemsDao().deleteAllItems()
+                }
+                db.itemsDao()
+                        .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+            }
+        }
     }
 
     override fun onStop() {

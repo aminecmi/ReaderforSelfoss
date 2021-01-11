@@ -77,40 +77,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                     call: Call<List<Item>>,
                     response: Response<List<Item>>
                 ) {
-                    thread {
-                        if (response.body() != null) {
-                            val apiItems = (response.body() as ArrayList<Item>)
-                            db.itemsDao().deleteAllItems()
-                            db.itemsDao()
-                                .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-
-                            val newSize = apiItems.filter { it.unread }.size
-                            if (notifyNewItems && newSize > 0) {
-
-                                val intent = Intent(context, MainActivity::class.java).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                }
-                                val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-
-                                val newItemsNotification = NotificationCompat.Builder(applicationContext, Config.newItemsChannelId)
-                                    .setContentTitle(context.getString(R.string.new_items_notification_title))
-                                    .setContentText(context.getString(R.string.new_items_notification_text, newSize))
-                                    .setPriority(PRIORITY_DEFAULT)
-                                    .setChannelId(Config.newItemsChannelId)
-                                    .setContentIntent(pendingIntent)
-                                    .setAutoCancel(true)
-                                    .setSmallIcon(R.drawable.ic_tab_fiber_new_black_24dp)
-
-                                Timer("", false).schedule(4000) {
-                                    notificationManager.notify(2, newItemsNotification.build())
-                                }
-                            }
-                            apiItems.map { it.preloadImages(context) }
-                        }
-                        Timer("", false).schedule(4000) {
-                            notificationManager.cancel(1)
-                        }
-                    }
+                    storeItems(response, true, notifyNewItems, notificationManager)
                 }
             })
             api.allReadItems().enqueue(object : Callback<List<Item>> {
@@ -124,17 +91,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                         call: Call<List<Item>>,
                         response: Response<List<Item>>
                 ) {
-                    thread {
-                        if (response.body() != null) {
-                            val apiItems = (response.body() as ArrayList<Item>)
-                            db.itemsDao()
-                                    .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-                            apiItems.map { it.preloadImages(context) }
-                        }
-                        Timer("", false).schedule(4000) {
-                            notificationManager.cancel(1)
-                        }
-                    }
+                    storeItems(response, false, notifyNewItems, notificationManager)
                 }
             })
             api.allStarredItems().enqueue(object : Callback<List<Item>> {
@@ -148,18 +105,7 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                         call: Call<List<Item>>,
                         response: Response<List<Item>>
                 ) {
-                    thread {
-                        if (response.body() != null) {
-                            val apiItems = (response.body() as ArrayList<Item>)
-                            db.itemsDao()
-                                    .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-
-                            apiItems.map { it.preloadImages(context) }
-                        }
-                        Timer("", false).schedule(4000) {
-                            notificationManager.cancel(1)
-                        }
-                    }
+                    storeItems(response, false, notifyNewItems, notificationManager)
                 }
             })
 
@@ -180,6 +126,46 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
             }
         }
         return Result.success()
+    }
+
+    private fun storeItems(response: Response<List<Item>>, newItems: Boolean, notifyNewItems: Boolean, notificationManager: NotificationManager) {
+        thread {
+            if (response.body() != null) {
+                val apiItems = (response.body() as ArrayList<Item>)
+
+                if (newItems) {
+                    db.itemsDao().deleteAllItems()
+                }
+                db.itemsDao()
+                        .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+
+                val newSize = apiItems.filter { it.unread }.size
+                if (newItems && notifyNewItems && newSize > 0) {
+
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+                    val newItemsNotification = NotificationCompat.Builder(applicationContext, Config.newItemsChannelId)
+                            .setContentTitle(context.getString(R.string.new_items_notification_title))
+                            .setContentText(context.getString(R.string.new_items_notification_text, newSize))
+                            .setPriority(PRIORITY_DEFAULT)
+                            .setChannelId(Config.newItemsChannelId)
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.drawable.ic_tab_fiber_new_black_24dp)
+
+                    Timer("", false).schedule(4000) {
+                        notificationManager.notify(2, newItemsNotification.build())
+                    }
+                }
+                apiItems.map { it.preloadImages(context) }
+            }
+            Timer("", false).schedule(4000) {
+                notificationManager.cancel(1)
+            }
+        }
     }
 
     private fun <T> doAndReportOnFail(call: Call<T>, action: ActionEntity) {
