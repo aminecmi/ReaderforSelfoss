@@ -68,6 +68,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -106,6 +107,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var periodicRefresh = false
     private var refreshMinutes: Long = 360L
     private var refreshWhenChargingOnly = false
+    private val dateTimeFormatter = "yyyy-MM-dd HH:mm:ss"
 
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
@@ -867,7 +869,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
 
                     thread {
-                        val dbItems = db.itemsDao().items().map { it.toView() }
+                        val dbItems = db.itemsDao().items().map { it.toView() }.sortedByDescending {
+                            SimpleDateFormat(dateTimeFormatter).parse(it.datetime)
+                        }
                         runOnUiThread {
                             if (dbItems.isNotEmpty()) {
                                 items = when (position) {
@@ -969,7 +973,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
 
             thread {
-                val dbItems = db.itemsDao().items().map { it.toView() }
+                val dbItems = db.itemsDao().items().map { it.toView() }.sortedByDescending {
+                    SimpleDateFormat(dateTimeFormatter).parse(it.datetime)
+                }
                 runOnUiThread {
                     if (dbItems.isNotEmpty()) {
                         items = when (elementsShown) {
