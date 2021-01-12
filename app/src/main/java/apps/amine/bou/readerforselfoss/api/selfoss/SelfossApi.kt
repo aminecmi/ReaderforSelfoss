@@ -172,6 +172,15 @@ class SelfossApi(
     fun allItems(): Call<List<Item>> =
         service.allItems(userName, password)
 
+    fun allNewItems(): Call<List<Item>> =
+            getItems("unread", null, null, null, 200, 0)
+
+    fun allReadItems(): Call<List<Item>> =
+            getItems("read", null, null, null, 200, 0)
+
+    fun allStarredItems(): Call<List<Item>> =
+            getItems("read", null, null, null, 200, 0)
+
     private fun getItems(
         type: String,
         tag: String?,

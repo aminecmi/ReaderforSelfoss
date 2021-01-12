@@ -357,7 +357,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun getAndStoreAllItems() {
-        api.allItems().enqueue(object : Callback<List<Item>> {
+        api.allNewItems().enqueue(object : Callback<List<Item>> {
             override fun onFailure(call: Call<List<Item>>, t: Throwable) {
             }
 
@@ -365,18 +365,48 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 call: Call<List<Item>>,
                 response: Response<List<Item>>
             ) {
-                thread {
-                    if (response.body() != null) {
-                        val apiItems = (response.body() as ArrayList<Item>).filter {
-                            maybeTagFilter != null || filter(it.tags.tags)
-                        } as ArrayList<Item>
-                        db.itemsDao().deleteAllItems()
-                        db.itemsDao()
-                            .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-                    }
-                }
+                enqueueArticles(response, true)
             }
         })
+
+        api.allReadItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+            ) {
+                enqueueArticles(response, false)
+            }
+        })
+
+        api.allStarredItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+            ) {
+                enqueueArticles(response, false)
+            }
+        })
+    }
+
+    private fun enqueueArticles(response: Response<List<Item>>, clearDatabase: Boolean) {
+        thread {
+            if (response.body() != null) {
+                val apiItems = (response.body() as ArrayList<Item>).filter {
+                    maybeTagFilter != null || filter(it.tags.tags)
+                } as ArrayList<Item>
+                if (clearDatabase) {
+                    db.itemsDao().deleteAllItems()
+                }
+                db.itemsDao()
+                        .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+            }
+        }
     }
 
     override fun onStop() {
