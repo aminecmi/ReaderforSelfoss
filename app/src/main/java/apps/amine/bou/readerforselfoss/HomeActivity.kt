@@ -730,6 +730,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     if (maybeDrawerData.tags != null) {
                         thread {
                             val tagEntities = maybeDrawerData.tags.map { it.toEntity() }
+                            db.drawerDataDao().deleteAllTags()
                             db.drawerDataDao().insertAllTags(*tagEntities.toTypedArray())
                         }
                     }
@@ -737,6 +738,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         thread {
                             val sourceEntities =
                                 maybeDrawerData.sources.map { it.toEntity() }
+                            db.drawerDataDao().deleteAllSources()
                             db.drawerDataDao().insertAllSources(*sourceEntities.toTypedArray())
                         }
                     }
