@@ -139,6 +139,8 @@
     <string name="pref_switch_items_caching_off">Os artigos non se gardaran na memoria do dispositivo e non se poderá utilizar a aplicación sen conexión.</string>
     <string name="pref_switch_items_caching_on">Os artigos gardaranse na memoria do dispositivo e estarán dispoñibles sen conexión.</string>
     <string name="pref_switch_items_caching">Gardar elementos para uso sen conexión</string>
+    <string name="pref_switch_update_sources">Check for new sources and tags</string>
+    <string name="pref_switch_update_sources_summary">Disable this if your server is receiving excessive amounts of database queries.</string>
     <string name="no_network_connectivity">Non conectado!</string>
     <string name="pref_switch_periodic_refresh">Sincronizar artigos</string>
     <string name="pref_switch_periodic_refresh_off">Os artigos non se sincronizarán coa aplicación de fondo</string>
