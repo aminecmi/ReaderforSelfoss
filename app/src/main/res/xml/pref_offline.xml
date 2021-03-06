@@ -34,4 +34,10 @@
         android:key="notify_new_items"
         android:dependency="periodic_refresh"
         android:title="@string/pref_switch_notify_new_items" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="update_sources"
+        android:summary="@string/pref_switch_update_sources_summary"
+        android:title="@string/pref_switch_update_sources" />
 </PreferenceScreen>

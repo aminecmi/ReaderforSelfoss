@@ -102,6 +102,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var infiniteScroll: Boolean = false
     private var lastFetchDone: Boolean = false
     private var itemsCaching: Boolean = false
+    private var updateSources: Boolean = true
     private var hiddenTags: List<String> = emptyList()
 
     private var periodicRefresh = false
@@ -426,6 +427,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         displayAccountHeader = sharedPref.getBoolean("account_header_displaying", false)
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
         itemsCaching = sharedPref.getBoolean("items_caching", false)
+        updateSources = sharedPref.getBoolean("update_sources", true)
         hiddenTags = if (sharedPref.getString("hidden_tags", "")!!.isNotEmpty()) {
             sharedPref.getString("hidden_tags", "")!!.replace("\\s".toRegex(), "").split(",")
         } else {
@@ -728,6 +730,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     if (maybeDrawerData.tags != null) {
                         thread {
                             val tagEntities = maybeDrawerData.tags.map { it.toEntity() }
+                            db.drawerDataDao().deleteAllTags()
                             db.drawerDataDao().insertAllTags(*tagEntities.toTypedArray())
                         }
                     }
@@ -735,6 +738,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         thread {
                             val sourceEntities =
                                 maybeDrawerData.sources.map { it.toEntity() }
+                            db.drawerDataDao().deleteAllSources()
                             db.drawerDataDao().insertAllSources(*sourceEntities.toTypedArray())
                         }
                     }
@@ -762,7 +766,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             var sources: List<Source>?
 
             fun sourcesApiCall() {
-                if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
+                if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut) && updateSources) {
                     api.sources.enqueue(object : Callback<List<Source>> {
                         override fun onResponse(
                             call: Call<List<Source>>?,
@@ -785,7 +789,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-            if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
+            if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut) && updateSources) {
                 api.tags.enqueue(object : Callback<List<Tag>> {
                     override fun onResponse(
                         call: Call<List<Tag>>,
