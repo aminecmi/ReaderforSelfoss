@@ -139,6 +139,8 @@
     <string name="pref_switch_items_caching_off">文章不会被保存到设备内存，应用程序在离线时将无法阅读它们</string>
     <string name="pref_switch_items_caching_on">文章将被保存到设备内存并可在离线时使用</string>
     <string name="pref_switch_items_caching">保存项目以便离线使用</string>
+    <string name="pref_switch_update_sources">Check for new sources and tags</string>
+    <string name="pref_switch_update_sources_summary">Disable this if your server is receiving excessive amounts of database queries.</string>
     <string name="no_network_connectivity">未连接！</string>
     <string name="pref_switch_periodic_refresh">同步文章</string>
     <string name="pref_switch_periodic_refresh_off">文章将不会在后台同步</string>
