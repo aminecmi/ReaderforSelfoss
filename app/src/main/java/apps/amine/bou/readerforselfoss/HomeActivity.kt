@@ -189,6 +189,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
+
+        getElementsAccordingToTab()
     }
 
     private fun handleSwipeRefreshLayout() {
@@ -349,8 +351,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         handleBottomBarActions()
-
-        getElementsAccordingToTab()
 
         handleRecurringTask()
 
