@@ -190,6 +190,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         handleSwipeRefreshLayout()
 
+        handleSharedPrefs()
+
         getElementsAccordingToTab()
     }
 
@@ -335,8 +337,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
 
         editor = settings.edit()
-
-        handleSharedPrefs()
 
         handleDrawerItems()
 
