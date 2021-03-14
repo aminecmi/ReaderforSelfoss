@@ -25,6 +25,7 @@ import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_3_4
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.transformers.DepthPageTransformer
@@ -81,7 +82,7 @@ class ReaderActivity : AppCompatActivity() {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "selfoss-database"
-        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
 
         val scoop = Scoop.getInstance()
         scoop.bind(this, Toppings.PRIMARY.value, toolBar)
@@ -99,7 +100,7 @@ class ReaderActivity : AppCompatActivity() {
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         editor = prefs.edit()
 
-        userIdentifier = prefs.getString("unique_id", "")
+        userIdentifier = prefs.getString("unique_id", "")!!
         markOnScroll = prefs.getBoolean("mark_on_scroll", false)
         activeAlignment = prefs.getInt("text_align", JUSTIFY)
 
@@ -107,7 +108,7 @@ class ReaderActivity : AppCompatActivity() {
             this,
             this@ReaderActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            prefs.getString("api_timeout", "-1").toLong()
+            prefs.getString("api_timeout", "-1")!!.toLong()
         )
 
         if (allItems.isEmpty()) {

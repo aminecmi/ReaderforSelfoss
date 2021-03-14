@@ -92,7 +92,7 @@ class AddSourceActivity : AppCompatActivity() {
                 this,
                 this@AddSourceActivity,
                 settings.getBoolean("isSelfSignedCert", false),
-                prefs.getString("api_timeout", "-1").toLong()
+                prefs.getString("api_timeout", "-1")!!.toLong()
             )
         } catch (e: IllegalArgumentException) {
             mustLoginToAddSource()

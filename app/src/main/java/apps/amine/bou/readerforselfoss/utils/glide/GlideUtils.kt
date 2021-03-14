@@ -14,6 +14,9 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 fun Context.bitmapCenterCrop(config: Config, url: String, iv: ImageView) =
     Glide.with(this)
@@ -56,4 +59,11 @@ fun RequestManager.loadMaybeBasicAuth(config: Config, url: String): RequestBuild
     }
     val glideUrl = GlideUrl(url, builder.build())
     return this.load(glideUrl)
+}
+
+fun getBitmapInputStream(bitmap:Bitmap,compressFormat: Bitmap.CompressFormat): InputStream {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    bitmap.compress(compressFormat, 80, byteArrayOutputStream)
+    val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
+    return ByteArrayInputStream(bitmapData)
 }

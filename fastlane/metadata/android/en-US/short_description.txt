@@ -1,0 +1,3 @@
+A new RSS reader for <a href="http://selfoss.aditu.de/">selfoss</a>.
+
+It connects to your selfoss instance (works only with selfoss, and can't work without it), and you'll be able to read and manage all your RSS feeds.

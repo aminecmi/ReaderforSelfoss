@@ -33,6 +33,7 @@ import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_3_4
 import apps.amine.bou.readerforselfoss.settings.SettingsActivity
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
@@ -67,6 +68,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -100,11 +102,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var infiniteScroll: Boolean = false
     private var lastFetchDone: Boolean = false
     private var itemsCaching: Boolean = false
+    private var updateSources: Boolean = true
     private var hiddenTags: List<String> = emptyList()
 
     private var periodicRefresh = false
     private var refreshMinutes: Long = 360L
     private var refreshWhenChargingOnly = false
+    private val dateTimeFormatter = "yyyy-MM-dd HH:mm:ss"
 
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
@@ -164,7 +168,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "selfoss-database"
-        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
+        ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
 
 
         customTabActivityHelper = CustomTabActivityHelper()
@@ -176,7 +180,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             this,
             this@HomeActivity,
             settings.getBoolean("isSelfSignedCert", false),
-            sharedPref.getString("api_timeout", "-1").toLong()
+            sharedPref.getString("api_timeout", "-1")!!.toLong()
         )
         items = ArrayList()
         allItems = ArrayList()
@@ -185,6 +189,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleDrawer()
 
         handleSwipeRefreshLayout()
+
+        handleSharedPrefs()
+
+        getElementsAccordingToTab()
     }
 
     private fun handleSwipeRefreshLayout() {
@@ -330,8 +338,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         editor = settings.edit()
 
-        handleSharedPrefs()
-
         handleDrawerItems()
 
         handleThemeUpdate()
@@ -346,15 +352,13 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         handleBottomBarActions()
 
-        getElementsAccordingToTab()
-
         handleRecurringTask()
 
         handleOfflineActions()
     }
 
     private fun getAndStoreAllItems() {
-        api.allItems().enqueue(object : Callback<List<Item>> {
+        api.allNewItems().enqueue(object : Callback<List<Item>> {
             override fun onFailure(call: Call<List<Item>>, t: Throwable) {
             }
 
@@ -362,18 +366,48 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 call: Call<List<Item>>,
                 response: Response<List<Item>>
             ) {
-                thread {
-                    if (response.body() != null) {
-                        val apiItems = (response.body() as ArrayList<Item>).filter {
-                            maybeTagFilter != null || filter(it.tags.tags)
-                        } as ArrayList<Item>
-                        db.itemsDao().deleteAllItems()
-                        db.itemsDao()
-                            .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-                    }
-                }
+                enqueueArticles(response, true)
             }
         })
+
+        api.allReadItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+            ) {
+                enqueueArticles(response, false)
+            }
+        })
+
+        api.allStarredItems().enqueue(object : Callback<List<Item>> {
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+            }
+
+            override fun onResponse(
+                    call: Call<List<Item>>,
+                    response: Response<List<Item>>
+            ) {
+                enqueueArticles(response, false)
+            }
+        })
+    }
+
+    private fun enqueueArticles(response: Response<List<Item>>, clearDatabase: Boolean) {
+        thread {
+            if (response.body() != null) {
+                val apiItems = (response.body() as ArrayList<Item>).filter {
+                    maybeTagFilter != null || filter(it.tags.tags)
+                } as ArrayList<Item>
+                if (clearDatabase) {
+                    db.itemsDao().deleteAllItems()
+                }
+                db.itemsDao()
+                        .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+            }
+        }
     }
 
     override fun onStop() {
@@ -388,19 +422,20 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         displayUnreadCount = sharedPref.getBoolean("display_unread_count", true)
         displayAllCount = sharedPref.getBoolean("display_other_count", false)
         fullHeightCards = sharedPref.getBoolean("full_height_cards", false)
-        itemsNumber = sharedPref.getString("prefer_api_items_number", "200").toInt()
-        userIdentifier = sharedPref.getString("unique_id", "")
+        itemsNumber = sharedPref.getString("prefer_api_items_number", "200")!!.toInt()
+        userIdentifier = sharedPref.getString("unique_id", "")!!
         displayAccountHeader = sharedPref.getBoolean("account_header_displaying", false)
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
         itemsCaching = sharedPref.getBoolean("items_caching", false)
-        hiddenTags = if (sharedPref.getString("hidden_tags", "").isNotEmpty()) {
-            sharedPref.getString("hidden_tags", "").replace("\\s".toRegex(), "").split(",")
+        updateSources = sharedPref.getBoolean("update_sources", true)
+        hiddenTags = if (sharedPref.getString("hidden_tags", "")!!.isNotEmpty()) {
+            sharedPref.getString("hidden_tags", "")!!.replace("\\s".toRegex(), "").split(",")
         } else {
             emptyList()
         }
         periodicRefresh = sharedPref.getBoolean("periodic_refresh", false)
         refreshWhenChargingOnly = sharedPref.getBoolean("refresh_when_charging", false)
-        refreshMinutes = sharedPref.getString("periodic_refresh_minutes", "360").toLong()
+        refreshMinutes = sharedPref.getString("periodic_refresh_minutes", "360")!!.toLong()
 
         if (refreshMinutes <= 15) {
             refreshMinutes = 15
@@ -449,7 +484,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (displayAccountHeader) {
                 accountHeader {
                     background = R.drawable.bg
-                    profile(settings.getString("url", "")) {
+                    profile(settings.getString("url", "")!!) {
                         iconDrawable = resources.getDrawable(R.mipmap.ic_launcher)
                     }
                     selectionListEnabledForSingleProfile = false
@@ -603,7 +638,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 } else {
                     for (tag in maybeSources) {
                         val item = PrimaryDrawerItem()
-                                .withName(tag.title)
+                                .withName(tag.getTitleDecoded())
                                 .withIdentifier(tag.id.toLong())
                                 .withOnDrawerItemClickListener { _, _, _ ->
                                     allItems = ArrayList()
@@ -683,13 +718,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         .withIconTintingEnabled(true)
                         .withOnDrawerItemClickListener { _, _, _ ->
                             LibsBuilder()
-                                .withActivityStyle(
-                                    if (appColors.isDarkTheme) {
-                                        Libs.ActivityStyle.DARK
-                                    } else {
-                                        Libs.ActivityStyle.LIGHT_DARK_TOOLBAR
-                                    }
-                                )
                                 .withAboutIconShown(true)
                                 .withAboutVersionShown(true)
                                 .start(this@HomeActivity)
@@ -702,6 +730,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     if (maybeDrawerData.tags != null) {
                         thread {
                             val tagEntities = maybeDrawerData.tags.map { it.toEntity() }
+                            db.drawerDataDao().deleteAllTags()
                             db.drawerDataDao().insertAllTags(*tagEntities.toTypedArray())
                         }
                     }
@@ -709,6 +738,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         thread {
                             val sourceEntities =
                                 maybeDrawerData.sources.map { it.toEntity() }
+                            db.drawerDataDao().deleteAllSources()
                             db.drawerDataDao().insertAllSources(*sourceEntities.toTypedArray())
                         }
                     }
@@ -736,7 +766,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             var sources: List<Source>?
 
             fun sourcesApiCall() {
-                if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
+                if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut) && updateSources) {
                     api.sources.enqueue(object : Callback<List<Source>> {
                         override fun onResponse(
                             call: Call<List<Source>>?,
@@ -759,7 +789,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-            if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut)) {
+            if (this@HomeActivity.isNetworkAccessible(null, offlineShortcut) && updateSources) {
                 api.tags.enqueue(object : Callback<List<Tag>> {
                     override fun onResponse(
                         call: Call<List<Tag>>,
@@ -873,7 +903,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
 
                     thread {
-                        val dbItems = db.itemsDao().items().map { it.toView() }
+                        val dbItems = db.itemsDao().items().map { it.toView() }.sortedByDescending {
+                            SimpleDateFormat(dateTimeFormatter).parse(it.datetime)
+                        }
                         runOnUiThread {
                             if (dbItems.isNotEmpty()) {
                                 items = when (position) {
@@ -975,7 +1007,9 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
 
             thread {
-                val dbItems = db.itemsDao().items().map { it.toView() }
+                val dbItems = db.itemsDao().items().map { it.toView() }.sortedByDescending {
+                    SimpleDateFormat(dateTimeFormatter).parse(it.datetime)
+                }
                 runOnUiThread {
                     if (dbItems.isNotEmpty()) {
                         items = when (elementsShown) {

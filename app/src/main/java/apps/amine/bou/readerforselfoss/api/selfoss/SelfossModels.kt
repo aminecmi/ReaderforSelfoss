@@ -4,9 +4,15 @@ import android.content.Context
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.Html
+import android.webkit.URLUtil
+import org.jsoup.Jsoup
 
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isEmptyOrNullOrNullString
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.annotations.SerializedName
 
 private fun constructUrl(config: Config?, path: String, file: String?): String {
@@ -58,6 +64,10 @@ data class Source(
         }
         return constructUrl(config, "favicons", icon)
     }
+
+    fun getTitleDecoded(): String {
+        return Html.fromHtml(title).toString()
+    }
 }
 
 data class Item(
@@ -67,8 +77,8 @@ data class Item(
     @SerializedName("content") val content: String,
     @SerializedName("unread") val unread: Boolean,
     @SerializedName("starred") var starred: Boolean,
-    @SerializedName("thumbnail") val thumbnail: String,
-    @SerializedName("icon") val icon: String,
+    @SerializedName("thumbnail") val thumbnail: String?,
+    @SerializedName("icon") val icon: String?,
     @SerializedName("link") val link: String,
     @SerializedName("sourcetitle") val sourcetitle: String,
     @SerializedName("tags") val tags: SelfossTagType
@@ -84,17 +94,17 @@ data class Item(
     }
 
     constructor(source: Parcel) : this(
-        id = source.readString(),
-        datetime = source.readString(),
-        title = source.readString(),
-        content = source.readString(),
+        id = source.readString().orEmpty(),
+        datetime = source.readString().orEmpty(),
+        title = source.readString().orEmpty(),
+        content = source.readString().orEmpty(),
         unread = 0.toByte() != source.readByte(),
         starred = 0.toByte() != source.readByte(),
         thumbnail = source.readString(),
         icon = source.readString(),
-        link = source.readString(),
-        sourcetitle = source.readString(),
-        tags = source.readParcelable(ClassLoader.getSystemClassLoader())
+        link = source.readString().orEmpty(),
+        sourcetitle = source.readString().orEmpty(),
+        tags = if (source.readParcelable<SelfossTagType>(ClassLoader.getSystemClassLoader()) != null) source.readParcelable(ClassLoader.getSystemClassLoader())!! else SelfossTagType("")
     )
 
     override fun describeContents() = 0
@@ -125,6 +135,51 @@ data class Item(
             config = Config(app)
         }
         return constructUrl(config, "thumbnails", thumbnail)
+    }
+
+    fun getImages() : ArrayList<String> {
+        var allImages = ArrayList<String>()
+
+        for ( image in Jsoup.parse(content).getElementsByTag("img")) {
+            val url = image.attr("src")
+            if (url.toLowerCase().contains(".jpg") ||
+                    url.toLowerCase().contains(".jpeg") ||
+                    url.toLowerCase().contains(".png") ||
+                    url.toLowerCase().contains(".webp"))
+            {
+                allImages.add(url)
+            }
+        }
+        return allImages
+    }
+
+    fun preloadImages(context: Context) : Boolean {
+        val imageUrls = this.getImages()
+
+        val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).timeout(10000)
+
+
+        try {
+            for (url in imageUrls) {
+                if ( URLUtil.isValidUrl(url)) {
+                    val image = Glide.with(context).asBitmap()
+                            .apply(glideOptions)
+                            .load(url).submit()
+                }
+            }
+        } catch (e : Error) {
+            return false
+        }
+
+        return true
+    }
+
+    fun getTitleDecoded(): String {
+        return Html.fromHtml(title).toString()
+    }
+
+    fun getSourceTitle(): String {
+        return Html.fromHtml(sourcetitle).toString()
     }
 
     // TODO: maybe find a better way to handle these kind of urls
@@ -168,7 +223,7 @@ data class SelfossTagType(val tags: String) : Parcelable {
     }
 
     constructor(source: Parcel) : this(
-        tags = source.readString()
+        tags = source.readString().orEmpty()
     )
 
     override fun describeContents() = 0

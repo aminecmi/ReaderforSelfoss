@@ -19,6 +19,7 @@ import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_2_3
+import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_3_4
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
@@ -56,16 +57,16 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
             db = Room.databaseBuilder(
                 applicationContext,
                 AppDatabase::class.java, "selfoss-database"
-            ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).build()
+            ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
 
             val api = SelfossApi(
                 this.context,
                 null,
                 settings.getBoolean("isSelfSignedCert", false),
-                sharedPref.getString("api_timeout", "-1").toLong()
+                sharedPref.getString("api_timeout", "-1")!!.toLong()
             )
 
-            api.allItems().enqueue(object : Callback<List<Item>> {
+            api.allNewItems().enqueue(object : Callback<List<Item>> {
                 override fun onFailure(call: Call<List<Item>>, t: Throwable) {
                     Timer("", false).schedule(4000) {
                         notificationManager.cancel(1)
@@ -76,41 +77,38 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
                     call: Call<List<Item>>,
                     response: Response<List<Item>>
                 ) {
-                    thread {
-                        if (response.body() != null) {
-                            val apiItems = (response.body() as ArrayList<Item>)
-                            db.itemsDao().deleteAllItems()
-                            db.itemsDao()
-                                .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
-
-                            val newSize = apiItems.filter { it.unread }.size
-                            if (notifyNewItems && newSize > 0) {
-
-                                val intent = Intent(context, MainActivity::class.java).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                }
-                                val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-
-                                val newItemsNotification = NotificationCompat.Builder(applicationContext, Config.newItemsChannelId)
-                                    .setContentTitle(context.getString(R.string.new_items_notification_title))
-                                    .setContentText(context.getString(R.string.new_items_notification_text, newSize))
-                                    .setPriority(PRIORITY_DEFAULT)
-                                    .setChannelId(Config.newItemsChannelId)
-                                    .setContentIntent(pendingIntent)
-                                    .setAutoCancel(true)
-                                    .setSmallIcon(R.drawable.ic_tab_fiber_new_black_24dp)
-
-                                Timer("", false).schedule(4000) {
-                                    notificationManager.notify(2, newItemsNotification.build())
-                                }
-                            }
-                        }
-                        Timer("", false).schedule(4000) {
-                            notificationManager.cancel(1)
-                        }
-                    }
+                    storeItems(response, true, notifyNewItems, notificationManager)
                 }
             })
+            api.allReadItems().enqueue(object : Callback<List<Item>> {
+                override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                    Timer("", false).schedule(4000) {
+                        notificationManager.cancel(1)
+                    }
+                }
+
+                override fun onResponse(
+                        call: Call<List<Item>>,
+                        response: Response<List<Item>>
+                ) {
+                    storeItems(response, false, notifyNewItems, notificationManager)
+                }
+            })
+            api.allStarredItems().enqueue(object : Callback<List<Item>> {
+                override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                    Timer("", false).schedule(4000) {
+                        notificationManager.cancel(1)
+                    }
+                }
+
+                override fun onResponse(
+                        call: Call<List<Item>>,
+                        response: Response<List<Item>>
+                ) {
+                    storeItems(response, false, notifyNewItems, notificationManager)
+                }
+            })
+
             thread {
                 val actions = db.actionsDao().actions()
 
@@ -128,6 +126,46 @@ class LoadingWorker(val context: Context, params: WorkerParameters) : Worker(con
             }
         }
         return Result.success()
+    }
+
+    private fun storeItems(response: Response<List<Item>>, newItems: Boolean, notifyNewItems: Boolean, notificationManager: NotificationManager) {
+        thread {
+            if (response.body() != null) {
+                val apiItems = (response.body() as ArrayList<Item>)
+
+                if (newItems) {
+                    db.itemsDao().deleteAllItems()
+                }
+                db.itemsDao()
+                        .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
+
+                val newSize = apiItems.filter { it.unread }.size
+                if (newItems && notifyNewItems && newSize > 0) {
+
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+                    val newItemsNotification = NotificationCompat.Builder(applicationContext, Config.newItemsChannelId)
+                            .setContentTitle(context.getString(R.string.new_items_notification_title))
+                            .setContentText(context.getString(R.string.new_items_notification_text, newSize))
+                            .setPriority(PRIORITY_DEFAULT)
+                            .setChannelId(Config.newItemsChannelId)
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.drawable.ic_tab_fiber_new_black_24dp)
+
+                    Timer("", false).schedule(4000) {
+                        notificationManager.notify(2, newItemsNotification.build())
+                    }
+                }
+                apiItems.map { it.preloadImages(context) }
+            }
+            Timer("", false).schedule(4000) {
+                notificationManager.cancel(1)
+            }
+        }
     }
 
     private fun <T> doAndReportOnFail(call: Call<T>, action: ActionEntity) {

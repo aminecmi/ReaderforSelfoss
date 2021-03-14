@@ -52,11 +52,11 @@ class LoginActivity : AppCompatActivity() {
         handleBaseUrlFail()
 
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-        userIdentifier = settings.getString("unique_id", "")
+        userIdentifier = settings.getString("unique_id", "")!!
 
         editor = settings.edit()
 
-        if (settings.getString("url", "").isNotEmpty()) {
+        if (settings.getString("url", "")!!.isNotEmpty()) {
             goToMain()
         }
 
@@ -284,7 +284,6 @@ class LoginActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.about -> {
                 LibsBuilder()
-                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                     .withAboutIconShown(true)
                     .withAboutVersionShown(true)
                     .start(this)

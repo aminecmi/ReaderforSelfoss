@@ -28,17 +28,17 @@ class ParsedContent(
     }
 
     constructor(source: Parcel) : this(
-        title = source.readString(),
+        title = source.readString().orEmpty(),
         content = source.readString(),
-        date_published = source.readString(),
+        date_published = source.readString().orEmpty(),
         lead_image_url = source.readString(),
-        dek = source.readString(),
-        url = source.readString(),
-        domain = source.readString(),
-        excerpt = source.readString(),
+        dek = source.readString().orEmpty(),
+        url = source.readString().orEmpty(),
+        domain = source.readString().orEmpty(),
+        excerpt = source.readString().orEmpty(),
         total_pages = source.readInt(),
         rendered_pages = source.readInt(),
-        next_page_url = source.readString()
+        next_page_url = source.readString().orEmpty()
     )
 
     override fun describeContents() = 0

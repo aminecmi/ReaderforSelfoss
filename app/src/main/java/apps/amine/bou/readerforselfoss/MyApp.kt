@@ -26,7 +26,7 @@ class MyApp : MultiDexApplication() {
         config = Config(baseContext)
 
         val prefs = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
-        if (prefs.getString("unique_id", "").isEmpty()) {
+        if (prefs.getString("unique_id", "")!!.isEmpty()) {
             val editor = prefs.edit()
             editor.putString("unique_id", randomUUID().toString())
             editor.apply()

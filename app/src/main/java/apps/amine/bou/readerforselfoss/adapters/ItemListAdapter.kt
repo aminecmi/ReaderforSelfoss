@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import android.text.Html
 import android.text.Spannable
 import android.text.style.ClickableSpan
 import android.util.TypedValue
@@ -14,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
@@ -71,7 +71,12 @@ class ItemListAdapter(
         val itm = items[position]
 
 
-        holder.mView.title.text = Html.fromHtml(itm.title)
+        holder.mView.title.text = itm.getTitleDecoded()
+
+        holder.mView.title.setTextColor(ContextCompat.getColor(
+                c,
+                appColors.textColor
+        ))
 
         holder.mView.title.setOnTouchListener(LinkOnTouchListener())
 
@@ -79,33 +84,21 @@ class ItemListAdapter(
 
         holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
 
+        holder.mView.sourceTitleAndDate.setTextColor(ContextCompat.getColor(
+                c,
+                appColors.textColor
+        ))
+
         if (itm.getThumbnail(c).isEmpty()) {
-            val sizeInInt = 46
-            val sizeInDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, sizeInInt.toFloat(), c.resources
-                    .displayMetrics
-            ).toInt()
-
-            val marginInInt = 16
-            val marginInDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, marginInInt.toFloat(), c.resources
-                    .displayMetrics
-            ).toInt()
-
-            val params = holder.mView.itemImage.layoutParams as ViewGroup.MarginLayoutParams
-            params.height = sizeInDp
-            params.width = sizeInDp
-            params.setMargins(marginInDp, 0, 0, 0)
-            holder.mView.itemImage.layoutParams = params
 
             if (itm.getIcon(c).isEmpty()) {
-                val color = generator.getColor(itm.sourcetitle)
+                val color = generator.getColor(itm.getSourceTitle())
 
                 val drawable =
                     TextDrawable
                         .builder()
                         .round()
-                        .build(itm.sourcetitle.toTextDrawableString(c), color)
+                        .build(itm.getSourceTitle().toTextDrawableString(c), color)
 
                 holder.mView.itemImage.setImageDrawable(drawable)
             } else {

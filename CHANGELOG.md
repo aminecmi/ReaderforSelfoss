@@ -26,6 +26,22 @@
 
 - Closing #38. Only doing api calls on network available.
 
+- Closing #298 and #287. Issues with Listview rendering
+
+- Closing #290. Fixing back button issue in Settings
+
+- Closing #300. Fixing issues when displaying some special characters.
+
+- Closing #310. Some feeds don't have icons nor thumbnails.
+
+- Closing #178. Expending images on tap.
+
+- Closing #323. Old issue with textview not having the right color.
+
+- Closing #324. Svg images loading crashes the app.
+
+- Closing #322. App crashed because of svg images.
+
 **1.6.x**
 
 - Handling hidden tags.
@@ -45,6 +61,8 @@
 - Versions updates.
 
 - Fixes #215, #208.
+
+- Fixes #328.
 
 **1.5.7.x**
 

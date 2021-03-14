@@ -11,19 +11,19 @@ class Config(c: Context) {
     val settings: SharedPreferences = c.getSharedPreferences(settingsName, Context.MODE_PRIVATE)
 
     val baseUrl: String
-        get() = settings.getString("url", "")
+        get() = settings.getString("url", "")!!
 
     val userLogin: String
-        get() = settings.getString("login", "")
+        get() = settings.getString("login", "")!!
 
     val userPassword: String
-        get() = settings.getString("password", "")
+        get() = settings.getString("password", "")!!
 
     val httpUserLogin: String
-        get() = settings.getString("httpUserName", "")
+        get() = settings.getString("httpUserName", "")!!
 
     val httpUserPassword: String
-        get() = settings.getString("httpPassword", "")
+        get() = settings.getString("httpPassword", "")!!
 
     companion object {
         const val settingsName = "paramsselfoss"

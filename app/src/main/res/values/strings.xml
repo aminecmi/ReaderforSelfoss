@@ -140,6 +140,8 @@
     <string name="pref_switch_items_caching_off">Articles won\'t be saved to the device memory, and the app won\'t be usable offline.</string>
     <string name="pref_switch_items_caching_on">Articles will be saved to the device memory and will be used for offline use.</string>
     <string name="pref_switch_items_caching">Save items for offline use</string>
+    <string name="pref_switch_update_sources">Check for new sources and tags</string>
+    <string name="pref_switch_update_sources_summary">Disable this if your server is receiving excessive amounts of database queries.</string>
     <string name="no_network_connectivity">Not connected !</string>
     <string name="pref_switch_periodic_refresh">Sync articles</string>
     <string name="pref_switch_periodic_refresh_off">Articles will not be synced in the background</string>

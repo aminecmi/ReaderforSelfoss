@@ -1,0 +1,13 @@
+A new RSS reader for <a href="http://selfoss.aditu.de/">selfoss</a>.
+
+What it does:
+
+<ul>
+  <li>Fetches read, unread, and favorite feeds.</li>
+  <li>Marking as read, marking as favorite.</li>
+  <li>Manage selfoss sources from the app.</li>
+  <li>Add an RSS feed from within the app, or by sharing a link from your browser.</li>
+  <li>Choose between multiple light and dark themes.</li>
+</ul>
+
+PS: It only works with Selfoss
