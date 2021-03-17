@@ -23,11 +23,11 @@ import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import com.ftinc.scoop.Scoop
-import kotlinx.android.synthetic.main.activity_add_source.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.graphics.PorterDuff
+import apps.amine.bou.readerforselfoss.databinding.ActivityAddSourceBinding
 
 
 
@@ -37,50 +37,53 @@ class AddSourceActivity : AppCompatActivity() {
     private lateinit var api: SelfossApi
 
     private lateinit var appColors: AppColors
+    private lateinit var binding: ActivityAddSourceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appColors = AppColors(this@AddSourceActivity)
 
         super.onCreate(savedInstanceState)
+        binding = ActivityAddSourceBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        setContentView(R.layout.activity_add_source)
+        setContentView(view)
 
         val scoop = Scoop.getInstance()
-        scoop.bind(this, Toppings.PRIMARY.value, toolbar)
+        scoop.bind(this, Toppings.PRIMARY.value, binding.toolbar)
         if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
         }
 
-        val drawable = nameInput.background
+        val drawable = binding.nameInput.background
         drawable.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)
 
 
         // TODO: clean
         if(Build.VERSION.SDK_INT > 16) {
-            nameInput.background = drawable
+            binding.nameInput.background = drawable
         } else{
-            nameInput.setBackgroundDrawable(drawable)
+            binding.nameInput.setBackgroundDrawable(drawable)
         }
 
-        val drawable1 = sourceUri.background
+        val drawable1 = binding.sourceUri.background
         drawable1.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)
 
         if(Build.VERSION.SDK_INT > 16) {
-            sourceUri.background = drawable1
+            binding.sourceUri.background = drawable1
         } else{
-            sourceUri.setBackgroundDrawable(drawable1)
+            binding.sourceUri.setBackgroundDrawable(drawable1)
         }
 
-        val drawable2 = tags.background
+        val drawable2 = binding.tags.background
         drawable2.setColorFilter(appColors.colorAccent, PorterDuff.Mode.SRC_ATOP)
 
         if(Build.VERSION.SDK_INT > 16) {
-            tags.background = drawable2
+            binding.tags.background = drawable2
         } else{
-            tags.setBackgroundDrawable(drawable2)
+            binding.tags.setBackgroundDrawable(drawable2)
         }
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -98,12 +101,12 @@ class AddSourceActivity : AppCompatActivity() {
             mustLoginToAddSource()
         }
 
-        maybeGetDetailsFromIntentSharing(intent, sourceUri, nameInput)
+        maybeGetDetailsFromIntentSharing(intent, binding.sourceUri, binding.nameInput)
 
-        saveBtn.setTextColor(appColors.colorAccent)
+        binding.saveBtn.setTextColor(appColors.colorAccent)
 
-        saveBtn.setOnClickListener {
-            handleSaveSource(tags, nameInput.text.toString(), sourceUri.text.toString(), api!!)
+        binding.saveBtn.setOnClickListener {
+            handleSaveSource(binding.tags, binding.nameInput.text.toString(), binding.sourceUri.text.toString(), api)
         }
     }
 
@@ -114,7 +117,7 @@ class AddSourceActivity : AppCompatActivity() {
         if (config.baseUrl.isEmpty() || !config.baseUrl.isBaseUrlValid(this@AddSourceActivity)) {
             mustLoginToAddSource()
         } else {
-            handleSpoutsSpinner(spoutsSpinner, api, progress, formContainer)
+            handleSpoutsSpinner(binding.spoutsSpinner, api, binding.progress, binding.formContainer)
         }
     }
 

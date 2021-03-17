@@ -12,13 +12,13 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.databinding.SourceListItemBinding
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.glide.circularBitmapDrawable
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import apps.amine.bou.readerforselfoss.utils.toTextDrawableString
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import kotlinx.android.synthetic.main.source_list_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,14 +31,11 @@ class SourcesListAdapter(
     private val c: Context = app.baseContext
     private val generator: ColorGenerator = ColorGenerator.MATERIAL
     private lateinit var config: Config
+    private lateinit var binding: SourceListItemBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(c).inflate(
-            R.layout.source_list_item,
-            parent,
-            false
-        ) as ConstraintLayout
-        return ViewHolder(v)
+        binding = SourceListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -53,12 +50,12 @@ class SourcesListAdapter(
                     .builder()
                     .round()
                     .build(itm.getTitleDecoded().toTextDrawableString(c), color)
-            holder.mView.itemImage.setImageDrawable(drawable)
+            binding.itemImage.setImageDrawable(drawable)
         } else {
-            c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.itemImage)
+            c.circularBitmapDrawable(config, itm.getIcon(c), binding.itemImage)
         }
 
-        holder.mView.sourceTitle.text = itm.getTitleDecoded()
+        binding.sourceTitle.text = itm.getTitleDecoded()
     }
 
     override fun getItemCount(): Int = items.size

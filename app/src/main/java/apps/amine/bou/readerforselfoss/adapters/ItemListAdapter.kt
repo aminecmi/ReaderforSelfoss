@@ -18,6 +18,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.databinding.ListItemBinding
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
@@ -35,7 +36,6 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.like.LikeButton
 import com.like.OnLikeListener
-import kotlinx.android.synthetic.main.list_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,59 +59,57 @@ class ItemListAdapter(
     private val c: Context = app.baseContext
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(c).inflate(
-            R.layout.list_item,
-            parent,
-            false
-        ) as ConstraintLayout
-        return ViewHolder(v)
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itm = items[position]
+        with(holder) {
+            val itm = items[position]
 
 
-        holder.mView.title.text = itm.getTitleDecoded()
+            binding.title.text = itm.getTitleDecoded()
 
-        holder.mView.title.setTextColor(ContextCompat.getColor(
-                c,
-                appColors.textColor
-        ))
+            binding.title.setTextColor(ContextCompat.getColor(
+                    c,
+                    appColors.textColor
+            ))
 
-        holder.mView.title.setOnTouchListener(LinkOnTouchListener())
+            binding.title.setOnTouchListener(LinkOnTouchListener())
 
-        holder.mView.title.setLinkTextColor(appColors.colorAccent)
+            binding.title.setLinkTextColor(appColors.colorAccent)
 
-        holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
+            binding.sourceTitleAndDate.text = itm.sourceAndDateText()
 
-        holder.mView.sourceTitleAndDate.setTextColor(ContextCompat.getColor(
-                c,
-                appColors.textColor
-        ))
+            binding.sourceTitleAndDate.setTextColor(ContextCompat.getColor(
+                    c,
+                    appColors.textColor
+            ))
 
-        if (itm.getThumbnail(c).isEmpty()) {
+            if (itm.getThumbnail(c).isEmpty()) {
 
-            if (itm.getIcon(c).isEmpty()) {
-                val color = generator.getColor(itm.getSourceTitle())
+                if (itm.getIcon(c).isEmpty()) {
+                    val color = generator.getColor(itm.getSourceTitle())
 
-                val drawable =
-                    TextDrawable
-                        .builder()
-                        .round()
-                        .build(itm.getSourceTitle().toTextDrawableString(c), color)
+                    val drawable =
+                            TextDrawable
+                                    .builder()
+                                    .round()
+                                    .build(itm.getSourceTitle().toTextDrawableString(c), color)
 
-                holder.mView.itemImage.setImageDrawable(drawable)
+                    binding.itemImage.setImageDrawable(drawable)
+                } else {
+                    c.circularBitmapDrawable(config, itm.getIcon(c), binding.itemImage)
+                }
             } else {
-                c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.itemImage)
+                c.bitmapCenterCrop(config, itm.getThumbnail(c), binding.itemImage)
             }
-        } else {
-            c.bitmapCenterCrop(config, itm.getThumbnail(c), holder.mView.itemImage)
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(val mView: ConstraintLayout) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             handleCustomTabActions()
@@ -121,11 +119,11 @@ class ItemListAdapter(
             val customTabsIntent = c.buildCustomTabsIntent()
             helper.bindCustomTabsService(app)
 
-            mView.setOnClickListener {
+            binding.root.setOnClickListener {
                 c.openItemUrl(
                     items,
-                    adapterPosition,
-                    items[adapterPosition].getLinkDecoded(),
+                    bindingAdapterPosition,
+                    items[bindingAdapterPosition].getLinkDecoded(),
                     customTabsIntent,
                     internalBrowser,
                     articleViewer,

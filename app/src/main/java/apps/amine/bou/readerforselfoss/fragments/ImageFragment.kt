@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import apps.amine.bou.readerforselfoss.R
+import apps.amine.bou.readerforselfoss.databinding.FragmentImageBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.fragment_image.view.*
 
 class ImageFragment : Fragment() {
 
     private lateinit var imageUrl : String
     private val glideOptions = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)
+    private var _binding: FragmentImageBinding? = null
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +23,22 @@ class ImageFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view : View = inflater.inflate(R.layout.fragment_image, container, false)
+        _binding = FragmentImageBinding.inflate(inflater, container, false)
+        val view = binding?.root
 
-        view.photoView.visibility = View.VISIBLE
+        binding!!.photoView.visibility = View.VISIBLE
         Glide.with(activity)
                 .asBitmap()
                 .apply(glideOptions)
                 .load(imageUrl)
-                .into(view.photoView)
+                .into(binding!!.photoView)
 
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

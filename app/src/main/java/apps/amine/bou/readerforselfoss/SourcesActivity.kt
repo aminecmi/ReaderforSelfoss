@@ -12,12 +12,13 @@ import android.widget.Toast
 import apps.amine.bou.readerforselfoss.adapters.SourcesListAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.Source
+import apps.amine.bou.readerforselfoss.databinding.ActivityImageBinding
+import apps.amine.bou.readerforselfoss.databinding.ActivitySourcesBinding
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.themes.Toppings
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import com.ftinc.scoop.Scoop
-import kotlinx.android.synthetic.main.activity_sources.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,31 +26,34 @@ import retrofit2.Response
 class SourcesActivity : AppCompatActivity() {
 
     private lateinit var appColors: AppColors
+    private lateinit var binding: ActivitySourcesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appColors = AppColors(this@SourcesActivity)
 
         super.onCreate(savedInstanceState)
+        binding = ActivitySourcesBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        setContentView(R.layout.activity_sources)
+        setContentView(view)
 
         val scoop = Scoop.getInstance()
-        scoop.bind(this, Toppings.PRIMARY.value, toolbar)
+        scoop.bind(this, Toppings.PRIMARY.value, binding.toolbar)
         if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
         }
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        fab.rippleColor = appColors.colorAccentDark
-        fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
+        binding.fab.rippleColor = appColors.colorAccentDark
+        binding.fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
     }
 
     override fun onStop() {
         super.onStop()
-        recyclerView.clearOnScrollListeners()
+        binding.recyclerView.clearOnScrollListeners()
     }
 
     override fun onResume() {
@@ -68,8 +72,8 @@ class SourcesActivity : AppCompatActivity() {
         )
         var items: ArrayList<Source> = ArrayList()
 
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = mLayoutManager
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = mLayoutManager
 
         if (this@SourcesActivity.isNetworkAccessible(this@SourcesActivity.findViewById(R.id.recyclerView))) {
             api.sources.enqueue(object : Callback<List<Source>> {
@@ -81,7 +85,7 @@ class SourcesActivity : AppCompatActivity() {
                         items = response.body() as ArrayList<Source>
                     }
                     val mAdapter = SourcesListAdapter(this@SourcesActivity, items, api)
-                    recyclerView.adapter = mAdapter
+                    binding.recyclerView.adapter = mAdapter
                     mAdapter.notifyDataSetChanged()
                     if (items.isEmpty()) {
                         Toast.makeText(
@@ -102,7 +106,7 @@ class SourcesActivity : AppCompatActivity() {
             })
         }
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             startActivity(Intent(this@SourcesActivity, AddSourceActivity::class.java))
         }
     }
