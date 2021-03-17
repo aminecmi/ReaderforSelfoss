@@ -20,6 +20,8 @@ import androidx.room.Room
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.databinding.ActivityImageBinding
+import apps.amine.bou.readerforselfoss.databinding.ActivityReaderBinding
 import apps.amine.bou.readerforselfoss.fragments.ArticleFragment
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
@@ -35,7 +37,6 @@ import apps.amine.bou.readerforselfoss.utils.persistence.toEntity
 import apps.amine.bou.readerforselfoss.utils.succeeded
 import apps.amine.bou.readerforselfoss.utils.toggleStar
 import com.ftinc.scoop.Scoop
-import kotlinx.android.synthetic.main.activity_reader.*
 import me.relex.circleindicator.CircleIndicator
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,6 +55,7 @@ class ReaderActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
     private lateinit var prefs: SharedPreferences
+    private lateinit var binding: ActivityReaderBinding
 
     private var activeAlignment: Int = 1
     val JUSTIFY = 1
@@ -76,8 +78,10 @@ class ReaderActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityReaderBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        setContentView(R.layout.activity_reader)
+        setContentView(view)
 
         db = Room.databaseBuilder(
             applicationContext,
@@ -85,12 +89,12 @@ class ReaderActivity : AppCompatActivity() {
         ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
 
         val scoop = Scoop.getInstance()
-        scoop.bind(this, Toppings.PRIMARY.value, toolBar)
+        scoop.bind(this, Toppings.PRIMARY.value, binding.toolBar)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
         }
 
-        setSupportActionBar(toolBar)
+        setSupportActionBar(binding.toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -119,9 +123,9 @@ class ReaderActivity : AppCompatActivity() {
 
         readItem(allItems[currentItem])
 
-        pager.adapter =
+        binding.pager.adapter =
                 ScreenSlidePagerAdapter(supportFragmentManager, AppColors(this@ReaderActivity))
-        pager.currentItem = currentItem
+        binding.pager.currentItem = currentItem
     }
 
     override fun onResume() {
@@ -129,10 +133,10 @@ class ReaderActivity : AppCompatActivity() {
 
         notifyAdapter()
 
-        pager.setPageTransformer(true, DepthPageTransformer())
-        (indicator as CircleIndicator).setViewPager(pager)
+        binding.pager.setPageTransformer(true, DepthPageTransformer())
+        (binding.indicator as CircleIndicator).setViewPager(binding.pager)
 
-        pager.addOnPageChangeListener(
+        binding.pager.addOnPageChangeListener(
             object : ViewPager.SimpleOnPageChangeListener() {
 
                 override fun onPageSelected(position: Int) {
@@ -142,7 +146,7 @@ class ReaderActivity : AppCompatActivity() {
                     } else {
                         canFavorite()
                     }
-                    readItem(allItems[pager.currentItem])
+                    readItem(allItems[binding.pager.currentItem])
                 }
             }
         )
@@ -181,19 +185,19 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     private fun notifyAdapter() {
-        (pager.adapter as ScreenSlidePagerAdapter).notifyDataSetChanged()
+        (binding.pager.adapter as ScreenSlidePagerAdapter).notifyDataSetChanged()
     }
 
     override fun onPause() {
         super.onPause()
         if (markOnScroll) {
-            pager.clearOnPageChangeListeners()
+            binding.pager.clearOnPageChangeListeners()
         }
     }
 
     override fun onSaveInstanceState(oldInstanceState: Bundle) {
         super.onSaveInstanceState(oldInstanceState)
-        oldInstanceState!!.clear()
+        oldInstanceState.clear()
     }
 
     private inner class ScreenSlidePagerAdapter(fm: FragmentManager, val appColors: AppColors) :
@@ -245,14 +249,14 @@ class ReaderActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         fun afterSave() {
-            allItems[pager.currentItem] =
-                    allItems[pager.currentItem].toggleStar()
+            allItems[binding.pager.currentItem] =
+                    allItems[binding.pager.currentItem].toggleStar()
             notifyAdapter()
             canRemoveFromFavorite()
         }
 
         fun afterUnsave() {
-            allItems[pager.currentItem] = allItems[pager.currentItem].toggleStar()
+            allItems[binding.pager.currentItem] = allItems[binding.pager.currentItem].toggleStar()
             notifyAdapter()
             canFavorite()
         }
@@ -264,7 +268,7 @@ class ReaderActivity : AppCompatActivity() {
             }
             R.id.save -> {
                 if (this@ReaderActivity.isNetworkAccessible(null)) {
-                    api.starrItem(allItems[pager.currentItem].id)
+                    api.starrItem(allItems[binding.pager.currentItem].id)
                         .enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
                                 call: Call<SuccessResponse>,
@@ -286,14 +290,14 @@ class ReaderActivity : AppCompatActivity() {
                         })
                 } else {
                     thread {
-                        db.actionsDao().insertAllActions(ActionEntity(allItems[pager.currentItem].id, false, false, true, false))
+                        db.actionsDao().insertAllActions(ActionEntity(allItems[binding.pager.currentItem].id, false, false, true, false))
                         afterSave()
                     }
                 }
             }
             R.id.unsave -> {
                 if (this@ReaderActivity.isNetworkAccessible(null)) {
-                    api.unstarrItem(allItems[pager.currentItem].id)
+                    api.unstarrItem(allItems[binding.pager.currentItem].id)
                         .enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
                                 call: Call<SuccessResponse>,
@@ -315,7 +319,7 @@ class ReaderActivity : AppCompatActivity() {
                         })
                 } else {
                     thread {
-                        db.actionsDao().insertAllActions(ActionEntity(allItems[pager.currentItem].id, false, false, false, true))
+                        db.actionsDao().insertAllActions(ActionEntity(allItems[binding.pager.currentItem].id, false, false, false, true))
                         afterUnsave()
                     }
                 }

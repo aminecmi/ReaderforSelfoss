@@ -29,6 +29,7 @@ import apps.amine.bou.readerforselfoss.adapters.ItemListAdapter
 import apps.amine.bou.readerforselfoss.adapters.ItemsAdapter
 import apps.amine.bou.readerforselfoss.api.selfoss.*
 import apps.amine.bou.readerforselfoss.background.LoadingWorker
+import apps.amine.bou.readerforselfoss.databinding.ActivityHomeBinding
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
@@ -64,7 +65,6 @@ import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
-import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -123,6 +123,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var firstVisible: Int = 0
     private lateinit var recyclerViewScrollListener: RecyclerView.OnScrollListener
     private lateinit var settings: SharedPreferences
+    private lateinit var binding: ActivityHomeBinding
 
     private var recyclerAdapter: RecyclerView.Adapter<*>? = null
 
@@ -151,6 +152,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         config = Config(this@HomeActivity)
 
         super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        val view = binding.root
 
         fromTabShortcut =  intent.getIntExtra("shortcutTab", -1) != -1
         offlineShortcut =  intent.getBooleanExtra("startOffline", false)
@@ -159,11 +162,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             elementsShown = intent.getIntExtra("shortcutTab", UNREAD_SHOWN)
         }
 
-        setContentView(R.layout.activity_home)
+        setContentView(view)
 
         handleThemeBinding()
 
-        setSupportActionBar(toolBar)
+        setSupportActionBar(binding.toolBar)
 
         db = Room.databaseBuilder(
             applicationContext,
@@ -196,12 +199,12 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(
+        binding.swipeRefreshLayout.setColorSchemeResources(
             R.color.refresh_progress_1,
             R.color.refresh_progress_2,
             R.color.refresh_progress_3
         )
-        swipeRefreshLayout.setOnRefreshListener {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             offlineShortcut = false
             allItems = ArrayList()
             lastFetchDone = false
@@ -238,7 +241,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     val i = items.elementAtOrNull(position)
 
                     if (i != null) {
-                        val adapter = recyclerView.adapter as ItemsAdapter<*>
+                        val adapter = binding.recyclerView.adapter as ItemsAdapter<*>
 
                         val wasItemUnread = adapter.unreadItemStatusAtIndex(position)
 
@@ -276,7 +279,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
             }
 
-        ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(binding.recyclerView)
     }
 
     private fun handleBottomBar() {
@@ -313,18 +316,17 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             ).setActiveColorResource(R.color.pink)
                 .setBadgeItem(tabStarredBadge)
 
-        bottomBar
+        binding.bottomBar
             .addItem(tabNew)
             .addItem(tabArchive)
             .addItem(tabStarred)
             .setFirstSelectedPosition(0)
             .initialise()
-
-        bottomBar.setMode(BottomNavigationBar.MODE_SHIFTING)
-        bottomBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
+        binding.bottomBar.setMode(BottomNavigationBar.MODE_SHIFTING)
+        binding.bottomBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
 
         if (fromTabShortcut) {
-            bottomBar.selectTab(elementsShown - 1)
+            binding.bottomBar.selectTab(elementsShown - 1)
         }
     }
 
@@ -345,7 +347,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         reloadLayoutManager()
 
         if (!infiniteScroll) {
-            recyclerView.setHasFixedSize(true)
+            binding.recyclerView.setHasFixedSize(true)
         } else {
             handleInfiniteScroll()
         }
@@ -444,7 +446,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun handleThemeBinding() {
         val scoop = Scoop.getInstance()
-        scoop.bind(this, Toppings.PRIMARY.value, toolBar)
+        scoop.bind(this, Toppings.PRIMARY.value, binding.toolBar)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scoop.bindStatusBar(this, Toppings.PRIMARY_DARK.value)
         }
@@ -467,18 +469,18 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         drawer = drawer {
             rootViewRes = R.id.drawer_layout
-            toolbar = toolBar
+            toolbar = binding.toolBar
             actionBarDrawerToggleEnabled = true
             actionBarDrawerToggleAnimated = true
             showOnFirstLaunch = true
             onSlide { _, p1 ->
-                bottomBar.alpha = (1 - p1)
+                binding.bottomBar.alpha = (1 - p1)
             }
             onClosed {
-                bottomBar.show()
+                binding.bottomBar.show()
             }
             onOpened {
-                bottomBar.hide()
+                binding.bottomBar.hide()
             }
 
             if (displayAccountHeader) {
@@ -823,7 +825,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun reloadLayoutManager() {
-        val currentManager = recyclerView.layoutManager
+        val currentManager = binding.recyclerView.layoutManager
         val layoutManager: RecyclerView.LayoutManager
 
         // This will only update the layout manager if settings changed
@@ -834,7 +836,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         this,
                         calculateNoOfColumns()
                     )
-                    recyclerView.layoutManager = layoutManager
+                    binding.recyclerView.layoutManager = layoutManager
                 }
             is GridLayoutManager ->
                 if (shouldBeCardView) {
@@ -844,7 +846,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     )
                     layoutManager.gapStrategy =
                             StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-                    recyclerView.layoutManager = layoutManager
+                    binding.recyclerView.layoutManager = layoutManager
                 }
             else ->
                 if (currentManager == null) {
@@ -853,7 +855,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             this,
                             calculateNoOfColumns()
                         )
-                        recyclerView.layoutManager = layoutManager
+                        binding.recyclerView.layoutManager = layoutManager
                     } else {
                         layoutManager = StaggeredGridLayoutManager(
                             calculateNoOfColumns(),
@@ -861,7 +863,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         )
                         layoutManager.gapStrategy =
                                 StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-                        recyclerView.layoutManager = layoutManager
+                        binding.recyclerView.layoutManager = layoutManager
                     }
                 } else {
                 }
@@ -869,11 +871,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun handleBottomBarActions() {
-        bottomBar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
+        binding.bottomBar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabUnselected(position: Int) = Unit
 
             override fun onTabReselected(position: Int) {
-                val layoutManager = recyclerView.adapter
+                val layoutManager = binding.recyclerView.adapter
 
                 when (layoutManager) {
                     is StaggeredGridLayoutManager ->
@@ -898,8 +900,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                 if (itemsCaching) {
 
-                    if (!swipeRefreshLayout.isRefreshing) {
-                        swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
+                    if (!binding.swipeRefreshLayout.isRefreshing) {
+                        binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = true }
                     }
 
                     thread {
@@ -951,7 +953,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(localRecycler: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
-                    val manager = recyclerView.layoutManager
+                    val manager = binding.recyclerView.layoutManager
                     val lastVisibleItem: Int = when (manager) {
                         is StaggeredGridLayoutManager -> manager.findLastCompletelyVisibleItemPositions(
                             null
@@ -967,17 +969,17 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         }
 
-        recyclerView.clearOnScrollListeners()
-        recyclerView.addOnScrollListener(recyclerViewScrollListener)
+        binding.recyclerView.clearOnScrollListeners()
+        binding.recyclerView.addOnScrollListener(recyclerViewScrollListener)
     }
 
     private fun mayBeEmpty() =
         if (items.isEmpty()) {
-            emptyText.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
+            binding.emptyText.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.GONE
         } else {
-            emptyText.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
+            binding.emptyText.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
         }
 
     private fun getElementsAccordingToTab(
@@ -1002,8 +1004,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         if (itemsCaching) {
 
-            if (!swipeRefreshLayout.isRefreshing) {
-                swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
+            if (!binding.swipeRefreshLayout.isRefreshing) {
+                binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = true }
             }
 
             thread {
@@ -1073,11 +1075,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             handleListResult(appendResults)
 
             if (!appendResults) mayBeEmpty()
-            swipeRefreshLayout.isRefreshing = false
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
-        if (!swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = true }
+        if (!binding.swipeRefreshLayout.isRefreshing) {
+            binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = true }
         }
 
         if (this@HomeActivity.isNetworkAccessible(this@HomeActivity.findViewById(R.id.coordLayout), offlineShortcut)) {
@@ -1091,7 +1093,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
 
                     override fun onFailure(call: Call<List<Item>>, t: Throwable) {
-                        swipeRefreshLayout.isRefreshing = false
+                        binding.swipeRefreshLayout.isRefreshing = false
                         Toast.makeText(
                             this@HomeActivity,
                             toastMessage,
@@ -1100,7 +1102,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     }
                 })
         } else {
-            swipeRefreshLayout.post { swipeRefreshLayout.isRefreshing = false }
+            binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = false }
         }
     }
 
@@ -1145,7 +1147,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun handleListResult(appendResults: Boolean = false) {
         if (appendResults) {
-            val oldManager = recyclerView.layoutManager
+            val oldManager = binding.recyclerView.layoutManager
             firstVisible = when (oldManager) {
                 is StaggeredGridLayoutManager ->
                     oldManager.findFirstCompletelyVisibleItemPositions(null).last()
@@ -1190,14 +1192,14 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                             updateItems(it)
                         }
 
-                recyclerView.addItemDecoration(
+                binding.recyclerView.addItemDecoration(
                     DividerItemDecoration(
                         this@HomeActivity,
                         DividerItemDecoration.VERTICAL
                     )
                 )
             }
-            recyclerView.adapter = recyclerAdapter
+            binding.recyclerView.adapter = recyclerAdapter
         } else {
             if (!appendResults) {
                 (recyclerAdapter as ItemsAdapter<*>).updateAllItems(items)
@@ -1348,7 +1350,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             R.id.readAll -> {
                 if (elementsShown == UNREAD_SHOWN) {
                     needsConfirmation(R.string.readAll, R.string.markall_dialog_message) {
-                        swipeRefreshLayout.isRefreshing = false
+                        binding.swipeRefreshLayout.isRefreshing = false
                         val ids = allItems.map { it.id }
                         val itemsByTag: Map<Long, Int> =
                             allItems.flattenTags()
@@ -1383,7 +1385,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                                     }
 
-                                    swipeRefreshLayout.isRefreshing = false
+                                    binding.swipeRefreshLayout.isRefreshing = false
                                 }
 
                                 override fun onFailure(call: Call<SuccessResponse>, t: Throwable) {
@@ -1392,7 +1394,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                                         R.string.all_posts_not_read,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    swipeRefreshLayout.isRefreshing = false
+                                    binding.swipeRefreshLayout.isRefreshing = false
                                 }
                             })
                             items = ArrayList()

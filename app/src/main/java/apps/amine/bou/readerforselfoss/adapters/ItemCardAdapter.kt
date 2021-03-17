@@ -14,6 +14,7 @@ import apps.amine.bou.readerforselfoss.R
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.databinding.CardItemBinding
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.themes.AppColors
@@ -34,11 +35,6 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.like.LikeButton
 import com.like.OnLikeListener
-import kotlinx.android.synthetic.main.card_item.view.*
-import kotlinx.android.synthetic.main.card_item.view.itemImage
-import kotlinx.android.synthetic.main.card_item.view.sourceTitleAndDate
-import kotlinx.android.synthetic.main.card_item.view.title
-import kotlinx.android.synthetic.main.list_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,77 +60,79 @@ class ItemCardAdapter(
         c.resources.getDimension(R.dimen.card_image_max_height).toInt()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(c).inflate(R.layout.card_item, parent, false) as CardView
-        return ViewHolder(v)
+        val binding = CardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itm = items[position]
+        with(holder) {
+            val itm = items[position]
 
 
-        holder.mView.favButton.isLiked = itm.starred
-        holder.mView.title.text = itm.getTitleDecoded()
-        holder.mView.title.setTextColor(ContextCompat.getColor(
-                c,
-                appColors.textColor
-        ))
-        holder.mView.title.setOnTouchListener(LinkOnTouchListener())
+            binding.favButton.isLiked = itm.starred
+            binding.title.text = itm.getTitleDecoded()
+            binding.title.setTextColor(ContextCompat.getColor(
+                    c,
+                    appColors.textColor
+            ))
+            binding.title.setOnTouchListener(LinkOnTouchListener())
 
-        holder.mView.title.setLinkTextColor(appColors.colorAccent)
+            binding.title.setLinkTextColor(appColors.colorAccent)
 
-        holder.mView.sourceTitleAndDate.text = itm.sourceAndDateText()
+            binding.sourceTitleAndDate.text = itm.sourceAndDateText()
 
-        holder.mView.sourceTitleAndDate.setTextColor(ContextCompat.getColor(
-                c,
-                appColors.textColor
-        ))
+            binding.sourceTitleAndDate.setTextColor(ContextCompat.getColor(
+                    c,
+                    appColors.textColor
+            ))
 
-        if (!fullHeightCards) {
-            holder.mView.itemImage.maxHeight = imageMaxHeight
-            holder.mView.itemImage.scaleType = ScaleType.CENTER_CROP
+            if (!fullHeightCards) {
+                binding.itemImage.maxHeight = imageMaxHeight
+                binding.itemImage.scaleType = ScaleType.CENTER_CROP
+            }
+
+            if (itm.getThumbnail(c).isEmpty()) {
+                binding.itemImage.visibility = View.GONE
+                Glide.with(c).clear(binding.itemImage)
+                binding.itemImage.setImageDrawable(null)
+            } else {
+                binding.itemImage.visibility = View.VISIBLE
+                c.bitmapCenterCrop(config, itm.getThumbnail(c), binding.itemImage)
+            }
+
+            if (itm.getIcon(c).isEmpty()) {
+                val color = generator.getColor(itm.getSourceTitle())
+
+                val drawable =
+                        TextDrawable
+                                .builder()
+                                .round()
+                                .build(itm.getSourceTitle().toTextDrawableString(c), color)
+                binding.sourceImage.setImageDrawable(drawable)
+            } else {
+                c.circularBitmapDrawable(config, itm.getIcon(c), binding.sourceImage)
+            }
+
+            binding.favButton.isLiked = itm.starred
         }
-
-        if (itm.getThumbnail(c).isEmpty()) {
-            holder.mView.itemImage.visibility = View.GONE
-            Glide.with(c).clear(holder.mView.itemImage)
-            holder.mView.itemImage.setImageDrawable(null)
-        } else {
-            holder.mView.itemImage.visibility = View.VISIBLE
-            c.bitmapCenterCrop(config, itm.getThumbnail(c), holder.mView.itemImage)
-        }
-
-        if (itm.getIcon(c).isEmpty()) {
-            val color = generator.getColor(itm.getSourceTitle())
-
-            val drawable =
-                TextDrawable
-                    .builder()
-                    .round()
-                    .build(itm.getSourceTitle().toTextDrawableString(c), color)
-            holder.mView.sourceImage.setImageDrawable(drawable)
-        } else {
-            c.circularBitmapDrawable(config, itm.getIcon(c), holder.mView.sourceImage)
-        }
-
-        holder.mView.favButton.isLiked = itm.starred
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    inner class ViewHolder(val mView: CardView) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(val binding: CardItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
-            mView.setCardBackgroundColor(appColors.cardBackgroundColor)
+            binding.root.setCardBackgroundColor(appColors.cardBackgroundColor)
             handleClickListeners()
             handleCustomTabActions()
         }
 
         private fun handleClickListeners() {
 
-            mView.favButton.setOnLikeListener(object : OnLikeListener {
+            binding.favButton.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {
-                    val (id) = items[adapterPosition]
+                    val (id) = items[bindingAdapterPosition]
                     if (c.isNetworkAccessible(null)) {
                         api.starrItem(id).enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
@@ -147,7 +145,7 @@ class ItemCardAdapter(
                                 call: Call<SuccessResponse>,
                                 t: Throwable
                             ) {
-                                mView.favButton.isLiked = false
+                                binding.favButton.isLiked = false
                                 Toast.makeText(
                                     c,
                                     R.string.cant_mark_favortie,
@@ -163,7 +161,7 @@ class ItemCardAdapter(
                 }
 
                 override fun unLiked(likeButton: LikeButton) {
-                    val (id) = items[adapterPosition]
+                    val (id) = items[bindingAdapterPosition]
                     if (c.isNetworkAccessible(null)) {
                         api.unstarrItem(id).enqueue(object : Callback<SuccessResponse> {
                             override fun onResponse(
@@ -176,7 +174,7 @@ class ItemCardAdapter(
                                 call: Call<SuccessResponse>,
                                 t: Throwable
                             ) {
-                                mView.favButton.isLiked = true
+                                binding.favButton.isLiked = true
                                 Toast.makeText(
                                     c,
                                     R.string.cant_unmark_favortie,
@@ -192,13 +190,13 @@ class ItemCardAdapter(
                 }
             })
 
-            mView.shareBtn.setOnClickListener {
-                val item = items[adapterPosition]
+            binding.shareBtn.setOnClickListener {
+                val item = items[bindingAdapterPosition]
                 c.shareLink(item.getLinkDecoded(), item.getTitleDecoded())
             }
 
-            mView.browserBtn.setOnClickListener {
-                c.openInBrowserAsNewTask(items[adapterPosition])
+            binding.browserBtn.setOnClickListener {
+                c.openInBrowserAsNewTask(items[bindingAdapterPosition])
             }
         }
 
@@ -206,11 +204,11 @@ class ItemCardAdapter(
             val customTabsIntent = c.buildCustomTabsIntent()
             helper.bindCustomTabsService(app)
 
-            mView.setOnClickListener {
+            binding.root.setOnClickListener {
                 c.openItemUrl(
                     items,
-                    adapterPosition,
-                    items[adapterPosition].getLinkDecoded(),
+                    bindingAdapterPosition,
+                    items[bindingAdapterPosition].getLinkDecoded(),
                     customTabsIntent,
                     internalBrowser,
                     articleViewer,

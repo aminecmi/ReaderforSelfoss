@@ -30,8 +30,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'kotlin-android-extensions'
-
 android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,6 +37,9 @@ android {
     }
     compileSdkVersion 30
     buildToolsVersion '30.0.3'
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
         applicationId "apps.amine.bou.readerforselfoss"
         minSdkVersion 16

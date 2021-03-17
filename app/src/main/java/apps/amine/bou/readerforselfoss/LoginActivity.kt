@@ -17,13 +17,13 @@ import android.widget.TextView
 import android.widget.Toast
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.databinding.ActivityLoginBinding
 import apps.amine.bou.readerforselfoss.themes.AppColors
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.isBaseUrlValid
 import apps.amine.bou.readerforselfoss.utils.network.isNetworkAccessible
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
-import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,15 +39,18 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var userIdentifier: String
     private lateinit var appColors: AppColors
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appColors = AppColors(this@LoginActivity)
 
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        setContentView(R.layout.activity_login)
+        setContentView(view)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         handleBaseUrlFail()
 
@@ -65,14 +68,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleActions() {
 
-        withSelfhostedCert.setOnCheckedChangeListener { _, b ->
+        binding.withSelfhostedCert.setOnCheckedChangeListener { _, b ->
             isWithSelfSignedCert = !isWithSelfSignedCert
             val visi: Int = if (b) View.VISIBLE else View.GONE
 
-            warningText.visibility = visi
+            binding.warningText.visibility = visi
         }
 
-        passwordView.setOnEditorActionListener(
+        binding.passwordView.setOnEditorActionListener(
             TextView.OnEditorActionListener { _, id, _ ->
                 if (id == R.id.loginView || id == EditorInfo.IME_NULL) {
                     attemptLogin()
@@ -82,22 +85,22 @@ class LoginActivity : AppCompatActivity() {
             }
         )
 
-        signInButton.setOnClickListener { attemptLogin() }
+        binding.signInButton.setOnClickListener { attemptLogin() }
 
-        withLogin.setOnCheckedChangeListener { _, b ->
+        binding.withLogin.setOnCheckedChangeListener { _, b ->
             isWithLogin = !isWithLogin
             val visi: Int = if (b) View.VISIBLE else View.GONE
 
-            loginLayout.visibility = visi
-            passwordLayout.visibility = visi
+            binding.loginLayout.visibility = visi
+            binding.passwordLayout.visibility = visi
         }
 
-        withHttpLogin.setOnCheckedChangeListener { _, b ->
+        binding.withHttpLogin.setOnCheckedChangeListener { _, b ->
             isWithHTTPLogin = !isWithHTTPLogin
             val visi: Int = if (b) View.VISIBLE else View.GONE
 
-            httpLoginInput.visibility = visi
-            httpPasswordInput.visibility = visi
+            binding.httpLoginInput.visibility = visi
+            binding.httpPasswordInput.visibility = visi
         }
     }
 
@@ -124,25 +127,25 @@ class LoginActivity : AppCompatActivity() {
     private fun attemptLogin() {
 
         // Reset errors.
-        urlView.error = null
-        loginView.error = null
-        httpLoginView.error = null
-        passwordView.error = null
-        httpPasswordView.error = null
+        binding.urlView.error = null
+        binding.loginView.error = null
+        binding.httpLoginView.error = null
+        binding.passwordView.error = null
+        binding.httpPasswordView.error = null
 
         // Store values at the time of the login attempt.
-        val url = urlView.text.toString()
-        val login = loginView.text.toString()
-        val httpLogin = httpLoginView.text.toString()
-        val password = passwordView.text.toString()
-        val httpPassword = httpPasswordView.text.toString()
+        val url = binding.urlView.text.toString()
+        val login = binding.loginView.text.toString()
+        val httpLogin = binding.httpLoginView.text.toString()
+        val password = binding.passwordView.text.toString()
+        val httpPassword = binding.httpPasswordView.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
         if (!url.isBaseUrlValid(this@LoginActivity)) {
-            urlView.error = getString(R.string.login_url_problem)
-            focusView = urlView
+            binding.urlView.error = getString(R.string.login_url_problem)
+            focusView = binding.urlView
             cancel = true
             inValidCount++
             if (inValidCount == 3) {
@@ -161,28 +164,28 @@ class LoginActivity : AppCompatActivity() {
 
         if (isWithLogin) {
             if (TextUtils.isEmpty(password)) {
-                passwordView.error = getString(R.string.error_invalid_password)
-                focusView = passwordView
+                binding.passwordView.error = getString(R.string.error_invalid_password)
+                focusView = binding.passwordView
                 cancel = true
             }
 
             if (TextUtils.isEmpty(login)) {
-                loginView.error = getString(R.string.error_field_required)
-                focusView = loginView
+                binding.loginView.error = getString(R.string.error_field_required)
+                focusView = binding.loginView
                 cancel = true
             }
         }
 
         if (isWithHTTPLogin) {
             if (TextUtils.isEmpty(httpPassword)) {
-                httpPasswordView.error = getString(R.string.error_invalid_password)
-                focusView = httpPasswordView
+                binding.httpPasswordView.error = getString(R.string.error_invalid_password)
+                focusView = binding.httpPasswordView
                 cancel = true
             }
 
             if (TextUtils.isEmpty(httpLogin)) {
-                httpLoginView.error = getString(R.string.error_field_required)
-                focusView = httpLoginView
+                binding.httpLoginView.error = getString(R.string.error_field_required)
+                focusView = binding.httpLoginView
                 cancel = true
             }
         }
@@ -216,11 +219,11 @@ class LoginActivity : AppCompatActivity() {
                         editor.remove("password")
                         editor.remove("httpPassword")
                         editor.apply()
-                        urlView.error = getString(R.string.wrong_infos)
-                        loginView.error = getString(R.string.wrong_infos)
-                        passwordView.error = getString(R.string.wrong_infos)
-                        httpLoginView.error = getString(R.string.wrong_infos)
-                        httpPasswordView.error = getString(R.string.wrong_infos)
+                        binding.urlView.error = getString(R.string.wrong_infos)
+                        binding.loginView.error = getString(R.string.wrong_infos)
+                        binding.passwordView.error = getString(R.string.wrong_infos)
+                        binding.httpLoginView.error = getString(R.string.wrong_infos)
+                        binding.httpPasswordView.error = getString(R.string.wrong_infos)
                         showProgress(false)
                     }
 
@@ -248,28 +251,28 @@ class LoginActivity : AppCompatActivity() {
     private fun showProgress(show: Boolean) {
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime)
 
-        loginForm.visibility = if (show) View.GONE else View.VISIBLE
-        loginForm
+        binding.loginForm.visibility = if (show) View.GONE else View.VISIBLE
+        binding.loginForm
             .animate()
             .setDuration(shortAnimTime.toLong())
             .alpha(
                 if (show) 0F else 1F
             ).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                loginForm.visibility = if (show) View.GONE else View.VISIBLE
+                binding.loginForm.visibility = if (show) View.GONE else View.VISIBLE
             }
         }
         )
 
-        loginProgress.visibility = if (show) View.VISIBLE else View.GONE
-        loginProgress
+        binding.loginProgress.visibility = if (show) View.VISIBLE else View.GONE
+        binding.loginProgress
             .animate()
             .setDuration(shortAnimTime.toLong())
             .alpha(
                 if (show) 1F else 0F
             ).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                loginProgress.visibility = if (show) View.VISIBLE else View.GONE
+                binding.loginProgress.visibility = if (show) View.VISIBLE else View.GONE
             }
         }
         )

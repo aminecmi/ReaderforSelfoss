@@ -5,27 +5,31 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import apps.amine.bou.readerforselfoss.databinding.ActivityImageBinding
 import apps.amine.bou.readerforselfoss.fragments.ImageFragment
-import kotlinx.android.synthetic.main.activity_reader.*
 
 class ImageActivity : AppCompatActivity() {
     private lateinit var allImages : ArrayList<String>
     private var position : Int = 0
 
+    private lateinit var binding: ActivityImageBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityImageBinding.inflate(layoutInflater)
+        val view = binding.root
 
-        setContentView(R.layout.activity_image)
+        setContentView(view)
 
-        setSupportActionBar(toolBar)
+        setSupportActionBar(binding.toolBar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         allImages = intent.getStringArrayListExtra("allImages") as ArrayList<String>
         position = intent.getIntExtra("position", 0)
 
-        pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager)
-        pager.currentItem = position
+        binding.pager.adapter = ScreenSlidePagerAdapter(supportFragmentManager)
+        binding.pager.currentItem = position
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

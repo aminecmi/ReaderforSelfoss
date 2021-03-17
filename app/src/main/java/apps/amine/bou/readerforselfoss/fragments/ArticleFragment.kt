@@ -29,6 +29,7 @@ import apps.amine.bou.readerforselfoss.api.mercury.ParsedContent
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.api.selfoss.SuccessResponse
+import apps.amine.bou.readerforselfoss.databinding.FragmentArticleBinding
 import apps.amine.bou.readerforselfoss.persistence.database.AppDatabase
 import apps.amine.bou.readerforselfoss.persistence.entities.ActionEntity
 import apps.amine.bou.readerforselfoss.persistence.migrations.MIGRATION_1_2
@@ -50,7 +51,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
-import kotlinx.android.synthetic.main.fragment_article.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -77,8 +77,8 @@ class ArticleFragment : Fragment() {
     private lateinit var db: AppDatabase
     private lateinit var textAlignment: String
     private lateinit var config: Config
-
-    private var rootView: ViewGroup? = null
+    private var _binding: FragmentArticleBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var prefs: SharedPreferences
 
@@ -94,16 +94,16 @@ class ArticleFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        appColors = AppColors(activity!!)
-        config = Config(activity!!)
+        appColors = AppColors(requireActivity())
+        config = Config(requireActivity())
 
         super.onCreate(savedInstanceState)
 
-        pageNumber = arguments!!.getInt(ARG_POSITION)
-        allItems = arguments!!.getParcelableArrayList<Item>(ARG_ITEMS) as ArrayList<Item>
+        pageNumber = requireArguments().getInt(ARG_POSITION)
+        allItems = requireArguments().getParcelableArrayList<Item>(ARG_ITEMS) as ArrayList<Item>
 
         db = Room.databaseBuilder(
-            context!!,
+            requireContext(),
             AppDatabase::class.java, "selfoss-database"
         ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addMigrations(MIGRATION_3_4).build()
     }
@@ -114,13 +114,12 @@ class ArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         try {
-            rootView = inflater
-                .inflate(R.layout.fragment_article, container, false) as ViewGroup
+            _binding = FragmentArticleBinding.inflate(inflater, container, false)
 
             url = allItems[pageNumber.toInt()].getLinkDecoded()
             contentText = allItems[pageNumber.toInt()].content
             contentTitle = allItems[pageNumber.toInt()].getTitleDecoded()
-            contentImage = allItems[pageNumber.toInt()].getThumbnail(activity!!)
+            contentImage = allItems[pageNumber.toInt()].getThumbnail(requireActivity())
             contentSource = allItems[pageNumber.toInt()].sourceAndDateText()
             allImages = allItems[pageNumber.toInt()].getImages()
 
@@ -130,11 +129,11 @@ class ArticleFragment : Fragment() {
 
             font = prefs.getString("reader_font", "")!!
             if (font.isNotEmpty()) {
-                resId = context!!.resources.getIdentifier(font, "font", context!!.packageName)
+                resId = requireContext().resources.getIdentifier(font, "font", requireContext().packageName)
                 typeface = try {
-                    ResourcesCompat.getFont(context!!, resId)!!
+                    ResourcesCompat.getFont(requireContext(), resId)!!
                 } catch (e: java.lang.Exception) {
-                    // ACRA.getErrorReporter().maybeHandleSilentException(Throwable("Font loading issue: ${e.message}"), context!!)
+                    // ACRA.getErrorReporter().maybeHandleSilentException(Throwable("Font loading issue: ${e.message}"), requireContext())
                     // Just to be sure
                     null
                 }
@@ -142,27 +141,27 @@ class ArticleFragment : Fragment() {
 
             refreshAlignment()
 
-            val settings = activity!!.getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+            val settings = requireActivity().getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
 
             val api = SelfossApi(
-                context!!,
-                activity!!,
+                requireContext(),
+                requireActivity(),
                 settings.getBoolean("isSelfSignedCert", false),
                 prefs.getString("api_timeout", "-1")!!.toLong()
             )
 
-            fab = rootView!!.fab
+            fab = binding.fab
 
             fab.backgroundTintList = ColorStateList.valueOf(appColors.colorAccent)
 
             fab.rippleColor = appColors.colorAccentDark
 
-            val floatingToolbar: FloatingToolbar = rootView!!.floatingToolbar
+            val floatingToolbar: FloatingToolbar = binding.floatingToolbar
             floatingToolbar.attachFab(fab)
 
             floatingToolbar.background = ColorDrawable(appColors.colorAccent)
 
-            val customTabsIntent = activity!!.buildCustomTabsIntent()
+            val customTabsIntent = requireActivity().buildCustomTabsIntent()
             mCustomTabActivityHelper = CustomTabActivityHelper()
             mCustomTabActivityHelper!!.bindCustomTabsService(activity)
 
@@ -172,17 +171,17 @@ class ArticleFragment : Fragment() {
                     override fun onItemClick(item: MenuItem) {
                         when (item.itemId) {
                             R.id.more_action -> getContentFromMercury(customTabsIntent, prefs)
-                            R.id.share_action -> activity!!.shareLink(url, contentTitle)
-                            R.id.open_action -> activity!!.openItemUrl(
+                            R.id.share_action -> requireActivity().shareLink(url, contentTitle)
+                            R.id.open_action -> requireActivity().openItemUrl(
                                 allItems,
                                 pageNumber.toInt(),
                                 url,
                                 customTabsIntent,
                                 false,
                                 false,
-                                activity!!
+                                requireActivity()
                             )
-                            R.id.unread_action -> if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
+                            R.id.unread_action -> if ((context != null && requireContext().isNetworkAccessible(null)) || context == null) {
                                 api.unmarkItem(allItems[pageNumber.toInt()].id).enqueue(
                                     object : Callback<SuccessResponse> {
                                         override fun onResponse(
@@ -212,35 +211,35 @@ class ArticleFragment : Fragment() {
                 }
             )
 
-            rootView!!.source.text = contentSource
+            binding.source.text = contentSource
             if (typeface != null) {
-                rootView!!.source.typeface = typeface
+                binding.source.typeface = typeface
             }
 
             if (contentText.isEmptyOrNullOrNullString()) {
                 getContentFromMercury(customTabsIntent, prefs)
             } else {
-                rootView!!.titleView.text = contentTitle
+                binding.titleView.text = contentTitle
                 if (typeface != null) {
-                    rootView!!.titleView.typeface = typeface
+                    binding.titleView.typeface = typeface
                 }
 
                 htmlToWebview()
 
                 if (!contentImage.isEmptyOrNullOrNullString() && context != null) {
-                    rootView!!.imageView.visibility = View.VISIBLE
+                    binding.imageView.visibility = View.VISIBLE
                     Glide
-                        .with(context!!)
+                        .with(requireContext())
                         .asBitmap()
                         .loadMaybeBasicAuth(config, contentImage)
                         .apply(RequestOptions.fitCenterTransform())
-                        .into(rootView!!.imageView)
+                        .into(binding.imageView)
                 } else {
-                    rootView!!.imageView.visibility = View.GONE
+                    binding.imageView.visibility = View.GONE
                 }
             }
 
-            rootView!!.nestedScrollView.setOnScrollChangeListener(
+            binding.nestedScrollView.setOnScrollChangeListener(
                 NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                     if (scrollY > oldScrollY) {
                         fab.hide()
@@ -251,22 +250,27 @@ class ArticleFragment : Fragment() {
             )
 
         } catch (e: InflateException) {
-            AlertDialog.Builder(context!!)
-                .setMessage(context!!.getString(R.string.webview_dialog_issue_message))
-                .setTitle(context!!.getString(R.string.webview_dialog_issue_title))
+            AlertDialog.Builder(requireContext())
+                .setMessage(requireContext().getString(R.string.webview_dialog_issue_message))
+                .setTitle(requireContext().getString(R.string.webview_dialog_issue_title))
                 .setPositiveButton(android.R.string.ok
                 ) { dialog, which ->
-                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(context!!)
+                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
                     val editor = sharedPref.edit()
                     editor.putBoolean("prefer_article_viewer", false)
                     editor.commit()
-                    activity!!.finish()
+                    requireActivity().finish()
                 }
                 .create()
                 .show()
         }
 
-        return rootView
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun refreshAlignment() {
@@ -281,8 +285,8 @@ class ArticleFragment : Fragment() {
         customTabsIntent: CustomTabsIntent,
         prefs: SharedPreferences
     ) {
-        if ((context != null && context!!.isNetworkAccessible(null)) || context == null) {
-            rootView!!.progressBar.visibility = View.VISIBLE
+        if ((context != null && requireContext().isNetworkAccessible(null)) || context == null) {
+            binding.progressBar.visibility = View.VISIBLE
             val parser = MercuryApi()
 
             parser.parseUrl(url).enqueue(
@@ -295,9 +299,9 @@ class ArticleFragment : Fragment() {
                         try {
                             if (response.body() != null && response.body()!!.content != null && !response.body()!!.content.isNullOrEmpty()) {
                                 try {
-                                    rootView!!.titleView.text = response.body()!!.title
+                                    binding.titleView.text = response.body()!!.title
                                     if (typeface != null) {
-                                        rootView!!.titleView.typeface = typeface
+                                        binding.titleView.typeface = typeface
                                     }
                                     try {
                                         // Note: Mercury may return relative urls... If it does the url val will not be changed.
@@ -317,18 +321,18 @@ class ArticleFragment : Fragment() {
 
                                 try {
                                     if (response.body()!!.lead_image_url != null && !response.body()!!.lead_image_url.isNullOrEmpty() && context != null) {
-                                        rootView!!.imageView.visibility = View.VISIBLE
+                                        binding.imageView.visibility = View.VISIBLE
                                         try {
                                             Glide
-                                                .with(context!!)
+                                                .with(requireContext())
                                                 .asBitmap()
                                                 .loadMaybeBasicAuth(config, response.body()!!.lead_image_url.orEmpty())
                                                 .apply(RequestOptions.fitCenterTransform())
-                                                .into(rootView!!.imageView)
+                                                .into(binding.imageView)
                                         } catch (e: Exception) {
                                         }
                                     } else {
-                                        rootView!!.imageView.visibility = View.GONE
+                                        binding.imageView.visibility = View.GONE
                                     }
                                 } catch (e: Exception) {
                                     if (context != null) {
@@ -336,9 +340,9 @@ class ArticleFragment : Fragment() {
                                 }
 
                                 try {
-                                    rootView!!.nestedScrollView.scrollTo(0, 0)
+                                    binding.nestedScrollView.scrollTo(0, 0)
 
-                                    rootView!!.progressBar.visibility = View.GONE
+                                    binding.progressBar.visibility = View.GONE
                                 } catch (e: Exception) {
                                     if (context != null) {
                                     }
@@ -370,32 +374,32 @@ class ArticleFragment : Fragment() {
         val stringColor = String.format("#%06X", 0xFFFFFF and appColors.colorAccent)
 
         val attrs: IntArray = intArrayOf(android.R.attr.fontFamily)
-        val a: TypedArray = context!!.obtainStyledAttributes(resId, attrs)
+        val a: TypedArray = requireContext().obtainStyledAttributes(resId, attrs)
 
 
-        rootView!!.webcontent.settings.standardFontFamily = a.getString(0)
-        rootView!!.webcontent.visibility = View.VISIBLE
+        binding.webcontent.settings.standardFontFamily = a.getString(0)
+        binding.webcontent.visibility = View.VISIBLE
         val (textColor, backgroundColor) = if (appColors.isDarkTheme) {
             if (context != null) {
-                rootView!!.webcontent.setBackgroundColor(
+                binding.webcontent.setBackgroundColor(
                     ContextCompat.getColor(
-                        context!!,
+                        requireContext(),
                         R.color.dark_webview
                     )
                 )
-                Pair(ContextCompat.getColor(context!!, R.color.dark_webview_text), ContextCompat.getColor(context!!, R.color.dark_webview))
+                Pair(ContextCompat.getColor(requireContext(), R.color.dark_webview_text), ContextCompat.getColor(requireContext(), R.color.dark_webview))
             } else {
                 Pair(null, null)
             }
         } else {
             if (context != null) {
-                rootView!!.webcontent.setBackgroundColor(
+                binding.webcontent.setBackgroundColor(
                     ContextCompat.getColor(
-                        context!!,
+                        requireContext(),
                         R.color.light_webview
                     )
                 )
-                Pair(ContextCompat.getColor(context!!, R.color.light_webview_text), ContextCompat.getColor(context!!, R.color.light_webview))
+                Pair(ContextCompat.getColor(requireContext(), R.color.light_webview_text), ContextCompat.getColor(requireContext(), R.color.light_webview))
             } else {
                 Pair(null, null)
             }
@@ -413,14 +417,14 @@ class ArticleFragment : Fragment() {
             "#FFFFFF"
         }
 
-        rootView!!.webcontent.settings.useWideViewPort = true
-        rootView!!.webcontent.settings.loadWithOverviewMode = true
-        rootView!!.webcontent.settings.javaScriptEnabled = false
+        binding.webcontent.settings.useWideViewPort = true
+        binding.webcontent.settings.loadWithOverviewMode = true
+        binding.webcontent.settings.javaScriptEnabled = false
 
-        rootView!!.webcontent.webViewClient = object : WebViewClient() {
+        binding.webcontent.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url : String): Boolean {
-                if (rootView!!.webcontent.hitTestResult.type != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-                    rootView!!.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                if (binding.webcontent.hitTestResult.type != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                    requireContext().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 }
                 return true
             }
@@ -456,13 +460,13 @@ class ArticleFragment : Fragment() {
             }
         })
 
-        rootView!!.webcontent.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event)}
+        binding.webcontent.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event)}
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            rootView!!.webcontent.settings.layoutAlgorithm =
+            binding.webcontent.settings.layoutAlgorithm =
                     WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
         } else {
-            rootView!!.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+            binding.webcontent.settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         }
 
         var baseUrl: String? = null
@@ -491,7 +495,7 @@ class ArticleFragment : Fragment() {
             ""
         }
 
-        rootView!!.webcontent.loadDataWithBaseURL(
+        binding.webcontent.loadDataWithBaseURL(
             baseUrl,
             """<html>
                 |<head>
@@ -544,15 +548,15 @@ class ArticleFragment : Fragment() {
     }
 
     private fun openInBrowserAfterFailing(customTabsIntent: CustomTabsIntent) {
-        rootView!!.progressBar.visibility = View.GONE
-        activity!!.openItemUrl(
+        binding.progressBar.visibility = View.GONE
+        requireActivity().openItemUrl(
             allItems,
             pageNumber.toInt(),
             url,
             customTabsIntent,
             true,
             false,
-            activity!!
+            requireActivity()
         )
     }
 
@@ -574,10 +578,10 @@ class ArticleFragment : Fragment() {
     }
 
     fun performClick(): Boolean {
-        if (rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
-                rootView!!.webcontent.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+        if (binding.webcontent.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
+                binding.webcontent.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
 
-            val position : Int = allImages.indexOf(rootView!!.webcontent.hitTestResult.extra)
+            val position : Int = allImages.indexOf(binding.webcontent.hitTestResult.extra)
 
             val intent = Intent(activity, ImageActivity::class.java)
             intent.putExtra("allImages", allImages)
