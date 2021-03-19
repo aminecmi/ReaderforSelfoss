@@ -215,6 +215,9 @@ class SelfossApi(
     fun update(): Call<String> =
         service.update(userName, password)
 
+    val apiVersion: Call<ApiVersion>
+        get() = service.version()
+
     val sources: Call<List<Source>>
         get() = service.sources(userName, password)
 

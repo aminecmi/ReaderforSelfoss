@@ -103,6 +103,9 @@ internal interface SelfossService {
         @Query("password") password: String
     ): Call<List<Source>>
 
+    @GET("api/about")
+    fun version(): Call<ApiVersion>
+
     @DELETE("source/{id}")
     fun deleteSource(
         @Path("id") id: String,
