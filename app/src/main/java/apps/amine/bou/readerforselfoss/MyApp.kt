@@ -18,6 +18,8 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
 import java.util.UUID.randomUUID
 
+var dateTimeFormatter = "yyyy-MM-dd HH:mm:ss"
+
 class MyApp : MultiDexApplication() {
     private lateinit var config: Config
 

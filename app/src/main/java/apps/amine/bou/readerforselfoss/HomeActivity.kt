@@ -109,7 +109,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var periodicRefresh = false
     private var refreshMinutes: Long = 360L
     private var refreshWhenChargingOnly = false
-    private var dateTimeFormatter = "yyyy-MM-dd HH:mm:ss"
 
     private lateinit var tabNewBadge: TextBadgeItem
     private lateinit var tabArchiveBadge: TextBadgeItem
