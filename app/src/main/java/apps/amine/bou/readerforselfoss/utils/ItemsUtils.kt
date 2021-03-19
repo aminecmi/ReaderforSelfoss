@@ -21,8 +21,14 @@ fun String.toTextDrawableString(c: Context): String {
 
 fun Item.sourceAndDateText(): String {
     val formattedDate: String = try {
+        var date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime)
+        // Api 3.0 changes the date format, check for ISO8601 format
+        if (date == null) {
+            date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(this.datetime)
+        }
+
         " " + DateUtils.getRelativeTimeSpanString(
-            SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime).time,
+            date.time,
             Date().time,
             DateUtils.MINUTE_IN_MILLIS,
             DateUtils.FORMAT_ABBREV_RELATIVE
