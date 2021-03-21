@@ -197,10 +197,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         getApiMajorVersion()
 
-        if (apiVersionMajor > 2) {
-            dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
-        }
-
         getElementsAccordingToTab()
     }
 
@@ -426,6 +422,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             override fun onResponse(call: Call<ApiVersion>, response: Response<ApiVersion>) {
                 val version = response.body() as ApiVersion
                 apiVersionMajor = version.getApiMajorVersion()
+
+                if (apiVersionMajor > 2) {
+                    dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
+                }
             }
         })
 
