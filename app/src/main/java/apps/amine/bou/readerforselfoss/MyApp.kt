@@ -54,6 +54,7 @@ class MyApp : MultiDexApplication() {
         handleNotificationChannels()
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        apiVersionMajor = sharedPref.getInt("apiVersionMajor", 0)
         settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
 
         api = SelfossApi(
@@ -132,11 +133,15 @@ class MyApp : MultiDexApplication() {
     private fun getApiMajorVersion() {
         api.apiVersion.enqueue(object : Callback<ApiVersion> {
             override fun onFailure(call: Call<ApiVersion>, t: Throwable) {
+                if (apiVersionMajor >= 4) {
+                    dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
+                }
             }
 
             override fun onResponse(call: Call<ApiVersion>, response: Response<ApiVersion>) {
                 val version = response.body() as ApiVersion
                 apiVersionMajor = version.getApiMajorVersion()
+                sharedPref.edit().putInt("apiVersionMajor", apiVersionMajor).commit()
 
                 if (apiVersionMajor >= 4) {
                     dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
