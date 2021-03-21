@@ -92,7 +92,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var displayUnreadCount = false
     private var displayAllCount = false
     private var fullHeightCards: Boolean = false
-    private var apiVersionMajor: Int = 0
     private var itemsNumber: Int = 200
     private var elementsShown: Int = 0
     private var maybeTagFilter: Tag? = null
@@ -194,8 +193,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleSwipeRefreshLayout()
 
         handleSharedPrefs()
-
-        getApiMajorVersion()
 
         getElementsAccordingToTab()
     }
@@ -412,23 +409,6 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         .insertAllItems(*(apiItems.map { it.toEntity() }).toTypedArray())
             }
         }
-    }
-
-    private fun getApiMajorVersion() {
-        api.apiVersion.enqueue(object : Callback<ApiVersion> {
-            override fun onFailure(call: Call<ApiVersion>, t: Throwable) {
-            }
-
-            override fun onResponse(call: Call<ApiVersion>, response: Response<ApiVersion>) {
-                val version = response.body() as ApiVersion
-                apiVersionMajor = version.getApiMajorVersion()
-
-                if (apiVersionMajor > 2) {
-                    dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
-                }
-            }
-        })
-
     }
 
     override fun onStop() {

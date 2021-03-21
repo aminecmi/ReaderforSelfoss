@@ -3,12 +3,15 @@ package apps.amine.bou.readerforselfoss
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.preference.PreferenceManager
 import android.widget.ImageView
 import androidx.multidex.MultiDexApplication
+import apps.amine.bou.readerforselfoss.api.selfoss.ApiVersion
+import apps.amine.bou.readerforselfoss.api.selfoss.SelfossApi
 import apps.amine.bou.readerforselfoss.utils.Config
 import apps.amine.bou.readerforselfoss.utils.glide.loadMaybeBasicAuth
 import com.bumptech.glide.Glide
@@ -16,12 +19,20 @@ import com.bumptech.glide.request.RequestOptions
 import com.ftinc.scoop.Scoop
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader
 import com.mikepenz.materialdrawer.util.DrawerImageLoader
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.UUID.randomUUID
 
 var dateTimeFormatter = "yyyy-MM-dd HH:mm:ss"
 
 class MyApp : MultiDexApplication() {
     private lateinit var config: Config
+    private lateinit var api: SelfossApi
+    private lateinit var settings: SharedPreferences
+    private lateinit var sharedPref: SharedPreferences
+
+    private var apiVersionMajor: Int = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -41,6 +52,18 @@ class MyApp : MultiDexApplication() {
         tryToHandleBug()
 
         handleNotificationChannels()
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        settings = getSharedPreferences(Config.settingsName, Context.MODE_PRIVATE)
+
+        api = SelfossApi(
+                this,
+                null,
+                settings.getBoolean("isSelfSignedCert", false),
+                sharedPref.getString("api_timeout", "-1")!!.toLong()
+        )
+
+        getApiMajorVersion()
     }
 
     private fun handleNotificationChannels() {
@@ -104,5 +127,21 @@ class MyApp : MultiDexApplication() {
                 oldHandler.uncaughtException(thread, e)
             }
         }
+    }
+
+    private fun getApiMajorVersion() {
+        api.apiVersion.enqueue(object : Callback<ApiVersion> {
+            override fun onFailure(call: Call<ApiVersion>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<ApiVersion>, response: Response<ApiVersion>) {
+                val version = response.body() as ApiVersion
+                apiVersionMajor = version.getApiMajorVersion()
+
+                if (apiVersionMajor >= 4) {
+                    dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
+                }
+            }
+        })
     }
 }
