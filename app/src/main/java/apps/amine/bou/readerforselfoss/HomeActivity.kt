@@ -104,6 +104,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var itemsCaching: Boolean = false
     private var updateSources: Boolean = true
     private var hiddenTags: List<String> = emptyList()
+    private var apiVersionMajor: Int = 0
 
     private var periodicRefresh = false
     private var refreshMinutes: Long = 360L
@@ -193,6 +194,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleSwipeRefreshLayout()
 
         handleSharedPrefs()
+
+        getApiMajorVersion()
 
         getElementsAccordingToTab()
     }
@@ -329,6 +332,28 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
     }
 
+    private fun getApiMajorVersion() {
+        api.apiVersion.enqueue(object : Callback<ApiVersion> {
+            override fun onFailure(call: Call<ApiVersion>, t: Throwable) {
+                if (apiVersionMajor >= 4) {
+                    Config.dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
+                }
+            }
+
+            override fun onResponse(call: Call<ApiVersion>, response: Response<ApiVersion>) {
+                if(response.body() != null) {
+                    val version = response.body() as ApiVersion
+                    apiVersionMajor = version.getApiMajorVersion()
+                    sharedPref.edit().putInt("apiVersionMajor", apiVersionMajor).commit()
+
+                    if (apiVersionMajor >= 4) {
+                        Config.dateTimeFormatter = "yyyy-MM-dd'T'HH:mm:ssXXX"
+                    }
+                }
+            }
+        })
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -441,6 +466,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (refreshMinutes <= 15) {
             refreshMinutes = 15
         }
+
+        apiVersionMajor = sharedPref.getInt("apiVersionMajor", 0)
     }
 
     private fun handleThemeBinding() {
@@ -905,7 +932,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                     thread {
                         val dbItems = db.itemsDao().items().map { it.toView() }.sortedByDescending {
-                            SimpleDateFormat(dateTimeFormatter).parse(it.datetime)
+                            SimpleDateFormat(Config.dateTimeFormatter).parse(it.datetime)
                         }
                         runOnUiThread {
                             if (dbItems.isNotEmpty()) {
@@ -1009,7 +1036,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             thread {
                 val dbItems = db.itemsDao().items().map { it.toView() }.sortedByDescending {
-                    SimpleDateFormat(dateTimeFormatter).parse(it.datetime)
+                    SimpleDateFormat(Config.dateTimeFormatter).parse(it.datetime)
                 }
                 runOnUiThread {
                     if (dbItems.isNotEmpty()) {

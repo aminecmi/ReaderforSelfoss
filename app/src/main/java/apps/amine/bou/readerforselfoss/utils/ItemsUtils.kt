@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.format.DateUtils
 import apps.amine.bou.readerforselfoss.api.selfoss.Item
 import apps.amine.bou.readerforselfoss.api.selfoss.SelfossTagType
-import apps.amine.bou.readerforselfoss.dateTimeFormatter
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,7 +22,7 @@ fun String.toTextDrawableString(c: Context): String {
 fun Item.sourceAndDateText(): String {
     val formattedDate: String = try {
         " " + DateUtils.getRelativeTimeSpanString(
-            SimpleDateFormat(dateTimeFormatter).parse(this.datetime).time,
+            SimpleDateFormat(Config.dateTimeFormatter).parse(this.datetime).time,
             Date().time,
             DateUtils.MINUTE_IN_MILLIS,
             DateUtils.FORMAT_ABBREV_RELATIVE

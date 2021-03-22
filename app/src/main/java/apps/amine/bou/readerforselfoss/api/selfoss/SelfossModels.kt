@@ -49,8 +49,8 @@ data class Spout(
 )
 
 data class ApiVersion(
-        @SerializedName("version") val version: String,
-        @SerializedName("apiversion") val apiversion: String
+        @SerializedName("version") val version: String?,
+        @SerializedName("apiversion") val apiversion: String?
 ) {
     fun getApiMajorVersion() : Int {
         var versionNumber = 0

@@ -40,6 +40,8 @@ class Config(c: Context) {
 
         const val newItemsChannelId = "new-items-channel-id"
 
+        var dateTimeFormatter = "yyyy-MM-dd HH:mm:ss"
+
         fun logoutAndRedirect(
             c: Context,
             callingActivity: Activity,
