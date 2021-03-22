@@ -22,7 +22,7 @@ fun String.toTextDrawableString(c: Context): String {
 fun Item.sourceAndDateText(): String {
     val formattedDate: String = try {
         " " + DateUtils.getRelativeTimeSpanString(
-            SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this.datetime).time,
+            SimpleDateFormat(Config.dateTimeFormatter).parse(this.datetime).time,
             Date().time,
             DateUtils.MINUTE_IN_MILLIS,
             DateUtils.FORMAT_ABBREV_RELATIVE
