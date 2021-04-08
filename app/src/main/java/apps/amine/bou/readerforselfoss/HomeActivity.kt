@@ -103,6 +103,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var lastFetchDone: Boolean = false
     private var itemsCaching: Boolean = false
     private var updateSources: Boolean = true
+    private var markOnScroll: Boolean = false
     private var hiddenTags: List<String> = emptyList()
     private var apiVersionMajor: Int = 0
 
@@ -381,6 +382,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         handleRecurringTask()
 
         handleOfflineActions()
+
+        if (markOnScroll) {
+            getElementsAccordingToTab()
+        }
     }
 
     private fun getAndStoreAllItems() {
@@ -454,6 +459,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         infiniteScroll = sharedPref.getBoolean("infinite_loading", false)
         itemsCaching = sharedPref.getBoolean("items_caching", false)
         updateSources = sharedPref.getBoolean("update_sources", true)
+        markOnScroll = sharedPref.getBoolean("mark_on_scroll", false)
         hiddenTags = if (sharedPref.getString("hidden_tags", "")!!.isNotEmpty()) {
             sharedPref.getString("hidden_tags", "")!!.replace("\\s".toRegex(), "").split(",")
         } else {
